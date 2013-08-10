@@ -1,0 +1,5 @@
+# Pre-Compiled Files #
+*.class
+
+# Automatic generated Files#
+*.applet
