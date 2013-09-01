@@ -32,6 +32,75 @@ public class SkinGraph extends Application{
 		//Concentration When Blue is Higher
 		//R = 93~207
 		
+		addGoodPoints();
+		addBadPoints();
+		
+		int blueDots = 0; 
+		
+		for(Layer ponto: good){
+			if(ponto.getY()>256){
+				blueDots++;
+			}
+		}
+		
+		System.out.println("GreenDots = "+(good.size()-blueDots));
+		System.out.println("BlueDots = "+blueDots);
+				
+		loading = 100;
+	}
+	
+	private void addGoodPoint(int r, int g, int b){
+		
+		good.add(new ColorPoint(r,g,b));
+		
+	}
+	
+	private void addBadPoint(int r, int g, int b){
+		
+		ColorPoint badPoint = new ColorPoint(r, g, b);
+		badPoint.setColor(Color.RED);
+		
+		bad.add(badPoint);
+		
+	}
+	
+	@Override
+	public void draw(Grafico g) {
+		
+		g.setColor(Color.BLACK);
+		drawGrid(g);
+		drawMouseCross(g);
+		
+		g.setAlpha(80);
+		
+		drawBadPoints(g);
+		drawGoodPoints(g);
+		
+		g.setAlpha(100);
+		
+		g.setColor(Color.BLACK);
+		g.drawLine(56, 219, 225, 59);
+				
+	}
+	
+	private boolean validate(int r, int g, int b){
+		int minR = 56;
+		
+		if(r<minR){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private void drawGoodPoints(Grafico g){
+		
+		for(ColorPoint ponto: good){
+			ponto.draw(g);
+		}
+	}
+	
+	private void addGoodPoints(){
 		addGoodPoint(85,78,62);
 		addGoodPoint(115,103,81);
 		addGoodPoint(108,100,81);
@@ -280,54 +349,209 @@ public class SkinGraph extends Application{
 		addGoodPoint(205,157,147);
 		addGoodPoint(211,167,154);
 		addGoodPoint(175,135,109);
-		
-		int blueDots = 0; 
-		
-		for(Layer ponto: good){
-			if(ponto.getY()>256){
-				blueDots++;
-			}
-		}
-		
-		System.out.println("GreenDots = "+(good.size()-blueDots));
-		System.out.println("BlueDots = "+blueDots);
-		
-		loading = 100;
 	}
 	
-	private void addGoodPoint(int r, int g, int b){
+	private void addBadPoints(){
 		
-		good.add(new ColorPoint(r,g,b));
+		addBadPoint(255,0,0);
+		addBadPoint(0,255,0);
+		addBadPoint(0,0,255);
 		
-	}
-	
-	private void addBadPoint(int r, int g, int b){
-		
-		bad.add(new ColorPoint(r,g,b));
-		
-	}
-	
-	@Override
-	public void draw(Grafico g) {
-		
-		g.setColor(Color.BLACK);
-		drawGrid(g);
-		drawMouseCross(g);
-		
-		g.setAlpha(80);
-				
-		drawGoodPoints(g);
-		drawBadPoints(g);
-		
-		g.setAlpha(100);
-				
-	}
-	
-	private void drawGoodPoints(Grafico g){
-		
-		for(ColorPoint ponto: good){
-			ponto.draw(g);
-		}
+		addBadPoint(243,247,224);
+		addBadPoint(242,246,247);
+		addBadPoint(0,1,22);
+		addBadPoint(197,201,127);
+		addBadPoint(12,23,9);
+		addBadPoint(174,180,146);
+		addBadPoint(106,112,110);
+		addBadPoint(58,62,65);
+		addBadPoint(231,241,206);
+		addBadPoint(209,206,217);
+		addBadPoint(117,125,136);
+		addBadPoint(184,201,208);
+		addBadPoint(99,94,88);
+		addBadPoint(61,81,116);
+		addBadPoint(24,32,45);
+		addBadPoint(85,133,171);
+		addBadPoint(101,135,183);
+		addBadPoint(252,254,253);
+		addBadPoint(69,77,88);
+		addBadPoint(66,82,105);
+		addBadPoint(19,24,46);
+		addBadPoint(75,83,102);
+		addBadPoint(72,114,138);
+		addBadPoint(66,57,48);
+		addBadPoint(239,197,149);
+		addBadPoint(238,228,227);
+		addBadPoint(70,41,27);
+		addBadPoint(68,40,19);
+		addBadPoint(5,4,0);
+		addBadPoint(32,14,2);
+		addBadPoint(118,103,82);
+		addBadPoint(170,153,123);
+		addBadPoint(196,173,139);
+		addBadPoint(206,178,154);
+		addBadPoint(177,126,81);
+		addBadPoint(46,45,51);
+		addBadPoint(52,47,51);
+		addBadPoint(180,156,130);
+		addBadPoint(186,159,112);
+		addBadPoint(45,26,22);
+		addBadPoint(250,255,233);
+		addBadPoint(233,187,153);
+		addBadPoint(249,254,231);
+		addBadPoint(208,154,118);
+		addBadPoint(249,155,155);
+		addBadPoint(59,47,35);
+		addBadPoint(119,146,141);
+		addBadPoint(162,96,82);
+		addBadPoint(120,119,115);
+		addBadPoint(183,154,156);
+		addBadPoint(181,164,170);
+		addBadPoint(192,177,180);
+		addBadPoint(155,127,149);
+		addBadPoint(73,48,77);
+		addBadPoint(176,170,172);
+		addBadPoint(13,17,2);
+		addBadPoint(131,44,17);
+		addBadPoint(176,173,56);
+		addBadPoint(93,129,119);
+		addBadPoint(1,1,1);
+		addBadPoint(40,12,1);
+		addBadPoint(70,64,2);
+		addBadPoint(51,30,1);
+		addBadPoint(89,70,28);
+		addBadPoint(86,102,55);
+		addBadPoint(107,54,20);
+		addBadPoint(17,18,10);
+		addBadPoint(165,175,177);
+		addBadPoint(2,2,0);
+		addBadPoint(46,59,68);
+		addBadPoint(7,16,25);
+		addBadPoint(0,0,0);
+		addBadPoint(64,50,67);
+		addBadPoint(30,24,24);
+		addBadPoint(221,223,220);
+		addBadPoint(31,49,63);
+		addBadPoint(47,37,46);
+		addBadPoint(74,91,117);
+		addBadPoint(7,7,5);
+		addBadPoint(68,67,63);
+		addBadPoint(14,11,6);
+		addBadPoint(20,33,50);
+		addBadPoint(3,1,2);
+		addBadPoint(124,125,119);
+		addBadPoint(184,169,102);
+		addBadPoint(153,45,58);
+		addBadPoint(179,196,204);
+		addBadPoint(62,94,141);
+		addBadPoint(38,54,51);
+		addBadPoint(208,237,233);
+		addBadPoint(30,35,28);
+		addBadPoint(85,40,0);
+		addBadPoint(109,66,13);
+		addBadPoint(201,158,80);
+		addBadPoint(9,24,21);
+		addBadPoint(12,26,27);
+		addBadPoint(78,100,114);
+		addBadPoint(201,210,209);
+		addBadPoint(119,237,203);
+		addBadPoint(243,255,255);
+		addBadPoint(204,213,228);
+		addBadPoint(145,128,121);
+		addBadPoint(165,176,170);
+		addBadPoint(203,240,255);
+		addBadPoint(20,14,16);
+		addBadPoint(53,47,57);
+		addBadPoint(247,152,184);
+		addBadPoint(193,212,218);
+		addBadPoint(110,126,151);
+		addBadPoint(253,247,235);
+		addBadPoint(162,129,112);
+		addBadPoint(14,9,15);
+		addBadPoint(138,100,99);
+		addBadPoint(13,12,20);
+		addBadPoint(37,47,72);
+		addBadPoint(60,75,82);
+		addBadPoint(181,113,162);
+		addBadPoint(106,126,161);
+		addBadPoint(200,213,206);
+		addBadPoint(229,255,252);
+		addBadPoint(101,98,151);
+		addBadPoint(145,158,167);
+		addBadPoint(45,38,10);
+		addBadPoint(65,67,90);
+		addBadPoint(131,144,161);
+		addBadPoint(90,92,105);
+		addBadPoint(30,36,48);
+		addBadPoint(18,23,27);
+		addBadPoint(188,201,181);
+		addBadPoint(40,69,99);
+		addBadPoint(127,85,60);
+		addBadPoint(100,113,121);
+		addBadPoint(164,200,216);
+		addBadPoint(234,233,229);
+		addBadPoint(64,60,61);
+		addBadPoint(195,194,163);
+		addBadPoint(73,82,81);
+		addBadPoint(20,32,44);
+		addBadPoint(43,68,64);
+		addBadPoint(252,255,255);
+		addBadPoint(211,236,230);
+		addBadPoint(200,247,253);
+		addBadPoint(116,113,140);
+		addBadPoint(120,150,158);
+		addBadPoint(69,106,114);
+		addBadPoint(247,247,247);
+		addBadPoint(47,62,69);
+		addBadPoint(55,47,44);
+		addBadPoint(210,218,221);
+		addBadPoint(76,58,82);
+		addBadPoint(6,28,69);
+		addBadPoint(90,51,56);
+		addBadPoint(5,1,24);
+		addBadPoint(37,38,32);
+		addBadPoint(197,177,106);
+		addBadPoint(166,158,112);
+		addBadPoint(138,142,171);
+		addBadPoint(48,48,76);
+		addBadPoint(157,164,172);
+		addBadPoint(55,68,120);
+		addBadPoint(42,48,100);
+		addBadPoint(108,119,164);
+		addBadPoint(54,64,117);
+		addBadPoint(50,46,61);
+		addBadPoint(75,46,0);
+		addBadPoint(216,202,80);
+		addBadPoint(182,181,91);
+		addBadPoint(42,38,65);
+		addBadPoint(36,29,62);
+		addBadPoint(1,0,6);
+		addBadPoint(104,53,0);
+		addBadPoint(36,112,86);
+		addBadPoint(33,59,169);
+		addBadPoint(22,17,23);
+		addBadPoint(3,3,3);
+		addBadPoint(9,29,56);
+		addBadPoint(36,37,65);
+		addBadPoint(2,2,2);
+		addBadPoint(45,37,34);
+		addBadPoint(11,0,6);
+		addBadPoint(82,71,77);
+		addBadPoint(184,190,190);
+		addBadPoint(144,193,223);
+		addBadPoint(80,43,61);
+		addBadPoint(186,135,52);
+		addBadPoint(32,24,21);
+		addBadPoint(186,50,70);
+		addBadPoint(70,55,98);
+		addBadPoint(45,47,46);
+		addBadPoint(32,35,26);
+		addBadPoint(7,18,48);
+		addBadPoint(32,68,144);
+		addBadPoint(64,48,74);
+		addBadPoint(27,24,53);
+		addBadPoint(63,69,81);
 	}
 	
 	private void drawBadPoints(Grafico g){
@@ -385,6 +609,10 @@ public class SkinGraph extends Application{
 		
 		if(event.getPressed(MouseButton.MOUSE_BUTTON_LEFT)){
 			
+
+			System.out.println("MX = "+event.getX());
+			System.out.println("MY = "+event.getY());
+			
 			for(ColorPoint ponto: good){
 				
 				if(ponto.colideCirclePoint(mx, my)){
@@ -396,6 +624,7 @@ public class SkinGraph extends Application{
 				}
 				
 			}
+			
 			
 		}
 		

@@ -93,6 +93,13 @@ public class Componente implements Comparable<Componente>{
 		
 		return p;
 	}
+	
+	public double getConcentration(){
+		int area = getW()*getH();
+		
+		return (double)(area/points.size());
+		
+	}
 
 	public Layer getCamada() {
 		
@@ -105,8 +112,20 @@ public class Componente implements Comparable<Componente>{
 
 	@Override
 	public int compareTo(Componente component) {
+				
 		// TODO Auto-generated method stub
-		return component.getPoints().size()-points.size();
+		return component.getPoints().size()*getH()-points.size()*getH();
+		
+		/*double dif = component.getConcentration()-this.getConcentration();
+		
+		if(dif>0){
+			return 1;
+		}else if(dif<0){
+			return -1;
+		}else{
+			return 0;
+		}*/
+			
 	}
 			
 }
