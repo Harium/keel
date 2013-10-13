@@ -32,27 +32,33 @@ public class MagicWandTest extends Application{
 	private int xImage = 30;
 	private int yImage = 30;
 
-	private int currentImage = 1;
+	private int currentImage = 2;
 
 	private Component component;
 
 	@Override
 	public void load() {
 
-		int IMAGES_TO_LOAD = 2;
+		int IMAGES_TO_LOAD = 3;
 
+		loadingPhrase = "Loading Images";
+		
 		for(int i=0;i<IMAGES_TO_LOAD;i++){
 			tests.add(ImageLoader.getInstance().getImage("wand/wand"+Integer.toString(i)+".png"));
 		}
 
+		loadingPhrase = "Configuring Filter";
+		
 		int w = tests.get(currentImage).getWidth();
 		int h = tests.get(currentImage).getHeight();
-
+		
 		filter.setW(w);
 		filter.setH(h);
 
 		component = new Component(w, h);
 
+		loadingPhrase = "Filtering...";
+		
 		findAngle(tests.get(currentImage));
 
 		loading = 100;
@@ -146,6 +152,8 @@ public class MagicWandTest extends Application{
 	private Ponto2D d;
 
 	private void turnIntoBox(Component component){
+		
+		System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
 
 		a = component.getPoints().get(0); //Lower X
 		b = component.getPoints().get(0); //Lower equal Y
@@ -216,13 +224,40 @@ public class MagicWandTest extends Application{
 			g.fillCircle(xImage+(int)ponto.getX(), yImage+(int)ponto.getY(), 5);
 			//draw Line
 		}
+		
+		drawBox(g);
 
+	}
+	
+	private void drawBox(Grafico g){
+				
 		g.setColor(Color.RED);
+		
+		drawLine(g, a, b);
+		drawLine(g, a, c);
+		
+		drawLine(g, b, d);
+		drawLine(g, c, d);
+		
 		drawPoint(g, a);
 		drawPoint(g, b);
 		drawPoint(g, c);
 		drawPoint(g, d);
+		
 
+		g.setColor(Color.BLACK);
+		g.drawString("A", xImage+(int)a.getX()-20, yImage+(int)a.getY()-10);
+		g.drawString("B", xImage+(int)b.getX()+15, yImage+(int)b.getY()-10);
+		
+		g.drawString("C", xImage+(int)c.getX()-20, yImage+(int)c.getY()+10);
+		g.drawString("D", xImage+(int)d.getX()+15, yImage+(int)d.getY()+10);
+		
+	}
+	
+	private void drawLine(Grafico g, Ponto2D a, Ponto2D b){
+		
+		g.drawLine(xImage+(int)a.getX(), yImage+(int)a.getY(), xImage+(int)b.getX(), yImage+(int)b.getY());
+		
 	}
 
 	private void drawPoint(Grafico g, Ponto2D point){
