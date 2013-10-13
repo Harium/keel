@@ -17,12 +17,12 @@ import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.motion.custom.face.ExtremelySimpleFindSkinFilter;
 import br.com.etyllica.motion.custom.face.FindEyeFilter;
-import br.com.etyllica.motion.features.Componente;
+import br.com.etyllica.motion.features.Component;
 
 
 public class FaceApplication extends Application {
 
-	private List<Componente> rootComponent = new ArrayList<Componente>();
+	private List<Component> rootComponent = new ArrayList<Component>();
 	private boolean[][] emptyMask;
 	
 	public FaceApplication(int w, int h) {
@@ -38,8 +38,8 @@ public class FaceApplication extends Application {
 	private ExtremelySimpleFindSkinFilter findFace;
 	private FindEyeFilter findEye;
 
-	private List<Componente> faces;
-	private List<Componente> eyes;
+	private List<Component> faces;
+	private List<Component> eyes;
 
 	@Override
 	public void load() {
@@ -49,7 +49,7 @@ public class FaceApplication extends Application {
 		int w = cam.getBufferedImage().getWidth(); 
 		int h = cam.getBufferedImage().getHeight();
 				
-		rootComponent.add(new Componente(w, h));
+		rootComponent.add(new Component(w, h));
 		emptyMask = new boolean[w][h];
 		
 		for(int j=0;j<h;j++){
@@ -113,7 +113,7 @@ public class FaceApplication extends Application {
 		faces = findFace.filter(buf, rootComponent);
 		eyes = findEye.filter(buf, faces);
 
-		for(Componente component: faces){
+		for(Component component: faces){
 
 			//TODO Draw Pixels
 			g.setColor(Color.GREEN);
@@ -128,7 +128,7 @@ public class FaceApplication extends Application {
 
 		}
 		
-		for(Componente component: eyes){
+		for(Component component: eyes){
 			
 			g.setColor(Color.BLUE);
 			for(Point2D point: component.getPoints()){
@@ -167,11 +167,11 @@ public class FaceApplication extends Application {
 	private int maxX = 600;
 	private int maxPontos = 700;
 		
-	private void pintaFace(Grafico g, List<Componente> componentes){
+	private void pintaFace(Grafico g, List<Component> componentes){
 
 		int maiorRelevancia = 0;
 
-		for(Componente componente:componentes){
+		for(Component componente:componentes){
 
 			if(componente.getNumeroPontos()>=maxPontos){
 

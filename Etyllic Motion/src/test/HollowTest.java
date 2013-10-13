@@ -11,12 +11,12 @@ import br.com.etyllica.core.event.KeyboardEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.loader.ImageLoader;
 import br.com.etyllica.core.video.Grafico;
-import br.com.etyllica.motion.features.Componente;
+import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.hollowcontroller.FindRedLedFilter;
 
 public class HollowTest extends Application{
 
-	private List<Componente> rootComponent = new ArrayList<Componente>();
+	private List<Component> rootComponent = new ArrayList<Component>();
 	private FindRedLedFilter filter;
 
 	private BufferedImage test;
@@ -44,7 +44,7 @@ public class HollowTest extends Application{
 		//TODO Change to Camera Size in Real Application
 		filter = new FindRedLedFilter(w, h);
 		
-		rootComponent.add(new Componente(w,h));
+		rootComponent.add(new Component(w,h));
 
 		BufferedImage test1 = ImageLoader.getInstance().getImage("test/test1.png");
 		BufferedImage test2 = ImageLoader.getInstance().getImage("test/test2.png");
@@ -62,14 +62,14 @@ public class HollowTest extends Application{
 
 		g.drawImage(test, 0, 0);
 
-		List<Componente> components = filter.filter(test, rootComponent);
+		List<Component> components = filter.filter(test, rootComponent);
 		
 		Color color = Color.RED;
 		if(components.size()==8){
 			color = Color.BLUE;
 		}
 		
-		for(Componente component: components){
+		for(Component component: components){
 			g.setColor(color);
 			g.drawRect(component.getCamada());
 			g.setColor(Color.WHITE);

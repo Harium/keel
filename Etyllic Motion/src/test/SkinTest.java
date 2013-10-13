@@ -18,11 +18,11 @@ import br.com.etyllica.core.video.Grafico;
 import br.com.etyllica.debug.Tester;
 import br.com.etyllica.motion.custom.face.ExtremelySimpleFindSkinFilter;
 import br.com.etyllica.motion.custom.face.FindEyeFilter;
-import br.com.etyllica.motion.features.Componente;
+import br.com.etyllica.motion.features.Component;
 
 public class SkinTest extends Application{
 
-	private List<Componente> rootComponent = new ArrayList<Componente>();
+	private List<Component> rootComponent = new ArrayList<Component>();
 	private ExtremelySimpleFindSkinFilter filter;
 	private FindEyeFilter eyesFilter;
 
@@ -45,7 +45,7 @@ public class SkinTest extends Application{
 		filter = new ExtremelySimpleFindSkinFilter(640, 480);
 		eyesFilter = new FindEyeFilter(640, 480);
 
-		rootComponent.add(new Componente(640, 480));
+		rootComponent.add(new Component(640, 480));
 
 		//UnitTests
 		unitTests();
@@ -245,13 +245,13 @@ public class SkinTest extends Application{
 
 		g.drawImage(test, 0, 0);
 
-		List<Componente> components = filter.filter(test, rootComponent);
+		List<Component> components = filter.filter(test, rootComponent);
 
 		//eyesFilter.filter(bimg, components);
 
 		Collections.sort(components);
 
-		for(Componente component: components){
+		for(Component component: components){
 
 			if(pixels){
 

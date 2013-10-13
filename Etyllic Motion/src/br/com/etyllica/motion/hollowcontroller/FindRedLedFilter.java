@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.linear.Ponto2D;
-import br.com.etyllica.motion.features.Componente;
+import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.BooleanMaskFilter;
 import br.com.etyllica.motion.filter.Filter;
 
@@ -18,9 +18,9 @@ public class FindRedLedFilter extends BooleanMaskFilter implements Filter{
 	}
 
 	@Override
-	public List<Componente> filter(BufferedImage bimg, Componente component) {
+	public List<Component> filter(BufferedImage bimg, Component component) {
 
-		List<Componente> result = new ArrayList<Componente>();
+		List<Component> result = new ArrayList<Component>();
 
 		for (int j = border; j < h-border*2; j+=step) {
 
@@ -33,7 +33,7 @@ public class FindRedLedFilter extends BooleanMaskFilter implements Filter{
 					Queue<Ponto2D> queue = new LinkedList<Ponto2D>();
 					queue.add(new Ponto2D(i, j));
 
-					Componente lista = new Componente(w,h);
+					Component lista = new Component(w,h);
 
 					while (!queue.isEmpty()) {
 						Ponto2D p = queue.remove();
@@ -110,7 +110,7 @@ public class FindRedLedFilter extends BooleanMaskFilter implements Filter{
 		return result;
 	}
 
-	public boolean validateComponent(Componente component){
+	public boolean validateComponent(Component component){
 
 		boolean result = false;
 

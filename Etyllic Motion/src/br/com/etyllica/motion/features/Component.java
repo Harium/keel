@@ -7,7 +7,7 @@ import java.util.List;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Ponto2D;
 
-public class Componente implements Comparable<Componente>{
+public class Component implements Comparable<Component>{
 
 	private List<Ponto2D> points;
 	
@@ -20,12 +20,16 @@ public class Componente implements Comparable<Componente>{
 	private long mediaG = 0;
 	private long mediaB = 0;
 	
-	public Componente(int w, int h){
+	public Component(int w, int h){
 		
 		menorX = w;
 		menorY = h;
 		
 		points = new ArrayList<Ponto2D>();
+	}
+	
+	public void add(int x, int y){
+		add(new Ponto2D(x, y));
 	}
 	
 	public void add(Ponto2D p, int rgb){
@@ -111,7 +115,7 @@ public class Componente implements Comparable<Componente>{
 	}
 
 	@Override
-	public int compareTo(Componente component) {
+	public int compareTo(Component component) {
 				
 		// TODO Auto-generated method stub
 		//return component.getPoints().size()*getH()-points.size()*getH();

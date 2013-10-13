@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.linear.Ponto2D;
-import br.com.etyllica.motion.features.Componente;
+import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.BooleanMaskFilter;
 
 public class ExtremelySimpleFindSkinFilter extends BooleanMaskFilter{
@@ -17,9 +17,9 @@ public class ExtremelySimpleFindSkinFilter extends BooleanMaskFilter{
 	}
 
 	@Override
-	protected List<Componente> filter(BufferedImage bimg, Componente component){
+	protected List<Component> filter(BufferedImage bimg, Component component){
 
-		List<Componente> result = new ArrayList<Componente>();
+		List<Component> result = new ArrayList<Component>();
 		
 		for (int j = border; j < h-border*2; j+=step) {
 
@@ -30,7 +30,7 @@ public class ExtremelySimpleFindSkinFilter extends BooleanMaskFilter{
 					Queue<Ponto2D> queue = new LinkedList<Ponto2D>();
 					queue.add(new Ponto2D(i, j));
 
-					Componente lista = new Componente(w,h);
+					Component lista = new Component(w,h);
 
 					while (!queue.isEmpty()) {
 						Ponto2D p = queue.remove();
@@ -78,7 +78,7 @@ public class ExtremelySimpleFindSkinFilter extends BooleanMaskFilter{
 	}
 
 	@Override
-	public boolean validateComponent(Componente component) {
+	public boolean validateComponent(Component component) {
 
 		boolean sizeok = true;
 		//boolean sizeok = component.getH()>component.getW()+component.getW()/6;

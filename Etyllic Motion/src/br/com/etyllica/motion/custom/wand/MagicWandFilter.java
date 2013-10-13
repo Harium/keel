@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.motion.features.Componente;
+import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.ElasticFilter;
 
 public class MagicWandFilter extends ElasticFilter {
@@ -13,9 +13,9 @@ public class MagicWandFilter extends ElasticFilter {
 		super(w, h);
 	}
 
-	public List<Componente> filter(BufferedImage bimg, Componente component){
+	public List<Component> filter(BufferedImage bimg, Component component){
 		
-		List<Componente> result = new ArrayList<Componente>();
+		List<Component> result = new ArrayList<Component>();
 		
 		return result;
 	}
@@ -26,7 +26,7 @@ public class MagicWandFilter extends ElasticFilter {
 	}
 
 	@Override
-	public boolean validateComponent(Componente component) {
+	public boolean validateComponent(Component component) {
 		// TODO Auto-generated method stub
 		return false;
 	}

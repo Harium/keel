@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.motion.features.Componente;
+import br.com.etyllica.motion.features.Component;
 
 public abstract class ComponentFilter extends FilterImpl{
 	
@@ -18,11 +18,11 @@ public abstract class ComponentFilter extends FilterImpl{
 		this.h = h;
 	}
 	
-	public List<Componente> filter(BufferedImage bimg, List<Componente> components) {
+	public List<Component> filter(BufferedImage bimg, List<Component> components) {
 		
-		List<Componente> filteredComponents = new ArrayList<Componente>();
+		List<Component> filteredComponents = new ArrayList<Component>();
 		
-		for(Componente component: components){
+		for(Component component: components){
 			
 			filteredComponents.addAll(filter(bimg, component));
 			
@@ -31,6 +31,6 @@ public abstract class ComponentFilter extends FilterImpl{
 		return filteredComponents;
 	}
 	
-	protected abstract List<Componente> filter(BufferedImage bimg, Componente component);
+	protected abstract List<Component> filter(BufferedImage bimg, Component component);
 
 }

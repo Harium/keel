@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.etyllica.motion.features.Componente;
+import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.FilterImpl;
 
 public class FilterImplTest {
@@ -530,8 +530,8 @@ assertTrue(filter.isSkin(new Color(0x40,0x40,0x40).getRGB()));
 	private class FilterUnabstract extends FilterImpl{
 
 		@Override
-		public List<Componente> filter(BufferedImage bimg,
-				List<Componente> components) {
+		public List<Component> filter(BufferedImage bimg,
+				List<Component> components) {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -543,7 +543,7 @@ assertTrue(filter.isSkin(new Color(0x40,0x40,0x40).getRGB()));
 		}
 
 		@Override
-		public boolean validateComponent(Componente component) {
+		public boolean validateComponent(Component component) {
 			// TODO Auto-generated method stub
 			return false;
 		}

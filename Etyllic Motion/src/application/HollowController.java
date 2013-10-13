@@ -12,14 +12,14 @@ import br.com.etyllica.core.event.KeyboardEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.event.Tecla;
 import br.com.etyllica.core.video.Grafico;
-import br.com.etyllica.motion.features.Componente;
+import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.hollowcontroller.FindRedLedActivatedFilter;
 import br.com.etyllica.motion.hollowcontroller.FindRedLedFilter;
 
 
 public class HollowController extends Application {
 
-	private List<Componente> rootComponent = new ArrayList<Componente>();
+	private List<Component> rootComponent = new ArrayList<Component>();
 
 	public HollowController(int w, int h) {
 		super(w,h);
@@ -33,22 +33,22 @@ public class HollowController extends Application {
 	
 	private FindRedLedActivatedFilter activeFilter;
 
-	private List<Componente> lastButtons;
+	private List<Component> lastButtons;
 
-	private List<Componente> components;
+	private List<Component> components;
 
 	@Override
 	public void load() {
 
 		cam = new CameraV4L4J(0);
 
-		rootComponent.add(new Componente(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight()));
+		rootComponent.add(new Component(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight()));
 
 		//Loading Filters
 		filter = new FindRedLedFilter(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight());
 		activeFilter = new FindRedLedActivatedFilter(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight());
 
-		lastButtons = new ArrayList<Componente>(8);
+		lastButtons = new ArrayList<Component>(8);
 
 		loading = 100;
 
@@ -82,12 +82,12 @@ public class HollowController extends Application {
 
 		activated = false;
 		
-		for(Componente component: lastButtons){
+		for(Component component: lastButtons){
 
-			List<Componente> list = new ArrayList<Componente>();
+			List<Component> list = new ArrayList<Component>();
 			list.add(component);
 
-			List<Componente> active = activeFilter.filter(buf, list);
+			List<Component> active = activeFilter.filter(buf, list);
 
 			Color color = Color.YELLOW;
 
@@ -118,7 +118,7 @@ public class HollowController extends Application {
 					color = Color.BLUE;
 				}
 
-				for(Componente component: components){
+				for(Component component: components){
 					g.setColor(color);
 					g.drawRect(component.getCamada());
 					/*g.setColor(Color.WHITE);

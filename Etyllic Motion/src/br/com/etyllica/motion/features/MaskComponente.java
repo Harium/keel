@@ -2,7 +2,7 @@ package br.com.etyllica.motion.features;
 
 import br.com.etyllica.linear.Ponto2D;
 
-public class MaskComponente extends Componente{
+public class MaskComponente extends Component{
 
 	boolean[][] mask;
 	
