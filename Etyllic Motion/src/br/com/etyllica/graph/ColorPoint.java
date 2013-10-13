@@ -19,7 +19,7 @@ public class ColorPoint extends Layer{
 		this.b = b;
 		
 		this.x = r-2;
-		this.y = 256-(b+(g-b));
+		this.y = (b+(g-b));
 		
 		if(b>g){
 			color = Color.BLUE;
@@ -57,7 +57,15 @@ public class ColorPoint extends Layer{
 	public void setB(int b) {
 		this.b = b;
 	}
-	
+		
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	public void draw(Grafico g){
 		
 		g.setColor(color);

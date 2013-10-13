@@ -1,6 +1,7 @@
 package br.com.etyllica.motion.hollowcontroller;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.motion.features.Componente;
@@ -17,9 +18,11 @@ public class FindRedLedActivatedFilter extends ComponentFilter implements Filter
 	}
 
 	@Override
-	public List<Componente> filter(BufferedImage bimg, List<Componente> components) {
+	public List<Componente> filter(BufferedImage bimg, Componente component) {
+		
+		List<Componente> result = new ArrayList<Componente>();
 
-		for(Componente component: components){
+		//for(Componente component: components){
 
 			for (int j = component.getMenorY()+border; j < component.getMaiorY()-border*2; j+=step) {
 
@@ -31,14 +34,14 @@ public class FindRedLedActivatedFilter extends ComponentFilter implements Filter
 				}
 			}
 
-		}
+		//}
 
-		return components;
+		return result;
 
 	}
 
 	@Override
-	protected boolean validateColor(int rgb){
+	public boolean validateColor(int rgb){
 
 		boolean result = false;
 
@@ -60,7 +63,7 @@ public class FindRedLedActivatedFilter extends ComponentFilter implements Filter
 	}
 
 	@Override
-	protected boolean validateComponent(Componente component){
+	public boolean validateComponent(Componente component){
 
 		boolean result = false;
 

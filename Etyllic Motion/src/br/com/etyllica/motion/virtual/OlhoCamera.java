@@ -6,7 +6,7 @@ import java.util.Vector;
 
 
 
-import br.com.etyllica.camera.Camera;
+import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.layer.Layer;
 
@@ -62,7 +62,7 @@ public class OlhoCamera extends Controle{
 		return mira;
 	}
 
-	public Camera getCamera(){
+	public CameraV4L4J getCamera(){
 		return camera;
 	}
 

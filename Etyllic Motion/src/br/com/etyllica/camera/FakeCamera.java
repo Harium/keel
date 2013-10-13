@@ -1,13 +1,23 @@
 package br.com.etyllica.camera;
 
-import br.com.etyllica.layer.ImageLayer;
+import java.awt.image.BufferedImage;
 
-public class FakeCamera {
+import br.com.etyllica.core.loader.ImageLoader;
 
-	ImageLayer layer;
+public class FakeCamera implements Camera{
+
+	private BufferedImage buffer;
 	
 	public FakeCamera(String path){
-		layer = new ImageLayer(path);
+		super();
+		
+		this.buffer = ImageLoader.getInstance().getImage(path);
 	}
-	
+
+	@Override
+	public BufferedImage getBufferedImage() {
+		// TODO Auto-generated method stub
+		return buffer;
+	}
+		
 }

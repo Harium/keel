@@ -16,14 +16,14 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.loader.ImageLoader;
 import br.com.etyllica.core.video.Grafico;
 import br.com.etyllica.debug.Tester;
+import br.com.etyllica.motion.custom.face.ExtremelySimpleFindSkinFilter;
 import br.com.etyllica.motion.custom.face.FindEyeFilter;
-import br.com.etyllica.motion.custom.face.FindSkinFilter;
 import br.com.etyllica.motion.features.Componente;
 
 public class SkinTest extends Application{
 
 	private List<Componente> rootComponent = new ArrayList<Componente>();
-	private FindSkinFilter filter;
+	private ExtremelySimpleFindSkinFilter filter;
 	private FindEyeFilter eyesFilter;
 
 	private Color pickColor = Color.WHITE;
@@ -41,7 +41,8 @@ public class SkinTest extends Application{
 	public void load() {
 
 		//TODO Change to Camera Size in Real Application
-		filter = new FindSkinFilter(640, 480);
+		//filter = new FindSkinFilter(640, 480);
+		filter = new ExtremelySimpleFindSkinFilter(640, 480);
 		eyesFilter = new FindEyeFilter(640, 480);
 
 		rootComponent.add(new Componente(640, 480));
@@ -163,6 +164,16 @@ public class SkinTest extends Application{
 		rgb = new Color(192,149,130).getRGB();
 		Tester.test(filter.validateColor(rgb), false);
 		
+		rgb = new Color(237,222,179).getRGB();
+		Tester.test(filter.validateColor(rgb), false);
+		
+		//Dark Noise
+		rgb = new Color(93,82,86).getRGB();
+		Tester.test(filter.validateColor(rgb), false);
+		
+		rgb = new Color(118,108,99).getRGB();
+		Tester.test(filter.validateColor(rgb), false);
+		
 
 	}	
 
@@ -175,19 +186,21 @@ public class SkinTest extends Application{
 			int rgb = pickColor.getRGB();
 
 			filter.validateColor(rgb);
+			
+			System.out.println("good.addPoint("+pickColor.getRed()+","+pickColor.getGreen()+","+pickColor.getBlue()+");");
 		}
 
 		if(event.getPressed(MouseButton.MOUSE_BUTTON_MIDDLE)){
-
+			
 			previousImage();
-
+			
 		}
 
 		if(event.getPressed(MouseButton.MOUSE_BUTTON_RIGHT)){
+			pickColor = new Color(tests.get(currentTest).getRGB(event.getX(), event.getY()));
 
-
-			nextImage();
-
+			//nextImage();
+			System.out.println("bad.addPoint("+pickColor.getRed()+","+pickColor.getGreen()+","+pickColor.getBlue()+");");
 		}
 
 		return GUIEvent.NONE;

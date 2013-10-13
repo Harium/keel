@@ -8,6 +8,10 @@ import br.com.etyllica.motion.features.Componente;
 
 public interface Filter {
 
-	public List<Componente> filter(BufferedImage bimg, List<Componente> components);	
+	public List<Componente> filter(BufferedImage bimg, List<Componente> components);
+	
+	public boolean validateColor(int rgb);
+
+	public boolean validateComponent(Componente component);
 	
 }

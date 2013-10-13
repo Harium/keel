@@ -3,14 +3,14 @@ package br.com.etyllica.motion.virtual;
 import java.awt.Color;
 import java.util.Vector;
 
-import br.com.etyllica.camera.Camera;
+import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.layer.Layer;
 
 public class Controle {
 
-	Vector<Layer> mira;
+	protected Vector<Layer> mira;
 	
-	protected Camera camera;
+	protected CameraV4L4J camera;
 	
 	protected int largura = 800;
 	protected int altura  = 600;
@@ -34,7 +34,7 @@ public class Controle {
 	
 	public Controle(){
 		mira = new Vector<Layer>();
-		camera = new Camera();
+		camera = new CameraV4L4J();
 	}
 	
 	public Vector<Layer> getMira(){

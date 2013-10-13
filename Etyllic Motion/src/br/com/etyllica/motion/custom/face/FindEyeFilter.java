@@ -17,21 +17,17 @@ public class FindEyeFilter extends BooleanMaskFilter{
 	}
 
 	@Override
-	public List<Componente> filter(BufferedImage bimg, List<Componente> components) {
-
-		resetMask();
-
-		List<Componente> componentes = new ArrayList<Componente>();
+	protected List<Componente> filter(BufferedImage bimg, Componente component) {
 		
-		for(Componente face: components){
-			
-			int w = face.getMaiorX();
-			int h = face.getMaiorY();
+		List<Componente> result = new ArrayList<Componente>();
+					
+			int w = component.getMaiorX();
+			int h = component.getMaiorY();
 
-			//TODO Verify if face.getMenorY() ~ face.getMaiorY()
-			for (int j = face.getMenorY(); j < h; j++) {
+			//TODO Verify if component.getMenorY() ~ component.getMaiorY()
+			for (int j = component.getMenorY(); j < h; j++) {
 
-				for (int i = face.getMenorX(); i < w; i++) {
+				for (int i = component.getMenorX(); i < w; i++) {
 
 					if (validateColor(bimg.getRGB(i,j)) && !mask[i][j]) {
 
@@ -61,25 +57,25 @@ public class FindEyeFilter extends BooleanMaskFilter{
 
 						//Componentes de cada Grupo
 						if(validateComponent(lista)){
-							componentes.add(lista);
+							result.add(lista);
 						}
 
 					}
 				}
 			}
-		}
+		
 
-		return componentes;
+		return result;
 
 	}
 
 	@Override
-	protected boolean validateColor(int rgb){
+	public boolean validateColor(int rgb){
 		return isBlack(rgb);
 	}
 
 	@Override
-	protected boolean validateComponent(Componente component){
+	public boolean validateComponent(Componente component){
 		return component.getNumeroPontos()>50;
 	}
 

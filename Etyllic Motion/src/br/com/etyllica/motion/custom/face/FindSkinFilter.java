@@ -16,12 +16,10 @@ public class FindSkinFilter extends BooleanMaskFilter{
 		super(w, h);
 	}
 
-	public List<Componente> filter(BufferedImage bimg, List<Componente> components){
+	public List<Componente> filter(BufferedImage bimg, Componente component){
 
-		resetMask();
-
-		List<Componente> componentes = new ArrayList<Componente>();
-
+		List<Componente> result = new ArrayList<Componente>();
+		
 		for (int j = border; j < h-border*2; j+=step) {
 
 			for (int i = border; i < w-border*2; i+=step) {
@@ -59,7 +57,7 @@ public class FindSkinFilter extends BooleanMaskFilter{
 
 						//System.out.println("Blob detected : " + lista.getNumeroPontos() + " pixels.");
 
-						componentes.add(lista);
+						result.add(lista);
 
 					}
 
@@ -68,7 +66,7 @@ public class FindSkinFilter extends BooleanMaskFilter{
 			}
 		}
 
-		return componentes;
+		return result;
 	}
 
 	@Override
@@ -77,9 +75,14 @@ public class FindSkinFilter extends BooleanMaskFilter{
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
 		int b = getBlue(rgb);
-
+		
 		int difG = r-g;
 		int difB = r-b;
+		
+		int difGB = g-b;
+		int sumGB = g+b;
+		int minSumGB = 0;
+		int maxDifGB = 0xff;
 
 		int minDifG = 4;
 		int minDifB = 0;
@@ -93,15 +96,12 @@ public class FindSkinFilter extends BooleanMaskFilter{
 		int maxB = 0xff;
 
 		//Dark Ambient		
-		if(r<=88&&r>minR){
+		if(r<=95&&r>minR){
 
-			int DARK_TOLERANCE = 20;
+			int DARK_TOLERANCE = 23;
 
-			if(g+b<r-DARK_TOLERANCE){
-				return false;
-			}else if(g-b>25){
-				return false;
-			}
+			minSumGB = r-DARK_TOLERANCE;						
+			maxDifGB = 25;
 
 			minDifG = -4;
 			minDifB = 8; //NAO AUMENTAR!
@@ -116,9 +116,11 @@ public class FindSkinFilter extends BooleanMaskFilter{
 		//High Contrast
 		else if(r>=250){
 
-			if(r+g+b>230*3){
+			int mean = (r+g+b)/3;
+			
+			if(mean>230){
 				return false;
-			}else if(r+g+b<200*3){
+			}else if(mean<200){
 				return false;
 			}
 
@@ -147,7 +149,7 @@ public class FindSkinFilter extends BooleanMaskFilter{
 			minB = 165;
 
 			//White High Contrast Scene
-			if(difG>60 && difB-difG>15){
+			if(difG>55 && difB-difG>15){
 				maxB = 150;
 				maxDifB = 100;
 
@@ -161,6 +163,7 @@ public class FindSkinFilter extends BooleanMaskFilter{
 				minB = 110;
 				maxB = 180;
 
+				minDifG = 20;
 				maxDifB = 80;
 			}
 
@@ -179,11 +182,10 @@ public class FindSkinFilter extends BooleanMaskFilter{
 			//TODO Divide scales of noise
 		}else if(r>180){
 			//Pure White Noise or Bright Skin
-			
 			maxDifG = 50;
 			maxDifB = 60;
 			
-			if((b-g>40)||(g-b>40)){
+			if((b-g>40)||(difGB>40)){
 				return false;
 			}
 						
@@ -193,11 +195,12 @@ public class FindSkinFilter extends BooleanMaskFilter{
 			//White Noise (blue)
 			if(difB-difG>10){
 
-				if(difB<=50){
+				minDifB = 50;
+				/*if(difB<=50){
 					return false;
-				}
+				}*/
 
-			}else if((difB<10&&difB>0)&&difG<10){
+			}else if((difB<10&&difB>0)&&difG<=10){
 				return false;
 			}
 
@@ -243,21 +246,12 @@ public class FindSkinFilter extends BooleanMaskFilter{
 
 		boolean difgOK = difG>=minDifG&&difG<=maxDifG;
 		boolean difbOK = difB>=minDifB&&difB<=maxDifB;
-
-		if(rOK){
-			if(gOK){
-				if(bOK){
-					if(difgOK){
-						if(difbOK){
-							return true;
-						}
-					}
-				}
-			}
-		}
+		
+		boolean difgbOK = difGB<=maxDifGB;
+		boolean sumgbOK = sumGB>=minSumGB;
 
 
-		return false;
+		return ((rOK)&&(gOK)&&(bOK)&&(difgOK)&&(difbOK)&&(difgbOK)&&(sumgbOK));
 
 	}
 

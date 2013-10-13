@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.camera.Camera;
+import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyboardEvent;
@@ -25,7 +25,7 @@ public class HollowController extends Application {
 		super(w,h);
 	}
 
-	private Camera cam;
+	private CameraV4L4J cam;
 
 	private BufferedImage buf;
 
@@ -40,7 +40,7 @@ public class HollowController extends Application {
 	@Override
 	public void load() {
 
-		cam = new Camera(0);
+		cam = new CameraV4L4J(0);
 
 		rootComponent.add(new Componente(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight()));
 

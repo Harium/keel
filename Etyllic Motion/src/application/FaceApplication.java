@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.camera.Camera;
+import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyboardEvent;
@@ -15,8 +15,8 @@ import br.com.etyllica.core.event.Tecla;
 import br.com.etyllica.core.video.Grafico;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
+import br.com.etyllica.motion.custom.face.ExtremelySimpleFindSkinFilter;
 import br.com.etyllica.motion.custom.face.FindEyeFilter;
-import br.com.etyllica.motion.custom.face.FindSkinFilter;
 import br.com.etyllica.motion.features.Componente;
 
 
@@ -29,13 +29,13 @@ public class FaceApplication extends Application {
 		super(w,h);
 	}
 	
-	private Camera cam;
+	private CameraV4L4J cam;
 
 	private Layer lastFace;
 
 	private BufferedImage buf;
 
-	private FindSkinFilter findFace;
+	private ExtremelySimpleFindSkinFilter findFace;
 	private FindEyeFilter findEye;
 
 	private List<Componente> faces;
@@ -44,7 +44,7 @@ public class FaceApplication extends Application {
 	@Override
 	public void load() {
 
-		cam = new Camera(0);
+		cam = new CameraV4L4J(0);
 		
 		int w = cam.getBufferedImage().getWidth(); 
 		int h = cam.getBufferedImage().getHeight();
@@ -60,7 +60,8 @@ public class FaceApplication extends Application {
 			
 		}
 		
-		findFace = new FindSkinFilter(w,h);
+		//findFace = new FindSkinFilter(w,h);
+		findFace = new ExtremelySimpleFindSkinFilter(w,h);
 		findEye = new FindEyeFilter(w,h);
 		
 		lastFace = new ImageLayer(0,0,w,h);

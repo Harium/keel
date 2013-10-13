@@ -18,11 +18,7 @@ public class FindRedLedFilter extends BooleanMaskFilter implements Filter{
 	}
 
 	@Override
-	public List<Componente> filter(BufferedImage bimg, List<Componente> components) {
-
-		resetMask();
-
-		//TODO for(Componente component: components){...}
+	public List<Componente> filter(BufferedImage bimg, Componente component) {
 
 		List<Componente> result = new ArrayList<Componente>();
 
@@ -73,7 +69,7 @@ public class FindRedLedFilter extends BooleanMaskFilter implements Filter{
 		return result;
 	}
 
-	protected boolean validateColor(int rgb){
+	public boolean validateColor(int rgb){
 
 		boolean result = false;
 		
@@ -114,7 +110,7 @@ public class FindRedLedFilter extends BooleanMaskFilter implements Filter{
 		return result;
 	}
 
-	protected boolean validateComponent(Componente component){
+	public boolean validateComponent(Componente component){
 
 		boolean result = false;
 

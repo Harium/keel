@@ -114,9 +114,9 @@ public class Componente implements Comparable<Componente>{
 	public int compareTo(Componente component) {
 				
 		// TODO Auto-generated method stub
-		return component.getPoints().size()*getH()-points.size()*getH();
+		//return component.getPoints().size()*getH()-points.size()*getH();
 		
-		/*double dif = component.getConcentration()-this.getConcentration();
+		double dif = component.getConcentration()*component.getH()-this.getConcentration()*getH();
 		
 		if(dif>0){
 			return 1;
@@ -124,7 +124,7 @@ public class Componente implements Comparable<Componente>{
 			return -1;
 		}else{
 			return 0;
-		}*/
+		}
 			
 	}
 			
