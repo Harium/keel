@@ -13,193 +13,81 @@ import br.com.etyllica.core.event.Tecla;
 import br.com.etyllica.core.loader.ImageLoader;
 import br.com.etyllica.core.video.Grafico;
 import br.com.etyllica.linear.Ponto2D;
-import br.com.etyllica.motion.custom.wand.MagicWandFilter;
+import br.com.etyllica.motion.custom.wand.MagicWandBoxFilter;
 import br.com.etyllica.motion.features.Component;
 
 public class MagicWandTest extends Application{
 
-	private MagicWandFilter filter = new MagicWandFilter(0, 0);
+	private MagicWandBoxFilter filter = new MagicWandBoxFilter(0, 0);
 
 	private boolean hide = false;
 	private boolean pixels = true;
 
-	public MagicWandTest(int w, int h) {
-		super(w, h);
-	}
-
-	private List<BufferedImage> tests = new ArrayList<BufferedImage>();
-
 	private int xImage = 30;
 	private int yImage = 30;
 
-	private int currentImage = 2;
+	int IMAGES_TO_LOAD = 4;
+	private int currentImage = 1;
 
-	private Component component;
+	private Component box;
+	
+	private double angle = 0;
 
+	private List<BufferedImage> tests = new ArrayList<BufferedImage>();
+	
+	public MagicWandTest(int w, int h) {
+		super(w, h);
+	}
+	
 	@Override
 	public void load() {
 
-		int IMAGES_TO_LOAD = 3;
-
 		loadingPhrase = "Loading Images";
-		
+
 		for(int i=0;i<IMAGES_TO_LOAD;i++){
 			tests.add(ImageLoader.getInstance().getImage("wand/wand"+Integer.toString(i)+".png"));
 		}
 
 		loadingPhrase = "Configuring Filter";
-		
-		int w = tests.get(currentImage).getWidth();
-		int h = tests.get(currentImage).getHeight();
-		
-		filter.setW(w);
-		filter.setH(h);
-
-		component = new Component(w, h);
-
-		loadingPhrase = "Filtering...";
-		
-		findAngle(tests.get(currentImage));
+		reset(tests.get(currentImage));
 
 		loading = 100;
 	}
 
-	private double findAngle(BufferedImage b){
-
+	private void reset(BufferedImage b){
 		int w = b.getWidth();
 		int h = b.getHeight();
 
-		//Find First Point
-		boolean found = false;
+		filter.setW(w);
+		filter.setH(h);
 
-		int i = 0;
-		int j = 0;
-
-		for(j=0;j<h;j++){
-
-			for(i=0;i<w;i++){
-
-				if(validateColor(b.getRGB(i, j))){
-
-					found = true;
-					break;
-
-				}
-
-			}
-
-			if(found){
-				break;
-			}
-
-		}
-
-
-		//Points are to Down, Left or Right
-		findPoints(i, j, b);
-
-		turnIntoBox(component);
-
-		return 0;
-	}
-
-	private void findPoints(int i, int j, BufferedImage b){
-
-		int w = b.getWidth();
-		int h = b.getHeight();
-
-		int offsetX = 0;
-		int offsetY = 0;
-
-		System.out.println("Found: "+i+" "+j);
-		component.add(i, j);
-
-		if(validateColor(b.getRGB(i+1, j))){
-
-			offsetX = 1;
-			offsetY = 0;
-			findOtherPoints(i+offsetX, j+offsetY, offsetX, offsetY, b);
-
-		}else if(validateColor(b.getRGB(i+1, j+1))){
-
-			offsetX = 1;
-			offsetY = 1;
-			findOtherPoints(i+offsetX, j+offsetY, offsetX, offsetY, b);
-
-		}
-
-		if(validateColor(b.getRGB(i-1, j+1))){
-
-			offsetX = -1;
-			offsetY = 1;
-			findOtherPoints(i+offsetX, j+offsetY, offsetX, offsetY, b);
-
-		}else if(validateColor(b.getRGB(i, j+1))){
-
-			offsetX = 0;
-			offsetY = 1;
-			findOtherPoints(i+offsetX, j+offsetY, offsetX, offsetY, b);
-
-		}
-
-		System.out.println("Return: "+i+" "+j);
-
-	}
-
-	private Ponto2D a;
-	private Ponto2D b;
-	private Ponto2D c;
-	private Ponto2D d;
-
-	private void turnIntoBox(Component component){
+		List<Component> result = filter.filter(b, new Component(w, h));
 		
-		System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
-
-		a = component.getPoints().get(0); //Lower X
-		b = component.getPoints().get(0); //Lower equal Y
-		c = component.getPoints().get(0); //Higher Y
-		d = component.getPoints().get(0); //Higher equal X
-
-		for(Ponto2D point: component.getPoints()){
-
-			if(point.getX()<a.getX()){
-				a = point;
-			}else if(point.getY()>=c.getY()){
-
-				if(point.getY()>c.getY()||point.getX()<c.getX()){
-					c = point;
-				}
-
-			}
-			
-			if(point.getY()<=b.getY()){
-				b = point;
-			}else if(point.getX()>=d.getX()){
-				d = point;
-			}
-
-		}
-
-	}
-
-	private void findOtherPoints(int i, int j, int offsetX, int offsetY, BufferedImage b){
-
-		if(validateColor(b.getRGB(i+offsetX, j+offsetY))){
-
-			findOtherPoints(i+offsetX, j+offsetY, offsetX, offsetY, b);
-
-		}else{
-			findPoints(i, j, b);
-		}
-
-	}
-
-	private boolean validateColor(int rgb){
-		return filter.isBlack(rgb);
+		box = result.get(0);
+		
+		angle = filter.getAngle();
 	}
 
 	@Override
+	public GUIEvent updateMouse(PointerEvent event) {
+		// TODO Auto-generated method stub
+		return GUIEvent.NONE;
+	}
+	
+	@Override
 	public GUIEvent updateKeyboard(KeyboardEvent event) {
+
+		if(event.getPressed(Tecla.TSK_SETA_DIREITA)){
+			currentImage++;
+			currentImage%=IMAGES_TO_LOAD;
+			reset(tests.get(currentImage));
+		}
+		
+		else if(event.getPressed(Tecla.TSK_SETA_ESQUERDA)){
+			currentImage+=IMAGES_TO_LOAD-1;
+			currentImage%=IMAGES_TO_LOAD;
+			reset(tests.get(currentImage));
+		}
 
 		if(event.getPressed(Tecla.TSK_H)){
 			hide = !hide;
@@ -211,63 +99,79 @@ public class MagicWandTest extends Application{
 
 		return GUIEvent.NONE;
 	}
-
-
+	
 	@Override
 	public void draw(Grafico g) {
 
 		g.drawImage(tests.get(currentImage), xImage, yImage);		
 
-		g.setColor(Color.BLUE);
+		/*g.setColor(Color.BLUE);
 
-		for(Ponto2D ponto: component.getPoints()){
+		for(Ponto2D ponto: box.getPoints()){
 			g.fillCircle(xImage+(int)ponto.getX(), yImage+(int)ponto.getY(), 5);
 			//draw Line
-		}
+		}*/
+
+		drawBox(g, box);
 		
-		drawBox(g);
+		g.drawString("Angle = "+angle, 50, 30);
 
 	}
-	
-	private void drawBox(Grafico g){
-				
+
+	private void drawBox(Grafico g, Component box){
+
 		g.setColor(Color.RED);
 		
+		Ponto2D a = box.getPoints().get(0);
+		Ponto2D b = box.getPoints().get(1);
+		Ponto2D c = box.getPoints().get(2);
+		Ponto2D d = box.getPoints().get(3);
+		
+		Ponto2D ac = new Ponto2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
+		Ponto2D ab = new Ponto2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
+		
+		Ponto2D bd = new Ponto2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
+		Ponto2D cd = new Ponto2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
+
 		drawLine(g, a, b);
 		drawLine(g, a, c);
-		
+
 		drawLine(g, b, d);
 		drawLine(g, c, d);
-		
+
 		drawPoint(g, a);
 		drawPoint(g, b);
 		drawPoint(g, c);
 		drawPoint(g, d);
+
+		g.setColor(Color.YELLOW);
+		drawLine(g, ab, cd);
+		drawPoint(g, ab);
+		drawPoint(g, cd);
+		
+		g.setColor(Color.GREEN);
+		drawLine(g, ac, bd);
+		
+		drawPoint(g, ac);
+		drawPoint(g, bd);
 		
 
 		g.setColor(Color.BLACK);
 		g.drawString("A", xImage+(int)a.getX()-20, yImage+(int)a.getY()-10);
 		g.drawString("B", xImage+(int)b.getX()+15, yImage+(int)b.getY()-10);
-		
+
 		g.drawString("C", xImage+(int)c.getX()-20, yImage+(int)c.getY()+10);
 		g.drawString("D", xImage+(int)d.getX()+15, yImage+(int)d.getY()+10);
-		
+
 	}
-	
-	private void drawLine(Grafico g, Ponto2D a, Ponto2D b){
-		
-		g.drawLine(xImage+(int)a.getX(), yImage+(int)a.getY(), xImage+(int)b.getX(), yImage+(int)b.getY());
-		
+
+	private void drawLine(Grafico g, Ponto2D a, Ponto2D b){		
+		g.drawLine(xImage+(int)a.getX(), yImage+(int)a.getY(), xImage+(int)b.getX(), yImage+(int)b.getY());		
 	}
 
 	private void drawPoint(Grafico g, Ponto2D point){
 		g.fillCircle(xImage+(int)point.getX(), yImage+(int)point.getY(), 3);
 	}
 
-	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return GUIEvent.NONE;
-	}
 
 }

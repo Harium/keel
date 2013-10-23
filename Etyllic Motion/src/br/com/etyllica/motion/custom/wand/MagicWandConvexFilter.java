@@ -7,9 +7,9 @@ import java.util.List;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.ElasticFilter;
 
-public class MagicWandFilter extends ElasticFilter {
+public class MagicWandConvexFilter extends ElasticFilter {
 
-	public MagicWandFilter(int w, int h) {
+	public MagicWandConvexFilter(int w, int h) {
 		super(w, h);
 	}
 
@@ -22,7 +22,7 @@ public class MagicWandFilter extends ElasticFilter {
 
 	@Override
 	public boolean validateColor(int rgb) {
-		return isBlack(rgb);
+		return isSkin(rgb);
 	}
 
 	@Override
