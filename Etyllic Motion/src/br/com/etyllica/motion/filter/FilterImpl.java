@@ -28,6 +28,19 @@ public abstract class FilterImpl implements Filter{
 
 	}
 
+	public boolean isColor(int rgb, int color){
+		
+		int r = getRed(rgb);
+		int g = getGreen(rgb);
+		int b = getBlue(rgb);
+
+		if((r==color)&&(g==color)&&(b==color)){
+			return true;
+		}
+		return false;
+		
+	}
+	
 	public boolean isBlack(int rgb){
 
 		int black = 0x49;

@@ -13,11 +13,14 @@ import br.com.etyllica.core.event.Tecla;
 import br.com.etyllica.core.loader.ImageLoader;
 import br.com.etyllica.core.video.Grafico;
 import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.motion.custom.wand.FindCornersFilter;
 import br.com.etyllica.motion.custom.wand.MagicWandBoxFilter;
 import br.com.etyllica.motion.features.Component;
 
 public class MagicWandTest extends Application{
 
+	private FindCornersFilter cornerFilter = new FindCornersFilter(0, 0);
+	
 	private MagicWandBoxFilter filter = new MagicWandBoxFilter(0, 0);
 
 	private boolean hide = false;
@@ -33,6 +36,8 @@ public class MagicWandTest extends Application{
 	
 	private double angle = 0;
 
+	private Component feature;
+	
 	private List<BufferedImage> tests = new ArrayList<BufferedImage>();
 	
 	public MagicWandTest(int w, int h) {
@@ -61,6 +66,8 @@ public class MagicWandTest extends Application{
 		filter.setW(w);
 		filter.setH(h);
 
+		feature = cornerFilter.filter(b, new Component(w, h)).get(0);
+		
 		List<Component> result = filter.filter(b, new Component(w, h));
 		
 		box = result.get(0);
@@ -105,12 +112,11 @@ public class MagicWandTest extends Application{
 
 		g.drawImage(tests.get(currentImage), xImage, yImage);		
 
-		/*g.setColor(Color.BLUE);
+		g.setColor(Color.BLUE);
 
-		for(Ponto2D ponto: box.getPoints()){
+		for(Ponto2D ponto: feature.getPoints()){
 			g.fillCircle(xImage+(int)ponto.getX(), yImage+(int)ponto.getY(), 5);
-			//draw Line
-		}*/
+		}
 
 		drawBox(g, box);
 		
