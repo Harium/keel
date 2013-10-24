@@ -12,7 +12,7 @@ public class FindCornersFilter extends ElasticFilter {
 
 	private double angle = 0;
 	
-	private Cross cross;
+	private Cross cross = new Cross();
 	
 	public FindCornersFilter(int w, int h) {
 		super(w, h);
@@ -26,8 +26,7 @@ public class FindCornersFilter extends ElasticFilter {
 		int h = bimg.getHeight();
 		
 		Component holder = new Component(w,h);
-		cross = new Cross();
-
+		
 		int i = 0;
 		int j = 0;
 
@@ -37,17 +36,7 @@ public class FindCornersFilter extends ElasticFilter {
 
 				if(validateColor(bimg.getRGB(i, j))){
 					
-					cross.setUp(bimg.getRGB(i, j-1));
-					cross.setDown(bimg.getRGB(i, j+1));
-					cross.setLeft(bimg.getRGB(i-1, j));
-					cross.setRight(bimg.getRGB(i+1, j));
-					cross.setCenter(bimg.getRGB(i, j));
-					
-					cross.setLowerLeft(bimg.getRGB(i-1, j+1));
-					cross.setUpperLeft(bimg.getRGB(i-1, j-1));
-					
-					cross.setLowerRight(bimg.getRGB(i+1, j+1));
-					cross.setUpperRight(bimg.getRGB(i+1, j-1));					
+					setCross(i,j,bimg);
 										
 					if(isCorner(cross)){
 						holder.add(i, j);
@@ -62,6 +51,22 @@ public class FindCornersFilter extends ElasticFilter {
 		result.add(holder);
 		
 		return result;
+	}
+	
+	private void setCross(int i, int j , BufferedImage b){
+		
+		cross.setUp(b.getRGB(i, j-1));
+		cross.setDown(b.getRGB(i, j+1));
+		cross.setLeft(b.getRGB(i-1, j));
+		cross.setRight(b.getRGB(i+1, j));
+		cross.setCenter(b.getRGB(i, j));
+		
+		cross.setLowerLeft(b.getRGB(i-1, j+1));
+		cross.setUpperLeft(b.getRGB(i-1, j-1));
+		
+		cross.setLowerRight(b.getRGB(i+1, j+1));
+		cross.setUpperRight(b.getRGB(i+1, j-1));		
+		
 	}
 			
 	private boolean isCorner(Cross cross){
