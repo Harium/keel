@@ -1,6 +1,6 @@
 package br.com.etyllica.motion.filter;
 
-public abstract class ElasticFilter extends ComponentFilter{
+public abstract class ElasticFilter extends BooleanMaskFilter{
 	
 	public ElasticFilter(int w, int h) {
 		super(w, h);

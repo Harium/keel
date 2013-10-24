@@ -52,6 +52,9 @@ public class MagicWandStatic extends Application{
 		}
 
 		loadingPhrase = "Configuring Filter";
+		filter.setWandColor(Color.BLACK);
+		filter.setTolerance(0);
+		
 		reset(cam.getBufferedImage());
 
 		loading = 100;
@@ -107,7 +110,7 @@ public class MagicWandStatic extends Application{
 	@Override
 	public void draw(Graphic g) {
 		
-		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);		
+		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
 
 		g.setColor(Color.BLUE);
 

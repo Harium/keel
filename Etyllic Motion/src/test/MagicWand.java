@@ -12,6 +12,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Ponto2D;
 import br.com.etyllica.motion.custom.wand.FindCornersFilter;
+import br.com.etyllica.motion.custom.wand.MagicWandBoxFilter;
 import br.com.etyllica.motion.custom.wand.MagicWandConvexFilter;
 import br.com.etyllica.motion.features.Component;
 
@@ -21,7 +22,7 @@ public class MagicWand extends Application{
 	
 	private FindCornersFilter cornerFilter = new FindCornersFilter(0, 0);
 	
-	private MagicWandConvexFilter filter = new MagicWandConvexFilter(0, 0);
+	private MagicWandBoxFilter filter;
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -45,8 +46,9 @@ public class MagicWand extends Application{
 		loadingPhrase = "Open Camera";
 		
 		cam = new CameraV4L4J(0);
-		
+				
 		loadingPhrase = "Setting Filter";
+		filter = new MagicWandBoxFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		
 		filter.setWandColor(Color.BLACK);
 		filter.setTolerance(0);

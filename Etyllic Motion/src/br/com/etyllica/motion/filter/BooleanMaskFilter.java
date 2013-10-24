@@ -14,7 +14,6 @@ public abstract class BooleanMaskFilter extends ComponentFilter{
 		super(w,h);
 		
 		mask = new boolean[w][h];
-		
 	}
 	
 	protected void resetMask(){
