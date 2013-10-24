@@ -3,6 +3,7 @@
 import test.HollowTest;
 import test.MagicWandTest;
 import test.SkinTest;
+import application.CaptchaCleaner;
 import application.FaceApplication;
 import application.HollowController;
 import br.com.etyllica.Etyllica;
@@ -25,7 +26,11 @@ public class EtyllicMotion extends Etyllica{
 		
 		//setMainApplication(new FaceApplication(w,h));
 		//setMainApplication(new SkinTest(w,h));
-		setMainApplication(new MagicWandTest(w,h));
+		
+		//setMainApplication(new MagicWandTest(w,h));
+		
+		setMainApplication(new CaptchaCleaner(w,h));
+		
 		//setMainApplication(new SkinGraph(w,h));
 		//setMainApplication(new AuReality(w,h));
 	}

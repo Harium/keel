@@ -34,7 +34,7 @@ public abstract class FilterImpl implements Filter{
 		int g = getGreen(rgb);
 		int b = getBlue(rgb);
 
-		if((r==color)&&(g==color)&&(b==color)){
+		if((r==getRed(color))&&(g==getGreen(color))&&(b==getBlue(color))){
 			return true;
 		}
 		return false;
