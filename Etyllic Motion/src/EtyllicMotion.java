@@ -1,7 +1,8 @@
 
 
 import test.HollowTest;
-import test.MagicWandTest;
+import test.MagicWand;
+import test.MagicWandStatic;
 import test.SkinTest;
 import application.CaptchaCleaner;
 import application.FaceApplication;
@@ -13,8 +14,7 @@ public class EtyllicMotion extends Etyllica{
 
 	public EtyllicMotion() {
 		super(640, 480);
-		//super(256,256);
-		System.out.println(System.getProperty("java.library.path")); 
+		//super(256,256);		 
 	}
 
 	@Override
@@ -27,9 +27,10 @@ public class EtyllicMotion extends Etyllica{
 		//setMainApplication(new FaceApplication(w,h));
 		//setMainApplication(new SkinTest(w,h));
 		
-		//setMainApplication(new MagicWandTest(w,h));
+		//setMainApplication(new MagicWand(w,h));
+		setMainApplication(new MagicWandStatic(w,h));
 		
-		setMainApplication(new CaptchaCleaner(w,h));
+		//setMainApplication(new CaptchaCleaner(w,h));
 		
 		//setMainApplication(new SkinGraph(w,h));
 		//setMainApplication(new AuReality(w,h));

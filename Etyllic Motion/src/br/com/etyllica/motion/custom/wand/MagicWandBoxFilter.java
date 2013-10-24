@@ -6,11 +6,10 @@ import java.util.List;
 
 import br.com.etyllica.linear.Ponto2D;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.ElasticFilter;
 
-public class MagicWandBoxFilter extends ElasticFilter {
+public class MagicWandBoxFilter extends MagicWandConvexFilter {
 
-	private double angle = 0;
+	
 	
 	public MagicWandBoxFilter(int w, int h) {
 		super(w, h);
@@ -121,56 +120,6 @@ public class MagicWandBoxFilter extends ElasticFilter {
 
 	}
 	
-	private Component turnIntoBox(Component component){
-
-		System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
-
-		Ponto2D a = component.getPoints().get(0); //Lower X
-		Ponto2D b = component.getPoints().get(0); //Lower equal Y
-		Ponto2D c = component.getPoints().get(0); //Higher Y
-		Ponto2D d = component.getPoints().get(0); //Higher equal X
-
-		for(Ponto2D point: component.getPoints()){
-
-			if(point.getX()<a.getX()){
-				a = point;
-			}else if(point.getY()>=c.getY()){
-
-				if(point.getY()>c.getY()||point.getX()<c.getX()){
-					c = point;
-				}
-
-			}
-
-			if(point.getY()<=b.getY()){
-				b = point;
-			}else if(point.getX()>=d.getX()){
-				d = point;
-			}
-
-		}
-		
-		Component box = new Component(component.getW(), component.getH());
-		
-		box.add(a);
-		box.add(b);
-		box.add(c);
-		box.add(d);
-		
-		return box;
-		
-	}
-
-	private double distance(Ponto2D a, Ponto2D b){
-		
-		double xdif = b.getX()-a.getX(); 
-		double ydif = b.getY()-a.getY();
-		
-		double distance = Math.sqrt(xdif*xdif+ydif*ydif);
-		
-		return distance;
-	}
-
 	private void findOtherPoints(int i, int j, int offsetX, int offsetY, BufferedImage b, Component component){
 
 		if(validateColor(b.getRGB(i+offsetX, j+offsetY))){
@@ -190,10 +139,6 @@ public class MagicWandBoxFilter extends ElasticFilter {
 	public boolean validateComponent(Component component) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public double getAngle() {
-		return angle;
 	}
 		
 }

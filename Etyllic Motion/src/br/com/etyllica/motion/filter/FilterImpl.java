@@ -41,6 +41,21 @@ public abstract class FilterImpl implements Filter{
 		
 	}
 	
+	public boolean isColor(int rgb, int color, int tolerance){
+		
+		int r = getRed(rgb);
+		int g = getGreen(rgb);
+		int b = getBlue(rgb);
+
+		if((r>=getRed(color)-tolerance)&&(r<=getRed(color)+tolerance)&&
+			(g>=getGreen(color)-tolerance)&&(g<=getGreen(color)+tolerance)&&
+			(b>=getBlue(color)-tolerance)&&(b<=getBlue(color)+tolerance)){
+			return true;
+		}
+		return false;
+		
+	}
+	
 	public boolean isBlack(int rgb){
 
 		int black = 0x49;

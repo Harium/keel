@@ -2,59 +2,58 @@ package test;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
+import br.com.etyllica.camera.FakeCamera;
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyboardEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.event.Tecla;
-import br.com.etyllica.core.loader.ImageLoader;
 import br.com.etyllica.core.video.Grafico;
 import br.com.etyllica.linear.Ponto2D;
 import br.com.etyllica.motion.custom.wand.FindCornersFilter;
-import br.com.etyllica.motion.custom.wand.MagicWandBoxFilter;
+import br.com.etyllica.motion.custom.wand.MagicWandConvexFilter;
 import br.com.etyllica.motion.features.Component;
 
-public class MagicWandTest extends Application{
-
+public class MagicWandStatic extends Application{
+	
+	FakeCamera cam = new FakeCamera();
+	
 	private FindCornersFilter cornerFilter = new FindCornersFilter(0, 0);
 	
-	private MagicWandBoxFilter filter = new MagicWandBoxFilter(0, 0);
+	//private MagicWandBoxFilter filter = new MagicWandBoxFilter(0, 0);
+	private MagicWandConvexFilter filter = new MagicWandConvexFilter(0, 0);
 
 	private boolean hide = false;
 	private boolean pixels = true;
 
-	private int xImage = 30;
-	private int yImage = 30;
+	private int xOffset = 40;
+	private int yOffset = 40;
 
-	int IMAGES_TO_LOAD = 4;
-	private int currentImage = 1;
+	private final int IMAGES_TO_LOAD = 4;	
 
 	private Component box;
 	
 	private double angle = 0;
 
 	private Component feature;
-	
-	private List<BufferedImage> tests = new ArrayList<BufferedImage>();
-	
-	public MagicWandTest(int w, int h) {
+		
+	public MagicWandStatic(int w, int h) {
 		super(w, h);
 	}
 	
 	@Override
 	public void load() {
-
+		
 		loadingPhrase = "Loading Images";
 
 		for(int i=0;i<IMAGES_TO_LOAD;i++){
-			tests.add(ImageLoader.getInstance().getImage("wand/wand"+Integer.toString(i)+".png"));
+			cam.addImage("wand/wand"+Integer.toString(i)+".png");
 		}
 
 		loadingPhrase = "Configuring Filter";
-		reset(tests.get(currentImage));
+		reset(cam.getBufferedImage());
 
 		loading = 100;
 	}
@@ -68,9 +67,10 @@ public class MagicWandTest extends Application{
 
 		feature = cornerFilter.filter(b, new Component(w, h)).get(0);
 		
-		List<Component> result = filter.filter(b, new Component(w, h));
-		
+		List<Component> result = filter.filter(b, feature);
+				
 		box = result.get(0);
+		
 		
 		angle = filter.getAngle();
 	}
@@ -85,15 +85,13 @@ public class MagicWandTest extends Application{
 	public GUIEvent updateKeyboard(KeyboardEvent event) {
 
 		if(event.getPressed(Tecla.TSK_SETA_DIREITA)){
-			currentImage++;
-			currentImage%=IMAGES_TO_LOAD;
-			reset(tests.get(currentImage));
+			cam.nextFrame();
+			reset(cam.getBufferedImage());
 		}
 		
 		else if(event.getPressed(Tecla.TSK_SETA_ESQUERDA)){
-			currentImage+=IMAGES_TO_LOAD-1;
-			currentImage%=IMAGES_TO_LOAD;
-			reset(tests.get(currentImage));
+			cam.previousFrame();
+			reset(cam.getBufferedImage());
 		}
 
 		if(event.getPressed(Tecla.TSK_H)){
@@ -109,13 +107,13 @@ public class MagicWandTest extends Application{
 	
 	@Override
 	public void draw(Grafico g) {
-
-		g.drawImage(tests.get(currentImage), xImage, yImage);		
+		
+		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);		
 
 		g.setColor(Color.BLUE);
 
 		for(Ponto2D ponto: feature.getPoints()){
-			g.fillCircle(xImage+(int)ponto.getX(), yImage+(int)ponto.getY(), 5);
+			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
 		}
 
 		drawBox(g, box);
@@ -125,7 +123,7 @@ public class MagicWandTest extends Application{
 	}
 
 	private void drawBox(Grafico g, Component box){
-
+		
 		g.setColor(Color.RED);
 		
 		Ponto2D a = box.getPoints().get(0);
@@ -163,20 +161,20 @@ public class MagicWandTest extends Application{
 		
 
 		g.setColor(Color.BLACK);
-		g.drawString("A", xImage+(int)a.getX()-20, yImage+(int)a.getY()-10);
-		g.drawString("B", xImage+(int)b.getX()+15, yImage+(int)b.getY()-10);
+		g.drawString("A", xOffset+(int)a.getX()-20, yOffset+(int)a.getY()-10);
+		g.drawString("B", xOffset+(int)b.getX()+15, yOffset+(int)b.getY()-10);
 
-		g.drawString("C", xImage+(int)c.getX()-20, yImage+(int)c.getY()+10);
-		g.drawString("D", xImage+(int)d.getX()+15, yImage+(int)d.getY()+10);
+		g.drawString("C", xOffset+(int)c.getX()-20, yOffset+(int)c.getY()+10);
+		g.drawString("D", xOffset+(int)d.getX()+15, yOffset+(int)d.getY()+10);
 
 	}
 
 	private void drawLine(Grafico g, Ponto2D a, Ponto2D b){		
-		g.drawLine(xImage+(int)a.getX(), yImage+(int)a.getY(), xImage+(int)b.getX(), yImage+(int)b.getY());		
+		g.drawLine(xOffset+(int)a.getX(), yOffset+(int)a.getY(), xOffset+(int)b.getX(), yOffset+(int)b.getY());		
 	}
 
 	private void drawPoint(Grafico g, Ponto2D point){
-		g.fillCircle(xImage+(int)point.getX(), yImage+(int)point.getY(), 3);
+		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
 	}
 
 

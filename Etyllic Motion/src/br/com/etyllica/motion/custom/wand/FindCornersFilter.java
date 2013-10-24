@@ -1,5 +1,6 @@
 package br.com.etyllica.motion.custom.wand;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +28,13 @@ public class FindCornersFilter extends ElasticFilter {
 		
 		Component holder = new Component(w,h);
 		
-		int i = 0;
-		int j = 0;
+		int border = 1;
+		
+		int i,j;
 
-		for(j=0;j<h;j++){
+		for(j=border;j<h-border;j++){
 
-			for(i=0;i<w;i++){
+			for(i=border;i<w-border;i++){
 
 				if(validateColor(bimg.getRGB(i, j))){
 					
@@ -79,25 +81,66 @@ public class FindCornersFilter extends ElasticFilter {
 			return true;
 		}else if(rightLowerCorner(cross)){
 			return true;
+		}else if(diagonalLeftCorner(cross)){
+			return true;
+		}else if(diagonalRightCorner(cross)){
+			return true;
+		}else if(diagonalUpCorner(cross)){
+			return true;
+		}else if(diagonalDownCorner(cross)){
+			return true;
+		}else if(leftValleyCorner(cross)){
+			return true;
 		}
 		
 		return false;
 	}
 		
 	private boolean leftUpperCorner(Cross cross){
-		return validateCross(cross, false, false, false, false, true, true, false, true, true);
+		boolean result = validateCross(cross, false, false, false, false, true, true, false, true, true)||
+				validateCross(cross, false, false, false, false, true, true, false, true, false);
+		
+		return result;
 	}
 
 	private boolean rightUpperCorner(Cross cross){				
-		return validateCross(cross, false, false, false, true, true, false, true, true, false);
+		boolean result = validateCross(cross, false, false, false, true, true, false, true, true, false)||
+				validateCross(cross, false, false, false, true, true, false, false, true, false);
+		
+		return result;
 	}
 	
 	private boolean leftLowerCorner(Cross cross){
-		return validateCross(cross, false, true, true, false, true, true, false, false, false);
+		boolean result = validateCross(cross, false, true, true, false, true, true, false, false, false)||
+				validateCross(cross, false, true, false, false, true, true, false, false, false);
+		
+		return result;
 	}
 
 	private boolean rightLowerCorner(Cross cross){		
-		return validateCross(cross, true, true, false, true, true, false, false, false, false);
+		boolean result = validateCross(cross, true, true, false, true, true, false, false, false, false)||
+				validateCross(cross, false, true, false, true, true, false, false, false, false);
+		return result;
+	}
+	
+	private boolean diagonalUpCorner(Cross cross){
+		return validateCross(cross, false, false, false, false, true, false, true, true, true);
+	}
+	
+	private boolean diagonalLeftCorner(Cross cross){
+		return validateCross(cross, false, false, true, false, true, true, false, false, true);
+	}
+	
+	private boolean diagonalRightCorner(Cross cross){
+		return validateCross(cross, true, false, false, true, true, false, true, false, false);
+	}
+	
+	private boolean diagonalDownCorner(Cross cross){
+		return validateCross(cross, true, true, true, false, true, false, false, false, false);
+	}
+	
+	private boolean leftValleyCorner(Cross cross){
+		return validateCross(cross, true, true, true, true, false, false, true, true, false);
 	}
 	
 	private boolean validateCross(Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight){
