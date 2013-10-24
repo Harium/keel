@@ -8,10 +8,9 @@ import java.util.List;
 import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyboardEvent;
+import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.event.Tecla;
-import br.com.etyllica.core.video.Grafico;
+import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.hollowcontroller.FindRedLedActivatedFilter;
 import br.com.etyllica.motion.hollowcontroller.FindRedLedFilter;
@@ -62,9 +61,9 @@ public class HollowController extends Application {
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyboardEvent event){
+	public GUIEvent updateKeyboard(KeyEvent event){
 
-		if(event.getPressed(Tecla.TSK_R)){
+		if(event.isKeyDown(KeyEvent.TSK_R)){
 			activated = false;
 		}
 		
@@ -74,7 +73,7 @@ public class HollowController extends Application {
 	private boolean activated = false;
 
 	@Override
-	public void draw(Grafico g) {
+	public void draw(Graphic g) {
 
 		buf = cam.getBufferedImage();
 

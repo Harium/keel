@@ -2,7 +2,7 @@ package br.com.etyllica.graph;
 
 import java.awt.Color;
 
-import br.com.etyllica.core.video.Grafico;
+import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.Layer;
 
 public class ColorPoint extends Layer{
@@ -66,7 +66,7 @@ public class ColorPoint extends Layer{
 		this.color = color;
 	}
 
-	public void draw(Grafico g){
+	public void draw(Graphic g){
 		
 		g.setColor(color);
 		

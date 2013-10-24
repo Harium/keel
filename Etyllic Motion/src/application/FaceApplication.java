@@ -9,10 +9,9 @@ import java.util.List;
 import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyboardEvent;
+import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.event.Tecla;
-import br.com.etyllica.core.video.Grafico;
+import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.motion.custom.face.ExtremelySimpleFindSkinFilter;
@@ -71,29 +70,29 @@ public class FaceApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyboardEvent event){
+	public GUIEvent updateKeyboard(KeyEvent event){
 
-		if(event.getPressed(Tecla.TSK_SETA_DIREITA)){
+		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
 			maxX++;
 			System.out.println(maxX);
 		}
-		else if(event.getPressed(Tecla.TSK_SETA_ESQUERDA)){
+		else if(event.isKeyDown(KeyEvent.TSK_SETA_ESQUERDA)){
 			maxX--;
 			System.out.println(maxX);
 		}
 
-		if(event.getPressed(Tecla.TSK_SETA_CIMA)){
+		if(event.isKeyDown(KeyEvent.TSK_SETA_CIMA)){
 			//distFace+=0.1;
 			maxPontos+=20;
 			System.out.println(maxPontos);
 		}
-		else if(event.getPressed(Tecla.TSK_SETA_BAIXO)){
+		else if(event.isKeyDown(KeyEvent.TSK_SETA_BAIXO)){
 			//distFace-=0.1;
 			maxPontos-=20;
 			System.out.println(maxPontos);
 		}
 
-		if(event.getPressed(Tecla.TSK_R)){
+		if(event.isKeyDown(KeyEvent.TSK_R)){
 			//maiorRelevancia = 0;
 			//new Voicer().say("Putz, o sistema resetou");
 		}
@@ -104,7 +103,7 @@ public class FaceApplication extends Application {
 	private double distFace = 4.0;
 
 	@Override
-	public void draw(Grafico g) {
+	public void draw(Graphic g) {
 
 		buf = cam.getBufferedImage();
 
@@ -167,7 +166,7 @@ public class FaceApplication extends Application {
 	private int maxX = 600;
 	private int maxPontos = 700;
 		
-	private void pintaFace(Grafico g, List<Component> componentes){
+	private void pintaFace(Graphic g, List<Component> componentes){
 
 		int maiorRelevancia = 0;
 

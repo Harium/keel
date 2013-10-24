@@ -7,10 +7,9 @@ import java.util.List;
 import br.com.etyllica.camera.FakeCamera;
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyboardEvent;
+import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.event.Tecla;
-import br.com.etyllica.core.video.Grafico;
+import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Ponto2D;
 import br.com.etyllica.motion.custom.wand.FindCornersFilter;
 import br.com.etyllica.motion.custom.wand.MagicWandConvexFilter;
@@ -82,23 +81,23 @@ public class MagicWandStatic extends Application{
 	}
 	
 	@Override
-	public GUIEvent updateKeyboard(KeyboardEvent event) {
+	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.getPressed(Tecla.TSK_SETA_DIREITA)){
+		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
 			cam.nextFrame();
 			reset(cam.getBufferedImage());
 		}
 		
-		else if(event.getPressed(Tecla.TSK_SETA_ESQUERDA)){
+		else if(event.isKeyDown(KeyEvent.TSK_SETA_ESQUERDA)){
 			cam.previousFrame();
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.getPressed(Tecla.TSK_H)){
+		if(event.isKeyDown(KeyEvent.TSK_H)){
 			hide = !hide;
 		}
 
-		if(event.getPressed(Tecla.TSK_P)){
+		if(event.isKeyDown(KeyEvent.TSK_P)){
 			pixels = !pixels;
 		}
 
@@ -106,7 +105,7 @@ public class MagicWandStatic extends Application{
 	}
 	
 	@Override
-	public void draw(Grafico g) {
+	public void draw(Graphic g) {
 		
 		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);		
 
@@ -122,7 +121,7 @@ public class MagicWandStatic extends Application{
 
 	}
 
-	private void drawBox(Grafico g, Component box){
+	private void drawBox(Graphic g, Component box){
 		
 		g.setColor(Color.RED);
 		
@@ -169,11 +168,11 @@ public class MagicWandStatic extends Application{
 
 	}
 
-	private void drawLine(Grafico g, Ponto2D a, Ponto2D b){		
+	private void drawLine(Graphic g, Ponto2D a, Ponto2D b){		
 		g.drawLine(xOffset+(int)a.getX(), yOffset+(int)a.getY(), xOffset+(int)b.getX(), yOffset+(int)b.getY());		
 	}
 
-	private void drawPoint(Grafico g, Ponto2D point){
+	private void drawPoint(Graphic g, Ponto2D point){
 		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
 	}
 

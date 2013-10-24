@@ -27,19 +27,13 @@ public class EtyllicMotion extends Etyllica{
 		//setMainApplication(new FaceApplication(w,h));
 		//setMainApplication(new SkinTest(w,h));
 		
-		//setMainApplication(new MagicWand(w,h));
-		setMainApplication(new MagicWandStatic(w,h));
+		setMainApplication(new MagicWand(w,h));
+		//setMainApplication(new MagicWandStatic(w,h));
 		
 		//setMainApplication(new CaptchaCleaner(w,h));
 		
 		//setMainApplication(new SkinGraph(w,h));
 		//setMainApplication(new AuReality(w,h));
-	}
-	
-	/*
-	   CPPFLAGS="-I/usr/lib/jvm/java-1.7.0-openjdk.x86_64/include/linux $CPPFLAGS"
-	   CPPFLAGS="-I/usr/lib/jvm/java-1.7.0-openjdk.x86_64/include $CPPFLAGS"
-	   sudo ln -s /usr/lib/jvm/java-1.7.0-openjdk.x86_64/jni.h /usr/lib/jvm/java
-	 */
+	}	
 
 }

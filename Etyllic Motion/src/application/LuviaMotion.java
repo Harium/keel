@@ -4,9 +4,9 @@ import java.awt.Color;
 
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyboardEvent;
+import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.video.Grafico;
+import br.com.etyllica.core.video.Graphic;
 
 public class LuviaMotion extends Application{
 
@@ -35,7 +35,7 @@ public class LuviaMotion extends Application{
 	}
 	
 	@Override
-	public void draw(Grafico g){
+	public void draw(Graphic g){
 		g.setAlpha(100);
 		g.setColor(Color.white);
 		g.fillRect(0, 0, w, h);
@@ -65,7 +65,7 @@ public class LuviaMotion extends Application{
 
 	}
 
-	private void drawCircle(Grafico g){
+	private void drawCircle(Graphic g){
 
 		int cw = 100;
 		int ch = 100;
@@ -96,7 +96,7 @@ public class LuviaMotion extends Application{
 
 	}
 
-	private void drawContent(Grafico g, int percent){
+	private void drawContent(Graphic g, int percent){
 
 		int angulo = percent;
 		
@@ -119,7 +119,7 @@ public class LuviaMotion extends Application{
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyboardEvent arg0) {
+	public GUIEvent updateKeyboard(KeyEvent event) {
 		// TODO Auto-generated method stub
 		return GUIEvent	.NONE;
 	}

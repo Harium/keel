@@ -11,9 +11,9 @@ import javax.imageio.ImageIO;
 
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyboardEvent;
+import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.video.Grafico;
+import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.motion.custom.wand.MagicWandBoxFilter;
@@ -35,19 +35,19 @@ public class CaptchaCleaner extends Application{
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyboardEvent event) {
+	public GUIEvent updateKeyboard(KeyEvent event) {
 		// TODO Auto-generated method stub
-		return GUIEvent.NONE;
+		return null;
 	}
 
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 		// TODO Auto-generated method stub
-		return GUIEvent.NONE;
+		return null;
 	}
 
 	@Override
-	public void draw(Grafico g) {
+	public void draw(Graphic g) {
 
 		g.setColor(backColor);
 		g.fillRect(background);

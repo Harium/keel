@@ -6,11 +6,10 @@ import java.util.List;
 
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyboardEvent;
+import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.event.Tecla;
 import br.com.etyllica.core.input.mouse.MouseButton;
-import br.com.etyllica.core.video.Grafico;
+import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.Layer;
 
 public class SkinGraph extends Application{
@@ -68,7 +67,7 @@ public class SkinGraph extends Application{
 	}
 
 	@Override
-	public void draw(Grafico g) {
+	public void draw(Graphic g) {
 
 		g.setColor(Color.BLACK);
 		drawGrid(g);
@@ -90,7 +89,7 @@ public class SkinGraph extends Application{
 
 	}
 
-	private void drawValidation(Grafico g){
+	private void drawValidation(Graphic g){
 
 		g.setAlpha(50);
 		
@@ -134,7 +133,7 @@ public class SkinGraph extends Application{
 		return true;
 	}
 
-	private void drawGoodPoints(Grafico g){
+	private void drawGoodPoints(Graphic g){
 
 		for(ColorPoint ponto: good){
 			ponto.draw(g);
@@ -595,7 +594,7 @@ public class SkinGraph extends Application{
 		addBadPoint(63,69,81);
 	}
 
-	private void drawBadPoints(Grafico g){
+	private void drawBadPoints(Graphic g){
 
 		g.setColor(Color.RED);
 		for(Layer ponto: bad){
@@ -606,7 +605,7 @@ public class SkinGraph extends Application{
 	int mx = 0;
 	int my = 0;
 
-	private void drawGrid(Grafico g){
+	private void drawGrid(Graphic g){
 
 		int spacing = 10;
 
@@ -620,16 +619,16 @@ public class SkinGraph extends Application{
 
 	}
 
-	private void drawMouseCross(Grafico g){
+	private void drawMouseCross(Graphic g){
 		g.drawLine(mx, 0, mx, h);
 		g.drawLine(0, my, w, my);
 	}
 
 
 	@Override
-	public GUIEvent updateKeyboard(KeyboardEvent event) {
+	public GUIEvent updateKeyboard(KeyEvent event) {
 		
-		if(event.getPressed(Tecla.TSK_ESPACO)){
+		if(event.isKeyDown(KeyEvent.TSK_ESPACO)){
 			validateGraph = !validateGraph;
 		}
 		
@@ -653,7 +652,7 @@ public class SkinGraph extends Application{
 
 		}
 
-		if(event.getPressed(MouseButton.MOUSE_BUTTON_LEFT)){
+		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
 
 
 			System.out.println("MX = "+event.getX());
