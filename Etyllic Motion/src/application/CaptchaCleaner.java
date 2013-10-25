@@ -9,26 +9,28 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import br.com.etyllica.camera.FakeCamera;
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
-import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.motion.custom.wand.MagicWandBoxFilter;
 
 public class CaptchaCleaner extends Application{
 
-	private BufferedLayer layer;
-	
 	private BufferedImage b;
+	
+	private FakeCamera cam = new FakeCamera();
 
 	private Layer background;
 	private Layer foreground;
 
-	private Color backColor = Color.RED;
-	private Color foreColor = Color.RED;
+	private Color backColor = null;
+	private Color foreColor = null;
+	
+	private String fileName;
 
 	public CaptchaCleaner(int w, int h) {
 		super(w, h);
@@ -36,6 +38,23 @@ public class CaptchaCleaner extends Application{
 
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
+		
+		if(event.isKeyDown(KeyEvent.TSK_SPACE)){
+			saveImage(fileName);
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_RIGHT_ARROW)){
+			cam.nextFrame();
+			fileName = "captcha"+Integer.toString(cam.getCurrentFrame());
+			reset(fileName);
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_LEFT_ARROW)){
+			cam.previousFrame();
+			fileName = "captcha"+Integer.toString(cam.getCurrentFrame());
+			reset(fileName);
+		}
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -63,16 +82,35 @@ public class CaptchaCleaner extends Application{
 
 	@Override
 	public void load() {
-				
-		String fileName = "captcha";
+						
+		int IMAGES_TO_LOAD = 5;
+		
+		fileName = "captcha0";
+		
+		for(int i=1;i<=IMAGES_TO_LOAD;i++){
+			
+			String file = "captcha"+Integer.toString(i);
+			
+			cam.addImage(CAPTCHA_FOLDER+file+".bmp");
+			
+		}
+		
+		reset(fileName);
+		
+		loading = 100;
+		
+	}
+	
+	private void reset(String fileName){
+
+		backColor = null;
+		foreColor = null;
 		
 		MagicWandBoxFilter filter = new MagicWandBoxFilter(w, h);
 		
 		loading = 10;
 
-		layer = new BufferedLayer(0, 0, CAPTCHA_FOLDER+fileName+".bmp");
-
-		b = layer.getImagemBuffer();
+		b = cam.getBufferedImage();
 
 		int w = b.getWidth();
 		int h = b.getHeight();
@@ -93,9 +131,9 @@ public class CaptchaCleaner extends Application{
 				if(colors.containsKey(rgb)){
 					colors.put(rgb, colors.get(rgb)+1);
 				}else{
-					if(backColor==Color.RED){
+					if(backColor==null){
 						backColor = new Color(rgb);
-					}else if(foreColor==Color.RED){
+					}else if(foreColor==null){
 						foreColor = new Color(rgb);
 					}
 					colors.put(rgb, 0);
@@ -134,8 +172,12 @@ public class CaptchaCleaner extends Application{
 				
 			}
 		}
-		
-		String folder = "res/images/"+CAPTCHA_FOLDER+"clean/";
+				
+	}
+	
+	private void saveImage(String fileName){
+
+		String folder = "assets/images/"+CAPTCHA_FOLDER+"clean/";
 		
 		try {			
 			
@@ -144,10 +186,8 @@ public class CaptchaCleaner extends Application{
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
-
-		loading = 100;
-		
 	}
+
 
 }
 

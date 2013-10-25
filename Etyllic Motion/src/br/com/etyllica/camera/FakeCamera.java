@@ -10,7 +10,7 @@ public class FakeCamera implements Camera{
 
 	private List<BufferedImage> list = new ArrayList<BufferedImage>();
 	
-	private int currentImage = 0;
+	private int currentFrame = 0;
 	
 	public FakeCamera(){
 		super();
@@ -28,17 +28,25 @@ public class FakeCamera implements Camera{
 
 	@Override
 	public BufferedImage getBufferedImage() {
-		return list.get(currentImage);
+		return list.get(currentFrame);
 	}
 	
 	public void nextFrame(){
-		currentImage++;
-		currentImage%=list.size();
+		currentFrame++;
+		currentFrame%=list.size();
 	}
 	
 	public void previousFrame(){
-		currentImage+=list.size()-1;
-		currentImage%=list.size();
+		currentFrame+=list.size()-1;
+		currentFrame%=list.size();
 	}
 
+	public int getCurrentFrame() {
+		return currentFrame;
+	}
+
+	public void setCurrentFrame(int currentFrame) {
+		this.currentFrame = currentFrame;
+	}
+	
 }

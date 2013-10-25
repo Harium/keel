@@ -42,8 +42,8 @@ public class MagicWand extends Application{
 		loadingPhrase = "Setting Filter";
 		filter = new MagicWandBoxFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		
-		filter.setWandColor(Color.BLACK);
-		filter.setTolerance(25);
+		filter.setWandColor(new Color(0x36,0x38,0x35));
+		filter.setTolerance(20);
 
 		loading = 100;
 	}
