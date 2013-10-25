@@ -99,14 +99,14 @@ public class MagicWandConvexFilter extends ElasticFilter {
 
 	@Override
 	public boolean validateColor(int rgb) {
-		//return isColor(rgb, wandColor.getRGB(), tolerance);
-		return isSkin(rgb);
+		return isColor(rgb, wandColor.getRGB(), tolerance);
+		//return isSkin(rgb);
 	}
 
 	@Override
 	public boolean validateComponent(Component component) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return component.getPoints().size()>60;
 	}
 
 	protected double distance(Ponto2D a, Ponto2D b){

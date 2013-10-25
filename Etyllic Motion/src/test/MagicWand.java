@@ -2,6 +2,7 @@ package test;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.camera.CameraV4L4J;
@@ -11,16 +12,13 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Ponto2D;
-import br.com.etyllica.motion.custom.wand.FindCornersFilter;
 import br.com.etyllica.motion.custom.wand.MagicWandBoxFilter;
-import br.com.etyllica.motion.custom.wand.MagicWandConvexFilter;
+import br.com.etyllica.motion.custom.wand.model.Wand;
 import br.com.etyllica.motion.features.Component;
 
 public class MagicWand extends Application{
 
 	private CameraV4L4J cam;
-	
-	private FindCornersFilter cornerFilter = new FindCornersFilter(0, 0);
 	
 	private MagicWandBoxFilter filter;
 
@@ -29,13 +27,7 @@ public class MagicWand extends Application{
 
 	private int xImage = 0;
 	private int yImage = 0;
-
-	private Component box;
 	
-	private double angle = 0;
-
-	private Component feature;
-		
 	public MagicWand(int w, int h) {
 		super(w, h);
 	}
@@ -51,11 +43,15 @@ public class MagicWand extends Application{
 		filter = new MagicWandBoxFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		
 		filter.setWandColor(Color.BLACK);
-		filter.setTolerance(0);
+		filter.setTolerance(25);
 
 		loading = 100;
 	}
 
+	List<Component> result = new ArrayList<Component>();
+	
+	List<Wand> features = new ArrayList<Wand>();
+	
 	private void reset(BufferedImage b){
 		
 		int w = b.getWidth();
@@ -63,15 +59,18 @@ public class MagicWand extends Application{
 
 		filter.setW(w);
 		filter.setH(h);
-
-		feature = cornerFilter.filter(b, new Component(w, h)).get(0);
 		
-		List<Component> result = filter.filter(b, feature);
-				
-		box = result.get(0);
+		result = filter.filter(b, new Component(w, h));
 		
+		features.clear();
+		for(Component component: result){
+			
+			Wand wand = new Wand(component);
+			wand.setAngle(filter.getAngle());
+			
+			features.add(wand);
+		}
 		
-		angle = filter.getAngle();
 	}
 
 	@Override
@@ -103,17 +102,34 @@ public class MagicWand extends Application{
 		
 		g.drawImage(b, xImage, yImage);		
 
-		g.setColor(Color.BLUE);
-
-		for(Ponto2D ponto: feature.getPoints()){
-			g.fillCircle(xImage+(int)ponto.getX(), yImage+(int)ponto.getY(), 5);
-		}
-
-		drawBox(g, box);
+		Wand biggest = null;
+		int maiorNumeroPontos = 0;
 		
-		g.setColor(Color.WHITE);
-		g.drawShadow(50, 15, "Points = "+feature.getPoints().size());
-		g.drawShadow(50, 35, "Angle = "+angle);		
+		for(Wand wand: features){
+			
+			g.setColor(wand.getColor());
+		
+			for(Ponto2D ponto: wand.getPoints()){
+				g.fillCircle(xImage+(int)ponto.getX(), yImage+(int)ponto.getY(), 5);
+				
+			}
+			
+			if(wand.getPoints().size()>maiorNumeroPontos){
+				biggest = wand; 
+			}
+			
+			drawBox(g, wand);
+
+			int px = (int)wand.getPoints().get(0).getX();
+			int py = (int)wand.getPoints().get(0).getY();
+			g.setColor(Color.WHITE);
+			g.drawShadow(px, py, (int)wand.getAngle()+"°");
+			
+		}
+		
+		if(biggest!=null){
+			g.drawShadow(50, 40, "Ângulo = "+biggest.getAngle()+"°");
+		}
 
 	}
 

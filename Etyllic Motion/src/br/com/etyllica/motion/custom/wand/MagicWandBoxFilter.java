@@ -22,13 +22,12 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 		int w = bimg.getWidth();
 		int h = bimg.getHeight();
 
-		//Find First Point
-		boolean found = false;
-
 		int border = 1;
 
 		int i = 0;
 		int j = 0;
+
+		Component currentComponent;
 
 		for(j=border;j<h-border;j++){
 
@@ -36,57 +35,55 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 
 				if(validateColor(bimg.getRGB(i, j))){
 
-					found = true;
-					break;
+					currentComponent = new Component(w, h);
+
+					findPoints(i, j, bimg, currentComponent);
+
+					if(validateComponent(currentComponent)){
+
+						Component box = turnIntoBox(currentComponent);
+
+						Ponto2D a = box.getPoints().get(0);
+						Ponto2D b = box.getPoints().get(1);
+						Ponto2D c = box.getPoints().get(2);
+						Ponto2D d = box.getPoints().get(3);
+
+						Ponto2D ac = new Ponto2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
+
+						Ponto2D bd = new Ponto2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);		
+
+						Ponto2D rect = new Ponto2D(bd.getX(),ac.getY());		
+						double dac = distance(bd, rect);
+						double hip = distance(bd, ac);
+
+						angle = Math.toDegrees(Math.asin(dac/hip));
+
+						if(distance(a, c)>distance(a, b)){
+							angle-=90;
+						}
+
+						result.add(box);
+					}
 
 				}
 
 			}
 
-			if(found){
-				break;
-			}
-
 		}
-
-		//Points are to Down, Left or Right
-		findPoints(i, j, bimg, component);
-
-		Component box = turnIntoBox(component);
-
-		Ponto2D a = box.getPoints().get(0);
-		Ponto2D b = box.getPoints().get(1);
-		Ponto2D c = box.getPoints().get(2);
-		Ponto2D d = box.getPoints().get(3);
-
-		Ponto2D ac = new Ponto2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
-
-		Ponto2D bd = new Ponto2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);		
-
-		Ponto2D rect = new Ponto2D(bd.getX(),ac.getY());		
-		double dac = distance(bd, rect);
-		double hip = distance(bd, ac);
-
-		angle = Math.toDegrees(Math.asin(dac/hip));
-
-		if(distance(a, c)>distance(a, b)){
-			angle-=90;
-		}
-
-		result.add(box);
 
 		return result;
 	}
 
-	private void findPoints(int i, int j, BufferedImage b, Component component){
+	private int findPoints(int i, int j, BufferedImage b, Component component){
 
 		int w = b.getWidth();
 		int h = b.getHeight();
 
 		if(mask[i][j]){
-			return;
+			return 0;
 		}else if (i==1||i==w-1||j==1||j==h-1){
-			return;
+			mask[i][j] = true;
+			return 0;
 		}
 
 
@@ -126,11 +123,20 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 			findOtherPoints(i+offsetX, j+offsetY, offsetX, offsetY, b, component);
 
 		}
+		
+		return component.getPoints().size();
 
 	}
 
 	private void findOtherPoints(int i, int j, int offsetX, int offsetY, BufferedImage b, Component component){
 
+		if(mask[i][j]){
+			return;
+		}else if (i==1||i==w-1||j==1||j==h-1){
+			mask[i][j] = true;
+			return;
+		}
+		
 		if(validateColor(b.getRGB(i+offsetX, j+offsetY))){
 			findOtherPoints(i+offsetX, j+offsetY, offsetX, offsetY, b, component);	
 		}else{

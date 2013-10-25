@@ -9,7 +9,7 @@ import br.com.etyllica.linear.Ponto2D;
 
 public class Component implements Comparable<Component>{
 
-	private List<Ponto2D> points;
+	protected List<Ponto2D> points;
 	
 	private int menorX = 640;
 	private int menorY = 480;
