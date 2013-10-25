@@ -1,6 +1,5 @@
 package br.com.etyllica.motion.custom.wand;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;

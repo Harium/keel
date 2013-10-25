@@ -21,6 +21,7 @@ public class MagicWand extends Application{
 	private CameraV4L4J cam;
 	
 	private MagicWandBoxFilter filter;
+	//private BlackWandFilter filter;
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -40,9 +41,10 @@ public class MagicWand extends Application{
 		cam = new CameraV4L4J(0);
 				
 		loadingPhrase = "Setting Filter";
+		//filter = new BlackWandFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		filter = new MagicWandBoxFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		
-		filter.setWandColor(new Color(0x36,0x38,0x35));
+		filter.setWandColor(new Color(0,0,0));
 		filter.setTolerance(20);
 
 		loading = 100;
@@ -63,10 +65,12 @@ public class MagicWand extends Application{
 		result = filter.filter(b, new Component(w, h));
 		
 		features.clear();
+		
 		for(Component component: result){
 			
 			Wand wand = new Wand(component);
 			wand.setAngle(filter.getAngle());
+			wand.setDistance(filter.getDistance());
 			
 			features.add(wand);
 		}
@@ -100,10 +104,10 @@ public class MagicWand extends Application{
 		
 		reset(b);
 		
-		g.drawImage(b, xImage, yImage);		
+		g.drawImage(b, xImage, yImage);
 
 		Wand biggest = null;
-		int maiorNumeroPontos = 0;
+		double maiorNumeroPontos = 0;
 		
 		for(Wand wand: features){
 			
@@ -114,21 +118,25 @@ public class MagicWand extends Application{
 				
 			}
 			
-			if(wand.getPoints().size()>maiorNumeroPontos){
-				biggest = wand; 
+			if(wand.getDistance()>maiorNumeroPontos){
+				biggest = wand;
+				maiorNumeroPontos = wand.getDistance();
 			}
 			
-			drawBox(g, wand);
+			//drawBox(g, wand);
 
 			int px = (int)wand.getPoints().get(0).getX();
 			int py = (int)wand.getPoints().get(0).getY();
 			g.setColor(Color.WHITE);
-			g.drawShadow(px, py, (int)wand.getAngle()+"°");
+			//g.drawShadow(px, py, (int)wand.getAngle()+"°");
+			g.drawShadow(px, py, Double.toString(wand.getDistance()));
 			
 		}
 		
 		if(biggest!=null){
 			g.drawShadow(50, 40, "Ângulo = "+biggest.getAngle()+"°");
+			g.drawShadow(50, 60, "Distance = "+biggest.getDistance());
+			drawBox(g, biggest);
 		}
 
 	}
@@ -191,6 +199,5 @@ public class MagicWand extends Application{
 	private void drawPoint(Graphic g, Ponto2D point){
 		g.fillCircle(xImage+(int)point.getX(), yImage+(int)point.getY(), 3);
 	}
-
 
 }

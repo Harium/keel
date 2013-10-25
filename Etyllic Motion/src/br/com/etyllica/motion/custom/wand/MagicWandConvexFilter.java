@@ -12,10 +12,12 @@ import br.com.etyllica.motion.filter.ElasticFilter;
 public class MagicWandConvexFilter extends ElasticFilter {
 
 	protected double angle = 0;
-	
+		
 	protected Color wandColor = Color.BLACK;
 	
 	protected int tolerance = 0x49;
+	
+	protected int border = 1;
 	
 	public MagicWandConvexFilter(int w, int h) {
 		super(w, h);
@@ -43,12 +45,12 @@ public class MagicWandConvexFilter extends ElasticFilter {
 		Ponto2D bd = new Ponto2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);		
 				
 		Ponto2D rect = new Ponto2D(bd.getX(),ac.getY());		
-		double dac = distance(bd, rect);
-		double hip = distance(bd, ac);
+		double dac = bd.distance(rect);
+		double hip = bd.distance(ac);
 		
 		angle = Math.toDegrees(Math.asin(dac/hip));
 		
-		if(distance(a, c)>distance(a, b)){
+		if(a.distance(c)>a.distance(b)){
 			angle-=90;
 		}
 		
@@ -106,10 +108,10 @@ public class MagicWandConvexFilter extends ElasticFilter {
 	@Override
 	public boolean validateComponent(Component component) {
 		
-		return component.getPoints().size()>60;
+		return component.getPoints().size()>30;
 	}
 
-	protected double distance(Ponto2D a, Ponto2D b){
+	/*protected double distance(Ponto2D a, Ponto2D b){
 		
 		double xdif = b.getX()-a.getX(); 
 		double ydif = b.getY()-a.getY();
@@ -117,12 +119,12 @@ public class MagicWandConvexFilter extends ElasticFilter {
 		double distance = Math.sqrt(xdif*xdif+ydif*ydif);
 		
 		return distance;
-	}
+	}*/
 	
 	public double getAngle() {
 		return angle;
 	}
-
+	
 	public int getTolerance() {
 		return tolerance;
 	}

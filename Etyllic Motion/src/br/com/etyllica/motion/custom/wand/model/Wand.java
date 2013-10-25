@@ -14,6 +14,8 @@ public class Wand extends Component{
 	private Color color = Color.BLUE;
 	
 	private double angle;
+	
+	private double distance;
 
 	public Color getColor() {
 		return color;
@@ -31,4 +33,12 @@ public class Wand extends Component{
 		this.angle = angle;
 	}
 
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+		
 }

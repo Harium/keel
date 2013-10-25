@@ -9,8 +9,14 @@ import br.com.etyllica.motion.features.Component;
 
 public class MagicWandBoxFilter extends MagicWandConvexFilter {
 
+	protected double distance = 0;
+	
+	protected int points = 0;
+		
 	public MagicWandBoxFilter(int w, int h) {
 		super(w, h);
+		
+		border = 1;
 	}
 
 	public List<Component> filter(BufferedImage bimg, Component component){
@@ -21,8 +27,6 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 
 		int w = bimg.getWidth();
 		int h = bimg.getHeight();
-
-		int border = 1;
 
 		int i = 0;
 		int j = 0;
@@ -50,19 +54,28 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 
 						Ponto2D ac = new Ponto2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
 
-						Ponto2D bd = new Ponto2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);		
+						Ponto2D bd = new Ponto2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
 
 						Ponto2D rect = new Ponto2D(bd.getX(),ac.getY());		
-						double dac = distance(bd, rect);
-						double hip = distance(bd, ac);
+						double dac = bd.distance(rect);
+						double hip = bd.distance(ac);
 
 						angle = Math.toDegrees(Math.asin(dac/hip));
 
-						if(distance(a, c)>distance(a, b)){
+						if(a.distance(c)>a.distance(b)){
 							angle-=90;
 						}
+						
+						points = currentComponent.getPoints().size();
+						
+						if(a.distance(d)>a.distance(c)){
+							distance = a.distance(d);
+						}else{
+							distance = a.distance(c);
+						}
+												
+						result.add(box);						
 
-						result.add(box);
 					}
 
 				}
@@ -73,15 +86,15 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 
 		return result;
 	}
-
+	
 	private int findPoints(int i, int j, BufferedImage b, Component component){
 
 		int w = b.getWidth();
 		int h = b.getHeight();
-
+		
 		if(mask[i][j]){
 			return 0;
-		}else if (i==1||i==w-1||j==1||j==h-1){
+		}else if (i==border||i==w-border||j==border||j==h-border){
 			mask[i][j] = true;
 			return 0;
 		}
@@ -143,6 +156,15 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 			findPoints(i, j, b, component);
 		}
 
+	}
+	
+
+	public int getPoints() {
+		return points;
+	}
+	
+	public double getDistance() {
+		return distance;
 	}
 
 }
