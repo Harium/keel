@@ -11,26 +11,25 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Ponto2D;
-import br.com.etyllica.motion.custom.wand.BorderFilter;
+import br.com.etyllica.motion.custom.face.SkinBorderFilter;
 import br.com.etyllica.motion.custom.wand.MagicWandConvexFilter;
 import br.com.etyllica.motion.features.Component;
 
-public class MagicWandStatic extends Application{
+public class FaceAsWandStatic extends Application{
 	
 	FakeCamera cam = new FakeCamera();
 	
-	private BorderFilter cornerFilter = new BorderFilter(0, 0);
+	private SkinBorderFilter cornerFilter = new SkinBorderFilter(0, 0);
 	
-	//private MagicWandBoxFilter filter = new MagicWandBoxFilter(0, 0);
 	private MagicWandConvexFilter filter = new MagicWandConvexFilter(0, 0);
 
 	private boolean hide = false;
 	private boolean pixels = true;
 
-	private int xOffset = 40;
-	private int yOffset = 40;
+	private int xOffset = 0;
+	private int yOffset = 0;
 
-	private final int IMAGES_TO_LOAD = 4;	
+	private final int IMAGES_TO_LOAD = 50;	
 
 	private Component box;
 	
@@ -38,7 +37,7 @@ public class MagicWandStatic extends Application{
 
 	private Component feature;
 		
-	public MagicWandStatic(int w, int h) {
+	public FaceAsWandStatic(int w, int h) {
 		super(w, h);
 	}
 	
@@ -47,10 +46,13 @@ public class MagicWandStatic extends Application{
 		
 		loadingPhrase = "Loading Images";
 
-		for(int i=0;i<IMAGES_TO_LOAD;i++){
-			cam.addImage("wand/wand"+Integer.toString(i)+".png");
+		for(int i=1;i<IMAGES_TO_LOAD;i++){
+			//cam.addImage("wand/wand"+Integer.toString(i)+".png");
+			cam.addImage("skin/skin"+Integer.toString(i)+".jpg");
 		}
 
+		cornerFilter.setColor(Color.BLACK.getRGB());
+		
 		loadingPhrase = "Configuring Filter";
 		filter.setWandColor(Color.BLACK);
 		filter.setTolerance(0);
@@ -118,7 +120,9 @@ public class MagicWandStatic extends Application{
 			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
 		}
 
-		drawBox(g, box);
+		if(box.getPoints().size()>3){
+			drawBox(g, box);
+		}
 		
 		g.drawString("Angle = "+angle, 50, 30);
 

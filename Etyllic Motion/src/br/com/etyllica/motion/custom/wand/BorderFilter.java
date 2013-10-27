@@ -1,5 +1,6 @@
 package br.com.etyllica.motion.custom.wand;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,13 +9,13 @@ import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.features.Cross;
 import br.com.etyllica.motion.filter.ElasticFilter;
 
-public class FindCornersFilter extends ElasticFilter {
+public class BorderFilter extends ElasticFilter {
 
-	private double angle = 0;
+	private int color = Color.BLACK.getRGB();
 	
 	private Cross cross = new Cross();
 	
-	public FindCornersFilter(int w, int h) {
+	public BorderFilter(int w, int h) {
 		super(w, h);
 	}
 
@@ -159,7 +160,8 @@ public class FindCornersFilter extends ElasticFilter {
 
 	@Override
 	public boolean validateColor(int rgb) {
-		return isBlack(rgb);
+		//return isColor(rgb, this.color);
+		return isSkin(rgb);
 	}
 
 	@Override
@@ -168,8 +170,12 @@ public class FindCornersFilter extends ElasticFilter {
 		return false;
 	}
 
-	public double getAngle() {
-		return angle;
+	public int getColor() {
+		return color;
 	}
+
+	public void setColor(int color) {
+		this.color = color;
+	}	
 		
 }
