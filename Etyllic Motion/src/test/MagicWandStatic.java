@@ -30,7 +30,7 @@ public class MagicWandStatic extends Application{
 	private int xOffset = 40;
 	private int yOffset = 40;
 
-	private final int IMAGES_TO_LOAD = 4;	
+	private final int IMAGES_TO_LOAD = 5;	
 
 	private Component box;
 
