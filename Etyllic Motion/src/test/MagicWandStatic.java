@@ -16,11 +16,11 @@ import br.com.etyllica.motion.custom.wand.MagicWandConvexFilter;
 import br.com.etyllica.motion.features.Component;
 
 public class MagicWandStatic extends Application{
-	
+
 	FakeCamera cam = new FakeCamera();
-	
+
 	private BorderFilter cornerFilter = new BorderFilter(0, 0);
-	
+
 	//private MagicWandBoxFilter filter = new MagicWandBoxFilter(0, 0);
 	private MagicWandConvexFilter filter = new MagicWandConvexFilter(0, 0);
 
@@ -33,18 +33,18 @@ public class MagicWandStatic extends Application{
 	private final int IMAGES_TO_LOAD = 4;	
 
 	private Component box;
-	
+
 	private double angle = 0;
 
 	private Component feature;
-		
+
 	public MagicWandStatic(int w, int h) {
 		super(w, h);
 	}
-	
+
 	@Override
 	public void load() {
-		
+
 		loadingPhrase = "Loading Images";
 
 		for(int i=0;i<IMAGES_TO_LOAD;i++){
@@ -53,8 +53,8 @@ public class MagicWandStatic extends Application{
 
 		loadingPhrase = "Configuring Filter";
 		filter.setWandColor(Color.BLACK);
-		filter.setTolerance(0);
-		
+		filter.setTolerance(140);
+
 		reset(cam.getBufferedImage());
 
 		loading = 100;
@@ -68,12 +68,12 @@ public class MagicWandStatic extends Application{
 		filter.setH(h);
 
 		feature = cornerFilter.filter(b, new Component(w, h)).get(0);
-		
+
 		List<Component> result = filter.filter(b, feature);
-				
+
 		box = result.get(0);
-		
-		
+
+
 		angle = filter.getAngle();
 	}
 
@@ -82,7 +82,7 @@ public class MagicWandStatic extends Application{
 		// TODO Auto-generated method stub
 		return GUIEvent.NONE;
 	}
-	
+
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
@@ -90,7 +90,7 @@ public class MagicWandStatic extends Application{
 			cam.nextFrame();
 			reset(cam.getBufferedImage());
 		}
-		
+
 		else if(event.isKeyDown(KeyEvent.TSK_SETA_ESQUERDA)){
 			cam.previousFrame();
 			reset(cam.getBufferedImage());
@@ -106,36 +106,39 @@ public class MagicWandStatic extends Application{
 
 		return GUIEvent.NONE;
 	}
-	
+
 	@Override
 	public void draw(Graphic g) {
-		
+
 		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
 
 		g.setColor(Color.BLUE);
 
-		for(Ponto2D ponto: feature.getPoints()){
-			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
-		}
+		if(feature.getPoints().size()>3){
+			for(Ponto2D ponto: feature.getPoints()){
+				g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
+			}
 
-		drawBox(g, box);
-		
-		g.drawString("Angle = "+angle, 50, 30);
+			drawBox(g, box);
+
+			g.drawString("Angle = "+angle, 50, 30);
+
+		}
 
 	}
 
 	private void drawBox(Graphic g, Component box){
-		
+
 		g.setColor(Color.RED);
-		
+
 		Ponto2D a = box.getPoints().get(0);
 		Ponto2D b = box.getPoints().get(1);
 		Ponto2D c = box.getPoints().get(2);
 		Ponto2D d = box.getPoints().get(3);
-		
+
 		Ponto2D ac = new Ponto2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
 		Ponto2D ab = new Ponto2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
-		
+
 		Ponto2D bd = new Ponto2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
 		Ponto2D cd = new Ponto2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
 
@@ -154,13 +157,13 @@ public class MagicWandStatic extends Application{
 		drawLine(g, ab, cd);
 		drawPoint(g, ab);
 		drawPoint(g, cd);
-		
+
 		g.setColor(Color.GREEN);
 		drawLine(g, ac, bd);
-		
+
 		drawPoint(g, ac);
 		drawPoint(g, bd);
-		
+
 
 		g.setColor(Color.BLACK);
 		g.drawString("A", xOffset+(int)a.getX()-20, yOffset+(int)a.getY()-10);

@@ -46,10 +46,11 @@ public class FaceAsWandStatic extends Application{
 		
 		loadingPhrase = "Loading Images";
 
-		for(int i=1;i<IMAGES_TO_LOAD;i++){
+		for(int i=1;i<=IMAGES_TO_LOAD;i++){
 			//cam.addImage("wand/wand"+Integer.toString(i)+".png");
 			cam.addImage("skin/skin"+Integer.toString(i)+".jpg");
 		}
+		
 
 		cornerFilter.setColor(Color.BLACK.getRGB());
 		
@@ -112,14 +113,27 @@ public class FaceAsWandStatic extends Application{
 	@Override
 	public void draw(Graphic g) {
 		
-		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
+		if(!hide){
+			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
+		}
 
 		g.setColor(Color.BLUE);
 
+		int px = 0;
+		int py = 0;
+		int pn = feature.getPoints().size();
+		
 		for(Ponto2D ponto: feature.getPoints()){
+			
+			px += (int)ponto.getX();
+			py += (int)ponto.getY();
+			
 			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
 		}
-
+		
+		g.setColor(Color.PINK);
+		g.fillCircle(px/pn, py/pn, 10);
+		
 		if(box.getPoints().size()>3){
 			drawBox(g, box);
 		}

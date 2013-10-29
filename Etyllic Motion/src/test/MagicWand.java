@@ -12,15 +12,18 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Ponto2D;
-import br.com.etyllica.motion.custom.wand.MagicWandBoxFilter;
+import br.com.etyllica.motion.custom.wand.DegenarateBoxFilter;
 import br.com.etyllica.motion.custom.wand.model.Wand;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.simple.ColorFilter;
 
 public class MagicWand extends Application{
 
 	private CameraV4L4J cam;
 	
-	private MagicWandBoxFilter filter;
+	private ColorFilter colorFilter = new ColorFilter();
+	
+	private DegenarateBoxFilter filter;
 	//private BlackWandFilter filter;
 
 	private boolean hide = false;
@@ -41,11 +44,11 @@ public class MagicWand extends Application{
 		cam = new CameraV4L4J(0);
 				
 		loadingPhrase = "Setting Filter";
-		//filter = new BlackWandFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
-		filter = new MagicWandBoxFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+				
+		colorFilter.setColor(new Color(0x25,0x27,0x60).getRGB());
+		colorFilter.setTolerance(20);
 		
-		filter.setWandColor(new Color(0,0,0));
-		filter.setTolerance(20);
+		filter = new DegenarateBoxFilter();		
 
 		loading = 100;
 	}
@@ -59,10 +62,12 @@ public class MagicWand extends Application{
 		int w = b.getWidth();
 		int h = b.getHeight();
 
-		filter.setW(w);
-		filter.setH(h);
+		Component feature = colorFilter.filter(b, new Component(w, h));
 		
-		result = filter.filter(b, new Component(w, h));
+		List<Component> components = new ArrayList<Component>();
+		components.add(feature);
+		
+		result = filter.filter(b, components);
 		
 		features.clear();
 		

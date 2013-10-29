@@ -12,7 +12,7 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 	protected double distance = 0;
 	
 	protected int points = 0;
-		
+			
 	public MagicWandBoxFilter(int w, int h) {
 		super(w, h);
 		

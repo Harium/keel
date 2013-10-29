@@ -4,6 +4,7 @@ package br.com.etyllica.motion.filter;
 public abstract class FilterImpl implements Filter{
 
 	protected int step = 1;
+	
 	protected int border = 0;
 
 	public boolean isSkin(int rgb){
@@ -46,10 +47,14 @@ public abstract class FilterImpl implements Filter{
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
 		int b = getBlue(rgb);
+		
+		int cr = getRed(color);
+		int cg = getGreen(color);
+		int cb = getBlue(color);
 
-		if((r>=getRed(color)-tolerance)&&(r<=getRed(color)+tolerance)&&
-			(g>=getGreen(color)-tolerance)&&(g<=getGreen(color)+tolerance)&&
-			(b>=getBlue(color)-tolerance)&&(b<=getBlue(color)+tolerance)){
+		if((r>=cr-tolerance)&&(r<=cr+tolerance)&&
+			(g>=cg-tolerance)&&(g<=cg+tolerance)&&
+			(b>=cb-tolerance)&&(b<=cb+tolerance)){
 			return true;
 		}
 		return false;

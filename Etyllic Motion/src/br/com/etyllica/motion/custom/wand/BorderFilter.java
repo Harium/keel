@@ -160,14 +160,13 @@ public class BorderFilter extends ElasticFilter {
 
 	@Override
 	public boolean validateColor(int rgb) {
-		//return isColor(rgb, this.color);
-		return isSkin(rgb);
+		return isColor(rgb, this.color, 0x40);
 	}
 
 	@Override
 	public boolean validateComponent(Component component) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	public int getColor() {
