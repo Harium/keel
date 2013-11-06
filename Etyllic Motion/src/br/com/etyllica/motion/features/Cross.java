@@ -1,5 +1,7 @@
 package br.com.etyllica.motion.features;
 
+import javax.sound.sampled.BooleanControl;
+
 
 public class Cross {
 
@@ -89,5 +91,5 @@ public class Cross {
 	public void setLowerRight(int lowerRight) {
 		this.lowerRight = lowerRight;
 	}
-				
+	
 }

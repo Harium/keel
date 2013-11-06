@@ -27,12 +27,6 @@ public class MagicWandConvexFilter extends ElasticFilter {
 				
 		List<Component> result = new ArrayList<Component>();
 
-		if(component.getPoints().size()<4){
-			result.add(component);
-						
-			return result;
-		}
-		
 		Component box = turnIntoBox(component);
 		
 		Ponto2D a = box.getPoints().get(0);

@@ -30,7 +30,7 @@ public class MagicWandStatic extends Application{
 	private int xOffset = 40;
 	private int yOffset = 40;
 
-	private final int IMAGES_TO_LOAD = 5;	
+	private final int IMAGES_TO_LOAD = 6;	
 
 	private Component box;
 
@@ -44,19 +44,22 @@ public class MagicWandStatic extends Application{
 
 	@Override
 	public void load() {
-
+		
 		loadingPhrase = "Loading Images";
 
 		for(int i=0;i<IMAGES_TO_LOAD;i++){
-			cam.addImage("wand/wand"+Integer.toString(i)+".png");
+			cam.addImage("/wand/wand"+Integer.toString(i)+".png");
 		}
-
+		
+		loading = 25;
 		loadingPhrase = "Configuring Filter";
 		filter.setWandColor(Color.BLACK);
+		
+		loading = 30;
 		filter.setTolerance(140);
 
 		reset(cam.getBufferedImage());
-
+		
 		loading = 100;
 	}
 
@@ -66,14 +69,22 @@ public class MagicWandStatic extends Application{
 
 		filter.setW(w);
 		filter.setH(h);
-
+		
+		loading = 60;
+		loadingPhrase = "Start Filter";
 		feature = cornerFilter.filter(b, new Component(w, h)).get(0);
 
+		loading = 65;
+		loadingPhrase = "Show Result";
+		System.out.println("here");
 		List<Component> result = filter.filter(b, feature);
-
+		
+		System.out.println("here?");
 		box = result.get(0);
+		//box = feature;
 
-
+		loading = 70;
+		loadingPhrase = "Show Angle";
 		angle = filter.getAngle();
 	}
 
