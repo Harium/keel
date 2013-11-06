@@ -71,7 +71,7 @@ public class BorderFilter extends ElasticFilter {
 		cross.setUpperLeft(b.getRGB(i-step, j-step));
 		
 		cross.setLowerRight(b.getRGB(i+step, j+step));
-		cross.setUpperRight(b.getRGB(i+step, j-step));		
+		cross.setUpperRight(b.getRGB(i+step, j-step));
 		
 	}
 			
@@ -93,7 +93,16 @@ public class BorderFilter extends ElasticFilter {
 			return true;
 		}else if(diagonalDownCorner(cross)){
 			return true;
-		}else if(leftValleyCorner(cross)){
+		}
+		
+		//Hard Alias 
+		else if(upHardCorner(cross)){
+			return true;
+		}else if(downHardCorner(cross)){
+			return true;
+		}else if(leftHardCorner(cross)){
+			return true;
+		}else if(rightHardCorner(cross)){
 			return true;
 		}
 		
@@ -101,54 +110,59 @@ public class BorderFilter extends ElasticFilter {
 	}
 		
 	private boolean leftUpperCorner(Cross cross){
-		boolean result = validateCross(cross, false, false, false, false, true, true, false, true, true)||
-				validateCross(cross, false, false, false, false, true, true, false, true, false);
+		boolean result = validateCross(cross, "FFF FTT FT.");
 		
 		return result;
 	}
 
 	private boolean rightUpperCorner(Cross cross){				
-		boolean result = validateCross(cross, false, false, false, true, true, false, true, true, false)||
-				validateCross(cross, false, false, false, true, true, false, false, true, false);
+		boolean result = validateCross(cross, "FFF TTF .TF");
 		
 		return result;
 	}
 	
 	private boolean leftLowerCorner(Cross cross){
-		boolean result = validateCross(cross, false, true, true, false, true, true, false, false, false)||
-				validateCross(cross, false, true, false, false, true, true, false, false, false);
+				
+		boolean result = validateCross(cross, "FT. FTT FFF");
 		
 		return result;
 	}
 
-	private boolean rightLowerCorner(Cross cross){		
-		boolean result = validateCross(cross, true, true, false, true, true, false, false, false, false)||
-				validateCross(cross, false, true, false, true, true, false, false, false, false);
+	private boolean rightLowerCorner(Cross cross){
+		boolean result = validateCross(cross, ".TF TTF FFF");
 		return result;
 	}
 	
 	private boolean diagonalUpCorner(Cross cross){
-		return validateCross(cross, false, false, false, false, true, false, true, true, true);
+		return validateCross(cross, "FFF FTF TTT");
 	}
 	
 	private boolean diagonalLeftCorner(Cross cross){
-		return validateCross(cross, false, false, true, false, true, true, false, false, true);
+		return validateCross(cross, "FFT FTT FFT");
 	}
 	
 	private boolean diagonalRightCorner(Cross cross){
-		return validateCross(cross, true, false, false, true, true, false, true, false, false);
+		return validateCross(cross, "TFF TTF TFF");
 	}
 	
 	private boolean diagonalDownCorner(Cross cross){
-		return validateCross(cross, true, true, true, false, true, false, false, false, false);
+		return validateCross(cross, "TTT FTF FFF");
+	}
+		
+	private boolean upHardCorner(Cross cross){
+		return validateCross(cross, "FFF FTT TTT");
 	}
 	
-	private boolean leftValleyCorner(Cross cross){
-		return validateCross(cross, true, true, true, true, false, false, true, true, false);
+	private boolean downHardCorner(Cross cross){
+		return validateCross(cross, "TTT TTF FFF");
 	}
 	
 	private boolean leftHardCorner(Cross cross){
-		return validateCross(cross, "FFT FTT TTF");
+		return validateCross(cross, "FFT FTT FFF");
+	}
+		
+	private boolean rightHardCorner(Cross cross){
+		return validateCross(cross, "TFF TTF TTF");
 	}
 	
 	public boolean validateCross(Cross cross, String pattern){
@@ -158,9 +172,8 @@ public class BorderFilter extends ElasticFilter {
 		return result;
 		
 	}
-			
 	
-	private boolean validateCross(Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight){
+	public boolean validateCross(Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight){
 		
 		boolean result = validateColor(cross.getUpperLeft())==upperLeft&&
 						 validateColor(cross.getUp())==up&&
@@ -170,7 +183,7 @@ public class BorderFilter extends ElasticFilter {
 				         validateColor(cross.getRight())==right&&
 				         validateColor(cross.getLowerLeft())==lowerLeft&&
 				         validateColor(cross.getDown())==down&&
-				         validateColor(cross.getLowerRight())==lowerRight;				         
+				         validateColor(cross.getLowerRight())==lowerRight;
 
 		return result;
 	}	

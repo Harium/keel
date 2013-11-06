@@ -76,10 +76,9 @@ public class MagicWandStatic extends Application{
 
 		loading = 65;
 		loadingPhrase = "Show Result";
-		System.out.println("here");
+		
 		List<Component> result = filter.filter(b, feature);
 		
-		System.out.println("here?");
 		box = result.get(0);
 		//box = feature;
 
@@ -125,14 +124,17 @@ public class MagicWandStatic extends Application{
 
 		g.setColor(Color.BLUE);
 
-		if(feature.getPoints().size()>3){
-			for(Ponto2D ponto: feature.getPoints()){
-				g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
-			}
+		for(Ponto2D ponto: feature.getPoints()){
+			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
+		}
+		
+		if(feature.getPoints().size()>3){			
 
 			drawBox(g, box);
 
-			g.drawString("Angle = "+angle, 50, 30);
+			g.drawString("Angle = "+angle, 50, 25);
+			
+			g.drawString("Points = "+feature.getPoints().size(), 50, 50);
 
 		}
 
