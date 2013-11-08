@@ -7,8 +7,10 @@ It uses v4l4j to capture webcam stream.
 
 (If you get jni.h not found error, set the JAVA_HOME)
 
+In Fedora:
+
 ```
-export JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk.x86_64
+export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk.x86_64
 ```
 
 Examples with Box:
