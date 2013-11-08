@@ -1,5 +1,6 @@
 
 
+import test.BarCode;
 import test.FaceSampledStatic;
 import test.HollowTest;
 import test.MagicWand;
@@ -31,7 +32,9 @@ public class EtyllicMotion extends Etyllica{
 		
 		
 		//setMainApplication(new MagicWand(w,h));
-		setMainApplication(new MagicWandStatic(w,h));
+		//setMainApplication(new MagicWandStatic(w,h));
+		
+		setMainApplication(new BarCode(w,h));
 		
 		//setMainApplication(new CaptchaCleaner(w,h));
 		

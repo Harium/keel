@@ -17,7 +17,7 @@ public class BlackWandFilter extends MagicWandBoxFilter {
 	@Override
 	public boolean validateComponent(Component component) {
 		
-		return true;
+		return component.getPoints().size()>=4;
 	}
 	
 	private boolean isGrey(int rgb, int tolerance){

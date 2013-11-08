@@ -11,18 +11,14 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Ponto2D;
-import br.com.etyllica.motion.custom.wand.BorderFilter;
-import br.com.etyllica.motion.custom.wand.MagicWandConvexFilter;
+import br.com.etyllica.motion.custom.barcode.BarCodeFilter;
 import br.com.etyllica.motion.features.Component;
 
-public class MagicWandStatic extends Application{
+public class BarCode extends Application{
 
 	FakeCamera cam = new FakeCamera();
 
-	private BorderFilter cornerFilter = new BorderFilter(0, 0);
-
-	//private MagicWandBoxFilter filter = new MagicWandBoxFilter(0, 0);
-	private MagicWandConvexFilter filter = new MagicWandConvexFilter(0, 0);
+	private BarCodeFilter filter = new BarCodeFilter(w, h);
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -30,38 +26,33 @@ public class MagicWandStatic extends Application{
 	private int xOffset = 40;
 	private int yOffset = 40;
 
-	private final int IMAGES_TO_LOAD = 7;	
+	private List<Component> result;
 
-	private Component box;
-
-	private double angle = 0;
-
-	private Component feature;
-
-	public MagicWandStatic(int w, int h) {
+	public BarCode(int w, int h) {
 		super(w, h);
 	}
 
 	@Override
 	public void load() {
-		
+
+		filter.setBorder(2);
+
 		loadingPhrase = "Loading Images";
 
-		for(int i=0;i<IMAGES_TO_LOAD;i++){
-			cam.addImage("/wand/wand"+Integer.toString(i)+".png");
-		}
-		
+		cam.addImage("/bars/bar.png");
+
 		loading = 25;
 		loadingPhrase = "Configuring Filter";
 		filter.setWandColor(Color.BLACK);
-		
+
 		loading = 30;
 		filter.setTolerance(140);
 
 		filter.setW(cam.getBufferedImage().getWidth());
 		filter.setH(cam.getBufferedImage().getHeight());
+
 		reset(cam.getBufferedImage());
-		
+
 		loading = 100;
 	}
 
@@ -71,22 +62,15 @@ public class MagicWandStatic extends Application{
 
 		filter.setW(w);
 		filter.setH(h);
-		
-		loading = 60;
-		loadingPhrase = "Start Filter";
-		feature = cornerFilter.filter(b, new Component(w, h)).get(0);
 
 		loading = 65;
 		loadingPhrase = "Show Result";
-		
-		List<Component> result = filter.filter(b, feature);
-		
-		box = result.get(0);
-		//box = feature;
+
+		result = filter.filter(b, new Component(w, h));
 
 		loading = 70;
 		loadingPhrase = "Show Angle";
-		angle = filter.getAngle();
+		
 	}
 
 	@Override
@@ -123,26 +107,21 @@ public class MagicWandStatic extends Application{
 	public void draw(Graphic g) {
 
 		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
-
-		g.setColor(Color.BLUE);
-
-		for(Ponto2D ponto: feature.getPoints()){
-			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
-		}
 		
-		if(feature.getPoints().size()>3){			
+		g.drawImage(cam.getBufferedImage(), xOffset, yOffset+200);
 
-			drawBox(g, box);
+		int offset = 1;
+		for(Component feature: result){
 
-			g.drawString("Angle = "+angle, 50, 25);
+			drawBox(g, feature, offset%2*20);
 			
-			g.drawString("Points = "+feature.getPoints().size(), 50, 50);
+			offset++;
 
 		}
 
 	}
 
-	private void drawBox(Graphic g, Component box){
+	private void drawBox(Graphic g, Component box, int downOffset){
 
 		g.setColor(Color.RED);
 
@@ -179,13 +158,9 @@ public class MagicWandStatic extends Application{
 		drawPoint(g, ac);
 		drawPoint(g, bd);
 
-
 		g.setColor(Color.BLACK);
-		g.drawString("A", xOffset+(int)a.getX()-20, yOffset+(int)a.getY()-10);
-		g.drawString("B", xOffset+(int)b.getX()+15, yOffset+(int)b.getY()-10);
 
-		g.drawString("C", xOffset+(int)c.getX()-20, yOffset+(int)c.getY()+10);
-		g.drawString("D", xOffset+(int)d.getX()+15, yOffset+(int)d.getY()+10);
+		g.drawString(Integer.toString((int)(d.getX()-a.getX())), xOffset+(int)d.getX()-12, yOffset+(int)d.getY()+20+downOffset);
 
 	}
 
@@ -196,6 +171,5 @@ public class MagicWandStatic extends Application{
 	private void drawPoint(Graphic g, Ponto2D point){
 		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
 	}
-
 
 }

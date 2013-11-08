@@ -16,9 +16,7 @@ public class MagicWandConvexFilter extends ElasticFilter {
 	protected Color wandColor = Color.BLACK;
 	
 	protected int tolerance = 0x49;
-	
-	protected int border = 1;
-	
+		
 	public MagicWandConvexFilter(int w, int h) {
 		super(w, h);
 	}

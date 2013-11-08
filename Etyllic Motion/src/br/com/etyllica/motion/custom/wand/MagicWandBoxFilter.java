@@ -74,7 +74,7 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 							distance = a.distance(c);
 						}
 												
-						result.add(box);						
+						result.add(box);				
 
 					}
 
@@ -87,7 +87,7 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 		return result;
 	}
 	
-	private int findPoints(int i, int j, BufferedImage b, Component component){
+	protected int findPoints(int i, int j, BufferedImage b, Component component){
 
 		int w = b.getWidth();
 		int h = b.getHeight();
@@ -141,7 +141,7 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 
 	}
 
-	private void findOtherPoints(int i, int j, int offsetX, int offsetY, BufferedImage b, Component component){
+	protected void findOtherPoints(int i, int j, int offsetX, int offsetY, BufferedImage b, Component component){
 
 		if(mask[i][j]){
 			return;
