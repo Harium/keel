@@ -29,12 +29,13 @@ public class EtyllicMotion extends Etyllica{
 		
 		//setMainApplication(new FaceApplication(w,h));
 		//setMainApplication(new SkinTest(w,h));
-		setMainApplication(new FaceSampledStatic(w,h));
+		//setMainApplication(new FaceSampledStatic(w,h));
 		//setMainApplication(new FaceSampledReal(w,h));
 		
 		
 		//setMainApplication(new MagicWand(w,h));
-		//setMainApplication(new MagicWandStatic(w,h));
+		
+		setMainApplication(new MagicWandStatic(w,h));
 		
 		//setMainApplication(new BarCode(w,h));
 		

@@ -12,11 +12,7 @@ import br.com.etyllica.motion.filter.ElasticFilter;
 public class BorderFilter extends ElasticFilter {
 
 	protected int tolerance = 0x40;
-	
-	protected int step = 1;
-	
-	protected int border = 1;
-	
+			
 	private int color = Color.BLACK.getRGB();
 	
 	private Cross cross = new Cross();
@@ -36,8 +32,6 @@ public class BorderFilter extends ElasticFilter {
 				
 		int i,j;
 		
-		border = step;
-
 		for(j=border;j<h-border;j+=step){
 
 			for(i=border;i<w-border;i+=step){
@@ -113,20 +107,20 @@ public class BorderFilter extends ElasticFilter {
 		
 	private boolean leftUpperCorner(Cross cross){
 		boolean result = validateCross(cross, "FFF FTT FT(T|F)");
-		
+
 		return result;
 	}
 
-	private boolean rightUpperCorner(Cross cross){				
+	private boolean rightUpperCorner(Cross cross){                                
 		boolean result = validateCross(cross, "FFF TTF (T|F)TF");
-		
+
 		return result;
 	}
-	
+
 	private boolean leftLowerCorner(Cross cross){
-				
+
 		boolean result = validateCross(cross, "FT(T|F) FTT FFF");
-		
+
 		return result;
 	}
 
@@ -199,22 +193,6 @@ public class BorderFilter extends ElasticFilter {
 	public boolean validateComponent(Component component) {
 		// TODO Auto-generated method stub
 		return true;
-	}
-
-	public int getStep() {
-		return step;
-	}
-
-	public void setStep(int step) {
-		this.step = step;
-	}
-
-	public int getBorder() {
-		return border;
-	}
-
-	public void setBorder(int border) {
-		this.border = border;
 	}
 
 	public int getColor() {
