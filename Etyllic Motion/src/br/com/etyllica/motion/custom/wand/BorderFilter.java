@@ -11,7 +11,9 @@ import br.com.etyllica.motion.filter.ElasticFilter;
 
 public class BorderFilter extends ElasticFilter {
 
-	private int step = 1;
+	protected int tolerance = 0x40;
+	
+	protected int step = 1;
 	
 	protected int border = 1;
 	
@@ -110,26 +112,26 @@ public class BorderFilter extends ElasticFilter {
 	}
 		
 	private boolean leftUpperCorner(Cross cross){
-		boolean result = validateCross(cross, "FFF FTT FT.");
+		boolean result = validateCross(cross, "FFF FTT FT(T|F)");
 		
 		return result;
 	}
 
 	private boolean rightUpperCorner(Cross cross){				
-		boolean result = validateCross(cross, "FFF TTF .TF");
+		boolean result = validateCross(cross, "FFF TTF (T|F)TF");
 		
 		return result;
 	}
 	
 	private boolean leftLowerCorner(Cross cross){
 				
-		boolean result = validateCross(cross, "FT. FTT FFF");
+		boolean result = validateCross(cross, "FT(T|F) FTT FFF");
 		
 		return result;
 	}
 
 	private boolean rightLowerCorner(Cross cross){
-		boolean result = validateCross(cross, ".TF TTF FFF");
+		boolean result = validateCross(cross, "(T|F)TF TTF FFF");
 		return result;
 	}
 	
@@ -190,7 +192,7 @@ public class BorderFilter extends ElasticFilter {
 
 	@Override
 	public boolean validateColor(int rgb) {
-		return isColor(rgb, this.color, 0x40);
+		return isColor(rgb, this.color, this.tolerance);		
 	}
 	
 	@Override
@@ -226,7 +228,15 @@ public class BorderFilter extends ElasticFilter {
 	public void setColor(Color color) {
 		this.color = color.getRGB();
 	}
-	
+		
+	public int getTolerance() {
+		return tolerance;
+	}
+
+	public void setTolerance(int tolerance) {
+		this.tolerance = tolerance;
+	}
+
 	public String getCrossString(Cross cross){
 
 		StringBuilder builder = new StringBuilder();

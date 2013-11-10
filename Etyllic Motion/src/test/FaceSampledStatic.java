@@ -57,8 +57,9 @@ public class FaceSampledStatic extends Application{
 		}		
 
 		colorFilter.setColor(Color.BLACK.getRGB());
-		colorFilter.setBorder(2);
-		colorFilter.setStep(2);
+		colorFilter.setTolerance(0x50);
+		colorFilter.setBorder(4);
+		colorFilter.setStep(4);
 
 		loadingPhrase = "Configuring Filter";
 		filter.setWandColor(Color.BLACK);
