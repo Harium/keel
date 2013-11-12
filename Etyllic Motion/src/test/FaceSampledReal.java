@@ -13,6 +13,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.motion.custom.polygon.NoiseQuickHullFilter;
 import br.com.etyllica.motion.custom.polygon.QuickHullFilter;
 import br.com.etyllica.motion.custom.wand.BorderFilter;
 import br.com.etyllica.motion.custom.wand.MagicWandConvexFilter;
@@ -26,7 +27,7 @@ public class FaceSampledReal extends Application{
 
 	private MagicWandConvexFilter filter = new MagicWandConvexFilter(0, 0);
 	
-	private QuickHullFilter quickFilter = new QuickHullFilter(w, h);
+	private NoiseQuickHullFilter quickFilter = new NoiseQuickHullFilter(w, h);
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -164,7 +165,7 @@ public class FaceSampledReal extends Application{
 		reset(cam.getBufferedImage());
 
 		g.setAlpha(60);
-		drawFeaturedPoints(g, sampledFeature, Color.GREEN);
+		//drawFeaturedPoints(g, sampledFeature, Color.GREEN);
 		g.setAlpha(100);
 
 		g.setColor(Color.GREEN);

@@ -11,7 +11,7 @@ import br.com.etyllica.motion.filter.ElasticFilter;
 
 public class QuickHullFilter extends ElasticFilter{
 
-	private Polygon polygon = new Polygon();
+	protected Polygon polygon = new Polygon();
 	
 	public QuickHullFilter(int w, int h) {
 		super(w, h);

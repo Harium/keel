@@ -32,9 +32,9 @@ public class BorderFilter extends ElasticFilter {
 				
 		int i,j;
 		
-		for(j=border;j<h-border;j+=step){
+		for(j=border;j<h-border*2;j+=step){
 
-			for(i=border;i<w-border;i+=step){
+			for(i=border;i<w-border*2;i+=step){
 
 				if(validateColor(bimg.getRGB(i, j))){
 					
