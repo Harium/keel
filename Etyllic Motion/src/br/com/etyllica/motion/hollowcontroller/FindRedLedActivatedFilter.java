@@ -4,9 +4,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.etyllica.motion.core.ComponentFilter;
+import br.com.etyllica.motion.core.Filter;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.ComponentFilter;
-import br.com.etyllica.motion.filter.Filter;
 
 public class FindRedLedActivatedFilter extends ComponentFilter implements Filter{
 

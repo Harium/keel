@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.motion.core.BooleanMaskFilter;
+import br.com.etyllica.motion.core.Filter;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.BooleanMaskFilter;
-import br.com.etyllica.motion.filter.Filter;
 
 public class FindRedLedFilter extends BooleanMaskFilter implements Filter{
 

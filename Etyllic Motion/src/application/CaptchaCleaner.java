@@ -16,7 +16,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.Layer;
-import br.com.etyllica.motion.custom.wand.MagicWandBoxFilter;
+import br.com.etyllica.motion.filter.wand.MagicWandBoxFilter;
 
 public class CaptchaCleaner extends Application{
 

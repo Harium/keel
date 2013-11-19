@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.etyllica.motion.core.FilterImpl;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.FilterImpl;
 
 public class FilterImplTest {
 	

@@ -1,7 +1,5 @@
 package br.com.etyllica.motion.features;
 
-import javax.sound.sampled.BooleanControl;
-
 
 public class Cross {
 
