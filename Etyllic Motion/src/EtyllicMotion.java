@@ -4,6 +4,7 @@ import application.CaptchaCleaner;
 import application.FaceApplication;
 import application.HollowController;
 import br.com.etyllica.Etyllica;
+import br.com.etyllica.examples.AirWrite;
 import br.com.etyllica.examples.BarCode;
 import br.com.etyllica.examples.FaceSampledReal;
 import br.com.etyllica.examples.FaceSampledStatic;
@@ -23,6 +24,8 @@ public class EtyllicMotion extends Etyllica{
 	@Override
 	public void startGame() {
 		
+		setMainApplication(new AirWrite(w,h));
+		
 		//setMainApplication(new HollowController(w,h));
 		//setMainApplication(new HollowTest(w,h));
 		
@@ -34,7 +37,7 @@ public class EtyllicMotion extends Etyllica{
 		
 		//setMainApplication(new MagicWand(w,h));
 		
-		setMainApplication(new MagicWandStatic(w,h));
+		//setMainApplication(new MagicWandStatic(w,h));
 		
 		//setMainApplication(new BarCode(w,h));
 		

@@ -15,6 +15,8 @@ public class CameraV4L4J implements CaptureCallback, Camera {
 
 	/** WebCam - v4l4j*/
 
+	private BufferedImage buffer;
+	
 	private int width = 640;
 	private int height = 480;
 	private int std = V4L4JConstants.STANDARD_WEBCAM;
@@ -44,6 +46,7 @@ public class CameraV4L4J implements CaptureCallback, Camera {
 	}
 
 	private void initFrameGrabber() throws V4L4JException{
+		
 		videoDevice = new VideoDevice(device);
 		frameGrabber = videoDevice.getJPEGFrameGrabber(width, height, channel, std, 80);
 		frameGrabber.setCaptureCallback(this);
@@ -87,13 +90,12 @@ public class CameraV4L4J implements CaptureCallback, Camera {
 	public void exceptionReceived(V4L4JException e) {
 		e.printStackTrace();
 	}
-
-	BufferedImage buffer;
 	
 	@Override
 	public void nextFrame(VideoFrame frame) {
-		//buffer = new BufferedImage(640,480,BufferedImage.TYPE_INT_RGB); 
+ 
 		buffer = frame.getBufferedImage();
+		
 		frame.recycle();
 	}
 	

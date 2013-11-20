@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
 
 public class NoiseQuickHullFilter extends QuickHullFilter{
@@ -25,17 +25,17 @@ public class NoiseQuickHullFilter extends QuickHullFilter{
 		
 		Component poly = new Component(w, h);
 		
-		List<Ponto2D> points = component.getPoints();
+		List<Point2D> points = component.getPoints();
 		
-		List<Ponto2D> cleanPoints = new ArrayList<Ponto2D>();
+		List<Point2D> cleanPoints = new ArrayList<Point2D>();
 		
 		for(int i=0;i<points.size()-1;i++){
 			
-			Ponto2D point = points.get(i);
+			Point2D point = points.get(i);
 			
 			for(int j=i+1;j<points.size();j++){
 				
-				Ponto2D pointJ = points.get(j);
+				Point2D pointJ = points.get(j);
 				
 				if(insideCircle(point.getX(), point.getY(), radius, pointJ.getX(), pointJ.getY())){
 					cleanPoints.add(pointJ);
@@ -46,7 +46,7 @@ public class NoiseQuickHullFilter extends QuickHullFilter{
 			
 		}		
 				
-		for(Ponto2D ponto: quickHull(cleanPoints)){
+		for(Point2D ponto: quickHull(cleanPoints)){
 						
 			polygon.addPoint((int)ponto.getX(), (int)ponto.getY());
 			poly.add(ponto);

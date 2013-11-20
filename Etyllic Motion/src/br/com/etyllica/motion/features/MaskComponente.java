@@ -1,6 +1,6 @@
 package br.com.etyllica.motion.features;
 
-import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.linear.Point2D;
 
 public class MaskComponente extends Component{
 
@@ -28,7 +28,7 @@ public class MaskComponente extends Component{
 	}
 	
 	@Override
-	public void addLogic(Ponto2D p){
+	public void addLogic(Point2D p){
 		mask[(int)p.getX()][(int)p.getY()] = true;
 	}
 				

@@ -9,6 +9,12 @@ public abstract class FilterImpl implements Filter{
 
 	public boolean isSkin(int rgb){
 
+		return isSkin(rgb, 0);
+
+	}
+	
+	public boolean isSkin(int rgb, int tolerance){
+
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
 		int b = getBlue(rgb);
@@ -16,8 +22,8 @@ public abstract class FilterImpl implements Filter{
 		int x = r;
 		int y = b+(g-b);
 
-		int maxTolerance = 15;
-		int minTolerance = maxTolerance;
+		int maxTolerance = 15-tolerance/2;
+		int minTolerance = maxTolerance+tolerance/2;
 
 		int my=(8*x)/9-40/9;
 

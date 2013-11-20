@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.FilterImpl;
 import br.com.etyllica.motion.features.Component;
 
@@ -30,16 +30,16 @@ public class DegenarateBoxFilter extends FilterImpl {
 
 				Component box = turnIntoBox(component);
 
-				Ponto2D a = box.getPoints().get(0);
-				Ponto2D b = box.getPoints().get(1);
-				Ponto2D c = box.getPoints().get(2);
-				Ponto2D d = box.getPoints().get(3);
+				Point2D a = box.getPoints().get(0);
+				Point2D b = box.getPoints().get(1);
+				Point2D c = box.getPoints().get(2);
+				Point2D d = box.getPoints().get(3);
 
-				Ponto2D ac = new Ponto2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
+				Point2D ac = new Point2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
 
-				Ponto2D bd = new Ponto2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
+				Point2D bd = new Point2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
 
-				Ponto2D rect = new Ponto2D(bd.getX(),ac.getY());		
+				Point2D rect = new Point2D(bd.getX(),ac.getY());		
 				double dac = bd.distance(rect);
 				double hip = bd.distance(ac);
 
@@ -69,12 +69,12 @@ public class DegenarateBoxFilter extends FilterImpl {
 
 		//System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
 
-		Ponto2D a = component.getPoints().get(0); //Lower X
-		Ponto2D b = component.getPoints().get(0); //Lower equal Y
-		Ponto2D c = component.getPoints().get(0); //Higher Y
-		Ponto2D d = component.getPoints().get(0); //Higher equal X
+		Point2D a = component.getPoints().get(0); //Lower X
+		Point2D b = component.getPoints().get(0); //Lower equal Y
+		Point2D c = component.getPoints().get(0); //Higher Y
+		Point2D d = component.getPoints().get(0); //Higher equal X
 
-		for(Ponto2D point: component.getPoints()){
+		for(Point2D point: component.getPoints()){
 
 			if(point.getX()<a.getX()){
 				a = point;

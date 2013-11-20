@@ -12,7 +12,7 @@ import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
-import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
 import br.com.etyllica.motion.filter.wand.BorderFilter;
@@ -112,7 +112,7 @@ public class FaceSampledStatic extends Application{
 
 		List<Component> result = new ArrayList<Component>();
 
-		List<Ponto2D> points = new ArrayList<Ponto2D>(feature.getPoints());
+		List<Point2D> points = new ArrayList<Point2D>(feature.getPoints());
 
 		Component currentComponent = new Component(0, 0);		
 
@@ -120,7 +120,7 @@ public class FaceSampledStatic extends Application{
 
 		int p = 1;
 
-		Ponto2D pt = points.get(p);		
+		Point2D pt = points.get(p);		
 
 		final int radius = quickFilter.getRadius();
 
@@ -128,7 +128,7 @@ public class FaceSampledStatic extends Application{
 
 		for(int i=1;i<points.size();i++){
 
-			Ponto2D q = points.get(i);
+			Point2D q = points.get(i);
 
 			if(insideCircle((int)pt.getX(), (int)pt.getY(), radius, (int)q.getX(), (int)q.getY())){
 				currentComponent.add(q);
@@ -233,10 +233,12 @@ public class FaceSampledStatic extends Application{
 		int bx = 0;
 		int by = 0;
 		
+		int step = 2;
+		
 		 if(box!=null){
-			for(int j=box.getMenorY();j<box.getMenorY()+box.getH();j++){
+			for(int j=box.getMenorY();j<box.getMenorY()+box.getH();j+=step){
 
-				for(int i=box.getMenorX();i<box.getMenorX()+box.getW();i++){
+				for(int i=box.getMenorX();i<box.getMenorX()+box.getW();i+=step){
 					
 					int rgb = cam.getBufferedImage().getRGB(i, j);
 					
@@ -282,7 +284,7 @@ public class FaceSampledStatic extends Application{
 		int radius = quickFilter.getRadius();
 
 		if(!drawCleanedOnly){
-			for(Ponto2D ponto: feature.getPoints()){
+			for(Point2D ponto: feature.getPoints()){
 
 				g.setColor(color);
 				g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
@@ -293,12 +295,12 @@ public class FaceSampledStatic extends Application{
 			}
 		}
 
-		List<Ponto2D> cleanedPoints = cleanPoints(feature.getPoints());
+		List<Point2D> cleanedPoints = cleanPoints(feature.getPoints());
 		int pn = cleanedPoints.size();
 		double px = 0;
 		double py = 0;
 
-		for(Ponto2D point: cleanedPoints){
+		for(Point2D point: cleanedPoints){
 			g.setColor(Color.BLUE);
 			g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 5);
 
@@ -317,19 +319,19 @@ public class FaceSampledStatic extends Application{
 
 	}
 
-	private List<Ponto2D> cleanPoints(List<Ponto2D> points){
+	private List<Point2D> cleanPoints(List<Point2D> points){
 
-		List<Ponto2D> cleanPoints = new ArrayList<Ponto2D>();
+		List<Point2D> cleanPoints = new ArrayList<Point2D>();
 
 		double radius = quickFilter.getRadius();
 
 		for(int i=0;i<points.size()-1;i++){
 
-			Ponto2D point = points.get(i);
+			Point2D point = points.get(i);
 
 			for(int j=i+1;j<points.size();j++){
 
-				Ponto2D pointJ = points.get(j);
+				Point2D pointJ = points.get(j);
 
 				if(insideCircle(point.getX(), point.getY(), radius, pointJ.getX(), pointJ.getY())){
 					cleanPoints.add(pointJ);

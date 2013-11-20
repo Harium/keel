@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.ElasticFilter;
 import br.com.etyllica.motion.features.Component;
 
@@ -38,7 +38,7 @@ public class QuickHullFilter extends ElasticFilter{
 		
 		Component poly = new Component(w, h);
 		
-		for(Ponto2D ponto: quickHull(component.getPoints())){
+		for(Point2D ponto: quickHull(component.getPoints())){
 			polygon.addPoint((int)ponto.getX(), (int)ponto.getY());
 			poly.add(ponto);
 		}
@@ -49,12 +49,12 @@ public class QuickHullFilter extends ElasticFilter{
 	}
 
 	//From www.ahristov.com/tutorial/geometry-games/convex-hull.html
-	public List<Ponto2D> quickHull(List<Ponto2D> points) {
+	public List<Point2D> quickHull(List<Point2D> points) {
 
 		//if (points.size() < 3) return (ArrayList)points.clone();
 		if (points.size() < 3) return points;
 
-		List<Ponto2D> convexHull = new ArrayList<Ponto2D>();
+		List<Point2D> convexHull = new ArrayList<Point2D>();
 
 		// find extremals
 		int minPoint = -1, maxPoint = -1;
@@ -70,18 +70,18 @@ public class QuickHullFilter extends ElasticFilter{
 				maxPoint = i;       
 			}
 		}
-		Ponto2D A = points.get(minPoint);
-		Ponto2D B = points.get(maxPoint);
+		Point2D A = points.get(minPoint);
+		Point2D B = points.get(maxPoint);
 		convexHull.add(A);
 		convexHull.add(B);
 		points.remove(A);
 		points.remove(B);
 
-		ArrayList<Ponto2D> leftSet = new ArrayList<Ponto2D>();
-		ArrayList<Ponto2D> rightSet = new ArrayList<Ponto2D>();
+		ArrayList<Point2D> leftSet = new ArrayList<Point2D>();
+		ArrayList<Point2D> rightSet = new ArrayList<Point2D>();
 
 		for (int i = 0; i < points.size(); i++) {
-			Ponto2D p = points.get(i);
+			Point2D p = points.get(i);
 			if (pointLocation(A,B,p) == -1)
 				leftSet.add(p);
 			else
@@ -93,11 +93,11 @@ public class QuickHullFilter extends ElasticFilter{
 		return convexHull;
 	}
 
-	public void hullSet(Ponto2D A, Ponto2D B, ArrayList<Ponto2D> set, List<Ponto2D> hull) {
+	public void hullSet(Point2D A, Point2D B, ArrayList<Point2D> set, List<Point2D> hull) {
 		int insertPosition = hull.indexOf(B);
 		if (set.size() == 0) return;
 		if (set.size() == 1) {
-			Ponto2D p = set.get(0);
+			Point2D p = set.get(0);
 			set.remove(p);
 			hull.add(insertPosition,p);
 			return;
@@ -105,21 +105,21 @@ public class QuickHullFilter extends ElasticFilter{
 		double dist = Double.MIN_VALUE;
 		int furthestPoint = -1;
 		for (int i = 0; i < set.size(); i++) {
-			Ponto2D p = set.get(i);
+			Point2D p = set.get(i);
 			double distance  = distance(A,B,p);
 			if (distance > dist) {
 				dist = distance;
 				furthestPoint = i;
 			}
 		}
-		Ponto2D P = set.get(furthestPoint);
+		Point2D P = set.get(furthestPoint);
 		set.remove(furthestPoint);
 		hull.add(insertPosition,P);
 
 		// Determine who's to the left of AP
-		ArrayList<Ponto2D> leftSetAP = new ArrayList<Ponto2D>();
+		ArrayList<Point2D> leftSetAP = new ArrayList<Point2D>();
 		for (int i = 0; i < set.size(); i++) {
-			Ponto2D M = set.get(i);
+			Point2D M = set.get(i);
 			if (pointLocation(A,P,M)==1) {
 				//set.remove(M);
 				leftSetAP.add(M);
@@ -127,9 +127,9 @@ public class QuickHullFilter extends ElasticFilter{
 		}
 
 		// Determine who's to the left of PB
-		ArrayList<Ponto2D> leftSetPB = new ArrayList<Ponto2D>();
+		ArrayList<Point2D> leftSetPB = new ArrayList<Point2D>();
 		for (int i = 0; i < set.size(); i++) {
-			Ponto2D M = set.get(i);
+			Point2D M = set.get(i);
 			if (pointLocation(P,B,M)==1) {
 				//set.remove(M);
 				leftSetPB.add(M);
@@ -139,12 +139,12 @@ public class QuickHullFilter extends ElasticFilter{
 		hullSet(P,B,leftSetPB,hull);
 	}
 
-	public double pointLocation(Ponto2D A, Ponto2D B, Ponto2D P) {
+	public double pointLocation(Point2D A, Point2D B, Point2D P) {
 		double cp1 = (B.getX()-A.getX())*(P.getY()-A.getY()) - (B.getY()-A.getY())*(P.getX()-A.getX());
 		return (cp1>0)?1:-1;
 	}
 
-	public double distance(Ponto2D a, Ponto2D b, Ponto2D c) {
+	public double distance(Point2D a, Point2D b, Point2D c) {
 		double ABx = b.getX()-a.getX();
 		double ABy = b.getY()-a.getY();
 		double num = ABx*(a.getY()-c.getY())-ABy*(a.getX()-c.getX());

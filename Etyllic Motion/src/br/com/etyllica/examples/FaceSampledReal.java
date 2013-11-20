@@ -12,7 +12,7 @@ import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
-import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
 import br.com.etyllica.motion.filter.polygon.QuickHullFilter;
@@ -92,7 +92,7 @@ public class FaceSampledReal extends Application{
 
 		List<Component> result = new ArrayList<Component>();
 
-		List<Ponto2D> points = new ArrayList<Ponto2D>(feature.getPoints());
+		List<Point2D> points = new ArrayList<Point2D>(feature.getPoints());
 
 		Component currentComponent = new Component(0, 0);		
 
@@ -100,7 +100,7 @@ public class FaceSampledReal extends Application{
 
 		int p = 1;
 
-		Ponto2D pt = points.get(p);		
+		Point2D pt = points.get(p);		
 
 		final int radius = 20;
 
@@ -108,7 +108,7 @@ public class FaceSampledReal extends Application{
 
 			for(int i=1;i<points.size();i++){
 
-				Ponto2D q = points.get(i);
+				Point2D q = points.get(i);
 
 				if(insideCircle((int)pt.getX(), (int)pt.getY(), radius, (int)q.getX(), (int)q.getY())){
 					currentComponent.add(q);
@@ -175,7 +175,7 @@ public class FaceSampledReal extends Application{
 
 	private void drawFeaturedPoints(Graphic g, Component feature, Color color){
 
-		for(Ponto2D ponto: feature.getPoints()){
+		for(Point2D ponto: feature.getPoints()){
 
 			g.setColor(color);
 			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);

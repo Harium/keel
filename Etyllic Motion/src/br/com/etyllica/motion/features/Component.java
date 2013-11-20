@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.layer.Layer;
-import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.linear.Point2D;
 
 public class Component implements Comparable<Component>{
 
-	protected List<Ponto2D> points;
+	protected List<Point2D> points;
 	
 	private int menorX = 640;
 	private int menorY = 480;
@@ -25,14 +25,14 @@ public class Component implements Comparable<Component>{
 		menorX = w;
 		menorY = h;
 		
-		points = new ArrayList<Ponto2D>();
+		points = new ArrayList<Point2D>();
 	}
 	
 	public void add(int x, int y){
-		add(new Ponto2D(x, y));
+		add(new Point2D(x, y));
 	}
 	
-	public void add(Ponto2D p, int rgb){
+	public void add(Point2D p, int rgb){
 		byte r = (byte) ((rgb & 0x00ff0000) >> 16);
 		byte g = (byte) ((rgb & 0x0000ff00) >> 8);
 		byte b = (byte) (rgb & 0x000000ff);
@@ -40,7 +40,7 @@ public class Component implements Comparable<Component>{
 		addLogic(p);
 	}
 		
-	public void add(Ponto2D p){
+	public void add(Point2D p){
 		
 		if((int)p.getX()>maiorX){
 			maiorX = (int)p.getX();
@@ -60,7 +60,7 @@ public class Component implements Comparable<Component>{
 		addLogic(p);
 	}
 	
-	protected void addLogic(Ponto2D p){
+	protected void addLogic(Point2D p){
 		
 	}
 	
@@ -110,7 +110,7 @@ public class Component implements Comparable<Component>{
 		return new Layer(menorX,menorY,getW(),getH());
 	}
 
-	public List<Ponto2D> getPoints() {
+	public List<Point2D> getPoints() {
 		return points;
 	}
 

@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
 
 public class ColorFilter extends FilterImpl{
 
-	private int border = 1;
+	protected int border = 1;
 	
-	private int tolerance = 0x40;
+	protected int tolerance = 0x40;
 
 	private int color = Color.BLACK.getRGB();
 
@@ -18,6 +19,29 @@ public class ColorFilter extends FilterImpl{
 		super();
 	}
 
+	public Point2D filterFirst(BufferedImage bimg, Component component){
+		
+		int w = bimg.getWidth();
+		int h = bimg.getHeight();
+
+		for(int j=border;j<h-border;j++){
+
+			for(int i=border;i<w-border;i++){
+
+				if(validateColor(bimg.getRGB(i, j))){
+
+					return new Point2D(i, j);
+
+				}
+
+			}
+
+		}
+
+		return null;
+		
+	}
+	
 	public Component filter(BufferedImage bimg, Component component){
 		
 		int w = bimg.getWidth();

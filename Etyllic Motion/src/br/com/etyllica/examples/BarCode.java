@@ -10,7 +10,7 @@ import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
-import br.com.etyllica.linear.Ponto2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.barcode.BarCodeFilter;
 
@@ -125,16 +125,16 @@ public class BarCode extends Application{
 
 		g.setColor(Color.RED);
 
-		Ponto2D a = box.getPoints().get(0);
-		Ponto2D b = box.getPoints().get(1);
-		Ponto2D c = box.getPoints().get(2);
-		Ponto2D d = box.getPoints().get(3);
+		Point2D a = box.getPoints().get(0);
+		Point2D b = box.getPoints().get(1);
+		Point2D c = box.getPoints().get(2);
+		Point2D d = box.getPoints().get(3);
 
-		Ponto2D ac = new Ponto2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
-		Ponto2D ab = new Ponto2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
+		Point2D ac = new Point2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
+		Point2D ab = new Point2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
 
-		Ponto2D bd = new Ponto2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
-		Ponto2D cd = new Ponto2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
+		Point2D bd = new Point2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
+		Point2D cd = new Point2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
 
 		drawLine(g, a, b);
 		drawLine(g, a, c);
@@ -164,11 +164,11 @@ public class BarCode extends Application{
 
 	}
 
-	private void drawLine(Graphic g, Ponto2D a, Ponto2D b){		
+	private void drawLine(Graphic g, Point2D a, Point2D b){		
 		g.drawLine(xOffset+(int)a.getX(), yOffset+(int)a.getY(), xOffset+(int)b.getX(), yOffset+(int)b.getY());		
 	}
 
-	private void drawPoint(Graphic g, Ponto2D point){
+	private void drawPoint(Graphic g, Point2D point){
 		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
 	}
 
