@@ -24,9 +24,9 @@ public class ColorFilter extends FilterImpl{
 		int w = bimg.getWidth();
 		int h = bimg.getHeight();
 
-		for(int j=border;j<h-border;j++){
+		for(int j=border;j<h-border*2;j++){
 
-			for(int i=border;i<w-border;i++){
+			for(int i=border;i<w-border*2;i++){
 
 				if(validateColor(bimg.getRGB(i, j))){
 
