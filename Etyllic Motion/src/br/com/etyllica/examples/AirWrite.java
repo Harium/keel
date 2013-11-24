@@ -7,8 +7,6 @@ import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.border.Border;
-
 import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.core.application.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -57,7 +55,10 @@ public class AirWrite extends Application{
 		loadingPhrase = "Open Camera";
 
 		cam = new CameraV4L4J(0);
-
+		
+		loadingPhrase = "Setting PolygonMatcher";
+		matcher.setMinDistance(8);		
+		
 		loadingPhrase = "Setting Filter";
 
 		colorFilter = new ColorFilter();

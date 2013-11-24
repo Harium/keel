@@ -12,32 +12,19 @@ public class PolygonMatcher {
 	public String toRegExp(List<Point2D> points){
 		
 		StringBuilder builder = new StringBuilder();
-	       
+	    
         double ox = points.get(0).getX();
         double oy = points.get(0).getY();
        
         for(int i=1;i<points.size();i++){
+        	
+        	double px = points.get(i).getX();
+        	double py = points.get(i).getY();
+        	           
+        	builder.append(getExp(ox,oy,px,py));
            
-            if(ox<=points.get(i).getX()){
-               
-                if(oy>=points.get(i).getY()){
-                    builder.append("B");
-                }else if(oy<points.get(i).getY()){
-                    builder.append("D");
-                }
-               
-            }else if(ox>points.get(i).getX()){
-               
-                if(oy>=points.get(i).getY()){
-                    builder.append("A");
-                }else if(oy<points.get(i).getY()){
-                    builder.append("C");
-                }
-               
-            }
-           
-            ox = points.get(i).getX();
-            oy = points.get(i).getY();
+            ox = px;
+            oy = py;
            
         }
        
@@ -49,37 +36,54 @@ public class PolygonMatcher {
 	       
         StringBuilder builder = new StringBuilder();
        
-        int ox = p.xpoints[0];
-        int oy = p.ypoints[0];
+        double ox = p.xpoints[0];
+        double oy = p.ypoints[0];
        
         for(int i=1;i<p.npoints;i++){
            
-            if(ox<=p.xpoints[i]){
-               
-                if(oy>=p.ypoints[i]){
-                    builder.append("B");
-                }else if(oy<p.ypoints[i]){
-                    builder.append("D");
-                }
-               
-            }else if(ox>p.xpoints[i]){
-               
-                if(oy>=p.ypoints[i]){
-                    builder.append("A");
-                }else if(oy<p.ypoints[i]){
-                    builder.append("C");
-                }
-               
-            }
+        	double px = p.xpoints[i];
+        	double py = p.ypoints[i];
+        	
+        	builder.append(getExp(ox,oy,px,py));
            
-            ox = p.xpoints[i];
-            oy = p.ypoints[i];
+            ox = px;
+            oy = py;
            
         }
        
         return builder.toString();
        
     }
+	
+	private String getExp(double ox, double oy, double px, double py){
+		
+		Point2D p = new Point2D(ox, oy);
+		
+		if(p.distance(px,py)<minDistance){
+    		return "";
+    	}
+		
+		if(ox<=px){
+            
+            if(oy>=py){
+                return "B";
+            }else if(oy<py){
+                return "D";
+            }
+           
+        }else if(ox>px){
+           
+            if(oy>=py){
+                return "A";
+            }else if(oy<py){
+                return "C";
+            }
+           
+        }
+		
+		return "";
+		
+	}
 
 	public int getMinDistance() {
 		return minDistance;
