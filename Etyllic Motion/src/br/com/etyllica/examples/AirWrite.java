@@ -1,6 +1,7 @@
 package br.com.etyllica.examples;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -185,7 +186,11 @@ public class AirWrite extends Application{
 
 		String regex = matcher.toRegExp(points);
 		
-		checkRegex(regex);
+		if(checkRegex(regex)){
+			resetPoints();
+		}
+		
+		
 
 		g.drawShadow(20, 20, regex);
 
@@ -193,14 +198,24 @@ public class AirWrite extends Application{
 
 	}
 	
-	private void checkRegex(String regex){
+	private void resetPoints(){
+				
+		for(Point2D point: points){
+			point.setLocation(0,0);
+		}
+		
+	}
+	
+	private boolean checkRegex(String regex){
 		
 		//Too Simple
 		final String oneRegex = "B+.*C+.*D+";
 
 		final String twoRegex = "B+D+.*C+.(A|B)+.*D+";
 		
-		final String threeRegex = "B+D+.*C+.*D+.*C+.*A+";
+		final String threeRegex = ".*B+D+.*C+.*D+.*C+.*A+.*";
+		
+		final String rightArrowRegex = ".*(B|D){8,}+.*A{2,}.*D{2,}.*C{2,}.*";
 
 		/*if(regex.matches(oneRegex)){
 			match += "1";
@@ -208,12 +223,20 @@ public class AirWrite extends Application{
 		
 		if(regex.matches(twoRegex)){
 			match += "2";
+			return true;
 		}
 		
 		if(regex.matches(threeRegex)){
 			match += "3";
+			return true;
 		}
 		
+		if(regex.matches(rightArrowRegex)){
+			match += "→";
+			return true;
+		}
+		
+		return false;
 	}
 
 }
