@@ -190,7 +190,6 @@ public class AirWrite extends Application{
 			resetPoints();
 		}
 		
-		
 
 		g.drawShadow(20, 20, regex);
 
@@ -208,14 +207,20 @@ public class AirWrite extends Application{
 	
 	private boolean checkRegex(String regex){
 		
+		//With Zoom
+		
+		final String LONG_LINE = "5,";
+		
+		final String SMALL_LINE = "2,";
+		
 		//Too Simple
 		final String oneRegex = "B+.*C+.*D+";
 
-		final String twoRegex = "B+D+.*C+.(A|B)+.*D+";
+		final String twoRegex = ".*B*D{"+SMALL_LINE+"}C{"+SMALL_LINE+"}(A|B){"+SMALL_LINE+"}D{"+SMALL_LINE+"}.*";
+				
+		final String threeRegex = ".*B*D{"+SMALL_LINE+"}C{"+SMALL_LINE+"}A*B*D{"+SMALL_LINE+"}C+A+.*";
 		
-		final String threeRegex = ".*B+D+.*C+.*D+.*C+.*A+.*";
-		
-		final String rightArrowRegex = ".*(B|D){8,}+.*A{2,}.*D{2,}.*C{2,}.*";
+		final String rightArrowRegex = ".*(B|D){"+LONG_LINE+"}.*A{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*C+.*";
 
 		/*if(regex.matches(oneRegex)){
 			match += "1";
