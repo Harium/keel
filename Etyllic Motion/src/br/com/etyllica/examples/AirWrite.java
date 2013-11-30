@@ -220,7 +220,15 @@ public class AirWrite extends Application{
 				
 		final String threeRegex = ".*B*D{"+SMALL_LINE+"}C{"+SMALL_LINE+"}A*B*D{"+SMALL_LINE+"}C+A+.*";
 		
-		final String rightArrowRegex = ".*(B|D){"+LONG_LINE+"}.*A{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*C+.*";
+		final String rightArrowRegex = ".*(B|D){"+LONG_LINE+"}.*A{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*C{"+SMALL_LINE+"}.*";
+		
+		final String leftArrowRegex = ".*(A|C){"+LONG_LINE+"}.*B{"+SMALL_LINE+"}.*C{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*";
+		
+		final String upArrowRegex = ".*(A|B){"+LONG_LINE+"}.*C{"+SMALL_LINE+"}.*B{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*";
+		
+		//Right Hand DownArrow
+		final String downArrowRegex = ".*(C|D){"+LONG_LINE+"}.*A{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*B{"+SMALL_LINE+"}.*";
+		final String downArrowLeftHandRegex = ".*(C|D){"+LONG_LINE+"}.*B{"+SMALL_LINE+"}.*C{"+SMALL_LINE+"}.*A{"+SMALL_LINE+"}.*";
 
 		/*if(regex.matches(oneRegex)){
 			match += "1";
@@ -238,6 +246,15 @@ public class AirWrite extends Application{
 		
 		if(regex.matches(rightArrowRegex)){
 			match += "→";
+			return true;
+		}else if(regex.matches(leftArrowRegex)){
+			match += "←";
+			return true;
+		}else if(regex.matches(upArrowRegex)){
+			match += "↑";
+			return true;
+		}else if(regex.matches(downArrowRegex)||regex.matches(downArrowLeftHandRegex)){
+			match += "↓";
 			return true;
 		}
 		
