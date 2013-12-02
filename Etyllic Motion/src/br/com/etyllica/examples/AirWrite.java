@@ -20,6 +20,7 @@ import br.com.etyllica.motion.air.PolygonMatcher;
 import br.com.etyllica.motion.core.ColorFilter;
 import br.com.etyllica.motion.core.SkinColorFilter;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.gesture.GestureRegex;
 
 public class AirWrite extends Application{
 
@@ -207,53 +208,36 @@ public class AirWrite extends Application{
 	
 	private boolean checkRegex(String regex){
 		
-		//With Zoom
-		
-		final String LONG_LINE = "5,";
-		
-		final String SMALL_LINE = "2,";
-		
-		//Too Simple
-		final String oneRegex = "B+.*C+.*D+";
-
-		final String twoRegex = ".*B*D{"+SMALL_LINE+"}C{"+SMALL_LINE+"}(A|B){"+SMALL_LINE+"}D{"+SMALL_LINE+"}.*";
-				
-		final String threeRegex = ".*B*D{"+SMALL_LINE+"}C{"+SMALL_LINE+"}A*B*D{"+SMALL_LINE+"}C+A+.*";
-		
-		final String rightArrowRegex = ".*(B|D){"+LONG_LINE+"}.*A{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*C{"+SMALL_LINE+"}.*";
-		
-		final String leftArrowRegex = ".*(A|C){"+LONG_LINE+"}.*B{"+SMALL_LINE+"}.*C{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*";
-		
-		final String upArrowRegex = ".*(A|B){"+LONG_LINE+"}.*C{"+SMALL_LINE+"}.*B{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*";
-		
-		//Right Hand DownArrow
-		final String downArrowRegex = ".*(C|D){"+LONG_LINE+"}.*A{"+SMALL_LINE+"}.*D{"+SMALL_LINE+"}.*B{"+SMALL_LINE+"}.*";
-		final String downArrowLeftHandRegex = ".*(C|D){"+LONG_LINE+"}.*B{"+SMALL_LINE+"}.*C{"+SMALL_LINE+"}.*A{"+SMALL_LINE+"}.*";
-
-		/*if(regex.matches(oneRegex)){
+		if(regex.matches(GestureRegex.ONE)){
 			match += "1";
-		}*/
+			return true;
+		}
 		
-		if(regex.matches(twoRegex)){
+		if(regex.matches(GestureRegex.TWO)){
 			match += "2";
 			return true;
 		}
 		
-		if(regex.matches(threeRegex)){
+		if(regex.matches(GestureRegex.THREE)){
 			match += "3";
 			return true;
 		}
 		
-		if(regex.matches(rightArrowRegex)){
+		if(regex.matches(GestureRegex.THREE)){
+			match += "4";
+			return true;
+		}
+		
+		if(regex.matches(GestureRegex.RIGHT_ARROW)){
 			match += "→";
 			return true;
-		}else if(regex.matches(leftArrowRegex)){
+		}else if(regex.matches(GestureRegex.LEFT_ARROW)){
 			match += "←";
 			return true;
-		}else if(regex.matches(upArrowRegex)){
+		}else if(regex.matches(GestureRegex.UP_ARROW)){
 			match += "↑";
 			return true;
-		}else if(regex.matches(downArrowRegex)||regex.matches(downArrowLeftHandRegex)){
+		}else if(regex.matches(GestureRegex.DOWN_ARROW)||regex.matches(GestureRegex.DOWN_ARROW_LEFT_HANDED)){
 			match += "↓";
 			return true;
 		}
