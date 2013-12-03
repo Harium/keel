@@ -29,4 +29,8 @@ public class GestureRegex {
 	
 	public static final String FOUR = ".*(C|D){"+SMALL_LINE+"}(B|D){"+SMALL_LINE+"}(A|B){"+SMALL_LINE+"}(C|D){"+LONG_LINE+"}.*";
     
+	//Math Operations
+	public static final String PLUS = ".*(C|D){"+MEDIUM_LINE+"}A{"+SMALL_LINE+"}(B|D){"+MEDIUM_LINE+"}";
+	
+	public static final String PLUS_LEFT_HANDED = ".*(C|D){"+MEDIUM_LINE+"}B{"+SMALL_LINE+"}(A|C){"+MEDIUM_LINE+"}";
 }
