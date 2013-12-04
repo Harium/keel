@@ -28,7 +28,7 @@ public class AirWrite extends Application{
 
 	private ColorFilter colorFilter;
 
-	private final int NUMBER_OF_POINTS = 50;
+	private final int NUMBER_OF_POINTS = 45;
 
 	private List<Point2D> points;
 
@@ -206,7 +206,7 @@ public class AirWrite extends Application{
 		
 	}
 	
-	private boolean checkRegex(String regex){
+	private boolean checkRegexNumber(String regex){
 		
 		if(regex.matches(GestureRegex.ONE)){
 			match += "1";
@@ -223,8 +223,49 @@ public class AirWrite extends Application{
 			return true;
 		}
 		
-		if(regex.matches(GestureRegex.THREE)){
+		if(regex.matches(GestureRegex.FOUR)){
 			match += "4";
+			return true;
+		}
+		
+		if(regex.matches(GestureRegex.FIVE)){
+			match += "5";
+			return true;
+		}
+		
+		if(regex.matches(GestureRegex.SIX)){
+			match += "6";
+			return true;
+		}
+		
+		if(regex.matches(GestureRegex.SEVEN)){
+			match += "7";
+			return true;
+		}
+		
+		if(regex.matches(GestureRegex.EIGHT)){
+			match += "8";
+			return true;
+		}
+		
+		if(regex.matches(GestureRegex.NINE)||regex.matches(GestureRegex.NINE_CCW)){
+			match += "9";
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	
+	private boolean checkRegex(String regex){
+		
+		if(checkRegexNumber(regex)){
+			return true;
+		}
+		
+		if(regex.matches(GestureRegex.PLUS)||regex.matches(GestureRegex.PLUS_LEFT_HANDED)){
+			match += "+";
 			return true;
 		}
 		
@@ -242,6 +283,8 @@ public class AirWrite extends Application{
 			return true;
 		}
 		
+		
+				
 		return false;
 	}
 
