@@ -131,5 +131,23 @@ public class Component implements Comparable<Component>{
 		}
 			
 	}
+		
+	public void merge(Component component){
+		
+		for(Point2D point:component.getPoints()){
+			add(point);
+		}
+		
+	}
+	
+	public void mergePolygon(Polygon p){
+		
+		for(int i=0;i<p.npoints;i++){
 			
+			Point2D point = new Point2D(p.xpoints[i], p.ypoints[i]);
+			
+			add(point);
+		}
+	}
+
 }

@@ -14,6 +14,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.face.SkinBorderFilter;
 import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
 import br.com.etyllica.motion.filter.wand.BorderFilter;
 import br.com.etyllica.motion.filter.wand.MagicWandConvexFilter;
@@ -26,6 +27,8 @@ public class FaceSampledStatic extends Application{
 	private BorderFilter blackFilter = new BorderFilter(0, 0);
 	
 	private BorderFilter whiteFilter = new BorderFilter(0, 0);
+	
+	private SkinBorderFilter skinFilter = new SkinBorderFilter(0, 0);
 
 	private NoiseQuickHullFilter quickFilter = new NoiseQuickHullFilter(w, h);
 
@@ -37,15 +40,17 @@ public class FaceSampledStatic extends Application{
 	private int xOffset = 0;
 	private int yOffset = 0;
 
-	private final int IMAGES_TO_LOAD = 51;	
+	private final int IMAGES_TO_LOAD = 50;	
 
 	private Component blackSampledFeature;
 	private Component lightDirection;
+	private Component skinFeature;
 
 	private Component box;
 
 	private Polygon blackPolygon = new Polygon();
 	private Polygon whitePolygon = new Polygon();
+	private Polygon skinPolygon = new Polygon();
 
 
 	public FaceSampledStatic(int w, int h) {
@@ -65,7 +70,7 @@ public class FaceSampledStatic extends Application{
 		loadingPhrase = "Configuring Filter";
 		blackFilter.setColor(Color.BLACK.getRGB());
 		//blackFilter.setTolerance(0x40);
-		blackFilter.setTolerance(0x44);
+		blackFilter.setTolerance(0x50);
 		//border: 4 and step: 4
 		blackFilter.setBorder(4);
 		blackFilter.setStep(4);
@@ -75,7 +80,12 @@ public class FaceSampledStatic extends Application{
 		whiteFilter.setBorder(4);
 		whiteFilter.setStep(4);
 		
+		skinFilter.setTolerance(0x10);
+		skinFilter.setBorder(4);
+		skinFilter.setStep(4);
+		
 		quickFilter.setRadius(18);
+		quickFilter.setMinNeighboors(2);
 		//quickFilter.setRadius(20);
 
 		loading = 60;
@@ -93,7 +103,6 @@ public class FaceSampledStatic extends Application{
 		blackPolygon.reset();
 
 		//TODO Separate polygons
-
 		box = quickFilter.filter(b, blackSampledFeature).get(0);
 
 		//blackPolygon = quickFilter.getPolygon();
@@ -104,7 +113,12 @@ public class FaceSampledStatic extends Application{
 		lightDirection = whiteFilter.filter(b, new Component(w, h)).get(0);
 		whitePolygon.reset();
 		quickFilter.filter(b, lightDirection).get(0);
-		whitePolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);				
+		whitePolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
+		
+		skinFeature = skinFilter.filter(b, new Component(w, h)).get(0);
+		skinPolygon.reset();
+		quickFilter.filter(b, skinFeature).get(0);
+		skinPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
 		
 	}
 
@@ -164,6 +178,8 @@ public class FaceSampledStatic extends Application{
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
+		System.out.println("updateKeyBoard "+event.getKey()+" "+event.getState());
+		
 		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
 			cam.nextFrame();
 			reset(cam.getBufferedImage());
@@ -196,25 +212,32 @@ public class FaceSampledStatic extends Application{
 
 	@Override
 	public void draw(Graphic g) {
-
+		
 		if(!hide){
 			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
 		}
 
 		g.setColor(Color.BLUE);
 
+		g.setColor(SVGColor.BLACK);
+		g.setBasicStroke(2);
+		g.drawPolygon(blackPolygon);
+		
+		g.setColor(SVGColor.WHITE);
+		g.setBasicStroke(1);
+		
+		g.setColor(SVGColor.ORANGE);
+		g.drawPolygon(whitePolygon);
+		
+		g.setColor(SVGColor.BLUE_VIOLET);
+		g.drawPolygon(skinPolygon);
+		
 		g.setAlpha(60);
 		drawFeaturedPoints(g, blackSampledFeature, Color.GREEN);
 		g.setAlpha(100);
-
-		g.setColor(Color.GREEN);
-		g.drawPolygon(blackPolygon);
-		
-		g.setColor(Color.MAGENTA);
-		g.drawPolygon(whitePolygon);
 		
 		if(drawBox){
-			drawBox(g);	
+			//drawBox(g);	
 		}
 
 	}
@@ -258,7 +281,7 @@ public class FaceSampledStatic extends Application{
 						}
 						
 						
-						g.drawRect(i,j,1,1);
+						g.fillRect(i,j,1,1);
 						
 						bn++;
 						bx+=i;
@@ -297,6 +320,7 @@ public class FaceSampledStatic extends Application{
 
 		List<Point2D> cleanedPoints = cleanPoints(feature.getPoints());
 		int pn = cleanedPoints.size();
+		
 		double px = 0;
 		double py = 0;
 

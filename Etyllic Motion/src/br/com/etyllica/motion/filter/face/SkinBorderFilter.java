@@ -10,7 +10,7 @@ public class SkinBorderFilter extends BorderFilter {
 
 	@Override
 	public boolean validateColor(int rgb) {
-		return isSkin(rgb);
+		return isSkin(rgb, tolerance);
 	}
 
 }

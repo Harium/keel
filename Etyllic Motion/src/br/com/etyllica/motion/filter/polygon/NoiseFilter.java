@@ -7,21 +7,21 @@ import java.util.List;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
 
-public class NoiseQuickHullFilter extends QuickHullFilter{
+public class NoiseFilter extends QuickHullFilter{
 	
 	private int radius = 20;
 	
 	private int minNeighboors = 0;
 	private int maxNeighboors = Integer.MAX_VALUE;
 
-	public NoiseQuickHullFilter(int w, int h) {
+	public NoiseFilter(int w, int h) {
 		super(w, h);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
-
+		
 		polygon.reset();
 		
 		List<Component> result = new ArrayList<Component>();
@@ -29,9 +29,7 @@ public class NoiseQuickHullFilter extends QuickHullFilter{
 		Component poly = new Component(w, h);
 		
 		List<Point2D> points = component.getPoints();
-		
-		List<Point2D> cleanPoints = new ArrayList<Point2D>();
-		
+				
 		for(int i=0;i<points.size()-1;i++){
 			
 			Point2D point = points.get(i);
@@ -42,12 +40,14 @@ public class NoiseQuickHullFilter extends QuickHullFilter{
 				
 				Point2D pointJ = points.get(j);
 				
-				if(insideCircle(point.getX(), point.getY(), pointJ.getX(), pointJ.getY())){
+				if(insideCircle(point.getX(), point.getY(), radius, pointJ.getX(), pointJ.getY())){
 					
 					neighboors++;
 					
 					if(neighboors>=minNeighboors&&neighboors<maxNeighboors){
-						cleanPoints.add(pointJ);
+						
+						polygon.addPoint((int)point.getX(), (int)point.getY());
+						poly.add(point);
 						break;
 					}
 						
@@ -55,20 +55,14 @@ public class NoiseQuickHullFilter extends QuickHullFilter{
 				
 			}
 			
-		}		
-				
-		for(Point2D ponto: quickHull(cleanPoints)){
-						
-			polygon.addPoint((int)ponto.getX(), (int)ponto.getY());
-			poly.add(ponto);
 		}
-		
+						
 		result.add(poly);
-
+		
 		return result;
 	}
 	
-	private boolean insideCircle(double cx, double cy, double px, double py){
+	private boolean insideCircle(double cx, double cy, double radius, double px, double py){
 
 		double difX = (px - cx)*(px - cx);
 		double difY = (py - cy)*(py - cy);
