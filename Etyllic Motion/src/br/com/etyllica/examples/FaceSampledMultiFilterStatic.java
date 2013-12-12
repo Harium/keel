@@ -54,9 +54,17 @@ public class FaceSampledMultiFilterStatic extends Application{
 	
 	//private final int NOISE_RADIUS = DEFAULT_STEP*5;
 	
-	private int noiseRadius = DEFAULT_STEP*5;
+	private int noiseRadius = 50;
+	private int minNeighboor = 3;
+	private int maxNeighboor = 5;
 	
-	private int minHullNeighboor = 1;
+	private int tolerance = 50;
+	
+	private int skinNoiseRadius = 45;
+	private int skinMinNeighboor = 1;
+	private int skinMaxNeighboor = 6;
+	
+	private int skinTolerance = 5;
 
 	private Component allPoints;	
 	
@@ -77,12 +85,12 @@ public class FaceSampledMultiFilterStatic extends Application{
 		loadingPhrase = "Configuring Filter";
 		blackFilter.setColor(Color.BLACK.getRGB());
 		//blackFilter.setTolerance(0x40);
-		blackFilter.setTolerance(0x45);
+		blackFilter.setTolerance(tolerance);
 		//border: 4 and step: 4
 		blackFilter.setBorder(DEFAULT_BORDER);
 		blackFilter.setStep(DEFAULT_STEP);
 		
-		skinFilter.setTolerance(0x5);
+		skinFilter.setTolerance(tolerance-45);
 		skinFilter.setBorder(DEFAULT_BORDER);
 		skinFilter.setStep(DEFAULT_STEP);
 				
@@ -96,25 +104,34 @@ public class FaceSampledMultiFilterStatic extends Application{
 		int w = b.getWidth();
 		int h = b.getHeight();
 
+		blackFilter.setTolerance(tolerance);
+		
 		quickFilter.setRadius(noiseRadius);
-		quickFilter.setMinNeighboors(1);
-		quickFilter.setMaxNeighboors(3);
+		quickFilter.setMinNeighboors(minNeighboor);
+		quickFilter.setMaxNeighboors(maxNeighboor);
 		//quickFilter.setRadius(20);
-		
-		quickMergeFilter.setRadius(noiseRadius);
-		quickMergeFilter.setMinNeighboors(1);
-		quickMergeFilter.setMaxNeighboors(2);
-		
+				
 		//Sampled
 		blackSampledFeature = blackFilter.filter(b, new Component(w, h)).get(0);
 		blackPolygon.reset();
 		quickFilter.filter(b, blackSampledFeature).get(0);
 		blackPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
 				
+		quickFilter.setRadius(skinNoiseRadius);
+		quickFilter.setMinNeighboors(skinMinNeighboor);
+		quickFilter.setMaxNeighboors(skinMaxNeighboor);
+		
+		
+		skinFilter.setTolerance(skinTolerance);
+		
 		skinFeature = skinFilter.filter(b, new Component(w, h)).get(0);
 		skinPolygon.reset();
 		quickFilter.filter(b, skinFeature).get(0);
 		skinPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
+		
+		quickMergeFilter.setRadius(noiseRadius);
+		quickMergeFilter.setMinNeighboors(1);
+		quickMergeFilter.setMaxNeighboors(2);
 		
 		mergeAll();
 		
@@ -154,7 +171,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_H)){
+		if(event.isKeyDown(KeyEvent.TSK_Y)){
 			hide = !hide;
 		}
 
@@ -162,11 +179,11 @@ public class FaceSampledMultiFilterStatic extends Application{
 			pixels = !pixels;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_C)){
+		if(event.isKeyDown(KeyEvent.TSK_U)){
 			drawCleanedOnly = !drawCleanedOnly;
 		}
 		
-		if(event.isKeyDown(KeyEvent.TSK_B)){
+		if(event.isKeyDown(KeyEvent.TSK_I)){
 			drawBox = !drawBox;
 		}
 		
@@ -181,7 +198,90 @@ public class FaceSampledMultiFilterStatic extends Application{
 			System.out.println("RadiusHull = "+noiseRadius);
 			reset(cam.getBufferedImage());
 		}
-
+		
+		if(event.isKeyDown(KeyEvent.TSK_Z)){
+			tolerance++;
+			System.out.println("tolerance = "+tolerance);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_X)){
+			tolerance--;
+			System.out.println("tolerance = "+tolerance);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_D)){
+			minNeighboor++;
+			System.out.println("minNeighboor = "+minNeighboor);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_F)){
+			minNeighboor--;
+			System.out.println("minNeighboor = "+minNeighboor);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_C)){
+			maxNeighboor++;
+			System.out.println("maxNeighboor = "+maxNeighboor);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_V)){
+			maxNeighboor--;
+			System.out.println("maxNeighboor = "+maxNeighboor);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_G)){
+			skinNoiseRadius++;
+			System.out.println("skinNoiseRadius = "+skinNoiseRadius);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_H)){
+			skinNoiseRadius--;
+			System.out.println("skinNoiseRadius = "+skinNoiseRadius);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_B)){
+			skinTolerance++;
+			System.out.println("skinTolerance = "+skinTolerance);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_N)){
+			skinTolerance--;
+			System.out.println("skinTolerance = "+skinTolerance);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_J)){
+			skinMinNeighboor++;
+			System.out.println("skinMinNeighboor = "+skinMinNeighboor);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_K)){
+			skinMinNeighboor--;
+			System.out.println("skinMinNeighboor = "+skinMinNeighboor);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_M)){
+			skinMaxNeighboor++;
+			System.out.println("skinMaxNeighboor = "+skinMaxNeighboor);
+			reset(cam.getBufferedImage());
+		}
+		
+		if(event.isKeyDown(KeyEvent.TSK_VIRGULA)){
+			skinMaxNeighboor--;
+			System.out.println("skinMaxNeighboor = "+skinMaxNeighboor);
+			reset(cam.getBufferedImage());
+		}
 
 		return GUIEvent.NONE;
 	}
@@ -195,9 +295,9 @@ public class FaceSampledMultiFilterStatic extends Application{
 		
 		//drawPolygon(g, lightDirection, whitePolygon, SVGColor.ORANGE);
 				
-		drawPolygon(g, blackPolygon, SVGColor.WHITE);
+		drawPolygon(g, blackPolygon, SVGColor.WHITE, noiseRadius);
 		
-		drawPolygon(g, skinPolygon, SVGColor.BLUE_VIOLET);
+		drawPolygon(g, skinPolygon, SVGColor.BLUE_VIOLET, skinNoiseRadius);
 		
 		//drawPolygon(g, merged, SVGColor.RED);
 		drawMerged(g);
@@ -230,7 +330,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 		
 	}
 	
-	private void drawPolygon(Graphic g, Polygon p, Color color){
+	private void drawPolygon(Graphic g, Polygon p, Color color, int radius){
 		
 		/*g.setColor(SVGColor.BLACK);
 		g.setBasicStroke(3);
@@ -248,7 +348,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
 
 			g.setColor(Color.WHITE);
-			g.drawCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), noiseRadius);
+			g.drawCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), radius);
 		}
 
 	}
