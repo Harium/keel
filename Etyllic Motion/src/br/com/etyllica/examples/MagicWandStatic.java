@@ -12,7 +12,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.wand.BorderFilter;
+import br.com.etyllica.motion.filter.color.BorderFilter;
 import br.com.etyllica.motion.filter.wand.MagicWandConvexFilter;
 
 public class MagicWandStatic extends Application{

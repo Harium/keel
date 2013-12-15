@@ -55,10 +55,10 @@ public class Controle {
 	}
 
 	public int getX(int dedo){
-		return fatorX(larguraCam-mira.get(dedo).getX());
+		return fatorX((int)(larguraCam-mira.get(dedo).getX()));
 	}
 	public int getY(int dedo){
-		return fatorY(mira.get(dedo).getY());
+		return fatorY((int)mira.get(dedo).getY());
 	}
 	
 	protected int moduloDiferenca(int a, int b){

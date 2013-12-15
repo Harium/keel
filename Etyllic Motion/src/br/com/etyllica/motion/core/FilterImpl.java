@@ -19,16 +19,16 @@ public abstract class FilterImpl implements Filter{
 		int g = getGreen(rgb);
 		int b = getBlue(rgb);
 
-		int x = r;
-		int y = b+(g-b);
+		float x = r;
+		float y = b+(g-b);
 
-		int maxTolerance = 15-tolerance/2;
-		int minTolerance = maxTolerance+tolerance/2;
-
-		int my=(8*x)/9-40/9;
+		float maxTolerance = tolerance;
+		float minTolerance = tolerance;
+		
+		float my=(8*x)/9-40/9;
 
 		if(x>105&&x<175){
-			minTolerance = 40;
+			minTolerance = tolerance*1.3f;
 		}
 
 		return x>40&&x<230&&(y>my-minTolerance&&y<my+maxTolerance);

@@ -18,7 +18,7 @@ import br.com.etyllica.motion.graph.SkinGraph;
 public class EtyllicMotion extends Etyllica{
 
 	public EtyllicMotion() {
-		super(640, 480);
+		super(800, 480);
 		//super(256,256);
 	}
 

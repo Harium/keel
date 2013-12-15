@@ -22,8 +22,8 @@ public class LuviaMotion extends Application{
 		loading = 100;
 	}
 	
-	private int mx = 0;
-	private int my = 0;
+	private float mx = 0;
+	private float my = 0;
 	
 	@Override
 	public GUIEvent updateMouse(PointerEvent event){
@@ -70,8 +70,8 @@ public class LuviaMotion extends Application{
 		int cw = 100;
 		int ch = 100;
 
-		int cx = mx-cw/2;
-		int cy = my-ch/2;
+		float cx = mx-cw/2;
+		float cy = my-ch/2;
 		
 		int linew = 3;
 
@@ -81,14 +81,14 @@ public class LuviaMotion extends Application{
 		g.setColor(new Color(0x0,0x0,0x0));
 
 		//Desenha Linha mais externa
-		g.getGraphics().drawArc(cx, cy, cw, ch, 0, 360);
+		g.drawArc(cx, cy, cw, ch, 0, 360);
 
 		int offset = 2;
 		
 		//Loop para desenhar linhas internas
 		for(int i = 0;i<linew; i++){
 
-			g.getGraphics().drawArc((cx+(offset/2)), cy+(offset/2), cw-offset, ch-offset, 0, 360);
+			g.drawArc((cx+(offset/2)), cy+(offset/2), cw-offset, ch-offset, 0, 360);
 
 			offset*=2;
 
@@ -103,19 +103,19 @@ public class LuviaMotion extends Application{
 		int cw = 100;
 		int ch = 100;
 
-		int cx = mx-cw/2;
-		int cy = my-ch/2;
+		float cx = mx-cw/2;
+		float cy = my-ch/2;
 		
 		g.setAlpha(100);
 
 		g.setColor(new Color(0,0,0xff));
-		g.getGraphics().drawArc(cx, cy, 100, 100, 0, angulo);
+		g.drawArc(cx, cy, 100, 100, 0, angulo);
 
 		g.setColor(new Color(0,0,0x99));
-		g.getGraphics().drawArc(cx+((100-98)/2), cy+((100-98)/2), 98, 98, 0, angulo);
+		g.drawArc(cx+((100-98)/2), cy+((100-98)/2), 98, 98, 0, angulo);
 
 		g.setColor(new Color(0,0,0x66));
-		g.getGraphics().drawArc(cx+((100-96)/2), cy+((100-96)/2), 96, 96, 0, angulo);		
+		g.drawArc(cx+((100-96)/2), cy+((100-96)/2), 96, 96, 0, angulo);		
 	}
 
 	@Override

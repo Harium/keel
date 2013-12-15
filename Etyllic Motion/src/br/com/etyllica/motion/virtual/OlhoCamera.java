@@ -71,10 +71,10 @@ public class OlhoCamera extends Controle{
 	}
 
 	public int getX(int dedo){
-		return fatorX(larguraCam-mira.get(dedo).getX());
+		return fatorX((int)(larguraCam-mira.get(dedo).getX()));
 	}
 	public int getY(int dedo){
-		return fatorY(mira.get(dedo).getY());
+		return fatorY((int)mira.get(dedo).getY());
 	}
 
 	public Layer getAreaOlhoE(){
@@ -341,8 +341,8 @@ public class OlhoCamera extends Controle{
 			for(int c=0;c<p.size();c++){
 
 				//S� para aproveitar a vari�vel
-				ex = p.get(c).getX();
-				ey = p.get(c).getY();
+				ex = (int)p.get(c).getX();
+				ey = (int)p.get(c).getY();
 
 				if(ex>larguraCam/2){
 					somaXD+=p.get(c).getX();

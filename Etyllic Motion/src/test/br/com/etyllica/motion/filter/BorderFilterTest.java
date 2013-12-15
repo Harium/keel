@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 import br.com.etyllica.motion.features.Cross;
-import br.com.etyllica.motion.filter.wand.BorderFilter;
+import br.com.etyllica.motion.filter.color.BorderFilter;
 
 public class BorderFilterTest {
 

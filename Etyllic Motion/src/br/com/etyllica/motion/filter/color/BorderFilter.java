@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.filter.wand;
+package br.com.etyllica.motion.filter.color;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

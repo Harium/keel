@@ -602,8 +602,8 @@ public class SkinGraph extends Application{
 		}
 	}
 
-	int mx = 0;
-	int my = 0;
+	float mx = 0;
+	float my = 0;
 
 	private void drawGrid(Graphic g){
 

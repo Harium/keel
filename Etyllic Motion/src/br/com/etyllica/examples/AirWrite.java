@@ -41,7 +41,7 @@ public class AirWrite extends Application{
 	
 	private String match = "_";
 	
-	Component component = new Component(w,h);
+	Component component = new Component((int)w,(int)h);
 	
 	private PolygonMatcher matcher = new PolygonMatcher();
 	
@@ -76,7 +76,7 @@ public class AirWrite extends Application{
 		loading = 100;
 	}
 
-	private Component screen = new Component(w, h);
+	private Component screen = new Component((int)w, (int)h);
 
 	private void reset(BufferedImage b){
 
@@ -100,7 +100,7 @@ public class AirWrite extends Application{
 	public GUIEvent updateMouse(PointerEvent event) {
 		
 		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
-			colorFilter.setColor(mirror.getRGB(event.getX(), event.getY()));
+			colorFilter.setColor(mirror.getRGB((int)event.getX(), (int)event.getY()));
 		}
 		
 		// TODO Auto-generated method stub

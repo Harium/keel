@@ -42,9 +42,9 @@ public class HollowTest extends Application{
 
 
 		//TODO Change to Camera Size in Real Application
-		filter = new FindRedLedFilter(w, h);
+		filter = new FindRedLedFilter((int)w, (int)h);
 		
-		rootComponent.add(new Component(w,h));
+		rootComponent.add(new Component((int)w,(int)h));
 
 		BufferedImage test1 = ImageLoader.getInstance().getImage("test/test1.png");
 		BufferedImage test2 = ImageLoader.getInstance().getImage("test/test2.png");

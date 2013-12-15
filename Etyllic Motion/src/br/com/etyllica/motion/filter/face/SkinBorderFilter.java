@@ -1,6 +1,6 @@
 package br.com.etyllica.motion.filter.face;
 
-import br.com.etyllica.motion.filter.wand.BorderFilter;
+import br.com.etyllica.motion.filter.color.BorderFilter;
 
 public class SkinBorderFilter extends BorderFilter {
 	

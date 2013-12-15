@@ -180,7 +180,7 @@ public class SkinTest extends Application{
 	public GUIEvent updateMouse(PointerEvent event) {
 
 		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
-			pickColor = new Color(tests.get(currentTest).getRGB(event.getX(), event.getY()));
+			pickColor = new Color(tests.get(currentTest).getRGB((int)event.getX(), (int)event.getY()));
 
 			int rgb = pickColor.getRGB();
 
@@ -196,7 +196,7 @@ public class SkinTest extends Application{
 		}
 
 		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_RIGHT)){
-			pickColor = new Color(tests.get(currentTest).getRGB(event.getX(), event.getY()));
+			pickColor = new Color(tests.get(currentTest).getRGB((int)event.getX(), (int)event.getY()));
 
 			//nextImage();
 			System.out.println("bad.addPoint("+pickColor.getRed()+","+pickColor.getGreen()+","+pickColor.getBlue()+");");

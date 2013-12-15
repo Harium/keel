@@ -14,9 +14,9 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.color.BorderFilter;
 import br.com.etyllica.motion.filter.face.SkinBorderFilter;
 import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
-import br.com.etyllica.motion.filter.wand.BorderFilter;
 import br.com.etyllica.motion.filter.wand.MagicWandConvexFilter;
 import br.com.etyllica.util.SVGColor;
 
@@ -30,7 +30,7 @@ public class FaceSampledStatic extends Application{
 	
 	private SkinBorderFilter skinFilter = new SkinBorderFilter(0, 0);
 
-	private NoiseQuickHullFilter quickFilter = new NoiseQuickHullFilter(w, h);
+	private NoiseQuickHullFilter quickFilter = new NoiseQuickHullFilter((int)w, (int)h);
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -162,8 +162,8 @@ public class FaceSampledStatic extends Application{
 
 	private boolean insideCircle(int cx, int cy, int radius, int px, int py){
 
-		int difX = (x - cx)*(x - cx);
-		int difY = (y - cy)*(y - cy);
+		float difX = (x - cx)*(x - cx);
+		float difY = (y - cy)*(y - cy);
 
 		return difX + difY < radius*radius;
 
@@ -177,8 +177,6 @@ public class FaceSampledStatic extends Application{
 
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
-
-		System.out.println("updateKeyBoard "+event.getKey()+" "+event.getState());
 		
 		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
 			cam.nextFrame();

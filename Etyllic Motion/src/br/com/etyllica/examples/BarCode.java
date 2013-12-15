@@ -18,7 +18,7 @@ public class BarCode extends Application{
 
 	FakeCamera cam = new FakeCamera();
 
-	private BarCodeFilter filter = new BarCodeFilter(w, h);
+	private BarCodeFilter filter = new BarCodeFilter((int)w, (int)h);
 
 	private boolean hide = false;
 	private boolean pixels = true;
