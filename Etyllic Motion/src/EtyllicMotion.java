@@ -25,7 +25,7 @@ public class EtyllicMotion extends Etyllica{
 	@Override
 	public void startGame() {
 		
-		UPDATE_DELAY = 40;
+		updateDelay = 40;
 				
 		//setMainApplication(new AirWrite(w,h));
 		

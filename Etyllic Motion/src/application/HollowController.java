@@ -54,7 +54,7 @@ public class HollowController extends Application {
 	}
 
 	@Override
-	public void timeUpdate(){
+	public void timeUpdate(long now){
 
 		System.out.println("TIME UPDATE");
 
