@@ -51,10 +51,10 @@ public class OlhoCamera extends Controle{
 			//Mask
 			//eyeFilter(b);
 			//procura onde estava antes
-			reductFilter(cm.getImagemBuffer());
+			reductFilter(cm.getModifiedBuffer());
 
 			//Se n�o achar, eyeFilter
-			eyeFilter(cm.getImagemBuffer());
+			eyeFilter(cm.getModifiedBuffer());
 		}
 	}
 

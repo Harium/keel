@@ -10,7 +10,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import br.com.etyllica.camera.FakeCamera;
-import br.com.etyllica.core.application.Application;
+import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;

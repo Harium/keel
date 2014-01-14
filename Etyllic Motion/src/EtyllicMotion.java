@@ -12,6 +12,7 @@ import br.com.etyllica.examples.FaceSampledStatic;
 import br.com.etyllica.examples.HollowTest;
 import br.com.etyllica.examples.MagicWand;
 import br.com.etyllica.examples.MagicWandStatic;
+import br.com.etyllica.examples.SimpleCam;
 import br.com.etyllica.examples.SkinTest;
 import br.com.etyllica.motion.graph.SkinGraph;
 
@@ -27,6 +28,8 @@ public class EtyllicMotion extends Etyllica{
 		
 		updateDelay = 40;
 				
+		setMainApplication(new SimpleCam(w,h));
+		
 		//setMainApplication(new AirWrite(w,h));
 		
 		//setMainApplication(new HollowController(w,h));
@@ -34,7 +37,9 @@ public class EtyllicMotion extends Etyllica{
 		
 		//setMainApplication(new FaceApplication(w,h));
 		//setMainApplication(new SkinTest(w,h));
-		setMainApplication(new FaceSampledMultiFilterStatic(w,h));
+		
+		//setMainApplication(new FaceSampledMultiFilterStatic(w,h));
+		
 		//setMainApplication(new FaceSampledStatic(w,h));
 		//setMainApplication(new FaceSampledReal(w,h));
 		

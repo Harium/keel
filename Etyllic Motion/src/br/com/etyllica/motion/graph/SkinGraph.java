@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.core.application.Application;
+import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
@@ -602,8 +602,8 @@ public class SkinGraph extends Application{
 		}
 	}
 
-	float mx = 0;
-	float my = 0;
+	int mx = 0;
+	int my = 0;
 
 	private void drawGrid(Graphic g){
 
