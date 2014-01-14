@@ -14,11 +14,13 @@ public class ColorFilter extends FilterImpl{
 	protected int tolerance = 0x40;
 
 	private int color = Color.BLACK.getRGB();
+	
+	private Point2D lastPoint = new Point2D(0, 0);
 
 	public ColorFilter() {
 		super();
 	}
-
+	
 	public Point2D filterFirst(BufferedImage bimg, Component component){
 		
 		int w = bimg.getWidth();
@@ -30,7 +32,9 @@ public class ColorFilter extends FilterImpl{
 
 				if(validateColor(bimg.getRGB(i, j))){
 
-					return new Point2D(i, j);
+					lastPoint.setLocation(i, j);
+					
+					return lastPoint;
 
 				}
 
@@ -38,7 +42,7 @@ public class ColorFilter extends FilterImpl{
 
 		}
 
-		return null;
+		return lastPoint;
 		
 	}
 	
