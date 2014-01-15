@@ -21,13 +21,13 @@ public class FindEyeFilter extends BooleanMaskFilter{
 		
 		List<Component> result = new ArrayList<Component>();
 					
-			int w = component.getMaiorX();
-			int h = component.getMaiorY();
+			int w = component.getHighestX();
+			int h = component.getHighestY();
 
 			//TODO Verify if component.getMenorY() ~ component.getMaiorY()
-			for (int j = component.getMenorY(); j < h; j++) {
+			for (int j = component.getLowestY(); j < h; j++) {
 
-				for (int i = component.getMenorX(); i < w; i++) {
+				for (int i = component.getLowestX(); i < w; i++) {
 
 					if (validateColor(bimg.getRGB(i,j)) && !mask[i][j]) {
 

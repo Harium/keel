@@ -12,8 +12,8 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.ColorFilter;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.color.ColorFilter;
 
 public class SimpleCam extends Application{
 

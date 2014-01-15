@@ -123,7 +123,7 @@ public class FaceApplication extends Application {
 			//TODO Write Number of Points
 			g.setColor(Color.WHITE);
 			g.drawRect(component.getCamada());
-			g.drawStringShadow(component.getMenorX(), component.getMenorY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()), Color.BLACK);
+			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()), Color.BLACK);
 
 		}
 		
@@ -137,7 +137,7 @@ public class FaceApplication extends Application {
 			//TODO Write Number of Points
 			g.setColor(Color.BLUE);
 			g.drawRect(component.getCamada());
-			g.drawStringShadow(component.getMenorX(), component.getMenorY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()), Color.BLACK);
+			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()), Color.BLACK);
 
 		}
 		
@@ -174,7 +174,7 @@ public class FaceApplication extends Application {
 
 			if(componente.getNumeroPontos()>=maxPontos){
 
-				if(componente.getMaiorX()<maxX){
+				if(componente.getHighestX()<maxX){
 
 					//Boxes Verticais
 					if(componente.getH()>componente.getW()){
@@ -182,7 +182,7 @@ public class FaceApplication extends Application {
 						//g.setColor(Color.GREEN);
 						//g.drawRect(lista.getCamada());
 
-						int relevancia = (componente.getH()*componente.getW())-componente.getMenorY();
+						int relevancia = (componente.getH()*componente.getW())-componente.getLowestY();
 
 						if(relevancia>maiorRelevancia){
 							maiorRelevancia = relevancia;

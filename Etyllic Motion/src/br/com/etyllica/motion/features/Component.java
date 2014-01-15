@@ -7,25 +7,23 @@ import java.util.List;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Point2D;
 
-public class Component implements Comparable<Component>{
+public class Component extends ColorComponent implements Comparable<Component>{
 
-	protected List<Point2D> points;
+	protected List<Point2D> points = new ArrayList<Point2D>();
 	
-	private int menorX = 640;
-	private int menorY = 480;
-	private int maiorX = 0;
-	private int maiorY = 0;
-	
-	private long mediaR = 0;
-	private long mediaG = 0;
-	private long mediaB = 0;
-	
+	protected int lowestX = 640;
+	protected int lowestY = 480;
+	protected int highestX = 0;
+	protected int highestY = 0;
+			
 	public Component(int w, int h){
+		super();
 		
-		menorX = w;
-		menorY = h;
+		highestX = 0;
+		highestY = 0;
 		
-		points = new ArrayList<Point2D>();
+		lowestX = w;
+		lowestY = h;		
 	}
 	
 	public void add(int x, int y){
@@ -42,18 +40,18 @@ public class Component implements Comparable<Component>{
 		
 	public void add(Point2D p){
 		
-		if((int)p.getX()>maiorX){
-			maiorX = (int)p.getX();
+		if((int)p.getX()>highestX){
+			highestX = (int)p.getX();
 		}
-		else if((int)p.getX()<menorX){
-			menorX = (int)p.getX();
+		else if((int)p.getX()<lowestX){
+			lowestX = (int)p.getX();
 		}
 		
-		if((int)p.getY()>maiorY){
-			maiorY = (int)p.getY();
+		if((int)p.getY()>highestY){
+			highestY = (int)p.getY();
 		}
-		else if((int)p.getY()<menorY){
-			menorY = (int)p.getY();
+		else if((int)p.getY()<lowestY){
+			lowestY = (int)p.getY();
 		}
 		
 		points.add(p);
@@ -68,32 +66,32 @@ public class Component implements Comparable<Component>{
 		return points.size();
 	}
 		
-	public int getMenorX(){
-		return menorX;
+	public int getLowestX(){
+		return lowestX;
 	}
-	public int getMaiorX(){
-		return maiorX;
+	public int getHighestX(){
+		return highestX;
 	}
-	public int getMenorY(){
-		return menorY;
+	public int getLowestY(){
+		return lowestY;
 	}
-	public int getMaiorY(){
-		return maiorY;
+	public int getHighestY(){
+		return highestY;
 	}
 	
 	public int getW(){
-		return maiorX-menorX;
+		return highestX-lowestX;
 	}
 	public int getH(){
-		return maiorY-menorY;
+		return highestY-lowestY;
 	}
 	
 	public Polygon getBoundingBox(){
 		Polygon p = new Polygon();
-		p.addPoint(menorX,menorY);
-		p.addPoint(maiorX,menorY);
-		p.addPoint(maiorX,maiorY);
-		p.addPoint(menorX,maiorY);
+		p.addPoint(lowestX,lowestY);
+		p.addPoint(highestX,lowestY);
+		p.addPoint(highestX,highestY);
+		p.addPoint(lowestX,highestY);
 		
 		return p;
 	}
@@ -107,7 +105,7 @@ public class Component implements Comparable<Component>{
 
 	public Layer getCamada() {
 		
-		return new Layer(menorX,menorY,getW(),getH());
+		return new Layer(lowestX,lowestY,getW(),getH());
 	}
 
 	public List<Point2D> getPoints() {

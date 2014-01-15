@@ -24,9 +24,9 @@ public class FindRedLedActivatedFilter extends ComponentFilter implements Filter
 
 		//for(Componente component: components){
 
-			for (int j = component.getMenorY()+border; j < component.getMaiorY()-border*2; j+=step) {
+			for (int j = component.getLowestY()+border; j < component.getHighestY()-border*2; j+=step) {
 
-				for (int i = component.getMenorX()+border; i < component.getMaiorX()-border*2; i+=step) {
+				for (int i = component.getLowestX()+border; i < component.getHighestX()-border*2; i+=step) {
 
 					if (!validateColor(bimg.getRGB(i,j))) {
 						return null;

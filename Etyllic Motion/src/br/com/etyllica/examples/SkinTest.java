@@ -267,7 +267,7 @@ public class SkinTest extends Application{
 			g.setColor(Color.GREEN);
 			g.drawRect(component.getCamada());
 			g.setColor(Color.WHITE);
-			g.drawStringShadow(component.getMenorX(), component.getMenorY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()),Color.BLACK);
+			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()),Color.BLACK);
 		}
 
 		//Draw Bigger component

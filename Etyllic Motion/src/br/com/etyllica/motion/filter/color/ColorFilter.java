@@ -1,10 +1,11 @@
-package br.com.etyllica.motion.core;
+package br.com.etyllica.motion.filter.color;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.FilterImpl;
 import br.com.etyllica.motion.features.Component;
 
 public class ColorFilter extends FilterImpl{
@@ -23,12 +24,15 @@ public class ColorFilter extends FilterImpl{
 	
 	public Point2D filterFirst(BufferedImage bimg, Component component){
 		
-		int w = bimg.getWidth();
-		int h = bimg.getHeight();
+		int x = component.getLowestX();
+		int y = component.getLowestY();
+		
+		int w = component.getW();
+		int h = component.getH();
 
-		for(int j=border;j<h-border;j++){
+		for(int j=y+border;j<h-border;j++){
 
-			for(int i=border;i<w-border;i++){
+			for(int i=x+border;i<w-border;i++){
 
 				if(validateColor(bimg.getRGB(i, j))){
 

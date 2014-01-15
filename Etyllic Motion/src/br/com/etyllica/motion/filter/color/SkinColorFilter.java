@@ -1,4 +1,5 @@
-package br.com.etyllica.motion.core;
+package br.com.etyllica.motion.filter.color;
+
 
 
 public class SkinColorFilter extends ColorFilter{

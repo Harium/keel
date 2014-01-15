@@ -243,7 +243,7 @@ public class FaceSampledStatic extends Application{
 	private void drawBox(Graphic g){
 		if(box!=null){
 			g.setColor(Color.BLACK);
-			g.drawRect(box.getMenorX(), box.getMenorY(), box.getW(), box.getH());
+			g.drawRect(box.getLowestX(), box.getLowestY(), box.getW(), box.getH());
 		}
 		
 		//DrawSkin
@@ -257,9 +257,9 @@ public class FaceSampledStatic extends Application{
 		int step = 2;
 		
 		 if(box!=null){
-			for(int j=box.getMenorY();j<box.getMenorY()+box.getH();j+=step){
+			for(int j=box.getLowestY();j<box.getLowestY()+box.getH();j+=step){
 
-				for(int i=box.getMenorX();i<box.getMenorX()+box.getW();i+=step){
+				for(int i=box.getLowestX();i<box.getLowestX()+box.getW();i+=step){
 					
 					int rgb = cam.getBufferedImage().getRGB(i, j);
 					

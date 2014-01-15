@@ -17,9 +17,9 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.air.PolygonMatcher;
-import br.com.etyllica.motion.core.ColorFilter;
-import br.com.etyllica.motion.core.SkinColorFilter;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.color.ColorFilter;
+import br.com.etyllica.motion.filter.color.SkinColorFilter;
 import br.com.etyllica.motion.gesture.GestureRegex;
 
 public class AirWrite extends Application{
