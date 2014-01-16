@@ -66,19 +66,38 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		return points.size();
 	}
 		
-	public int getLowestX(){
+	public int getLowestX() {
 		return lowestX;
 	}
-	public int getHighestX(){
-		return highestX;
+
+	public void setLowestX(int lowestX) {
+		this.lowestX = lowestX;
 	}
-	public int getLowestY(){
+
+	public int getLowestY() {
 		return lowestY;
 	}
-	public int getHighestY(){
+
+	public void setLowestY(int lowestY) {
+		this.lowestY = lowestY;
+	}
+
+	public int getHighestX() {
+		return highestX;
+	}
+
+	public void setHighestX(int highestX) {
+		this.highestX = highestX;
+	}
+
+	public int getHighestY() {
 		return highestY;
 	}
-	
+
+	public void setHighestY(int highestY) {
+		this.highestY = highestY;
+	}
+
 	public int getW(){
 		return highestX-lowestX;
 	}

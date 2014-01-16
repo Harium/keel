@@ -15,4 +15,6 @@ public class BoundingComponent extends Component{
 		
 	}
 	
+	
+	
 }
