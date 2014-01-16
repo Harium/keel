@@ -14,9 +14,9 @@ public class ColorFilter extends FilterImpl{
 	
 	protected int tolerance = 0x40;
 
-	private int color = Color.BLACK.getRGB();
+	protected int color = Color.BLACK.getRGB();
 	
-	private Point2D lastPoint = new Point2D(0, 0);
+	protected Point2D lastPoint = new Point2D(0, 0);
 
 	public ColorFilter() {
 		super();
