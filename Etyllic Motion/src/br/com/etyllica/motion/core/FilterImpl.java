@@ -1,19 +1,27 @@
 package br.com.etyllica.motion.core;
 
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.etyllica.motion.features.Component;
+
 
 public abstract class FilterImpl implements Filter{
 
 	protected int step = 1;
 	
 	protected int border = 0;
+	
+	protected List<Component> result = new ArrayList<Component>();
 
-	public boolean isSkin(int rgb){
+	public static boolean isSkin(int rgb){
 
 		return isSkin(rgb, 0);
 
 	}
 	
-	public boolean isSkin(int rgb, int tolerance){
+	public static boolean isSkin(int rgb, int tolerance){
 
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
@@ -35,7 +43,7 @@ public abstract class FilterImpl implements Filter{
 
 	}
 
-	public boolean isColor(int rgb, int color){
+	public static boolean isColor(int rgb, int color){
 		
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
@@ -48,7 +56,7 @@ public abstract class FilterImpl implements Filter{
 		
 	}
 	
-	public boolean isColor(int rgb, int color, int tolerance){
+	public static boolean isColor(int rgb, int color, int tolerance){
 		
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
@@ -67,7 +75,7 @@ public abstract class FilterImpl implements Filter{
 		
 	}
 	
-	public boolean isBlack(int rgb){
+	public static boolean isBlack(int rgb){
 
 		int black = 0x49;
 
@@ -81,7 +89,7 @@ public abstract class FilterImpl implements Filter{
 		return false;
 	}
 
-	public int difMod(int a, int b){
+	public static int difMod(int a, int b){
 		if(a>b){
 			return a-b;
 		}else{
@@ -89,13 +97,13 @@ public abstract class FilterImpl implements Filter{
 		}
 	}
 
-	public int getRed(int rgb){
+	public static int getRed(int rgb){
 
 		return (rgb >> 16) & 0xFF;
 
 	}
 
-	public int getGreen(int rgb){
+	public static int getGreen(int rgb){
 
 		//byte green = (byte) ((rgb & 0x0000ff00) >> 8);
 
@@ -103,10 +111,20 @@ public abstract class FilterImpl implements Filter{
 
 	}
 
-	public int getBlue(int rgb){
+	public static int getBlue(int rgb){
 		//byte blue = (byte) (rgb & 0x000000ff);
 
 		return rgb & 0xFF;
 	}
 
+	@Override
+	public Component filterFirst(BufferedImage bimg, Component component) {
+		return filter(bimg, component).get(0);
+	}
+
+	@Override
+	public void setup(){
+		result.clear();	
+	}
+	
 }

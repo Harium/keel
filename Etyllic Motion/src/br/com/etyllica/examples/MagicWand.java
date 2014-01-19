@@ -10,8 +10,10 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.features.Wand;
 import br.com.etyllica.motion.filter.color.ColorFilter;
@@ -32,6 +34,8 @@ public class MagicWand extends Application{
 	private int xImage = 0;
 	private int yImage = 0;
 	
+	private Component screen;
+	
 	public MagicWand(int w, int h) {
 		super(w, h);
 	}
@@ -42,7 +46,9 @@ public class MagicWand extends Application{
 		loadingPhrase = "Open Camera";
 		
 		cam = new CameraV4L4J(0);
-				
+		
+		screen = new BoundingComponent(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+		
 		loadingPhrase = "Setting Filter";
 				
 		colorFilter.setColor(new Color(0x25,0x27,0x60).getRGB());
@@ -59,15 +65,9 @@ public class MagicWand extends Application{
 	
 	private void reset(BufferedImage b){
 		
-		int w = b.getWidth();
-		int h = b.getHeight();
-
-		Component feature = colorFilter.filter(b, new Component(w, h));
+		Component feature = colorFilter.filter(b, screen).get(0);
 		
-		List<Component> components = new ArrayList<Component>();
-		components.add(feature);
-		
-		result = filter.filter(b, components);
+		result = filter.filter(b, feature);
 		
 		features.clear();
 		
@@ -84,7 +84,14 @@ public class MagicWand extends Application{
 
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
+		
+		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
+			//When mouse clicks with LeftButton, the color filter tries to find
+			//the color we are clicking on
+			colorFilter.setColor(cam.getBufferedImage().getRGB((int)event.getX(), (int)event.getY()));
+						
+		}
+		
 		return GUIEvent.NONE;
 	}
 	

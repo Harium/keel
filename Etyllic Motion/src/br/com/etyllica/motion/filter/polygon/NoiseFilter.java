@@ -1,7 +1,6 @@
 package br.com.etyllica.motion.filter.polygon;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
@@ -16,15 +15,12 @@ public class NoiseFilter extends QuickHullFilter{
 
 	public NoiseFilter(int w, int h) {
 		super(w, h);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
 		
-		polygon.reset();
-		
-		List<Component> result = new ArrayList<Component>();
+		super.setup();
 		
 		Component poly = new Component(w, h);
 		

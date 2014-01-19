@@ -13,28 +13,26 @@ public class QuickHullFilter extends ElasticFilter{
 
 	protected Polygon polygon = new Polygon();
 	
-	public QuickHullFilter(int w, int h) {
+	public QuickHullFilter(int w, int h){
 		super(w, h);
 	}
 
 	@Override
-	public boolean validateColor(int rgb) {
+	public boolean validateColor(int rgb){
 		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
-	public boolean validateComponent(Component component) {
+	public boolean validateComponent(Component component){
 		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
-	public List<Component> filter(BufferedImage bimg, Component component) {
+	public List<Component> filter(BufferedImage bimg, Component component){
 
-		polygon.reset();
-		
-		List<Component> result = new ArrayList<Component>();
+		setup();
 		
 		Component poly = new Component(w, h);
 		
@@ -49,7 +47,7 @@ public class QuickHullFilter extends ElasticFilter{
 	}
 
 	//From www.ahristov.com/tutorial/geometry-games/convex-hull.html
-	public List<Point2D> quickHull(List<Point2D> points) {
+	public List<Point2D> quickHull(List<Point2D> points){
 
 		//if (points.size() < 3) return (ArrayList)points.clone();
 		if (points.size() < 3) return points;
@@ -60,12 +58,12 @@ public class QuickHullFilter extends ElasticFilter{
 		int minPoint = -1, maxPoint = -1;
 		double minX = Double.MAX_VALUE;
 		double maxX = Double.MIN_VALUE;
-		for (int i = 0; i < points.size(); i++) {
-			if (points.get(i).getX() < minX) {
+		for (int i = 0; i < points.size(); i++){
+			if (points.get(i).getX() < minX){
 				minX = points.get(i).getX();
 				minPoint = i;
 			} 
-			if (points.get(i).getX() > maxX) {
+			if (points.get(i).getX() > maxX){
 				maxX = points.get(i).getX();
 				maxPoint = i;       
 			}
@@ -80,7 +78,7 @@ public class QuickHullFilter extends ElasticFilter{
 		ArrayList<Point2D> leftSet = new ArrayList<Point2D>();
 		ArrayList<Point2D> rightSet = new ArrayList<Point2D>();
 
-		for (int i = 0; i < points.size(); i++) {
+		for (int i = 0; i < points.size(); i++){
 			Point2D p = points.get(i);
 			if (pointLocation(A,B,p) == -1)
 				leftSet.add(p);
@@ -93,10 +91,10 @@ public class QuickHullFilter extends ElasticFilter{
 		return convexHull;
 	}
 
-	public void hullSet(Point2D A, Point2D B, ArrayList<Point2D> set, List<Point2D> hull) {
+	public void hullSet(Point2D A, Point2D B, ArrayList<Point2D> set, List<Point2D> hull){
 		int insertPosition = hull.indexOf(B);
 		if (set.size() == 0) return;
-		if (set.size() == 1) {
+		if (set.size() == 1){
 			Point2D p = set.get(0);
 			set.remove(p);
 			hull.add(insertPosition,p);
@@ -104,10 +102,10 @@ public class QuickHullFilter extends ElasticFilter{
 		}
 		double dist = Double.MIN_VALUE;
 		int furthestPoint = -1;
-		for (int i = 0; i < set.size(); i++) {
+		for (int i = 0; i < set.size(); i++){
 			Point2D p = set.get(i);
 			double distance  = distance(A,B,p);
-			if (distance > dist) {
+			if (distance > dist){
 				dist = distance;
 				furthestPoint = i;
 			}
@@ -118,9 +116,9 @@ public class QuickHullFilter extends ElasticFilter{
 
 		// Determine who's to the left of AP
 		ArrayList<Point2D> leftSetAP = new ArrayList<Point2D>();
-		for (int i = 0; i < set.size(); i++) {
+		for (int i = 0; i < set.size(); i++){
 			Point2D M = set.get(i);
-			if (pointLocation(A,P,M)==1) {
+			if (pointLocation(A,P,M)==1){
 				//set.remove(M);
 				leftSetAP.add(M);
 			}
@@ -128,9 +126,9 @@ public class QuickHullFilter extends ElasticFilter{
 
 		// Determine who's to the left of PB
 		ArrayList<Point2D> leftSetPB = new ArrayList<Point2D>();
-		for (int i = 0; i < set.size(); i++) {
+		for (int i = 0; i < set.size(); i++){
 			Point2D M = set.get(i);
-			if (pointLocation(P,B,M)==1) {
+			if (pointLocation(P,B,M)==1){
 				//set.remove(M);
 				leftSetPB.add(M);
 			}
@@ -139,12 +137,12 @@ public class QuickHullFilter extends ElasticFilter{
 		hullSet(P,B,leftSetPB,hull);
 	}
 
-	public double pointLocation(Point2D A, Point2D B, Point2D P) {
+	public double pointLocation(Point2D A, Point2D B, Point2D P){
 		double cp1 = (B.getX()-A.getX())*(P.getY()-A.getY()) - (B.getY()-A.getY())*(P.getX()-A.getX());
 		return (cp1>0)?1:-1;
 	}
 
-	public double distance(Point2D a, Point2D b, Point2D c) {
+	public double distance(Point2D a, Point2D b, Point2D c){
 		double ABx = b.getX()-a.getX();
 		double ABy = b.getY()-a.getY();
 		double num = ABx*(a.getY()-c.getY())-ABy*(a.getX()-c.getX());
@@ -152,12 +150,19 @@ public class QuickHullFilter extends ElasticFilter{
 		return num;
 	}
 
-	public Polygon getPolygon() {
+	public Polygon getPolygon(){
 		return polygon;
 	}
 
-	public void setPolygon(Polygon polygon) {
+	public void setPolygon(Polygon polygon){
 		this.polygon = polygon;
+	}
+	
+	@Override
+	public void setup(){
+		super.setup();
+		
+		polygon.reset();
 	}
 
 }

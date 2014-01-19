@@ -2,7 +2,6 @@ package br.com.etyllica.motion.filter.wand;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
@@ -23,7 +22,7 @@ public class MagicWandConvexFilter extends ElasticFilter {
 
 	public List<Component> filter(BufferedImage bimg, Component component){
 				
-		List<Component> result = new ArrayList<Component>();
+		super.setup();
 
 		Component box = turnIntoBox(component);
 		

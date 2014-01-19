@@ -17,7 +17,7 @@ public class ExtremelySimpleFindSkinFilter extends BooleanMaskFilter{
 	}
 
 	@Override
-	protected List<Component> filter(BufferedImage bimg, Component component){
+	public List<Component> filter(BufferedImage bimg, Component component){
 
 		List<Component> result = new ArrayList<Component>();
 		

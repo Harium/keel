@@ -11,6 +11,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.barcode.BarCodeFilter;
 
@@ -66,7 +67,7 @@ public class BarCode extends Application{
 		loading = 65;
 		loadingPhrase = "Show Result";
 
-		result = filter.filter(b, new Component(w, h));
+		result = filter.filter(b, new BoundingComponent(w, h));
 
 		loading = 70;
 		loadingPhrase = "Show Angle";

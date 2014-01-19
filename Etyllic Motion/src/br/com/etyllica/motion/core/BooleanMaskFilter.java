@@ -1,10 +1,6 @@
 package br.com.etyllica.motion.core;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
-import br.com.etyllica.motion.features.Component;
 
 public abstract class BooleanMaskFilter extends ComponentFilter{
 
@@ -33,21 +29,14 @@ public abstract class BooleanMaskFilter extends ComponentFilter{
 	public boolean[][] getMask() {
 		return mask;
 	}
-	
+		
 	@Override
-	public List<Component> filter(BufferedImage bimg, List<Component> components) {
-			
-		List<Component> filteredComponents = new ArrayList<Component>();
+	public void setup(){
 		
-		for(Component component: components){
-			
-			resetMask();
-			
-			filteredComponents.addAll(filter(bimg, component));	
-						
-		}
+		super.setup();
 		
-		return filteredComponents;
+		resetMask();
+		
 	}
 	
 }

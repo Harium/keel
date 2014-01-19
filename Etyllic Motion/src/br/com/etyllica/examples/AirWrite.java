@@ -1,7 +1,6 @@
 package br.com.etyllica.examples;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -17,9 +16,9 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.air.PolygonMatcher;
+import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorFilter;
-import br.com.etyllica.motion.filter.color.SkinColorFilter;
 import br.com.etyllica.motion.gesture.GestureRegex;
 
 public class AirWrite extends Application{
@@ -41,7 +40,7 @@ public class AirWrite extends Application{
 	
 	private String match = "_";
 	
-	Component component = new Component((int)w,(int)h);
+	private Component component = new Component((int)w,(int)h);
 	
 	private PolygonMatcher matcher = new PolygonMatcher();
 	
@@ -51,12 +50,16 @@ public class AirWrite extends Application{
 		super(w, h);
 	}
 
+	private Component screen;
+	
 	@Override
 	public void load() {
 
 		loadingPhrase = "Open Camera";
 
 		cam = new CameraV4L4J(0);
+		
+		screen = new BoundingComponent(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		
 		loadingPhrase = "Setting PolygonMatcher";
 		matcher.setMinDistance(8);		
@@ -76,11 +79,9 @@ public class AirWrite extends Application{
 		loading = 100;
 	}
 
-	private Component screen = new Component((int)w, (int)h);
-
 	private void reset(BufferedImage b){
 
-		Point2D point = colorFilter.filterFirst(b, screen);
+		Component point = colorFilter.filterFirst(b, screen);
 
 		if(!freeze){
 
@@ -88,7 +89,7 @@ public class AirWrite extends Application{
 
 				Point2D firstPoint = points.get(0);
 
-				firstPoint.setLocation(point);
+				firstPoint.setLocation(point.getX(), point.getY());
 
 				Collections.rotate(points, -1);
 			}

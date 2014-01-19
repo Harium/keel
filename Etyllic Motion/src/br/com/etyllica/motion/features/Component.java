@@ -12,8 +12,11 @@ public class Component extends ColorComponent implements Comparable<Component>{
 	protected List<Point2D> points = new ArrayList<Point2D>();
 	
 	protected int lowestX = 640;
+	
 	protected int lowestY = 480;
+	
 	protected int highestX = 0;
+	
 	protected int highestY = 0;
 			
 	public Component(int w, int h){
@@ -97,13 +100,6 @@ public class Component extends ColorComponent implements Comparable<Component>{
 	public void setHighestY(int highestY) {
 		this.highestY = highestY;
 	}
-
-	public int getW(){
-		return highestX-lowestX;
-	}
-	public int getH(){
-		return highestY-lowestY;
-	}
 	
 	public Polygon getBoundingBox(){
 		Polygon p = new Polygon();
@@ -165,6 +161,34 @@ public class Component extends ColorComponent implements Comparable<Component>{
 			
 			add(point);
 		}
+	}
+
+	public void setLocation(int x, int y) {
+		
+		this.lowestX = x;
+		
+		this.lowestY = y;
+		
+		this.highestX = x+1;
+		
+		this.highestY = y+1;
+		
+	}
+	
+	public int getX() {
+		return lowestX;
+	}
+	
+	public int getY() {
+		return lowestY;
+	}
+	
+	public int getW(){
+		return highestX-lowestX;
+	}
+	
+	public int getH(){
+		return highestY-lowestY;
 	}
 
 }

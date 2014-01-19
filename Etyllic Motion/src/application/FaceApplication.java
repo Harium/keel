@@ -21,7 +21,8 @@ import br.com.etyllica.motion.filter.face.FindEyeFilter;
 
 public class FaceApplication extends Application {
 
-	private List<Component> rootComponent = new ArrayList<Component>();
+	private Component screen;
+	
 	private boolean[][] emptyMask;
 	
 	public FaceApplication(int w, int h) {
@@ -48,7 +49,8 @@ public class FaceApplication extends Application {
 		int w = cam.getBufferedImage().getWidth(); 
 		int h = cam.getBufferedImage().getHeight();
 				
-		rootComponent.add(new Component(w, h));
+		screen = new Component(w, h);
+		
 		emptyMask = new boolean[w][h];
 		
 		for(int j=0;j<h;j++){
@@ -109,9 +111,12 @@ public class FaceApplication extends Application {
 
 		g.drawImage(buf,0,0);
 		
-		faces = findFace.filter(buf, rootComponent);
-		eyes = findEye.filter(buf, faces);
-
+		faces = findFace.filter(buf, screen);
+		
+		for(Component face: faces){
+			eyes.addAll(findEye.filter(buf, face));
+		}
+		
 		for(Component component: faces){
 
 			//TODO Draw Pixels

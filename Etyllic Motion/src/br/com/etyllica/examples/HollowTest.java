@@ -2,21 +2,20 @@ package br.com.etyllica.examples;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.loader.ImageLoader;
+import br.com.etyllica.core.loader.image.ImageLoader;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.hollowcontroller.FindRedLedFilter;
 
 public class HollowTest extends Application{
 
-	private List<Component> rootComponent = new ArrayList<Component>();
+	private Component screen;
 	private FindRedLedFilter filter;
 
 	private BufferedImage test;
@@ -40,11 +39,10 @@ public class HollowTest extends Application{
 	@Override
 	public void load() {
 
-
 		//TODO Change to Camera Size in Real Application
 		filter = new FindRedLedFilter((int)w, (int)h);
 		
-		rootComponent.add(new Component((int)w,(int)h));
+		screen = new Component(w, h);
 
 		BufferedImage test1 = ImageLoader.getInstance().getImage("test/test1.png");
 		BufferedImage test2 = ImageLoader.getInstance().getImage("test/test2.png");
@@ -62,7 +60,7 @@ public class HollowTest extends Application{
 
 		g.drawImage(test, 0, 0);
 
-		List<Component> components = filter.filter(test, rootComponent);
+		List<Component> components = filter.filter(test, screen);
 		
 		Color color = Color.RED;
 		if(components.size()==8){

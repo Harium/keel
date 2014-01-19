@@ -12,6 +12,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.gui.spinner.IntegerSpinner;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.BorderFilter;
 import br.com.etyllica.motion.filter.face.SkinBorderFilter;
@@ -67,9 +68,11 @@ public class FaceSampledMultiFilterStatic extends Application{
 
 	private int skinTolerance = 5;
 
-	IntegerSpinner skinMinNeighboorSpinner;
+	private IntegerSpinner skinMinNeighboorSpinner;
 
-	private Component allPoints;	
+	private Component allPoints;
+	
+	private Component screen;
 
 	public FaceSampledMultiFilterStatic(int w, int h) {
 		super(w, h);
@@ -84,6 +87,8 @@ public class FaceSampledMultiFilterStatic extends Application{
 			loading = i;
 			cam.addImage("skin/skin"+Integer.toString(i)+".jpg");
 		}
+		
+		screen = new BoundingComponent(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 
 		loadingPhrase = "Configuring Filter";
 		blackFilter.setColor(Color.BLACK.getRGB());
@@ -120,7 +125,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 		//quickFilter.setRadius(20);
 
 		//Sampled
-		blackSampledFeature = blackFilter.filter(b, new Component(w, h)).get(0);
+		blackSampledFeature = blackFilter.filter(b, screen).get(0);
 		blackPolygon.reset();
 		quickFilter.filter(b, blackSampledFeature).get(0);
 		blackPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
@@ -131,7 +136,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 
 		skinFilter.setTolerance(skinTolerance);
 
-		skinFeature = skinFilter.filter(b, new Component(w, h)).get(0);
+		skinFeature = skinFilter.filter(b, screen).get(0);
 		skinPolygon.reset();
 		quickFilter.filter(b, skinFeature).get(0);
 		skinPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);

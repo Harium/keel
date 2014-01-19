@@ -1,7 +1,6 @@
 package br.com.etyllica.motion.filter.face;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -18,7 +17,7 @@ public class FindSkinFilter extends BooleanMaskFilter{
 
 	public List<Component> filter(BufferedImage bimg, Component component){
 
-		List<Component> result = new ArrayList<Component>();
+		super.setup();
 		
 		for (int j = border; j < h-border*2; j+=step) {
 
@@ -268,6 +267,12 @@ public class FindSkinFilter extends BooleanMaskFilter{
 
 
 		return sizeok&&points;
+	}
+
+	@Override
+	public Component filterFirst(BufferedImage bimg, Component component) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

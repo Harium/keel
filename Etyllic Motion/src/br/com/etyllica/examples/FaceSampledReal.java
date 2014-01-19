@@ -13,6 +13,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.BorderFilter;
 import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
@@ -37,17 +38,21 @@ public class FaceSampledReal extends Application{
 	private Component sampledFeature;
 
 	private Polygon sampledPolygon = new Polygon();
+	
+	private Component screen;
 
 	public FaceSampledReal(int w, int h) {
 		super(w, h);
 	}
-
+	
 	@Override
 	public void load() {
 
 		loadingPhrase = "Loading Images";
 
 		cam = new CameraV4L4J(0);
+		
+		screen = new BoundingComponent(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 
 		colorFilter.setColor(Color.BLACK.getRGB());
 		
@@ -75,7 +80,7 @@ public class FaceSampledReal extends Application{
 		filter.setH(h);
 
 		//Sampled
-		sampledFeature = colorFilter.filter(b, new Component(w, h)).get(0);
+		sampledFeature = colorFilter.filter(b, screen).get(0);
 
 		sampledPolygon.reset();
 

@@ -1,4 +1,4 @@
-package br.com.etyllica.examples;
+package test.br.com.etyllica.motion;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -12,7 +12,7 @@ import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.input.mouse.MouseButton;
-import br.com.etyllica.core.loader.ImageLoader;
+import br.com.etyllica.core.loader.image.ImageLoader;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.debug.Tester;
 import br.com.etyllica.motion.features.Component;
@@ -21,7 +21,7 @@ import br.com.etyllica.motion.filter.face.FindEyeFilter;
 
 public class SkinTest extends Application{
 
-	private List<Component> rootComponent = new ArrayList<Component>();
+	private Component screen;
 	private ExtremelySimpleFindSkinFilter filter;
 	private FindEyeFilter eyesFilter;
 
@@ -44,7 +44,7 @@ public class SkinTest extends Application{
 		filter = new ExtremelySimpleFindSkinFilter(640, 480);
 		eyesFilter = new FindEyeFilter(640, 480);
 
-		rootComponent.add(new Component(640, 480));
+		screen = new Component(640, 480);
 
 		//UnitTests
 		unitTests();
@@ -244,7 +244,7 @@ public class SkinTest extends Application{
 
 		g.drawImage(test, 0, 0);
 
-		List<Component> components = filter.filter(test, rootComponent);
+		List<Component> components = filter.filter(test, screen);
 
 		//eyesFilter.filter(bimg, components);
 

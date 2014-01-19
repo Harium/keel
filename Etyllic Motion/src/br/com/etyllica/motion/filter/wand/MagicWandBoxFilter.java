@@ -1,7 +1,6 @@
 package br.com.etyllica.motion.filter.wand;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
@@ -21,9 +20,7 @@ public class MagicWandBoxFilter extends MagicWandConvexFilter {
 
 	public List<Component> filter(BufferedImage bimg, Component component){
 
-		List<Component> result = new ArrayList<Component>();
-
-		resetMask();
+		super.setup();
 
 		int w = bimg.getWidth();
 		int h = bimg.getHeight();

@@ -18,7 +18,7 @@ import br.com.etyllica.motion.hollowcontroller.FindRedLedFilter;
 
 public class HollowController extends Application {
 
-	private List<Component> rootComponent = new ArrayList<Component>();
+	private Component screen;
 
 	public HollowController(int w, int h) {
 		super(w,h);
@@ -41,7 +41,7 @@ public class HollowController extends Application {
 
 		cam = new CameraV4L4J(0);
 
-		rootComponent.add(new Component(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight()));
+		screen = new Component(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight());
 
 		//Loading Filters
 		filter = new FindRedLedFilter(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight());
@@ -83,10 +83,7 @@ public class HollowController extends Application {
 		
 		for(Component component: lastButtons){
 
-			List<Component> list = new ArrayList<Component>();
-			list.add(component);
-
-			List<Component> active = activeFilter.filter(buf, list);
+			List<Component> active = activeFilter.filter(buf, component);
 
 			Color color = Color.YELLOW;
 
@@ -104,7 +101,7 @@ public class HollowController extends Application {
 
 		if(!activated){
 
-			components = filter.filter(buf, rootComponent);
+			components = filter.filter(buf, screen);
 
 			if(components!=null){
 

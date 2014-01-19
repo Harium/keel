@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.FilterImpl;
+import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 
-public class ColorFilter extends FilterImpl{
+public class ColorFilter extends FilterImpl {
 
 	protected int border = 1;
 	
@@ -16,29 +16,32 @@ public class ColorFilter extends FilterImpl{
 
 	protected int color = Color.BLACK.getRGB();
 	
-	protected Point2D lastPoint = new Point2D(0, 0);
+	protected Component lastComponent = new BoundingComponent(0, 0, 1, 1);
 
 	public ColorFilter() {
 		super();
 	}
 	
-	public Point2D filterFirst(BufferedImage bimg, Component component){
+	@Override
+	public Component filterFirst(BufferedImage bimg, Component component){
+		
+		super.setup();
 		
 		int x = component.getLowestX();
 		int y = component.getLowestY();
 		
 		int w = component.getW();
 		int h = component.getH();
-
+		
 		for(int j=y+border;j<h-border;j++){
-
+			
 			for(int i=x+border;i<w-border;i++){
-
+				
 				if(validateColor(bimg.getRGB(i, j))){
-
-					lastPoint.setLocation(i, j);
 					
-					return lastPoint;
+					lastComponent.setLocation(i, j);
+										
+					return lastComponent;
 
 				}
 
@@ -46,11 +49,13 @@ public class ColorFilter extends FilterImpl{
 
 		}
 
-		return lastPoint;
+		return lastComponent;
 		
 	}
 	
-	public Component filter(BufferedImage bimg, Component component){
+	public List<Component> filter(BufferedImage bimg, Component component){
+		
+		super.setup();
 		
 		int w = bimg.getWidth();
 		int h = bimg.getHeight();
@@ -66,14 +71,16 @@ public class ColorFilter extends FilterImpl{
 				if(validateColor(bimg.getRGB(i, j))){
 
 					holder.add(i, j);
-
+					
 				}
 
 			}
 
 		}
+		
+		result.add(holder);
 
-		return holder;
+		return result;
 	}
 	
 	public List<Component> filter(BufferedImage bimg, List<Component> components){
@@ -96,7 +103,7 @@ public class ColorFilter extends FilterImpl{
 	}
 
 	public void setColor(int color) {
-		this.color = color;
+		this.color = color;	
 	}
 
 	public int getBorder() {
@@ -113,6 +120,10 @@ public class ColorFilter extends FilterImpl{
 
 	public void setTolerance(int tolerance) {
 		this.tolerance = tolerance;
+	}
+	
+	public Component getLastComponent() {
+		return lastComponent;
 	}
 	
 }

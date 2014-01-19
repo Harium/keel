@@ -1,4 +1,4 @@
-package br.com.etyllica.examples;
+package br.com.etyllica.examples.tutorials;
 
 import java.awt.Color;
 
@@ -11,7 +11,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorFilter;
 
@@ -27,16 +27,18 @@ public class SimpleCam extends Application{
 
 	private BufferedLayer mirror;
 
-	private Component screen = new Component(w, h);
+	private BoundingComponent screen;
 
-	private Point2D point;
+	private Component point;
 
 	@Override
 	public void load() {
-
+		
 		loadingPhrase = "Opening Camera";
 
 		cam = new CameraV4L4J(0);
+		
+		screen = new BoundingComponent(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 
 		loadingPhrase = "Setting Filter";
 
@@ -74,7 +76,7 @@ public class SimpleCam extends Application{
 		g.setColor(Color.CYAN);
 
 		//Draw our tracking point with radius = 10 pixels
-		g.fillCircle((int)point.getX(), (int)point.getY(), 10);
+		g.fillCircle(point.getX(), point.getY(), 10);
 
 	}
 
@@ -85,6 +87,7 @@ public class SimpleCam extends Application{
 			//When mouse clicks with LeftButton, the color filter tries to find
 			//the color we are clicking on
 			colorFilter.setColor(mirror.getModifiedBuffer().getRGB((int)event.getX(), (int)event.getY()));
+						
 		}
 
 		return GUIEvent.NONE;

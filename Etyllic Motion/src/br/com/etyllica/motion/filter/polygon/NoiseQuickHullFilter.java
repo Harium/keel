@@ -12,6 +12,7 @@ public class NoiseQuickHullFilter extends QuickHullFilter{
 	private int radius = 20;
 	
 	private int minNeighboors = 0;
+	
 	private int maxNeighboors = Integer.MAX_VALUE;
 
 	public NoiseQuickHullFilter(int w, int h) {
@@ -22,9 +23,7 @@ public class NoiseQuickHullFilter extends QuickHullFilter{
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
 
-		polygon.reset();
-		
-		List<Component> result = new ArrayList<Component>();
+		super.setup();
 		
 		Component poly = new Component(w, h);
 		

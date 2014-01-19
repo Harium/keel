@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.BoundingComponent;
+import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.LeftColorFilter;
 
 public class LeftColorFilterTest {
@@ -50,7 +50,7 @@ public class LeftColorFilterTest {
 		
 		image.setRGB(20, 30, RGB);
 		
-		Point2D point = filter.filterFirst(image, new BoundingComponent(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT));
+		Component point = filter.filterFirst(image, new BoundingComponent(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT));
 		
 		Assert.assertEquals(20, point.getX(), 0);
 		
@@ -67,7 +67,7 @@ public class LeftColorFilterTest {
 		
 		filter.setBorder(3);		
 		
-		Point2D point = filter.filterFirst(image, new BoundingComponent(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT));
+		Component point = filter.filterFirst(image, new BoundingComponent(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT));
 		
 		Assert.assertEquals(20, point.getX(), 0);
 		

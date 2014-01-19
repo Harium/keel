@@ -2,7 +2,6 @@ package br.com.etyllica.motion.filter.color;
 
 import java.awt.image.BufferedImage;
 
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
 
 public class LeftColorFilter extends ColorFilter{
@@ -11,8 +10,10 @@ public class LeftColorFilter extends ColorFilter{
 		super();
 	}
 
-	public Point2D filterFirst(BufferedImage bimg, Component component){
+	public Component filterFirst(BufferedImage bimg, Component component){
 
+		super.setup();
+		
 		int x = component.getLowestX();
 		int y = component.getLowestY();
 
@@ -25,9 +26,9 @@ public class LeftColorFilter extends ColorFilter{
 
 				if(validateColor(bimg.getRGB(i, j))){
 
-					lastPoint.setLocation(i, j);
+					lastComponent.setLocation(i, j);
 
-					return lastPoint;
+					return lastComponent;
 
 				}
 
@@ -35,7 +36,7 @@ public class LeftColorFilter extends ColorFilter{
 
 		}
 
-		return lastPoint;
+		return lastComponent;
 
 	}
 

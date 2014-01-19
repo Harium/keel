@@ -17,53 +17,53 @@ public class FindEyeFilter extends BooleanMaskFilter{
 	}
 
 	@Override
-	protected List<Component> filter(BufferedImage bimg, Component component) {
-		
-		List<Component> result = new ArrayList<Component>();
-					
-			int w = component.getHighestX();
-			int h = component.getHighestY();
+	public List<Component> filter(BufferedImage bimg, Component component) {
 
-			//TODO Verify if component.getMenorY() ~ component.getMaiorY()
-			for (int j = component.getLowestY(); j < h; j++) {
+		super.setup();
 
-				for (int i = component.getLowestX(); i < w; i++) {
+		int w = component.getHighestX();
+		int h = component.getHighestY();
 
-					if (validateColor(bimg.getRGB(i,j)) && !mask[i][j]) {
+		//TODO Verify if component.getMenorY() ~ component.getMaiorY()
+		for (int j = component.getLowestY(); j < h; j++) {
 
-						Queue<Point2D> queue = new LinkedList<Point2D>();
-						queue.add(new Point2D(i, j));
+			for (int i = component.getLowestX(); i < w; i++) {
 
-						Component lista = new Component(w,h);
+				if (validateColor(bimg.getRGB(i,j)) && !mask[i][j]) {
 
-						while (!queue.isEmpty()) {
-							Point2D p = queue.remove();
+					Queue<Point2D> queue = new LinkedList<Point2D>();
+					queue.add(new Point2D(i, j));
 
-							if ((p.getX() >= 0) && (p.getX() < w &&
-									(p.getY() >= 0) && (p.getY() < h))) {
-								if (!mask[(int)p.getX()][(int)p.getY()] && validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
-									mask[(int)p.getX()][(int)p.getY()] = true;
+					Component lista = new Component(w,h);
 
-									lista.add(p);
+					while (!queue.isEmpty()) {
+						Point2D p = queue.remove();
 
-									queue.add(new Point2D((int)p.getX() + 1, (int)p.getY()));
-									queue.add(new Point2D((int)p.getX() - 1, (int)p.getY()));
-									queue.add(new Point2D((int)p.getX(), (int)p.getY() + 1));
-									queue.add(new Point2D((int)p.getX(), (int)p.getY() - 1));
+						if ((p.getX() >= 0) && (p.getX() < w &&
+								(p.getY() >= 0) && (p.getY() < h))) {
+							if (!mask[(int)p.getX()][(int)p.getY()] && validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
+								mask[(int)p.getX()][(int)p.getY()] = true;
 
-								}
+								lista.add(p);
+
+								queue.add(new Point2D((int)p.getX() + 1, (int)p.getY()));
+								queue.add(new Point2D((int)p.getX() - 1, (int)p.getY()));
+								queue.add(new Point2D((int)p.getX(), (int)p.getY() + 1));
+								queue.add(new Point2D((int)p.getX(), (int)p.getY() - 1));
+
 							}
 						}
-
-						//Componentes de cada Grupo
-						if(validateComponent(lista)){
-							result.add(lista);
-						}
-
 					}
+
+					//Componentes de cada Grupo
+					if(validateComponent(lista)){
+						result.add(lista);
+					}
+
 				}
 			}
-		
+		}
+
 
 		return result;
 
