@@ -11,6 +11,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.BorderFilter;
 import br.com.etyllica.motion.filter.wand.MagicWandConvexFilter;
@@ -19,10 +20,10 @@ public class MagicWandStatic extends Application{
 
 	FakeCamera cam = new FakeCamera();
 
-	private BorderFilter cornerFilter = new BorderFilter(0, 0);
+	private BorderFilter cornerFilter;
 
 	//private MagicWandBoxFilter filter = new MagicWandBoxFilter(0, 0);
-	private MagicWandConvexFilter filter = new MagicWandConvexFilter(0, 0);
+	private MagicWandConvexFilter filter;
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -52,37 +53,47 @@ public class MagicWandStatic extends Application{
 		}
 		
 		loading = 25;
+		
 		loadingPhrase = "Configuring Filter";
+
+		int width = cam.getBufferedImage().getWidth();
+		
+		int height = cam.getBufferedImage().getHeight();
+		
+		loading = 30;
+		
+		filter = new MagicWandConvexFilter(width, height);
+		
+		loading = 32;
+		
 		filter.setWandColor(Color.BLACK);
 		filter.setBorder(1);
 		filter.setStep(1);
-		
-		loading = 30;
 		filter.setTolerance(0x40);
-
-		filter.setW(cam.getBufferedImage().getWidth());
-		filter.setH(cam.getBufferedImage().getHeight());
-		reset(cam.getBufferedImage());
 		
+		loading = 40;
+				
+		cornerFilter = new BorderFilter(width, height);
+				
+		feature = new BoundingComponent(w, h);
+		
+		reset(cam.getBufferedImage());
+				
 		loading = 100;
 	}
-
+	
 	private void reset(BufferedImage b){
-		int w = b.getWidth();
-		int h = b.getHeight();
-		
+				
 		loading = 60;
 
 		loadingPhrase = "Start Filter";
 		
-		cornerFilter.setW(w);
-		cornerFilter.setH(h);
 		cornerFilter.setColor(Color.BLACK);
 		cornerFilter.setBorder(10);
 		cornerFilter.setStep(1);
 		//cornerFilter.setTolerance(0x40);
 		
-		feature = cornerFilter.filter(b, new Component(w, h)).get(0);
+		feature = cornerFilter.filter(b, new BoundingComponent(w, h)).get(0);
 
 		loading = 65;
 		loadingPhrase = "Show Result";

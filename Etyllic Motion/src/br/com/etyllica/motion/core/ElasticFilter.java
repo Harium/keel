@@ -11,22 +11,6 @@ public abstract class ElasticFilter extends BooleanMaskFilter{
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getW() {
-		return w;
-	}
-
-	public void setW(int w) {
-		this.w = w;
-	}
-
-	public int getH() {
-		return h;
-	}
-
-	public void setH(int h) {
-		this.h = h;
-	}
-
 	public int getBorder() {
 		return border;
 	}
