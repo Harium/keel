@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.etyllica.motion.features.Component;
 
 
-public interface Filter {
+public interface SearchStrategy {
 
 	public Component filterFirst(BufferedImage bimg, Component component);
 	

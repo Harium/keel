@@ -1,13 +1,12 @@
 
 
-import test.br.com.etyllica.motion.SkinTest;
 import application.CaptchaCleaner;
 import application.FaceApplication;
 import application.HollowController;
 import br.com.etyllica.Etyllica;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.examples.AirWrite;
-import br.com.etyllica.examples.BarCode;
+import br.com.etyllica.examples.BarCodeExample;
 import br.com.etyllica.examples.FaceSampledMultiFilterStatic;
 import br.com.etyllica.examples.FaceSampledReal;
 import br.com.etyllica.examples.FaceSampledStatic;
@@ -36,9 +35,9 @@ public class EtyllicMotion extends Etyllica{
 		
 		//return new MagicWandStatic(w,h);
 		
-		return new MagicWand(w,h);	
+		//return new MagicWand(w,h);
 		
-		
+		return new BarCodeExample(w,h);		
 		
 		//return new HollowController(w,h);
 		//return new HollowTest(w,h);
