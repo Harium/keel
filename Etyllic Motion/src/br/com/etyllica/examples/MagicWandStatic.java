@@ -91,7 +91,7 @@ public class MagicWandStatic extends Application{
 		cornerFilter.setColor(Color.BLACK);
 		cornerFilter.setBorder(10);
 		cornerFilter.setStep(1);
-		//cornerFilter.setTolerance(0x40);
+		cornerFilter.setTolerance(0x20);
 		
 		feature = cornerFilter.filter(b, new BoundingComponent(w, h)).get(0);
 
