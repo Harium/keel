@@ -7,7 +7,7 @@ public class BoundingComponent extends Component{
 	}
 	
 	public BoundingComponent(int x, int y, int w, int h){
-		super(w,h);		
+		super(w,h);
 
 		lowestX = x;
 		
@@ -17,8 +17,6 @@ public class BoundingComponent extends Component{
 		
 		highestY = h;
 		
-	}
-	
-	
+	}	
 	
 }

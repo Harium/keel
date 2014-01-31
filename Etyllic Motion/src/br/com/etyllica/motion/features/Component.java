@@ -4,6 +4,7 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.etyllica.layer.GeometricLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Point2D;
 
@@ -68,6 +69,14 @@ public class Component extends ColorComponent implements Comparable<Component>{
 	public int getNumeroPontos(){
 		return points.size();
 	}
+	
+	public void setBounds(int lowestX, int lowestY, int width, int height) {
+		this.lowestX = lowestX;
+		this.lowestY = lowestY;
+		
+		this.highestX = lowestX+width;
+		this.highestY = lowestY+height;
+	}
 		
 	public int getLowestX() {
 		return lowestX;
@@ -109,6 +118,13 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		p.addPoint(lowestX,highestY);
 		
 		return p;
+	}
+	
+	public GeometricLayer getRectangle(){
+		
+		GeometricLayer rect = new GeometricLayer(lowestX, lowestY, highestX-lowestX, highestY-lowestY);
+				
+		return rect;
 	}
 	
 	public double getConcentration(){

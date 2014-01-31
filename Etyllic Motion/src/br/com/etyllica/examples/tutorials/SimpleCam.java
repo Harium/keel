@@ -42,7 +42,7 @@ public class SimpleCam extends Application{
 
 		loadingPhrase = "Setting Filter";
 
-		colorFilter = new ColorFilter();
+		colorFilter = new ColorFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		colorFilter.setBorder(20);
 		colorFilter.setTolerance(20);
 

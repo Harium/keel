@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.motion.core.FilterImpl;
+import br.com.etyllica.motion.core.BooleanMaskFilter;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 
-public class ColorFilter extends FilterImpl {
+public class ColorFilter extends BooleanMaskFilter {
 
 	protected int border = 1;
 	
@@ -18,8 +18,8 @@ public class ColorFilter extends FilterImpl {
 	
 	protected Component lastComponent = new BoundingComponent(0, 0, 1, 1);
 
-	public ColorFilter() {
-		super();
+	public ColorFilter(int w, int h) {
+		super(w, h);
 	}
 	
 	@Override
@@ -82,11 +82,7 @@ public class ColorFilter extends FilterImpl {
 
 		return result;
 	}
-	
-	public List<Component> filter(BufferedImage bimg, List<Component> components){
-		return null;
-	}
-	
+		
 	@Override
 	public boolean validateColor(int rgb) {
 		return isColor(rgb, this.color, tolerance);

@@ -14,6 +14,7 @@ import br.com.etyllica.examples.FaceSampledStatic;
 import br.com.etyllica.examples.HollowTest;
 import br.com.etyllica.examples.MagicWand;
 import br.com.etyllica.examples.MagicWandStatic;
+import br.com.etyllica.examples.multitracking.MultipleTracking;
 import br.com.etyllica.examples.tutorials.SimpleCam;
 import br.com.etyllica.motion.graph.SkinGraph;
 
@@ -47,7 +48,9 @@ public class EtyllicMotion extends Etyllica{
 		
 		//return new MagicWand(w,h);
 		
-		return new MagicWandStatic(w,h);
+		//return new MagicWandStatic(w,h);
+		
+		return new MultipleTracking(w,h);
 		
 		//return new BarCode(w,h);
 		

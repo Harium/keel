@@ -35,7 +35,7 @@ public class LeftColorFilterTest {
 		
 		g.fillRect(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
 				
-		filter = new LeftColorFilter();
+		filter = new LeftColorFilter(IMAGE_WIDTH, IMAGE_HEIGHT);
 				
 		filter.setColor(RGB);
 		

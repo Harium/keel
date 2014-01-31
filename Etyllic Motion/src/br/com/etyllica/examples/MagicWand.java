@@ -23,7 +23,7 @@ public class MagicWand extends Application{
 
 	private CameraV4L4J cam;
 	
-	private ColorFilter colorFilter = new ColorFilter();
+	private ColorFilter colorFilter;
 	
 	private DegenarateBoxFilter filter;
 	//private BlackWandFilter filter;
@@ -51,6 +51,7 @@ public class MagicWand extends Application{
 		
 		loadingPhrase = "Setting Filter";
 				
+		colorFilter = new ColorFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		colorFilter.setColor(new Color(0x25,0x27,0x60).getRGB());
 		colorFilter.setTolerance(20);
 		

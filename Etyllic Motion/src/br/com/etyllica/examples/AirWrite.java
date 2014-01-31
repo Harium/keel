@@ -66,7 +66,7 @@ public class AirWrite extends Application{
 		
 		loadingPhrase = "Setting Filter";
 
-		colorFilter = new ColorFilter();
+		colorFilter = new ColorFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		colorFilter.setBorder(95);
 		colorFilter.setTolerance(2);
 

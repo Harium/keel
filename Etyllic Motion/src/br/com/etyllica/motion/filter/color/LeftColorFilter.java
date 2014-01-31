@@ -6,8 +6,8 @@ import br.com.etyllica.motion.features.Component;
 
 public class LeftColorFilter extends ColorFilter{
 
-	public LeftColorFilter() {
-		super();
+	public LeftColorFilter(int w, int h) {
+		super(w, h);
 	}
 
 	public Component filterFirst(BufferedImage bimg, Component component){
