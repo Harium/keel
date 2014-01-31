@@ -78,7 +78,7 @@ public class MultipleTracking extends Application{
 		
 		g.fillOval(420, 20, 20, 200);
 		
-		g.fillOval(390, 100, 80, 20);
+		g.fillOval(390, 100, 80, 600);
 		
 		
 	}

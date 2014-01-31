@@ -18,13 +18,13 @@ public class TriangularSearch extends BooleanMaskSearch{
 		
 		super.setup();
 		
-		Component lastComponent = new BoundingComponent(border, border, w-border, h-border);
+		Component lastComponent = new BoundingComponent(0, 0, w, h);
 								
-		int x = component.getLowestX()+border;
-		int y = component.getLowestY()+border;
+		int x = component.getLowestX();
+		int y = component.getLowestY();
 		
-		int w = component.getW()-border;
-		int h = component.getH()-border;
+		int w = component.getW()-border*2;
+		int h = component.getH()-border*2;
 		
 		for(int j=y;j<h;j+=step){
 			
@@ -55,14 +55,15 @@ public class TriangularSearch extends BooleanMaskSearch{
 		
 		super.setup();
 		
-		int w = bimg.getWidth();
-		int h = bimg.getHeight();
+		int x = border;
+		int y = border;
+		
+		int w = bimg.getWidth()-border*2;
+		int h = bimg.getHeight()-border*2;
 
-		int i,j;
+		for(int j=y;j<h;j+=step){
 
-		for(j=border;j<h-border;j+=step){
-
-			for(i=border;i<w-border;i+=step){
+			for(int i=x;i<w;i+=step){
 
 				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))){
 					
@@ -106,7 +107,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 	private int findVerticalLimit(BufferedImage bimg, int i, int j, int h){
 		
 		int totalHeight = 0;
-		
+				
 		for(int nj=j;nj<h;nj++){
 			
 			if(!mask[i][nj]&&colorStrategy.validateColor(bimg.getRGB(i, nj))){

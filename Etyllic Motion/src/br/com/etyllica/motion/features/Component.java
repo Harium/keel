@@ -120,6 +120,16 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		return p;
 	}
 	
+	public Polygon getPolygon(){
+		Polygon p = new Polygon();
+		
+		for(Point2D point: points){
+			p.addPoint((int)point.getX(), (int)point.getY());
+		}
+				
+		return p;
+	}
+	
 	public GeometricLayer getRectangle(){
 		
 		GeometricLayer rect = new GeometricLayer(lowestX, lowestY, highestX-lowestX, highestY-lowestY);

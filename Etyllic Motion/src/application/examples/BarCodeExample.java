@@ -57,12 +57,7 @@ public class BarCodeExample extends Application{
 	}
 	
 	private void reset(BufferedImage b){
-		int w = b.getWidth();
-		int h = b.getHeight();
-
-		/*filter.setW(w);
-		filter.setH(h);*/
-
+		
 		loading = 65;
 		loadingPhrase = "Show Result";
 
