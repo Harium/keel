@@ -3,14 +3,14 @@ package br.com.etyllica.motion.core.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.motion.core.Filter;
+import br.com.etyllica.motion.core.SearchStrategy;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.dumb.DumbColorFilter;
 import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 import br.com.etyllica.motion.filter.dumb.DumbComponentModifier;
 
 
-public abstract class SearchFilter implements Filter {
+public abstract class SearchFilter implements SearchStrategy {
 
 	protected int step = 1;
 	
@@ -42,14 +42,6 @@ public abstract class SearchFilter implements Filter {
 		this.componentStrategy = componentStrategy;
 		
 		this.componentModifierStrategy = new DumbComponentModifier();
-	}
-	
-	public static int difMod(int a, int b){
-		if(a>b){
-			return a-b;
-		}else{
-			return b-a;
-		}
 	}
 	
 	public void setup(){
