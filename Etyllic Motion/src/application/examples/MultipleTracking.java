@@ -1,4 +1,4 @@
-package br.com.etyllica.examples.multitracking;
+package application.examples;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,7 +15,6 @@ import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
-import br.com.etyllica.motion.filter.search.TriangularSearch;
 
 public class MultipleTracking extends Application{
 

@@ -1,4 +1,4 @@
-package br.com.etyllica.examples;
+package application.examples;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

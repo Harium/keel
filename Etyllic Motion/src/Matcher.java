@@ -2,7 +2,7 @@
 
 import java.awt.Polygon;
 
-import br.com.etyllica.motion.air.PolygonMatcher;
+import br.com.etyllica.motion.matcher.PolygonMatcher;
 
 public class Matcher {
 

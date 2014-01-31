@@ -3,18 +3,18 @@
 import application.CaptchaCleaner;
 import application.FaceApplication;
 import application.HollowController;
+import application.examples.AirWrite;
+import application.examples.BarCodeExample;
+import application.examples.FaceSampledMultiFilterStatic;
+import application.examples.FaceSampledReal;
+import application.examples.FaceSampledStatic;
+import application.examples.HollowTest;
+import application.examples.MagicWand;
+import application.examples.MagicWandStatic;
+import application.examples.MultipleTracking;
+import application.examples.SimpleCam;
 import br.com.etyllica.Etyllica;
 import br.com.etyllica.context.Application;
-import br.com.etyllica.examples.AirWrite;
-import br.com.etyllica.examples.BarCodeExample;
-import br.com.etyllica.examples.FaceSampledMultiFilterStatic;
-import br.com.etyllica.examples.FaceSampledReal;
-import br.com.etyllica.examples.FaceSampledStatic;
-import br.com.etyllica.examples.HollowTest;
-import br.com.etyllica.examples.MagicWand;
-import br.com.etyllica.examples.MagicWandStatic;
-import br.com.etyllica.examples.multitracking.MultipleTracking;
-import br.com.etyllica.examples.tutorials.SimpleCam;
 import br.com.etyllica.motion.graph.SkinGraph;
 
 public class EtyllicMotion extends Etyllica{
