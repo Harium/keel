@@ -15,7 +15,7 @@ import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.color.BorderFilter;
+import br.com.etyllica.motion.filter.color.CrossSearch;
 import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
 import br.com.etyllica.motion.filter.wand.MagicWandConvexFilter;
 
@@ -23,7 +23,7 @@ public class FaceSampledReal extends Application{
 
 	private CameraV4L4J cam;
 
-	private BorderFilter colorFilter = new BorderFilter(0, 0);
+	private CrossSearch colorFilter = new CrossSearch(0, 0);
 
 	private MagicWandConvexFilter filter = new MagicWandConvexFilter(0, 0);
 	

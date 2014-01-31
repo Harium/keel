@@ -1,51 +1,33 @@
-package br.com.etyllica.motion.filter.polygon;
+package br.com.etyllica.motion.filter.modifier;
 
-import java.awt.Polygon;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.ElasticFilter;
+import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.features.Component;
 
-public class QuickHullFilter extends ElasticFilter{
+public class QuickHullModifier implements ComponentModifierStrategy {
 
-	protected Polygon polygon = new Polygon();
-	
-	public QuickHullFilter(int w, int h){
-		super(w, h);
+	public QuickHullModifier() {
+		super();
 	}
 
 	@Override
-	public boolean validateColor(int rgb){
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean validateComponent(Component component){
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public List<Component> filter(BufferedImage bimg, Component component){
-
-		setup();
+	public Component modifyComponent(Component component) {
+				
+		List<Point2D> convexPolygon = quickHull(component.getPoints());
 		
-		Component poly = new Component(w, h);
+		Component poly = new Component(0, 0);
 		
-		for(Point2D ponto: quickHull(component.getPoints())){
-			polygon.addPoint((int)ponto.getX(), (int)ponto.getY());
+		for(Point2D ponto: convexPolygon){
 			poly.add(ponto);
 		}
 		
-		result.add(poly);
-
-		return result;
+		return poly;
+		
 	}
-
+		
 	//From www.ahristov.com/tutorial/geometry-games/convex-hull.html
 	public List<Point2D> quickHull(List<Point2D> points){
 
@@ -58,20 +40,25 @@ public class QuickHullFilter extends ElasticFilter{
 		int minPoint = -1, maxPoint = -1;
 		double minX = Double.MAX_VALUE;
 		double maxX = Double.MIN_VALUE;
+		
 		for (int i = 0; i < points.size(); i++){
 			if (points.get(i).getX() < minX){
 				minX = points.get(i).getX();
 				minPoint = i;
-			} 
+			}
+			
 			if (points.get(i).getX() > maxX){
 				maxX = points.get(i).getX();
 				maxPoint = i;       
 			}
 		}
+		
 		Point2D A = points.get(minPoint);
 		Point2D B = points.get(maxPoint);
+		
 		convexHull.add(A);
 		convexHull.add(B);
+		
 		points.remove(A);
 		points.remove(B);
 
@@ -85,7 +72,9 @@ public class QuickHullFilter extends ElasticFilter{
 			else
 				rightSet.add(p);
 		}
+		
 		hullSet(A,B,rightSet,convexHull);
+		
 		hullSet(B,A,leftSet,convexHull);
 
 		return convexHull;
@@ -148,21 +137,6 @@ public class QuickHullFilter extends ElasticFilter{
 		double num = ABx*(a.getY()-c.getY())-ABy*(a.getX()-c.getX());
 		if (num < 0) num = -num;
 		return num;
-	}
-
-	public Polygon getPolygon(){
-		return polygon;
-	}
-
-	public void setPolygon(Polygon polygon){
-		this.polygon = polygon;
-	}
-	
-	@Override
-	public void setup(){
-		super.setup();
-		
-		polygon.reset();
 	}
 
 }

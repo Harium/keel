@@ -18,14 +18,17 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.air.PolygonMatcher;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.color.ColorFilter;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.search.ColoredPointSearch;
 import br.com.etyllica.motion.gesture.GestureRegex;
 
 public class AirWrite extends Application{
 
 	private CameraV4L4J cam;
 
-	private ColorFilter colorFilter;
+	private ColoredPointSearch colorFilter;
+	
+	private ColorStrategy colorStrategy;
 
 	private final int NUMBER_OF_POINTS = 45;
 
@@ -66,10 +69,12 @@ public class AirWrite extends Application{
 		
 		loadingPhrase = "Setting Filter";
 
-		colorFilter = new ColorFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+		colorStrategy = new ColorStrategy(Color.BLACK);
+		
+		colorFilter = new ColoredPointSearch(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		colorFilter.setBorder(95);
-		colorFilter.setTolerance(2);
-
+		colorFilter.setColorStrategy(colorStrategy);
+		
 		points = component.getPoints();
 		
 		for(int i=0;i<NUMBER_OF_POINTS;i++){
@@ -101,7 +106,7 @@ public class AirWrite extends Application{
 	public GUIEvent updateMouse(PointerEvent event) {
 		
 		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
-			colorFilter.setColor(mirror.getRGB((int)event.getX(), (int)event.getY()));
+			colorStrategy.setColor(mirror.getRGB((int)event.getX(), (int)event.getY()));
 		}
 		
 		// TODO Auto-generated method stub
@@ -128,11 +133,11 @@ public class AirWrite extends Application{
 		}
 		
 		if(event.isKeyDown(KeyEvent.TSK_IGUAL)){
-			colorFilter.setTolerance(colorFilter.getTolerance()+1);
+			colorStrategy.setOffsetTolerance(+1);
 		}
 		
 		if(event.isKeyDown(KeyEvent.TSK_MENOS)){
-			colorFilter.setTolerance(colorFilter.getTolerance()-1);
+			colorStrategy.setOffsetTolerance(-1);
 		}
 		
 		if(event.isKeyDown(KeyEvent.TSK_UP_ARROW)){
@@ -166,10 +171,10 @@ public class AirWrite extends Application{
 
 		g.drawImage(mirror, xImage, yImage);
 		
-		g.setColor(colorFilter.getColor());
+		g.setColor(colorStrategy.getColor());
 		g.fillRect(0, 0, 30, 30);
 		g.setColor(Color.WHITE);
-		g.drawShadow(10, 15, Integer.toString(colorFilter.getTolerance()));
+		g.drawShadow(10, 15, Integer.toString(colorStrategy.getTolerance()));
 		
 		int border = colorFilter.getBorder();
 		

@@ -2,9 +2,8 @@ package br.com.etyllica.examples;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
+import br.com.etyllica.camera.Camera;
 import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -12,90 +11,119 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
+import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.features.Wand;
-import br.com.etyllica.motion.filter.color.ColorFilter;
-import br.com.etyllica.motion.filter.wand.DegenarateBoxFilter;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.modifier.DegenarateBoxModifier;
+import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class MagicWand extends Application{
 
-	private CameraV4L4J cam;
-	
-	private ColorFilter colorFilter;
-	
-	private DegenarateBoxFilter filter;
-	//private BlackWandFilter filter;
+	private Camera cam;
+
+	private FloodFillSearch cornerFilter;
+
+	private ColorStrategy colorStrategy;
+
+	private DegenarateBoxModifier modifier;
 
 	private boolean hide = false;
 	private boolean pixels = true;
 
-	private int xImage = 0;
-	private int yImage = 0;
-	
-	private Component screen;
-	
+	private int xOffset = 40;
+	private int yOffset = 40;
+
+	private Component feature;
+
+	private BufferedLayer mirror;
+
 	public MagicWand(int w, int h) {
 		super(w, h);
 	}
-	
+
 	@Override
 	public void load() {
 
-		loadingPhrase = "Open Camera";
-		
-		cam = new CameraV4L4J(0);
-		
-		screen = new BoundingComponent(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
-		
-		loadingPhrase = "Setting Filter";
-				
-		colorFilter = new ColorFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
-		colorFilter.setColor(new Color(0x25,0x27,0x60).getRGB());
-		colorFilter.setTolerance(20);
-		
-		filter = new DegenarateBoxFilter();		
+		loadingPhrase = "Loading Images";
+
+		cam = new CameraV4L4J();
+
+		loading = 25;
+
+		loadingPhrase = "Configuring Filter";
+
+		int width = cam.getBufferedImage().getWidth();
+
+		int height = cam.getBufferedImage().getHeight();
+
+		loading = 40;
+
+		colorStrategy = new ColorStrategy(Color.BLACK);
+		colorStrategy.setTolerance(0x10);
+
+		modifier = new DegenarateBoxModifier();
+
+		cornerFilter = new FloodFillSearch(width, height);
+		cornerFilter.setBorder(10);
+
+		cornerFilter.setColorStrategy(colorStrategy);
+
+		cornerFilter.setComponentModifierStrategy(modifier);
+
+		feature = new BoundingComponent(w, h);
+
+		mirror = new BufferedLayer(0, 0);
+
+		reset(cam.getBufferedImage());
+
+		updateAtFixedRate(20);
 
 		loading = 100;
 	}
 
-	List<Component> result = new ArrayList<Component>();
-	
-	List<Wand> features = new ArrayList<Wand>();
-	
+	@Override
+	public void timeUpdate(long now){
+
+		//Get the Camera image
+		mirror.setBuffer(cam.getBufferedImage());
+
+		//Normally the camera shows the image flipped, but we want to see something like a mirror
+		//So we flip the image
+		mirror.flipHorizontal();
+		
+		reset(mirror.getModifiedBuffer());
+	}
+
 	private void reset(BufferedImage b){
-		
-		Component feature = colorFilter.filter(b, screen).get(0);
-		
-		result = filter.filter(b, feature);
-		
-		features.clear();
-		
-		for(Component component: result){
-			
-			Wand wand = new Wand(component);
-			wand.setAngle(filter.getAngle());
-			wand.setDistance(filter.getDistance());
-			
-			features.add(wand);
-		}
-		
+
+		loading = 60;
+
+		loadingPhrase = "Start Filter";
+
+		feature = cornerFilter.filterFirst(b, new BoundingComponent(w, h));
+
+		loading = 65;
+		loadingPhrase = "Show Result";
+
+		loading = 70;
+		loadingPhrase = "Show Angle";
 	}
 
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
-		
+
 		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
 			//When mouse clicks with LeftButton, the color filter tries to find
 			//the color we are clicking on
-			colorFilter.setColor(cam.getBufferedImage().getRGB((int)event.getX(), (int)event.getY()));
-						
+			colorStrategy.setColor(mirror.getModifiedBuffer().getRGB((int)event.getX(), (int)event.getY()));
+
 		}
-		
+
 		return GUIEvent.NONE;
 	}
-	
+
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
@@ -109,67 +137,42 @@ public class MagicWand extends Application{
 
 		return GUIEvent.NONE;
 	}
-	
+
 	@Override
 	public void draw(Graphic g) {
 
-		BufferedImage b = cam.getBufferedImage();
-		
-		reset(b);
-		
-		g.drawImage(b, xImage, yImage);
+		mirror.draw(g);
 
-		Wand biggest = null;
-		double maiorNumeroPontos = 0;
-		
-		for(Wand wand: features){
-			
-			g.setColor(wand.getColor());
-		
-			for(Point2D ponto: wand.getPoints()){
-				g.fillCircle(xImage+(int)ponto.getX(), yImage+(int)ponto.getY(), 5);
-				
-			}
-			
-			if(wand.getDistance()>maiorNumeroPontos){
-				biggest = wand;
-				maiorNumeroPontos = wand.getDistance();
-			}
-			
-			//drawBox(g, wand);
+		g.setColor(Color.BLUE);
 
-			int px = (int)wand.getPoints().get(0).getX();
-			int py = (int)wand.getPoints().get(0).getY();
-			g.setColor(Color.WHITE);
-			//g.drawShadow(px, py, (int)wand.getAngle()+"°");
-			g.drawShadow(px, py, Double.toString(wand.getDistance()));
-			
+		for(Point2D ponto: feature.getPoints()){
+			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
 		}
-		
-		if(biggest!=null){
-			g.drawShadow(50, 40, "Ângulo = "+biggest.getAngle()+"°");
-			g.drawShadow(50, 60, "Distance = "+biggest.getDistance());
-			drawBox(g, biggest);
+
+		if(feature.getPoints().size()>3){			
+
+			drawBox(g, feature);
+
+			g.drawString("Angle = "+modifier.getAngle(), 50, 25);
+
+			g.drawString("Points = "+feature.getPoints().size(), 50, 50);
+
 		}
 
 	}
 
 	private void drawBox(Graphic g, Component box){
 
-		if(box.getPoints().size()<4){
-			return;
-		}
-		
 		g.setColor(Color.RED);
-		
+
 		Point2D a = box.getPoints().get(0);
 		Point2D b = box.getPoints().get(1);
 		Point2D c = box.getPoints().get(2);
 		Point2D d = box.getPoints().get(3);
-		
+
 		Point2D ac = new Point2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
 		Point2D ab = new Point2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
-		
+
 		Point2D bd = new Point2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
 		Point2D cd = new Point2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
 
@@ -188,29 +191,30 @@ public class MagicWand extends Application{
 		drawLine(g, ab, cd);
 		drawPoint(g, ab);
 		drawPoint(g, cd);
-		
+
 		g.setColor(Color.GREEN);
 		drawLine(g, ac, bd);
-		
+
 		drawPoint(g, ac);
 		drawPoint(g, bd);
-		
+
 
 		g.setColor(Color.BLACK);
-		g.drawString("A", xImage+(int)a.getX()-20, yImage+(int)a.getY()-10);
-		g.drawString("B", xImage+(int)b.getX()+15, yImage+(int)b.getY()-10);
+		g.drawString("A", xOffset+(int)a.getX()-20, yOffset+(int)a.getY()-10);
+		g.drawString("B", xOffset+(int)b.getX()+15, yOffset+(int)b.getY()-10);
 
-		g.drawString("C", xImage+(int)c.getX()-20, yImage+(int)c.getY()+10);
-		g.drawString("D", xImage+(int)d.getX()+15, yImage+(int)d.getY()+10);
+		g.drawString("C", xOffset+(int)c.getX()-20, yOffset+(int)c.getY()+10);
+		g.drawString("D", xOffset+(int)d.getX()+15, yOffset+(int)d.getY()+10);
 
 	}
 
 	private void drawLine(Graphic g, Point2D a, Point2D b){		
-		g.drawLine(xImage+(int)a.getX(), yImage+(int)a.getY(), xImage+(int)b.getX(), yImage+(int)b.getY());		
+		g.drawLine(xOffset+(int)a.getX(), yOffset+(int)a.getY(), xOffset+(int)b.getX(), yOffset+(int)b.getY());		
 	}
 
 	private void drawPoint(Graphic g, Point2D point){
-		g.fillCircle(xImage+(int)point.getX(), yImage+(int)point.getY(), 3);
+		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
 	}
+
 
 }

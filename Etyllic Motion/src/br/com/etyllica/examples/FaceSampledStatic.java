@@ -14,7 +14,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.color.BorderFilter;
+import br.com.etyllica.motion.filter.color.CrossSearch;
 import br.com.etyllica.motion.filter.face.SkinBorderFilter;
 import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
 import br.com.etyllica.motion.filter.wand.MagicWandConvexFilter;
@@ -24,9 +24,9 @@ public class FaceSampledStatic extends Application{
 
 	private FakeCamera cam = new FakeCamera();
 
-	private BorderFilter blackFilter = new BorderFilter(0, 0);
+	private CrossSearch blackFilter = new CrossSearch(0, 0);
 	
-	private BorderFilter whiteFilter = new BorderFilter(0, 0);
+	private CrossSearch whiteFilter = new CrossSearch(0, 0);
 	
 	private SkinBorderFilter skinFilter = new SkinBorderFilter(0, 0);
 

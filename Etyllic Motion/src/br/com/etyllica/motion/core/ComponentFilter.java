@@ -1,13 +1,25 @@
 package br.com.etyllica.motion.core;
 
+import br.com.etyllica.motion.core.strategy.ColorValidatorStrategy;
+import br.com.etyllica.motion.core.strategy.ComponentValidatorStrategy;
+import br.com.etyllica.motion.core.strategy.SearchFilter;
 
-public abstract class ComponentFilter extends FilterImpl{
+
+public abstract class ComponentFilter extends SearchFilter{
 	
 	protected int w;
+	
 	protected int h;
 	
 	public ComponentFilter(int w, int h){
 		super();
+		
+		this.w = w;
+		this.h = h;
+	}
+	
+	public ComponentFilter(int w, int h, ColorValidatorStrategy colorStrategy, ComponentValidatorStrategy componentStrategy){
+		super(colorStrategy, componentStrategy);
 		
 		this.w = w;
 		this.h = h;

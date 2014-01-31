@@ -13,7 +13,8 @@ import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.color.ColorFilter;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.search.TriangularSearch;
 
 public class SimpleCam extends Application{
 
@@ -23,8 +24,10 @@ public class SimpleCam extends Application{
 
 	private Camera cam;
 
-	private ColorFilter colorFilter;
+	private TriangularSearch colorFilter;
 
+	private ColorStrategy colorStrategy;
+	
 	private BufferedLayer mirror;
 
 	private BoundingComponent screen;
@@ -42,9 +45,11 @@ public class SimpleCam extends Application{
 
 		loadingPhrase = "Setting Filter";
 
-		colorFilter = new ColorFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+		colorFilter = new TriangularSearch(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		colorFilter.setBorder(20);
-		colorFilter.setTolerance(20);
+		
+		colorStrategy = new ColorStrategy(Color.BLACK.getRGB()); 
+		colorFilter.setColorStrategy(colorStrategy);
 
 		mirror = new BufferedLayer(0, 0);
 
@@ -86,7 +91,7 @@ public class SimpleCam extends Application{
 		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
 			//When mouse clicks with LeftButton, the color filter tries to find
 			//the color we are clicking on
-			colorFilter.setColor(mirror.getModifiedBuffer().getRGB((int)event.getX(), (int)event.getY()));
+			colorStrategy.setColor(mirror.getModifiedBuffer().getRGB((int)event.getX(), (int)event.getY()));
 						
 		}
 

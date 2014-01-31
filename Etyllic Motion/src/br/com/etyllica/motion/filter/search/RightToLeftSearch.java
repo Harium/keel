@@ -1,14 +1,13 @@
-package br.com.etyllica.motion.filter.color;
+package br.com.etyllica.motion.filter.search;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 
+import br.com.etyllica.motion.core.strategy.SearchFilter;
+import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 
-public class RightColorFilter extends ColorFilter{
-
-	public RightColorFilter(int w, int h) {
-		super(w, h);
-	}
+public class RightToLeftSearch extends SearchFilter{
 
 	public Component filterFirst(BufferedImage bimg, Component component){
 
@@ -19,12 +18,14 @@ public class RightColorFilter extends ColorFilter{
 
 		int w = component.getW();
 		int h = component.getH();
+		
+		Component lastComponent = new BoundingComponent(w, h);
 
 		for(int i=w-border;i>x+border;i--){
 
 			for(int j=y+border;j<h-border;j++){
 
-				if(validateColor(bimg.getRGB(i, j))){
+				if(colorStrategy.validateColor(bimg.getRGB(i, j))){
 
 					lastComponent.setLocation(i, j);
 
@@ -38,6 +39,12 @@ public class RightColorFilter extends ColorFilter{
 
 		return lastComponent;
 
+	}
+	
+	@Override
+	public List<Component> filter(BufferedImage bimg, Component component) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

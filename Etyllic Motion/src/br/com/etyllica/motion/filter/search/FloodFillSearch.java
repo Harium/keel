@@ -1,31 +1,47 @@
-package br.com.etyllica.motion.filter.face;
+package br.com.etyllica.motion.filter.search;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.BooleanMaskFilter;
+import br.com.etyllica.motion.core.BooleanMaskSearch;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.ComponentPointCount;
+import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 
-public class ExtremelySimpleFindSkinFilter extends BooleanMaskFilter{
+public class FloodFillSearch extends BooleanMaskSearch{
 
-	public ExtremelySimpleFindSkinFilter(int w, int h) {
-		super(w, h);
+	private Component lastComponent;
+	
+	public FloodFillSearch(int w, int h) {
+		super(w, h, new SkinColorStrategy(), new ComponentPointCount(180));
+	}
+	
+	@Override
+	public Component filterFirst(BufferedImage bimg, Component component) {
+
+		List<Component> list = filter(bimg, component);
+		
+		if(!list.isEmpty()){
+			lastComponent = list.get(0);
+		}
+		
+		return lastComponent;
+		
 	}
 
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component){
 
-		List<Component> result = new ArrayList<Component>();
+		super.setup();
 		
 		for (int j = border; j < h-border*2; j+=step) {
 
 			for (int i = border; i < w-border*2; i+=step) {
 
-				if (validateColor(bimg.getRGB(i,j)) && !mask[i][j]) {
+				if (!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i,j))) {
 
 					Queue<Point2D> queue = new LinkedList<Point2D>();
 					queue.add(new Point2D(i, j));
@@ -37,7 +53,7 @@ public class ExtremelySimpleFindSkinFilter extends BooleanMaskFilter{
 
 						if ((p.getX() >= 0) && (p.getX() < w &&
 								(p.getY() >= 0) && (p.getY() < h))) {
-							if (!mask[(int)p.getX()][(int)p.getY()] && validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
+							if (!mask[(int)p.getX()][(int)p.getY()] && colorStrategy.validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
 								mask[(int)p.getX()][(int)p.getY()] = true;
 
 								lista.add(p);
@@ -51,45 +67,20 @@ public class ExtremelySimpleFindSkinFilter extends BooleanMaskFilter{
 							}
 						}
 					}
-					//TODO
-					//Componentes de cada Grupo
 
-					if(validateComponent(lista)){
+					if(componentStrategy.validateComponent(lista)){
 
 						//System.out.println("Blob detected : " + lista.getNumeroPontos() + " pixels.");
 
-						result.add(lista);
+						result.add(componentModifierStrategy.modifyComponent(lista));
 
 					}
-
 
 				}
 			}
 		}
 
 		return result;
-	}
-
-	@Override
-	public boolean validateColor(int rgb) {
-
-		return isSkin(rgb);	
-
-	}
-
-	@Override
-	public boolean validateComponent(Component component) {
-
-		boolean sizeok = true;
-		//boolean sizeok = component.getH()>component.getW()+component.getW()/6;
-
-		//boolean points = true;
-		//boolean points = component.getNumeroPontos()>w*3;
-		//boolean points = component.getNumeroPontos()>(w*6)/step;
-		boolean points = component.getNumeroPontos()>180;
-
-
-		return sizeok&&points;
 	}
 
 }

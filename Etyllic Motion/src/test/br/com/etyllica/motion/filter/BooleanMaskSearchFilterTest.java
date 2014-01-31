@@ -4,17 +4,17 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.etyllica.motion.core.BooleanMaskFilter;
-import br.com.etyllica.motion.filter.color.ColorFilter;
+import br.com.etyllica.motion.core.BooleanMaskSearch;
+import br.com.etyllica.motion.filter.search.TriangularSearch;
 
-public class BooleanMaskFilterTest {
+public class BooleanMaskSearchFilterTest {
 
-	private BooleanMaskFilter filter;
+	private BooleanMaskSearch filter;
 
 	@Before
 	public void setUp(){
 
-		filter = new ColorFilter(256, 256);
+		filter = new TriangularSearch(256, 256);
 
 		filter.updateMask(0, 0, 256, 256, true);
 

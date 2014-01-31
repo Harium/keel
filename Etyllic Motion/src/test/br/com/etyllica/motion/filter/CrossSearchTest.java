@@ -7,18 +7,21 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 import br.com.etyllica.motion.features.Cross;
-import br.com.etyllica.motion.filter.color.BorderFilter;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.color.CrossSearch;
 
-public class BorderFilterTest {
+public class CrossSearchTest {
 
-	private BorderFilter filter;
+	private CrossSearch filter;
 	
 	@Before
 	public void setUp(){
-		filter = new BorderFilter(200, 200);
+		filter = new CrossSearch();
+		
+		ColorStrategy colorStrategy = new ColorStrategy(Color.BLACK);
 		
 		//Looking for Black Pixels
-		filter.setColor(Color.BLACK);
+		filter.setColorStrategy(colorStrategy);
 	}
 	
 	@Test

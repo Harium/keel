@@ -1,23 +1,23 @@
 package br.com.etyllica.motion.filter.color;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.motion.core.ElasticFilter;
+import br.com.etyllica.motion.core.strategy.ColorValidatorStrategy;
+import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.features.Cross;
 
-public class BorderFilter extends ElasticFilter{
-
-	protected int tolerance = 0x40;
-
-	private int color = Color.BLACK.getRGB();
+public class CrossSearch extends SearchFilter{
 
 	private Cross cross = new Cross();
 
-	public BorderFilter(int w, int h) {
-		super(w, h);
+	public CrossSearch() {
+		super();
+	}
+	
+	public CrossSearch(ColorValidatorStrategy colorValidator) {
+		super();
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class BorderFilter extends ElasticFilter{
 
 			for(i=border;i<w-border*2;i+=step){
 
-				if(validateColor(bimg.getRGB(i, j))){
+				if(colorStrategy.validateColor(bimg.getRGB(i, j))){
 
 					setCross(i,j,bimg);
 
@@ -177,63 +177,32 @@ public class BorderFilter extends ElasticFilter{
 
 	public boolean validateCross(Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight){
 
-		boolean result = validateColor(cross.getUpperLeft())==upperLeft&&
-				validateColor(cross.getUp())==up&&
-				validateColor(cross.getUpperRight())==upperRight&&
-				validateColor(cross.getLeft())==left&&
-				validateColor(cross.getCenter())==center&&
-				validateColor(cross.getRight())==right&&
-				validateColor(cross.getLowerLeft())==lowerLeft&&
-				validateColor(cross.getDown())==down&&
-				validateColor(cross.getLowerRight())==lowerRight;
+		boolean result = colorStrategy.validateColor(cross.getUpperLeft())==upperLeft&&
+				colorStrategy.validateColor(cross.getUp())==up&&
+				colorStrategy.validateColor(cross.getUpperRight())==upperRight&&
+				colorStrategy.validateColor(cross.getLeft())==left&&
+				colorStrategy.validateColor(cross.getCenter())==center&&
+				colorStrategy.validateColor(cross.getRight())==right&&
+				colorStrategy.validateColor(cross.getLowerLeft())==lowerLeft&&
+				colorStrategy.validateColor(cross.getDown())==down&&
+				colorStrategy.validateColor(cross.getLowerRight())==lowerRight;
 
 		return result;
 	}	
-
-	@Override
-	public boolean validateColor(int rgb) {
-		return isColor(rgb, this.color, this.tolerance);		
-	}
-
-	@Override
-	public boolean validateComponent(Component component) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	public int getColor() {
-		return color;
-	}
-
-	public void setColor(int color) {
-		this.color = color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color.getRGB();
-	}
-
-	public int getTolerance() {
-		return tolerance;
-	}
-
-	public void setTolerance(int tolerance) {
-		this.tolerance = tolerance;
-	}
 
 	public String getCrossString(Cross cross){
 
 		StringBuilder builder = new StringBuilder();
 
-		builder.append(booleanToChar(validateColor(cross.getUpperLeft())));
-		builder.append(booleanToChar(validateColor(cross.getUp())));
-		builder.append(booleanToChar(validateColor(cross.getUpperRight())));
-		builder.append(booleanToChar(validateColor(cross.getLeft())));
-		builder.append(booleanToChar(validateColor(cross.getCenter())));
-		builder.append(booleanToChar(validateColor(cross.getRight())));
-		builder.append(booleanToChar(validateColor(cross.getLowerLeft())));
-		builder.append(booleanToChar(validateColor(cross.getDown())));
-		builder.append(booleanToChar(validateColor(cross.getLowerRight())));
+		builder.append(booleanToChar(colorStrategy.validateColor(cross.getUpperLeft())));
+		builder.append(booleanToChar(colorStrategy.validateColor(cross.getUp())));
+		builder.append(booleanToChar(colorStrategy.validateColor(cross.getUpperRight())));
+		builder.append(booleanToChar(colorStrategy.validateColor(cross.getLeft())));
+		builder.append(booleanToChar(colorStrategy.validateColor(cross.getCenter())));
+		builder.append(booleanToChar(colorStrategy.validateColor(cross.getRight())));
+		builder.append(booleanToChar(colorStrategy.validateColor(cross.getLowerLeft())));
+		builder.append(booleanToChar(colorStrategy.validateColor(cross.getDown())));
+		builder.append(booleanToChar(colorStrategy.validateColor(cross.getLowerRight())));
 
 		return builder.toString();
 	}

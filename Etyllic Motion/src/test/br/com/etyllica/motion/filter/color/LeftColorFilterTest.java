@@ -10,13 +10,14 @@ import org.junit.Test;
 
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.color.LeftColorFilter;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.search.LeftToRightSearch;
 
 public class LeftColorFilterTest {
 
 	private BufferedImage image;
 	
-	private LeftColorFilter filter;
+	private LeftToRightSearch filter;
 	
 	private final int IMAGE_WIDTH = 640;
 	
@@ -35,13 +36,15 @@ public class LeftColorFilterTest {
 		
 		g.fillRect(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
 				
-		filter = new LeftColorFilter(IMAGE_WIDTH, IMAGE_HEIGHT);
+		filter = new LeftToRightSearch();
+		
+		ColorStrategy colorStrategy = new ColorStrategy(RGB);
+		
+		colorStrategy.setTolerance(10);
+		
+		filter.setColorStrategy(colorStrategy);
 				
-		filter.setColor(RGB);
-		
 		filter.setBorder(1);
-		
-		filter.setTolerance(10);
 		
 	}
 	

@@ -1,55 +1,55 @@
-package br.com.etyllica.motion.filter.wand;
-
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.util.List;
+package br.com.etyllica.motion.filter.modifier;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.ElasticFilter;
+import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.features.Component;
 
-public class MagicWandConvexFilter extends ElasticFilter {
+public class DegenarateBoxModifier implements ComponentModifierStrategy {
+
+	protected double distance = 0;
+
+	protected int points = 0;
 
 	protected double angle = 0;
-		
-	protected Color wandColor = Color.BLACK;
-	
-	protected int tolerance = 0x49;
-		
-	public MagicWandConvexFilter(int w, int h) {
-		super(w, h);
+
+	public DegenarateBoxModifier() {
+		super();
 	}
 
-	public List<Component> filter(BufferedImage bimg, Component component){
-				
-		super.setup();
+	public Component modifyComponent(Component component){
 
 		Component box = turnIntoBox(component);
-		
+
 		Point2D a = box.getPoints().get(0);
 		Point2D b = box.getPoints().get(1);
 		Point2D c = box.getPoints().get(2);
 		Point2D d = box.getPoints().get(3);
-		
+
 		Point2D ac = new Point2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
-		
-		Point2D bd = new Point2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);		
-				
+
+		Point2D bd = new Point2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
+
 		Point2D rect = new Point2D(bd.getX(),ac.getY());		
 		double dac = bd.distance(rect);
 		double hip = bd.distance(ac);
-		
+
 		angle = Math.toDegrees(Math.asin(dac/hip));
-		
+
 		if(a.distance(c)>a.distance(b)){
 			angle-=90;
 		}
-		
-		result.add(box);
-		
-		return result;
+
+		points = component.getPoints().size();
+
+		if(a.distance(d)>a.distance(c)){
+			distance = a.distance(d);
+		}else{
+			distance = a.distance(c);
+		}
+
+		return box;
 	}
-	
+
 	protected Component turnIntoBox(Component component){
 
 		//System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
@@ -78,58 +78,28 @@ public class MagicWandConvexFilter extends ElasticFilter {
 			}
 
 		}
-		
+
 		Component box = new Component(component.getW(), component.getH());
-		
+
 		box.add(a);
 		box.add(b);
 		box.add(c);
 		box.add(d);
-		
+
 		return box;
-		
+
 	}
 
-	@Override
-	public boolean validateColor(int rgb) {
-		return isColor(rgb, wandColor.getRGB(), tolerance);
-		//return isSkin(rgb);
+	public int getPoints() {
+		return points;
 	}
 
-	@Override
-	public boolean validateComponent(Component component) {
-		
-		return component.getPoints().size()>30;
-	}
-
-	/*protected double distance(Ponto2D a, Ponto2D b){
-		
-		double xdif = b.getX()-a.getX(); 
-		double ydif = b.getY()-a.getY();
-		
-		double distance = Math.sqrt(xdif*xdif+ydif*ydif);
-		
+	public double getDistance() {
 		return distance;
-	}*/
-	
+	}
+
 	public double getAngle() {
 		return angle;
 	}
-	
-	public int getTolerance() {
-		return tolerance;
-	}
 
-	public void setTolerance(int tolerance) {
-		this.tolerance = tolerance;
-	}
-
-	public Color getWandColor() {
-		return wandColor;
-	}
-
-	public void setWandColor(Color wandColor) {
-		this.wandColor = wandColor;
-	}
-	
 }

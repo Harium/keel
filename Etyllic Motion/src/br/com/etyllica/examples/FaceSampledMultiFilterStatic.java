@@ -14,7 +14,7 @@ import br.com.etyllica.gui.spinner.IntegerSpinner;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.color.BorderFilter;
+import br.com.etyllica.motion.filter.color.CrossSearch;
 import br.com.etyllica.motion.filter.face.SkinBorderFilter;
 import br.com.etyllica.motion.filter.polygon.NoiseFilter;
 import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
@@ -24,7 +24,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 
 	private FakeCamera cam = new FakeCamera();
 
-	private BorderFilter blackFilter = new BorderFilter(0, 0);
+	private CrossSearch blackFilter = new CrossSearch(0, 0);
 
 	private SkinBorderFilter skinFilter = new SkinBorderFilter(0, 0);
 

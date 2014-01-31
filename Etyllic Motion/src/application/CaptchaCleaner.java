@@ -16,6 +16,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.Layer;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.wand.MagicWandBoxFilter;
 
 public class CaptchaCleaner extends Application{
@@ -31,6 +32,8 @@ public class CaptchaCleaner extends Application{
 	private Color foreColor = null;
 	
 	private String fileName;
+	
+	private ColorStrategy colorStrategy = new ColorStrategy();
 
 	public CaptchaCleaner(int w, int h) {
 		super(w, h);
@@ -155,8 +158,8 @@ public class CaptchaCleaner extends Application{
 				
 				int rgb = b.getRGB(i, j);
 
-				if(filter.isColor(rgb, foreColor.getRGB())){
-										
+				if(colorStrategy.isColor(rgb, foreColor.getRGB())){
+
 					line++;
 					
 				}else{

@@ -1,12 +1,12 @@
 package br.com.etyllica.motion.core;
 
-public abstract class ElasticFilter extends BooleanMaskFilter{
+public abstract class ElasticSearch extends BooleanMaskSearch{
 	
 	protected int border = 1;
 	
 	protected int step = 1;
 	
-	public ElasticFilter(int w, int h) {
+	public ElasticSearch(int w, int h) {
 		super(w, h);
 		// TODO Auto-generated constructor stub
 	}

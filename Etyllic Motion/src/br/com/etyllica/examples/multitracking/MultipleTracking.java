@@ -13,15 +13,17 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.color.TriangularColorFilter;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.search.FloodFillSearch;
+import br.com.etyllica.motion.filter.search.TriangularSearch;
 
 public class MultipleTracking extends Application{
 
 	private BufferedImage buffer;
 	
-	private TriangularColorFilter blueFilter;
+	private FloodFillSearch blueFilter;
 	
-	private TriangularColorFilter blackFilter;
+	private FloodFillSearch blackFilter;
 	
 	private Component screen;
 	
@@ -42,15 +44,11 @@ public class MultipleTracking extends Application{
 		
 		drawBuffer(w, h);
 		
-		blackFilter = new TriangularColorFilter(w, h);
+		blackFilter = new FloodFillSearch(w, h);
+		blackFilter.setColorStrategy(new ColorStrategy(Color.BLACK.getRGB()));
 		
-		blackFilter.setColor(Color.BLACK.getRGB());
-		
-		blueFilter = new TriangularColorFilter(w, h);		
-		
-		blueFilter.setColor(Color.BLUE.getRGB());
-		blueFilter.setBorder(1);
-		blueFilter.setTolerance(0x01);
+		blueFilter = new FloodFillSearch(w, h);
+		blueFilter.setColorStrategy(new ColorStrategy(Color.BLUE.getRGB()));		
 		
 		
 		blueComponents = blueFilter.filter(buffer, screen);
@@ -79,7 +77,9 @@ public class MultipleTracking extends Application{
 		
 		g.fillRect(30, 200, 100, 80);
 		
-		g.fillRect(420, 20, 20, 200);
+		g.fillOval(420, 20, 20, 200);
+		
+		g.fillOval(390, 100, 80, 20);
 		
 		
 	}
@@ -101,8 +101,7 @@ public class MultipleTracking extends Application{
 		g.setAlpha(100);
 		g.drawImage(buffer, 0, 0);
 		
-		g.setAlpha(90);
-		
+		g.setAlpha(90);		
 		for(Component component: blackComponents){
 			g.setStroke(new BasicStroke(3f));
 			g.setColor(Color.RED);

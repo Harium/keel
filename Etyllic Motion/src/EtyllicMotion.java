@@ -28,11 +28,17 @@ public class EtyllicMotion extends Etyllica{
 	@Override
 	public Application startApplication() {
 		
-		//updateDelay = 40;
-				
-		//return new SimpleCam(w,h);
+		//return new MultipleTracking(w,h);
 		
+		//return new SimpleCam(w,h);
+				
 		//return new AirWrite(w,h);
+		
+		//return new MagicWandStatic(w,h);
+		
+		return new MagicWand(w,h);	
+		
+		
 		
 		//return new HollowController(w,h);
 		//return new HollowTest(w,h);
@@ -49,9 +55,7 @@ public class EtyllicMotion extends Etyllica{
 		//return new MagicWand(w,h);
 		
 		//return new MagicWandStatic(w,h);
-		
-		return new MultipleTracking(w,h);
-		
+				
 		//return new BarCode(w,h);
 		
 		//return new CaptchaCleaner(w,h);
