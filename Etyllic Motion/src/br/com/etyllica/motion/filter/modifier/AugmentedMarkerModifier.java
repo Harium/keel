@@ -6,11 +6,9 @@ import br.com.etyllica.motion.features.Component;
 
 public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 
-	protected double distance = 0;
-
 	protected int points = 0;
 
-	protected double angle = 0;
+	protected double angleX = 0;
 
 	public AugmentedMarkerModifier() {
 		super();
@@ -25,27 +23,20 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		Point2D c = box.getPoints().get(2);
 		Point2D d = box.getPoints().get(3);
 
-		Point2D ac = new Point2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
-
-		Point2D bd = new Point2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
-
-		Point2D rect = new Point2D(bd.getX(),ac.getY());		
-		double dac = bd.distance(rect);
-		double hip = bd.distance(ac);
-
-		angle = Math.toDegrees(Math.asin(dac/hip));
-
-		if(a.distance(c)>a.distance(b)){
-			angle-=90;
+		double lowerDistance = c.distance(d);
+		
+		double higherDistance = a.distance(b);
+		
+		double factor = lowerDistance/higherDistance;
+				
+		angleX = (factor-1)*90/0.503;
+		
+		//negative
+		if(factor<1){
+			angleX *= -1; 
 		}
-
+				
 		points = component.getPoints().size();
-
-		if(a.distance(d)>a.distance(c)){
-			distance = a.distance(d);
-		}else{
-			distance = a.distance(c);
-		}
 
 		return box;
 	}
@@ -94,12 +85,8 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		return points;
 	}
 
-	public double getDistance() {
-		return distance;
-	}
-
-	public double getAngle() {
-		return angle;
+	public double getAngleX() {
+		return angleX;
 	}
 
 }

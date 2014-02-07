@@ -142,7 +142,7 @@ public class AugmentedRealityStatic extends Application{
 
 			drawBox(g, feature);
 
-			g.drawString("Angle = "+modifier.getAngle(), 50, 25);
+			g.drawString("Angle = "+modifier.getAngleX(), 50, 25);
 			
 			g.drawString("Points = "+feature.getPoints().size(), 50, 50);
 
