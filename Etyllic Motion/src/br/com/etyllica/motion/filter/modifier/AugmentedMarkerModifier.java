@@ -36,9 +36,10 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		Point2D ab = new Point2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
 		Point2D cd = new Point2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
 
-		angleY = ab.angle(cd)-90;
+		angleY = (ab.angle(cd)-90)/1.4;
 
-		angleX = (factor-1)*90/0.503;
+		angleX = (factor-1)*90/0.5;
+		angleX += (angleY*angleY)/50;
 
 		//negative
 		if(factor<1){
