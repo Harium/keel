@@ -6,16 +6,18 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.camera.FakeCamera;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.CrossSearch;
 import br.com.etyllica.motion.filter.face.SkinBorderFilter;
+import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
 import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
 import br.com.etyllica.motion.filter.wand.MagicWandConvexFilter;
 import br.com.etyllica.util.SVGColor;
@@ -24,13 +26,13 @@ public class FaceSampledStatic extends Application{
 
 	private FakeCamera cam = new FakeCamera();
 
-	private CrossSearch blackFilter = new CrossSearch(0, 0);
+	private CrossSearch blackFilter = new CrossSearch();
 	
-	private CrossSearch whiteFilter = new CrossSearch(0, 0);
+	private CrossSearch whiteFilter = new CrossSearch();
 	
-	private SkinBorderFilter skinFilter = new SkinBorderFilter(0, 0);
+	//private SkinBorderFilter skinFilter = new SkinBorderFilter(0, 0);
 
-	private NoiseQuickHullFilter quickFilter = new NoiseQuickHullFilter((int)w, (int)h);
+	private QuickHullModifier quickHullFilter = new QuickHullModifier();
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -68,24 +70,32 @@ public class FaceSampledStatic extends Application{
 		}		
 
 		loadingPhrase = "Configuring Filter";
-		blackFilter.setColor(Color.BLACK.getRGB());
-		//blackFilter.setTolerance(0x40);
-		blackFilter.setTolerance(0x50);
+		
+		ColorStrategy blackColorFilter = new ColorStrategy(Color.BLACK.getRGB());
+		blackColorFilter.setTolerance(0x50);
+		
+		blackFilter.setColorStrategy(blackColorFilter);
+		
 		//border: 4 and step: 4
 		blackFilter.setBorder(4);
-		blackFilter.setStep(4);
+		blackFilter.setStep(4);		
 		
-		whiteFilter.setColor(Color.WHITE.getRGB());
-		whiteFilter.setTolerance(0x64);
+		//White Color
+		ColorStrategy whiteColorFilter = new ColorStrategy(Color.WHITE.getRGB());
+		whiteColorFilter.setTolerance(0x64);
+		
+		whiteFilter.setColorStrategy(whiteColorFilter);
+		
 		whiteFilter.setBorder(4);
 		whiteFilter.setStep(4);
 		
-		skinFilter.setTolerance(0x10);
+		/*skinFilter.setTolerance(0x10);
 		skinFilter.setBorder(4);
 		skinFilter.setStep(4);
 		
 		quickFilter.setRadius(18);
-		quickFilter.setMinNeighboors(2);
+		quickFilter.setMinNeighboors(2);*/
+		
 		//quickFilter.setRadius(20);
 
 		loading = 60;
@@ -99,7 +109,7 @@ public class FaceSampledStatic extends Application{
 		int h = b.getHeight();
 
 		//Sampled
-		blackSampledFeature = blackFilter.filter(b, new Component(w, h)).get(0);
+		blackSampledFeature = blackFilter.filterFirst(b, new Component(w, h));
 		blackPolygon.reset();
 
 		//TODO Separate polygons

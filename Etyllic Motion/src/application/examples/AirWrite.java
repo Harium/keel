@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
@@ -15,6 +14,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;

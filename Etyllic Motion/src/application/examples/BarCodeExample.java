@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.camera.FakeCamera;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.custom.BarCodeFilter;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;

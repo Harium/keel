@@ -9,13 +9,13 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import br.com.etyllica.camera.FakeCamera;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.Layer;
+import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 
 public class CaptchaCleaner extends Application{

@@ -3,8 +3,8 @@ package br.com.etyllica.motion.virtual;
 import java.awt.Color;
 import java.util.Vector;
 
-import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.layer.Layer;
+import br.com.etyllica.motion.camera.CameraV4L4J;
 
 public class Controle {
 

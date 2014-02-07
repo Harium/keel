@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 
-import br.com.etyllica.camera.FakeCamera;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
@@ -12,25 +11,32 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.gui.spinner.IntegerSpinner;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.CrossSearch;
-import br.com.etyllica.motion.filter.face.SkinBorderFilter;
-import br.com.etyllica.motion.filter.polygon.NoiseFilter;
-import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
+import br.com.etyllica.motion.filter.color.SkinColorStrategy;
+import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
+import br.com.etyllica.motion.filter.search.BorderSearch;
+import br.com.etyllica.motion.filter.search.NoiseSearch;
 import br.com.etyllica.util.SVGColor;
 
 public class FaceSampledMultiFilterStatic extends Application{
 
 	private FakeCamera cam = new FakeCamera();
 
-	private CrossSearch blackFilter = new CrossSearch(0, 0);
+	private CrossSearch blackFilter = new CrossSearch();
+	
+	private ColorStrategy blackColorStrategy = new ColorStrategy(Color.BLACK);
 
-	private SkinBorderFilter skinFilter = new SkinBorderFilter(0, 0);
+	private BorderSearch skinFilter;
+	
+	private SkinColorStrategy skinColorStrategy = new SkinColorStrategy();
 
-	private NoiseFilter quickFilter = new NoiseFilter((int)w, (int)h);
+	private NoiseSearch quickFilter;
 
-	private NoiseQuickHullFilter quickMergeFilter = new NoiseQuickHullFilter((int)w, (int)h);
+	private NoiseSearch quickMergeFilter;
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -88,19 +94,35 @@ public class FaceSampledMultiFilterStatic extends Application{
 			cam.addImage("skin/skin"+Integer.toString(i)+".jpg");
 		}
 		
-		screen = new BoundingComponent(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+		int w = cam.getBufferedImage().getWidth();
+		
+		int h = cam.getBufferedImage().getHeight();
+		
+		screen = new BoundingComponent(w, h);
 
 		loadingPhrase = "Configuring Filter";
-		blackFilter.setColor(Color.BLACK.getRGB());
-		blackFilter.setTolerance(tolerance);
+		
 		//border: 4 and step: 4
 		blackFilter.setBorder(DEFAULT_BORDER);
 		blackFilter.setStep(DEFAULT_STEP);
-
-		skinFilter.setTolerance(tolerance-45);
+		blackFilter.setColorStrategy(blackColorStrategy);
+		
+		blackColorStrategy.setTolerance(tolerance);		
+		
+		
+		skinFilter = new BorderSearch(w, h);
 		skinFilter.setBorder(DEFAULT_BORDER);
 		skinFilter.setStep(DEFAULT_STEP);
+		
+		skinColorStrategy.setTolerance(tolerance-45);
+		
+		skinFilter.setColorStrategy(skinColorStrategy);
 
+		quickFilter = new NoiseSearch(w, h);
+		
+		quickMergeFilter = new NoiseSearch(w, h);
+		quickMergeFilter.setComponentModifierStrategy(new QuickHullModifier());
+		
 		loading = 60;
 		reset(cam.getBufferedImage());
 
@@ -114,10 +136,10 @@ public class FaceSampledMultiFilterStatic extends Application{
 	}
 
 	private void reset(BufferedImage b){
-		int w = b.getWidth();
-		int h = b.getHeight();
+		/*int w = b.getWidth();
+		int h = b.getHeight();*/
 
-		blackFilter.setTolerance(tolerance);
+		blackColorStrategy.setTolerance(tolerance);
 
 		quickFilter.setRadius(noiseRadius);
 		quickFilter.setMinNeighboors(minNeighboor);
@@ -134,13 +156,14 @@ public class FaceSampledMultiFilterStatic extends Application{
 		quickFilter.setMinNeighboors(skinMinNeighboor);
 		quickFilter.setMaxNeighboors(skinMaxNeighboor);
 
-		skinFilter.setTolerance(skinTolerance);
+		skinColorStrategy.setTolerance(skinTolerance);
 
 		skinFeature = skinFilter.filter(b, screen).get(0);
 		skinPolygon.reset();
 		quickFilter.filter(b, skinFeature).get(0);
 		skinPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
 
+		
 		quickMergeFilter.setRadius(noiseRadius);
 		quickMergeFilter.setMinNeighboors(1);
 		quickMergeFilter.setMaxNeighboors(2);

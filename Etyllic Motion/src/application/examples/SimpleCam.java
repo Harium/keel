@@ -2,8 +2,6 @@ package application.examples;
 
 import java.awt.Color;
 
-import br.com.etyllica.camera.Camera;
-import br.com.etyllica.camera.CameraV4L4J;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
@@ -11,6 +9,8 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
+import br.com.etyllica.motion.camera.Camera;
+import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
