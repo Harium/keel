@@ -18,7 +18,7 @@ public class EnvelopeModifier implements ComponentModifierStrategy {
 
 	public Component modifyComponent(Component component){
 
-		Component box = turnIntoBox(component);
+		Component box = envelope(component);
 
 		Point2D a = box.getPoints().get(0);
 		Point2D b = box.getPoints().get(1);
@@ -50,7 +50,7 @@ public class EnvelopeModifier implements ComponentModifierStrategy {
 		return box;
 	}
 
-	protected Component turnIntoBox(Component component){
+	protected Component envelope(Component component){
 
 		//System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
 
