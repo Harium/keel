@@ -11,8 +11,12 @@ public class ColorStrategy extends ToleranceStrategy {
 	}
 	
 	public ColorStrategy(Color color){
-		super();
-		this.color = color.getRGB();
+		this(color.getRGB());
+	}
+	
+	public ColorStrategy(Color color, int tolerance){
+		this(color);
+		this.tolerance = tolerance;
 	}
 	
 	public ColorStrategy(int color){

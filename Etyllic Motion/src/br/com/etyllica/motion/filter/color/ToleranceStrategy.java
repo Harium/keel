@@ -10,6 +10,12 @@ public abstract class ToleranceStrategy implements ColorValidatorStrategy{
 		super();
 	}
 	
+	public ToleranceStrategy(int tolerance) {
+		super();
+		
+		this.tolerance = tolerance;
+	}
+	
 	protected int getRed(int rgb){
 
 		return (rgb >> 16) & 0xFF;

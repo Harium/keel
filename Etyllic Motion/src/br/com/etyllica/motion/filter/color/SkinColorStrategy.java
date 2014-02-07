@@ -5,6 +5,10 @@ public class SkinColorStrategy extends ToleranceStrategy{
 	public SkinColorStrategy() {
 		super();
 	}
+	
+	public SkinColorStrategy(int tolerance) {
+		super(tolerance);		
+	}
 
 	@Override
 	public boolean validateColor(int rgb) {
