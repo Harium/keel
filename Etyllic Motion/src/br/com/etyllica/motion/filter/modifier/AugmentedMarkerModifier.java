@@ -9,7 +9,7 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 	protected int points = 0;
 
 	protected double angleX = 0;
-	
+
 	protected double angleY = 0;
 
 	public AugmentedMarkerModifier() {
@@ -18,7 +18,7 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 
 	public Component modifyComponent(Component component){
 
-		Component box = turnIntoBox(component);
+		Component box = envelope(component);
 
 		Point2D a = box.getPoints().get(0);
 		Point2D b = box.getPoints().get(1);
@@ -26,58 +26,78 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		Point2D d = box.getPoints().get(3);
 
 		double lowerDistance = c.distance(d);
-		
+
 		double higherDistance = a.distance(b);
-		
-		double factor = lowerDistance/higherDistance;
-		
-		
+
+		double lateralDistance = a.distance(c)/b.distance(d);
+
+		double factor = lowerDistance/higherDistance*lateralDistance;	
+
 		Point2D ab = new Point2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
-		
-		Point2D center = component.getCenter();
-				
-		angleY = center.angle(ab)+90;		
-		
+		Point2D cd = new Point2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
+
+		angleY = ab.angle(cd)-90;
+
 		angleX = (factor-1)*90/0.503;
-		
+
 		//negative
 		if(factor<1){
 			angleX *= -1; 
 		}
-				
+
 		points = component.getPoints().size();
 
 		return box;
 	}
 
-	protected Component turnIntoBox(Component component){
+	protected Component envelope(Component component){
 
-		//System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
+		Point2D center = component.getCenter();
 
-		Point2D a = component.getPoints().get(0); //Lower X
-		Point2D b = component.getPoints().get(0); //Lower equal Y
-		Point2D c = component.getPoints().get(0); //Higher Y
-		Point2D d = component.getPoints().get(0); //Higher equal X
-
+		Point2D a = center; //Lower X
+		Point2D b = center; //Lower equal Y
+		Point2D c = center; //Higher Y
+		Point2D d = center; //Higher equal X
+		
 		for(Point2D point: component.getPoints()){
-
-			if(point.getX()<a.getX()&&(point.getX()*point.getX())<a.getX()*a.getY()){
+			
+			//Verify A region
+			if(point.getY()<a.getY()){
 				a = point;
-			}else if(point.getY()>=c.getY()){
+				continue;
+			}
+			
+			if(point.distance(a)>d.distance(a)&&point.getY()>center.getY()){
+				d = point;
+				continue;
+			}
 
-				if(point.getY()>c.getY()||point.getX()<c.getX()){
-					c = point;
+			if(point.getX()<=center.getX()){
+
+				if(point.getY()>center.getY()){
+					
+					if(point.distance(center)>c.distance(center)){
+						c = point;
+						continue;
+					}
+					
+				}
+
+			}else{
+
+				if(point.getY()<center.getY()){
+
+					if(point.distance(center)>b.distance(center)){
+						b = point;
+						continue;
+					}
+
 				}
 
 			}
 
-			if(point.getY()<=b.getY()){
-				b = point;
-			}else if(point.getX()>=d.getX()){
-				d = point;
-			}
-
 		}
+		
 
 		Component box = new Component(component.getW(), component.getH());
 
@@ -101,5 +121,5 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 	public double getAngleY() {
 		return angleY;
 	}
-	
+
 }
