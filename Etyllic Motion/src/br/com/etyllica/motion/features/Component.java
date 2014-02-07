@@ -152,6 +152,10 @@ public class Component extends ColorComponent implements Comparable<Component>{
 	public List<Point2D> getPoints() {
 		return points;
 	}
+	
+	public void setPoints(List<Point2D> points) {
+		this.points = points;
+	}
 
 	@Override
 	public int compareTo(Component component) {

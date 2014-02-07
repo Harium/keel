@@ -27,10 +27,8 @@ public class JarvisMarchModifier implements ComponentModifierStrategy {
 		List<Point2D> convexPolygon = getConvexHull(component.getPoints());
 		
 		Component poly = new Component(0, 0);
-				
-		for(Point2D ponto: convexPolygon){
-			poly.add(ponto);
-		}
+		
+		poly.setPoints(convexPolygon);
 		
 		return poly;
 		
