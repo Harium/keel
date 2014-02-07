@@ -10,14 +10,10 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
-import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
-import br.com.etyllica.motion.core.strategy.ComponentValidatorStrategy;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.modifier.AugmentedMarkerModifier;
-import br.com.etyllica.motion.filter.modifier.EnvelopeModifier;
-import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class AugmentedRealityStatic extends Application{
@@ -52,6 +48,7 @@ public class AugmentedRealityStatic extends Application{
 		cam.addImage("reality/30angle.png");
 		cam.addImage("reality/45angle.png");
 		cam.addImage("reality/60angle.png");
+		cam.addImage("reality/5015angle.png");
 		cam.addImage("reality/6030angle.png");
 				
 		loading = 25;
@@ -65,7 +62,7 @@ public class AugmentedRealityStatic extends Application{
 		loading = 40;
 				
 		colorStrategy = new ColorStrategy(Color.BLACK);
-		colorStrategy.setTolerance(0x20);
+		colorStrategy.setTolerance(0x30);
 		
 		modifier = new AugmentedMarkerModifier();
 		
