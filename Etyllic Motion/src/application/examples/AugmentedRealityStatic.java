@@ -16,7 +16,7 @@ import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.modifier.AugmentedMarkerModifier;
-import br.com.etyllica.motion.filter.modifier.DegenarateBoxModifier;
+import br.com.etyllica.motion.filter.modifier.EnvelopeModifier;
 import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
@@ -52,6 +52,7 @@ public class AugmentedRealityStatic extends Application{
 		cam.addImage("reality/30angle.png");
 		cam.addImage("reality/45angle.png");
 		cam.addImage("reality/60angle.png");
+		cam.addImage("reality/6030angle.png");
 				
 		loading = 25;
 		
@@ -138,13 +139,17 @@ public class AugmentedRealityStatic extends Application{
 			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
 		}
 		
-		if(feature.getPoints().size()>3){			
+		if(feature.getPoints().size()>3){
 
 			drawBox(g, feature);
 
-			g.drawString("Angle = "+modifier.getAngleX(), 50, 25);
+			g.drawString("Points = "+feature.getPoints().size(), 50, 25);
 			
-			g.drawString("Points = "+feature.getPoints().size(), 50, 50);
+			g.drawString("AngleX = "+modifier.getAngleX(), 50, 50);
+			
+			g.drawString("AngleY = "+modifier.getAngleY(), 50, 75);
+			
+			
 
 		}
 
@@ -187,6 +192,8 @@ public class AugmentedRealityStatic extends Application{
 		drawPoint(g, ac);
 		drawPoint(g, bd);
 
+		g.setColor(Color.ORANGE);
+		drawPoint(g, box.getCenter());
 
 		g.setColor(Color.BLACK);
 		g.drawString("A", xOffset+(int)a.getX()-20, yOffset+(int)a.getY()-10);

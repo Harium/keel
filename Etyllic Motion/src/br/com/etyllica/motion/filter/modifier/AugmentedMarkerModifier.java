@@ -9,6 +9,8 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 	protected int points = 0;
 
 	protected double angleX = 0;
+	
+	protected double angleY = 0;
 
 	public AugmentedMarkerModifier() {
 		super();
@@ -28,7 +30,14 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		double higherDistance = a.distance(b);
 		
 		double factor = lowerDistance/higherDistance;
+		
+		
+		Point2D ab = new Point2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
+		
+		Point2D center = component.getCenter();
 				
+		angleY = center.angle(ab)+90;		
+		
 		angleX = (factor-1)*90/0.503;
 		
 		//negative
@@ -89,4 +98,8 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		return angleX;
 	}
 
+	public double getAngleY() {
+		return angleY;
+	}
+	
 }

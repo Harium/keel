@@ -144,6 +144,25 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		
 	}
 
+	public Point2D getCenter() {
+		
+		double countX = 0;
+		
+		double countY = 0;
+		
+		for(Point2D point: points){
+			
+			countX+=point.getX();
+			
+			countY+=point.getY();
+			
+		}
+		
+		Point2D center = new Point2D(countX/points.size(), countY/points.size());
+		
+		return center;
+	}
+	
 	public Layer getCamada() {
 		
 		return new Layer(lowestX,lowestY,getW(),getH());
