@@ -4,7 +4,7 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.features.Component;
 
-public class DegenarateBoxModifier implements ComponentModifierStrategy {
+public class EnvelopeModifier implements ComponentModifierStrategy {
 
 	protected double distance = 0;
 
@@ -12,7 +12,7 @@ public class DegenarateBoxModifier implements ComponentModifierStrategy {
 
 	protected double angle = 0;
 
-	public DegenarateBoxModifier() {
+	public EnvelopeModifier() {
 		super();
 	}
 
