@@ -13,7 +13,7 @@ import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.modifier.DegenarateBoxModifier;
+import br.com.etyllica.motion.filter.modifier.EnvelopeModifier;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class MagicWandStatic extends Application{
@@ -24,7 +24,7 @@ public class MagicWandStatic extends Application{
 	
 	private ColorStrategy colorStrategy;
 	
-	private DegenarateBoxModifier modifier;
+	private EnvelopeModifier modifier;
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -64,7 +64,7 @@ public class MagicWandStatic extends Application{
 		colorStrategy = new ColorStrategy(Color.BLACK);
 		colorStrategy.setTolerance(0x10);
 		
-		modifier = new DegenarateBoxModifier();
+		modifier = new EnvelopeModifier();
 		
 		cornerFilter = new FloodFillSearch(width, height);
 		cornerFilter.setBorder(10);

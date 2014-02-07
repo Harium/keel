@@ -7,7 +7,7 @@ import java.util.List;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
-import br.com.etyllica.motion.filter.modifier.DegenarateBoxModifier;
+import br.com.etyllica.motion.filter.modifier.EnvelopeModifier;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class BarCodeFilter extends CustomFilter {
@@ -21,7 +21,7 @@ public class BarCodeFilter extends CustomFilter {
 		
 		componentStrategy = new DumbComponentFilter();
 		
-		modifierStrategy = new DegenarateBoxModifier();
+		modifierStrategy = new EnvelopeModifier();
 		
 
 		searchStrategy = new FloodFillSearch(w, h);
