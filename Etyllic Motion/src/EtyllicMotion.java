@@ -1,9 +1,11 @@
 
 
+import application.AugmentedReality;
 import application.CaptchaCleaner;
 import application.FaceApplication;
 import application.HollowController;
 import application.examples.AirWrite;
+import application.examples.AugmentedRealityStatic;
 import application.examples.BarCodeExample;
 import application.examples.FaceSampledMultiFilterStatic;
 import application.examples.FaceSampledReal;
@@ -36,11 +38,15 @@ public class EtyllicMotion extends Etyllica{
 		
 		//return new MagicWandStatic(w,h);
 		
+		return new AugmentedRealityStatic(w,h);
+		
 		//return new MagicWand(w,h);
 		
 		//return new BarCodeExample(w,h);
 		
-		return new FaceStatic(w,h);
+		//return new FaceStatic(w,h);
+		
+		//return new FaceSampledMultiFilterStatic(w,h);
 		
 		//return new HollowController(w,h);
 		//return new HollowTest(w,h);
