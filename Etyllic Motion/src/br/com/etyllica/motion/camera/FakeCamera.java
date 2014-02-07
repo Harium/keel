@@ -1,4 +1,4 @@
-package br.com.etyllica.camera;
+package br.com.etyllica.motion.camera;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
