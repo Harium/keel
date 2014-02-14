@@ -31,7 +31,7 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 
 		double lateralDistance = a.distance(c)/b.distance(d);
 
-		double factor = lowerDistance/higherDistance*lateralDistance;	
+		double factor = lowerDistance/higherDistance*lateralDistance;
 
 		Point2D ab = new Point2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
 		Point2D cd = new Point2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
@@ -59,7 +59,7 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		Point2D b = center; //Lower equal Y
 		Point2D c = center; //Higher Y
 		Point2D d = center; //Higher equal X
-		
+				
 		for(Point2D point: component.getPoints()){
 			
 			//Verify A region
@@ -68,31 +68,27 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 				continue;
 			}
 			
-			if(point.distance(a)>d.distance(a)&&point.getY()>center.getY()){
+			if(point.distance(a)>d.distance(a)&&point.getY()>=center.getY()){
 				d = point;
 				continue;
 			}
 
 			if(point.getX()<=center.getX()){
 
-				if(point.getY()>center.getY()){
+				//if(point.getY()>center.getY()){
 					
-					if(point.distance(center)>c.distance(center)){
+					if(point.getX()<=c.getX()){
 						c = point;
 						continue;
 					}
 					
-				}
+				//}
 
 			}else{
 
-				if(point.getY()<center.getY()){
-
-					if(point.distance(center)>b.distance(center)){
+				if(point.getY()<=center.getY()&&point.distance(center)>b.distance(center)){
 						b = point;
 						continue;
-					}
-
 				}
 
 			}

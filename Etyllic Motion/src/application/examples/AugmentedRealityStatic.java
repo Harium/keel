@@ -67,7 +67,9 @@ public class AugmentedRealityStatic extends Application{
 		modifier = new AugmentedMarkerModifier();
 		
 		cornerFilter = new FloodFillSearch(width, height);
+		
 		cornerFilter.setBorder(10);
+		cornerFilter.setStep(1);
 		
 		cornerFilter.setColorStrategy(colorStrategy);
 		
@@ -136,18 +138,18 @@ public class AugmentedRealityStatic extends Application{
 			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
 		}
 		
+		int textHeight = 25;
+		
 		if(feature.getPoints().size()>3){
 
 			drawBox(g, feature);
 
-			g.drawString("Points = "+feature.getPoints().size(), 50, 25);
+			g.drawString("Points = "+feature.getPoints().size(), 50, textHeight+25);
 			
-			g.drawString("AngleX = "+modifier.getAngleX(), 50, 50);
+			g.drawString("AngleX = "+modifier.getAngleX(), 50, textHeight+50);
 			
-			g.drawString("AngleY = "+modifier.getAngleY(), 50, 75);
+			g.drawString("AngleY = "+modifier.getAngleY(), 50, textHeight+75);
 			
-			
-
 		}
 
 	}
@@ -208,6 +210,5 @@ public class AugmentedRealityStatic extends Application{
 	private void drawPoint(Graphic g, Point2D point){
 		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
 	}
-
 
 }
