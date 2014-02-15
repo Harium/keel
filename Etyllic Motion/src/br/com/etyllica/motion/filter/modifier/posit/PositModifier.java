@@ -14,29 +14,35 @@ position i in object file
 Outputs: 1) Rotation of scene with respect to camera
          2) Translation vector from projection center of camera
 	    to FIRST point of scene (object) file.
-            
+
 Reference: D. DeMenthon and L.S. Davis, "Model-Based Object Pose in 25 Lines of Code", 
 International Journal of Computer Vision, 15, pp. 123-141, June 1995. 
 
 Adapted to Java from C code at http://www.cfar.umd.edu/~daniel/POSIT.zip 
 
-*/
+ */
 
 /*****************************************************************************/
 
-public class PositModifier {
+public class PositModifier extends SVD{
 
 	private static final int maxCount = 30;/* exit iteration with a message after this many loops */
-	private static final int nbObjectCoords = 3; /* x, y, z */
-	private static final int nbImageCoords = 2; /* x, y */
+	public static final int nbObjectCoords = 3; /* x, y, z */
+	public static final int nbImageCoords = 2; /* x, y */
 
+	public int focalLength;
+
+	private double[][] rotation = new double[3][3];/* Rotation of SCENE in camera reference, NOT other way around */
+
+	private double[] translation = new double[3];/* Translation of SCENE in camera reference */
+	
 	/*
 	POS function 
 	(Pose from Orthography and Scaling, a scaled orthographic proj. approximation).
 	Returns one translation and one rotation.
 	 */	
-	void POS(TObject object, TImage image, TCamera camera) {
-
+	void POS(TObject object, TImage image) {
+		
 		double[] I0 = new double[3];
 		double[] J0 = new double[3];
 		double[] row1 = new double[3];
@@ -49,13 +55,22 @@ public class PositModifier {
 
 
 		/*Computing I0 and J0, the vectors I and J in TRs listed above */
-		for (i=0;i<nbObjectCoords;i++){
-			I0[i]=0;
-			J0[i]=0;
-			for (j=0;j<object.nbPts;j++){
-				I0[i]+=object.objectMatrix[i][j]*image.imageVects[j][0];
-				J0[i]+=object.objectMatrix[i][j]*image.imageVects[j][1];
+		double objectMatrixValue;
+
+		for (j=0;j<object.nbPts;j++){
+
+			for (i=0;i<nbObjectCoords;i++){
+
+				I0[i]=0;
+				J0[i]=0;
+
+				objectMatrixValue = this.B[j][i];
+
+				I0[i]+=objectMatrixValue*image.imageVects[j][0];
+
+				J0[i]+=objectMatrixValue*image.imageVects[j][1];
 			}
+
 		}
 
 		I0I0=I0[0]*I0[0] + I0[1]*I0[1] + I0[2]*I0[2];
@@ -66,9 +81,9 @@ public class PositModifier {
 		scale = (scale1 + scale2) / 2.0;
 
 		/*Computing TRANSLATION */
-		camera.translation[0] = image.imagePts[0][0]/scale;
-		camera.translation[1] = image.imagePts[0][1]/scale;
-		camera.translation[2] = camera.focalLength/scale;
+		this.translation[0] = image.imagePts[0][0]/scale;
+		this.translation[1] = image.imagePts[0][1]/scale;
+		this.translation[2] = focalLength/scale;
 
 		/* Computing ROTATION */
 		for (i=0;i<3;i++){
@@ -82,9 +97,9 @@ public class PositModifier {
 
 		for (i=0;i<3;i++){
 
-			camera.rotation[0][i]=row1[i];
-			camera.rotation[1][i]=row2[i];
-			camera.rotation[2][i]=row3[i];
+			this.rotation[0][i]=row1[i];
+			this.rotation[1][i]=row2[i];
+			this.rotation[2][i]=row3[i];
 
 		}
 	}
@@ -93,8 +108,17 @@ public class PositModifier {
 	Iterate over results obtained by the POS function;
 	see paper "Model-Based Object Pose in 25 Lines of Code", IJCV 15, pp. 123-141, 1995.
 	 */
-	void POSIT(TObject object, TImage image, TCamera camera) {
+	public void POSIT(TObject object, TImage image) {
 
+		boolean isMaxRank = this.PseudoInverse(object.getObjectCopy());
+		
+		if(!isMaxRank){
+			System.err.println("object is too flat; another method is required\n");
+			return;
+		}
+		
+		double[][] objectMatrix = this.B;
+		
 		int i, j, iCount;
 		boolean converged = false;
 		long imageDiff = 0;
@@ -104,23 +128,23 @@ public class PositModifier {
 			if(iCount==0){
 				for (i=0;i<image.nbPts;i++){
 					for(j=0;j<nbImageCoords;j++){
-						image.imageVects[i][j]=(double)(image.imagePts[i][j]-image.imagePts[0][j]);
+						image.imageVects[i][j] = image.imagePts[i][j]-image.imagePts[0][j];
 					}
 				}
 			}
 			else{/* iCount>0 */
 				/* Compute new imageVects */
 				for (i=0;i<image.nbPts;i++){
-					image.epsilon[i] = 0.0;
+					image.setEpsilon(i, 0.0);
 					for (j=0;j<3;j++){
-						image.epsilon[i] += object.objectVects[i][j] * camera.rotation[2][j]; /*dot product M0Mi.k*/
+						image.offsetEpsilon(i, object.objectVects[i][j] * this.rotation[2][j]); /*dot product M0Mi.k*/
 					}
-					image.epsilon[i] /= camera.translation[2]; /* divide by Z0 */
+					image.setEpsilon(i, image.getEpsilon()[i] / this.translation[2]); /* divide by Z0 */
 				}
 				/* Corrected image vectors */	
 				for (i=0;i<image.nbPts;i++){
 					for(j=0;j<nbImageCoords;j++){
-						image.imageVects[i][j]=(double)image.imagePts[i][j]*(1+image.epsilon[i])-image.imagePts[0][j];
+						image.imageVects[i][j]=(double)image.imagePts[i][j]*(1+image.getEpsilon()[i])-image.imagePts[0][j];
 					}
 				}
 
@@ -135,7 +159,7 @@ public class PositModifier {
 			}
 
 			/* Compute rotation and translation */
-			POS(object,image, camera);
+			POS(object,image);
 
 			converged = (iCount>0 && imageDiff==0);
 
@@ -152,7 +176,7 @@ public class PositModifier {
 	of old image points and new image points
 	 */
 	private long GetImageDifference(TImage image) {
-		
+
 		int i, j;
 		long sumOfDiffs = 0;
 
@@ -162,6 +186,14 @@ public class PositModifier {
 			}
 		}
 		return sumOfDiffs;
+	}
+
+	public double[][] getRotation() {
+		return rotation;
+	}
+
+	public double[] getTranslation() {
+		return translation;
 	}
 
 }
