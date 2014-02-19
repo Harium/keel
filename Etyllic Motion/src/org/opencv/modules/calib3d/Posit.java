@@ -10,10 +10,24 @@ import br.com.etyllica.linear.Point3D;
 
 public class Posit {
 
-	private CvPOSITObject pObject;
+	private double angle = 0;
+	
+	private double axisX = 0;
+	
+	private double axisY = 0;
+	
+	private double axisZ = 0;
+	
+	private double[] rotation;
+	
+	private double[] translation;
 
 	public Posit(){
 		super();
+		
+		rotation = new double[3*3];
+		
+		translation = new double[1*3];
 	}
 
 	private static class CvPOSITObject {
@@ -47,21 +61,173 @@ public class Posit {
 
 	};
 
-	public CvStatus icvCreatePOSITObject( Point3D[] points, int numPoints, CvPOSITObject[][] ppObject ) {
+	public CvStatus icvPOSIT( Point3D[] points, Point2D[] imagePoints,
+			double focalLength, CvTermCriteria criteria ) {
+		
+		CvPOSITObject pObject = icvCreatePOSITObject(points);
+		
+		int i, j, k;
+		int count = 0;
+		
+		boolean converged = false;
+		
+		double inorm, jnorm, invInorm, invJnorm, invScale, scale = 0, inv_Z = 0;
+		double diff = criteria.getEpsilon();
+		double inv_focalLength = 1 / focalLength;
 
+		/* Check bad arguments */
+		if( imagePoints == null )
+			return CvStatus.CV_NULLPTR_ERR;
+		if( pObject == null )
+			return CvStatus.CV_NULLPTR_ERR;
+		if( focalLength <= 0 )
+			return CvStatus.CV_BADFACTOR_ERR;
+		if( rotation == null)
+			return CvStatus.CV_NULLPTR_ERR;
+		if( translation == null )
+			return CvStatus.CV_NULLPTR_ERR;
+		if( (criteria.getType() == null))
+			return CvStatus.CV_BADFLAG_ERR;
+		if( (criteria.hasType(CriteriaType.CV_TERMCRIT_EPS) && criteria.getEpsilon() < 0 ))
+			return CvStatus.CV_BADFACTOR_ERR;
+		if( (criteria.hasType(CriteriaType.CV_TERMCRIT_ITER) && criteria.getMaxIter() <= 0 ))
+			return CvStatus.CV_BADFACTOR_ERR;
+
+		/* init variables */
+		int N = pObject.N;
+		double[] objectVectors = pObject.obj_vecs;
+		double[] invMatrix = pObject.inv_matr;
+		double[] imgVectors = pObject.img_vecs;
+
+		while( !converged )
+		{
+			if( count == 0 ) {
+				
+				/* subtract out origin to get image vectors */
+				for( i = 0; i < N; i++ ) {
+					imgVectors[i] = imagePoints[i + 1].getX() - imagePoints[0].getX();
+					imgVectors[N + i] = imagePoints[i + 1].getY() - imagePoints[0].getY();
+				}
+				
+			} else {
+				diff = 0;
+				/* Compute new SOP (scaled orthograthic projection) image from pose */
+				for( i = 0; i < N; i++ ) {
+					
+					/* objectVector * k */
+					double old;
+					double tmp = objectVectors[i] * rotation[6] /*[2][0]*/ +
+							objectVectors[N + i] * rotation[7] /*[2][1]*/ +
+							objectVectors[2 * N + i] * rotation[8] /*[2][2]*/;
+
+					tmp *= inv_Z;
+					tmp += 1;
+
+					old = imgVectors[i];
+					imgVectors[i] = imagePoints[i + 1].getX() * tmp - imagePoints[0].getX();
+
+					diff = Math.max( diff, Math.abs( imgVectors[i] - old ));
+
+					old = imgVectors[N + i];
+					imgVectors[N + i] = imagePoints[i + 1].getY() * tmp - imagePoints[0].getY();
+
+					diff = Math.max( diff, (float) Math.abs( imgVectors[N + i] - old ));
+				}
+				
+			}
+
+			/* calculate I and J vectors */
+			for( i = 0; i < 2; i++ )
+			{
+				for( j = 0; j < 3; j++ )
+				{
+					rotation[3*i+j] /*[i][j]*/ = 0;
+					for( k = 0; k < N; k++ )
+					{
+						rotation[3*i+j] /*[i][j]*/ += invMatrix[j * N + k] * imgVectors[i * N + k];
+					}
+				}
+			}
+
+			inorm = rotation[0] /*[0][0]*/ * rotation[0] /*[0][0]*/ +
+					rotation[1] /*[0][1]*/ * rotation[1] /*[0][1]*/ +
+					rotation[2] /*[0][2]*/ * rotation[2] /*[0][2]*/;
+
+			jnorm = rotation[3] /*[1][0]*/ * rotation[3] /*[1][0]*/ +
+					rotation[4] /*[1][1]*/ * rotation[4] /*[1][1]*/ +
+					rotation[5] /*[1][2]*/ * rotation[5] /*[1][2]*/;
+
+			invInorm = OpenCv.cvInvSqrt( inorm );
+			invJnorm = OpenCv.cvInvSqrt( jnorm );
+
+			inorm *= invInorm;
+			jnorm *= invJnorm;
+
+			rotation[0] /*[0][0]*/ *= invInorm;
+			rotation[1] /*[0][1]*/ *= invInorm;
+			rotation[2] /*[0][2]*/ *= invInorm;
+
+			rotation[3] /*[1][0]*/ *= invJnorm;
+			rotation[4] /*[1][1]*/ *= invJnorm;
+			rotation[5] /*[1][2]*/ *= invJnorm;
+
+			/* row2 = row0 x row1 (cross product) */
+			rotation[6] /*->m[2][0]*/ = rotation[1] /*->m[0][1]*/ * rotation[5] /*->m[1][2]*/ -
+			rotation[2] /*->m[0][2]*/ * rotation[4] /*->m[1][1]*/;
+
+			rotation[7] /*->m[2][1]*/ = rotation[2] /*->m[0][2]*/ * rotation[3] /*->m[1][0]*/ -
+			rotation[0] /*->m[0][0]*/ * rotation[5] /*->m[1][2]*/;
+
+			rotation[8] /*->m[2][2]*/ = rotation[0] /*->m[0][0]*/ * rotation[4] /*->m[1][1]*/ -
+			rotation[1] /*->m[0][1]*/ * rotation[3] /*->m[1][0]*/;
+
+			scale = (inorm + jnorm) / 2.0f;
+			inv_Z = scale * inv_focalLength;
+
+			count++;
+			converged = (criteria.hasType(CriteriaType.CV_TERMCRIT_EPS) && (diff < criteria.getEpsilon()));
+			converged |= (criteria.hasType(CriteriaType.CV_TERMCRIT_ITER) && (count == criteria.getMaxIter()));
+			
+		}
+		
+		invScale = 1 / scale;
+		
+		translation[0] /*[0][0]*/ = imagePoints[0].getX() * invScale;
+		translation[1] /*[1][0]*/ = imagePoints[0].getY() * invScale;
+		translation[2] /*[2][0]*/ = 1 / inv_Z;
+		
+		computeRotationValues(rotation);
+
+		return CvStatus.CV_NO_ERR;
+	}
+	
+	private void computeRotationValues(double[] rotation){
+		
+		this.angle = Math.toDegrees(Math.acos(( rotation[0+3*0] + rotation[1+3*1] + rotation[2+3*2] - 1)/2));
+		
+		double norm = Math.sqrt(OpenCv.cvSqr(rotation[2+3*1] - rotation[1+3*2])+OpenCv.cvSqr(rotation[0+3*2] - rotation[2+3*0])+OpenCv.cvSqr(rotation[1+3*0] - rotation[0+3*1]));
+		
+		this.axisX = (rotation[2+3*1] - rotation[1+3*2])/norm;
+
+		this.axisY = (rotation[0+3*2] - rotation[2+3*0])/norm;
+
+		this.axisZ = (rotation[1+3*0] - rotation[0+3*1])/norm;
+		
+	}
+	
+	private CvPOSITObject icvCreatePOSITObject( Point3D[] points ) {
+
+		int numPoints = points.length;
+		
+		/* check bad arguments */
+		if( numPoints < 4 )
+			return null;
+		
 		int i;
 
 		int N = numPoints - 1;
-
-		/* check bad arguments */
-		if( points == null )
-			return CvStatus.CV_NULLPTR_ERR;
-		if( numPoints < 4 )
-			return CvStatus.CV_BADSIZE_ERR;
-		if( ppObject == null )
-			return CvStatus.CV_NULLPTR_ERR;
-
-		pObject = new CvPOSITObject(numPoints);
+		
+		CvPOSITObject pObject = new CvPOSITObject(numPoints);
 
 		/****************************************************************************************\
 		 * Construct object vectors from object points *
@@ -76,9 +242,9 @@ public class Posit {
 \****************************************************************************************/
 		pObject.inv_matr = icvPseudoInverse3D( pObject.obj_vecs, N, 0 );
 
-		return CvStatus.CV_NO_ERR;
+		return pObject;
 	}
-
+	
 	public double[] icvPseudoInverse3D( double[] a, int n, int method ) {
 
 		double[] b = new double[n*3];
@@ -154,139 +320,52 @@ public class Posit {
 		return b;
 	}
 
-	public static CvStatus icvPOSIT( CvPOSITObject pObject, Point2D[] imagePoints,
-			float focalLength, CvTermCriteria criteria,
-			double[] rotation, double[] translation )
-	{
-		int i, j, k;
-		int count = 0;
-		
-		boolean converged = false;
-		
-		double inorm, jnorm, invInorm, invJnorm, invScale, scale = 0, inv_Z = 0;
-		double diff = criteria.getEpsilon();
-		float inv_focalLength = 1 / focalLength;
-
-		/* Check bad arguments */
-		if( imagePoints == null )
-			return CvStatus.CV_NULLPTR_ERR;
-		if( pObject == null )
-			return CvStatus.CV_NULLPTR_ERR;
-		if( focalLength <= 0 )
-			return CvStatus.CV_BADFACTOR_ERR;
-		if( rotation == null)
-			return CvStatus.CV_NULLPTR_ERR;
-		if( translation == null )
-			return CvStatus.CV_NULLPTR_ERR;
-		if( (criteria.getType() == null))
-			return CvStatus.CV_BADFLAG_ERR;
-		if( (criteria.hasType(CriteriaType.CV_TERMCRIT_EPS) && criteria.getEpsilon() < 0 ))
-			return CvStatus.CV_BADFACTOR_ERR;
-		if( (criteria.hasType(CriteriaType.CV_TERMCRIT_ITER) && criteria.getMaxIter() <= 0 ))
-			return CvStatus.CV_BADFACTOR_ERR;
-
-		/* init variables */
-		int N = pObject.N;
-		double[] objectVectors = pObject.obj_vecs;
-		double[] invMatrix = pObject.inv_matr;
-		double[] imgVectors = pObject.img_vecs;
-
-		while( !converged )
-		{
-			if( count == 0 )
-			{
-				/* subtract out origin to get image vectors */
-				for( i = 0; i < N; i++ )
-				{
-					imgVectors[i] = imagePoints[i + 1].getX() - imagePoints[0].getX();
-					imgVectors[N + i] = imagePoints[i + 1].getY() - imagePoints[0].getY();
-				}
-			}
-			else
-			{
-				diff = 0;
-				/* Compute new SOP (scaled orthograthic projection) image from pose */
-				for( i = 0; i < N; i++ )
-				{
-					/* objectVector * k */
-					double old;
-					double tmp = objectVectors[i] * rotation[6] /*[2][0]*/ +
-							objectVectors[N + i] * rotation[7] /*[2][1]*/ +
-							objectVectors[2 * N + i] * rotation[8] /*[2][2]*/;
-
-					tmp *= inv_Z;
-					tmp += 1;
-
-					old = imgVectors[i];
-					imgVectors[i] = imagePoints[i + 1].getX() * tmp - imagePoints[0].getX();
-
-					diff = Math.max( diff, Math.abs( imgVectors[i] - old ));
-
-					old = imgVectors[N + i];
-					imgVectors[N + i] = imagePoints[i + 1].getY() * tmp - imagePoints[0].getY();
-
-					diff = Math.max( diff, (float) Math.abs( imgVectors[N + i] - old ));
-				}
-			}
-
-			/* calculate I and J vectors */
-			for( i = 0; i < 2; i++ )
-			{
-				for( j = 0; j < 3; j++ )
-				{
-					rotation[3*i+j] /*[i][j]*/ = 0;
-					for( k = 0; k < N; k++ )
-					{
-						rotation[3*i+j] /*[i][j]*/ += invMatrix[j * N + k] * imgVectors[i * N + k];
-					}
-				}
-			}
-
-			inorm = rotation[0] /*[0][0]*/ * rotation[0] /*[0][0]*/ +
-					rotation[1] /*[0][1]*/ * rotation[1] /*[0][1]*/ +
-					rotation[2] /*[0][2]*/ * rotation[2] /*[0][2]*/;
-
-			jnorm = rotation[3] /*[1][0]*/ * rotation[3] /*[1][0]*/ +
-					rotation[4] /*[1][1]*/ * rotation[4] /*[1][1]*/ +
-					rotation[5] /*[1][2]*/ * rotation[5] /*[1][2]*/;
-
-			invInorm = OpenCv.cvInvSqrt( inorm );
-			invJnorm = OpenCv.cvInvSqrt( jnorm );
-
-			inorm *= invInorm;
-			jnorm *= invJnorm;
-
-			rotation[0] /*[0][0]*/ *= invInorm;
-			rotation[1] /*[0][1]*/ *= invInorm;
-			rotation[2] /*[0][2]*/ *= invInorm;
-
-			rotation[3] /*[1][0]*/ *= invJnorm;
-			rotation[4] /*[1][1]*/ *= invJnorm;
-			rotation[5] /*[1][2]*/ *= invJnorm;
-
-			/* row2 = row0 x row1 (cross product) */
-			rotation[6] /*->m[2][0]*/ = rotation[1] /*->m[0][1]*/ * rotation[5] /*->m[1][2]*/ -
-					rotation[2] /*->m[0][2]*/ * rotation[4] /*->m[1][1]*/;
-
-			rotation[7] /*->m[2][1]*/ = rotation[2] /*->m[0][2]*/ * rotation[3] /*->m[1][0]*/ -
-					rotation[0] /*->m[0][0]*/ * rotation[5] /*->m[1][2]*/;
-
-			rotation[8] /*->m[2][2]*/ = rotation[0] /*->m[0][0]*/ * rotation[4] /*->m[1][1]*/ -
-					rotation[1] /*->m[0][1]*/ * rotation[3] /*->m[1][0]*/;
-
-			scale = (inorm + jnorm) / 2.0f;
-			inv_Z = scale * inv_focalLength;
-
-			count++;
-			converged = (criteria.hasType(CriteriaType.CV_TERMCRIT_EPS) && (diff < criteria.getEpsilon()));
-			converged |= (criteria.hasType(CriteriaType.CV_TERMCRIT_ITER) && (count == criteria.getMaxIter()));
-		}
-		invScale = 1 / scale;
-		translation[0] = imagePoints[0].getX() * invScale;
-		translation[1] = imagePoints[0].getY() * invScale;
-		translation[2] = 1 / inv_Z;
-
-		return CvStatus.CV_NO_ERR;
+	public double[] getRotation() {
+		return rotation;
 	}
 
+	public void setRotation(double[] rotation) {
+		this.rotation = rotation;
+	}
+
+	public double[] getTranslation() {
+		return translation;
+	}
+
+	public void setTranslation(double[] translation) {
+		this.translation = translation;
+	}
+
+	public double getAngle() {
+		return angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+
+	public double getAxisX() {
+		return axisX;
+	}
+
+	public void setAxisX(double axisX) {
+		this.axisX = axisX;
+	}
+
+	public double getAxisY() {
+		return axisY;
+	}
+
+	public void setAxisY(double axisY) {
+		this.axisY = axisY;
+	}
+
+	public double getAxisZ() {
+		return axisZ;
+	}
+
+	public void setAxisZ(double axisZ) {
+		this.axisZ = axisZ;
+	}	
+	
 }

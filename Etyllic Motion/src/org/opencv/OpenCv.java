@@ -6,4 +6,8 @@ public class OpenCv {
 		return (1./Math.sqrt(value));
 	}
 	
+	public static double cvSqr(double value){
+		return value*value;
+	}
+	
 }
