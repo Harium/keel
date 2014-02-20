@@ -55,7 +55,7 @@ public class PositTest {
 		double[] rotation = {0.36, 0.48, 0.38, -0.8, 0.6, 0, 0.48, 0.64, 0.60};
 		
 		//double angle = Math.toDegrees(Math.acos(( rotation[0+3*0] + rotation[1+3*1] + rotation[2+3*2] - 1)/2));
-		double angle = Math.acos(( rotation[0+3*0] + rotation[1+3*1] + rotation[2+3*2] - 1)/2);		
+		double angle = Math.acos(( rotation[0+3*0] + rotation[1+3*1] + rotation[2+3*2] - 1)/2);
 		
 		double norm = Math.sqrt(OpenCv.cvSqr(rotation[2+3*1] - rotation[1+3*2])+OpenCv.cvSqr(rotation[0+3*2] - rotation[2+3*0])+OpenCv.cvSqr(rotation[1+3*0] - rotation[0+3*1]));
 		
@@ -72,6 +72,10 @@ public class PositTest {
 		Assert.assertEquals(-0.06970714806775234, -axisY, 0.05);
 		
 		Assert.assertEquals(-0.8922514952672302, -axisZ, 0.05);
+		
+		double length = Math.sqrt(OpenCv.cvSqr(axisX)+OpenCv.cvSqr(axisY)+OpenCv.cvSqr(axisZ));
+		
+		Assert.assertEquals(1, length, 0.001);
 		
 	}
 	
