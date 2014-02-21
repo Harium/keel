@@ -1,5 +1,8 @@
 package test.org.opencv.modules.calib3d;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,9 +30,27 @@ public class PositTest {
 		double focalLength = 760;
 		
 		//Projecting from (0,0,0) to right 
-		Point3D[] objPoints = {new Point3D(0,0,0), new Point3D(10,0,0), new Point3D(10,10,0), new Point3D(0,10,0), new Point3D(0,0,10), new Point3D(10,0,10), new Point3D(10,10,10), new Point3D(0,10,10)}; 
+		List<Point3D> objPoints = new ArrayList<Point3D>();
 		
-		Point2D[] imagePoints = {new Point2D(0,0), new Point2D(80,-93), new Point2D(245,-77), new Point2D(185,32), new Point2D(32,135), new Point2D(99,35), new Point2D(247,62), new Point2D(195,179)};
+		objPoints.add(new Point3D(0,0,0));
+		objPoints.add(new Point3D(10,0,0));
+		objPoints.add(new Point3D(10,10,0));
+		objPoints.add(new Point3D(0,10,0));
+		objPoints.add(new Point3D(0,0,10));
+		objPoints.add(new Point3D(10,0,10));
+		objPoints.add(new Point3D(10,10,10)); 
+		objPoints.add(new Point3D(0,10,10)); 
+		
+		List<Point2D> imagePoints = new ArrayList<Point2D>();
+		
+		imagePoints.add(new Point2D(0,0));
+		imagePoints.add(new Point2D(80,-93));
+		imagePoints.add(new Point2D(245,-77));
+		imagePoints.add(new Point2D(185,32));
+		imagePoints.add(new Point2D(32,135));
+		imagePoints.add(new Point2D(99,35));
+		imagePoints.add(new Point2D(247,62));
+		imagePoints.add(new Point2D(195,179));
 		
 		posit.icvPOSIT(objPoints, imagePoints, focalLength, new CvTermCriteria(30));
 		
@@ -41,11 +62,20 @@ public class PositTest {
 		
 		Assert.assertArrayEquals(expectedTranslation, posit.getTranslation(), 0.01);
 		
-		System.out.println(posit.getAngle());
+		double axisX = posit.getAxisX();
 		
-		System.out.println(posit.getAxisX());
-		System.out.println(posit.getAxisY());
-		System.out.println(posit.getAxisZ());
+		double axisY = posit.getAxisY();
+		
+		double axisZ = posit.getAxisZ();
+		
+		double length = Math.sqrt(OpenCv.cvSqr(axisX)+OpenCv.cvSqr(axisY)+OpenCv.cvSqr(axisZ));
+				
+		Assert.assertEquals(1, length, 0.001);
+		
+		System.out.println("Rotation Angle: " + posit.getAngle());
+		System.out.println("Rotation X Axis: "+ axisX);
+		System.out.println("Rotation Y Axis: "+ axisY);
+		System.out.println("Rotation Z Axis: "+ axisZ);
 						
 	}
 	

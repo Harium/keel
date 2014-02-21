@@ -1,5 +1,7 @@
 package org.opencv.modules.calib3d;
 
+import java.util.List;
+
 import org.opencv.CvStatus;
 import org.opencv.OpenCv;
 import org.opencv.criteria.CriteriaType;
@@ -61,7 +63,7 @@ public class Posit {
 
 	};
 
-	public CvStatus icvPOSIT( Point3D[] points, Point2D[] imagePoints,
+	public CvStatus icvPOSIT( List<Point3D> points, List<Point2D> imagePoints,
 			double focalLength, CvTermCriteria criteria ) {
 		
 		CvPOSITObject pObject = icvCreatePOSITObject(points);
@@ -82,10 +84,6 @@ public class Posit {
 			return CvStatus.CV_NULLPTR_ERR;
 		if( focalLength <= 0 )
 			return CvStatus.CV_BADFACTOR_ERR;
-		if( rotation == null)
-			return CvStatus.CV_NULLPTR_ERR;
-		if( translation == null )
-			return CvStatus.CV_NULLPTR_ERR;
 		if( (criteria.getType() == null))
 			return CvStatus.CV_BADFLAG_ERR;
 		if( (criteria.hasType(CriteriaType.CV_TERMCRIT_EPS) && criteria.getEpsilon() < 0 ))
@@ -105,8 +103,8 @@ public class Posit {
 				
 				/* subtract out origin to get image vectors */
 				for( i = 0; i < N; i++ ) {
-					imgVectors[i] = imagePoints[i + 1].getX() - imagePoints[0].getX();
-					imgVectors[N + i] = imagePoints[i + 1].getY() - imagePoints[0].getY();
+					imgVectors[i] = imagePoints.get(i + 1).getX() - imagePoints.get(0).getX();
+					imgVectors[N + i] = imagePoints.get(i + 1).getY() - imagePoints.get(0).getY();
 				}
 				
 			} else {
@@ -124,12 +122,12 @@ public class Posit {
 					tmp += 1;
 
 					old = imgVectors[i];
-					imgVectors[i] = imagePoints[i + 1].getX() * tmp - imagePoints[0].getX();
+					imgVectors[i] = imagePoints.get(i + 1).getX() * tmp - imagePoints.get(0).getX();
 
 					diff = Math.max( diff, Math.abs( imgVectors[i] - old ));
 
 					old = imgVectors[N + i];
-					imgVectors[N + i] = imagePoints[i + 1].getY() * tmp - imagePoints[0].getY();
+					imgVectors[N + i] = imagePoints.get(i + 1).getY() * tmp - imagePoints.get(0).getY();
 
 					diff = Math.max( diff, (float) Math.abs( imgVectors[N + i] - old ));
 				}
@@ -192,8 +190,8 @@ public class Posit {
 		
 		invScale = 1 / scale;
 		
-		translation[0] /*[0][0]*/ = imagePoints[0].getX() * invScale;
-		translation[1] /*[1][0]*/ = imagePoints[0].getY() * invScale;
+		translation[0] /*[0][0]*/ = imagePoints.get(0).getX() * invScale;
+		translation[1] /*[1][0]*/ = imagePoints.get(0).getY() * invScale;
 		translation[2] /*[2][0]*/ = 1 / inv_Z;
 		
 		computeRotationValues(rotation);
@@ -215,9 +213,9 @@ public class Posit {
 		
 	}
 	
-	private CvPOSITObject icvCreatePOSITObject( Point3D[] points ) {
+	private CvPOSITObject icvCreatePOSITObject( List<Point3D> points ) {
 
-		int numPoints = points.length;
+		int numPoints = points.size();
 		
 		/* check bad arguments */
 		if( numPoints < 4 )
@@ -233,9 +231,11 @@ public class Posit {
 		 * Construct object vectors from object points *
 \****************************************************************************************/
 		for( i = 0; i < numPoints - 1; i++ ) {
-			pObject.obj_vecs[i] = points[i + 1].getX() - points[0].getX();
-			pObject.obj_vecs[N + i] = points[i + 1].getY() - points[0].getY();
-			pObject.obj_vecs[2 * N + i] = points[i + 1].getZ() - points[0].getZ();
+			
+			pObject.obj_vecs[i] = points.get(i + 1).getX() - points.get(0).getX();
+			pObject.obj_vecs[N + i] = points.get(i + 1).getY() - points.get(0).getY();
+			pObject.obj_vecs[2 * N + i] = points.get(i + 1).getZ() - points.get(0).getZ();
+			
 		}
 		/****************************************************************************************\
 		 * Compute pseudoinverse matrix *
