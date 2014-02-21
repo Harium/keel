@@ -12,14 +12,6 @@ import br.com.etyllica.linear.Point3D;
 
 public class Posit {
 
-	private double angle = 0;
-	
-	private double axisX = 0;
-	
-	private double axisY = 0;
-	
-	private double axisZ = 0;
-	
 	private double[] rotation;
 	
 	private double[] translation;
@@ -193,26 +185,10 @@ public class Posit {
 		translation[0] /*[0][0]*/ = imagePoints.get(0).getX() * invScale;
 		translation[1] /*[1][0]*/ = imagePoints.get(0).getY() * invScale;
 		translation[2] /*[2][0]*/ = 1 / inv_Z;
-		
-		computeRotationValues(rotation);
 
 		return CvStatus.CV_NO_ERR;
 	}
-	
-	private void computeRotationValues(double[] rotation){
 		
-		this.angle = Math.toDegrees(Math.acos(( rotation[0+3*0] + rotation[1+3*1] + rotation[2+3*2] - 1)/2));
-		
-		double norm = Math.sqrt(OpenCv.cvSqr(rotation[2+3*1] - rotation[1+3*2])+OpenCv.cvSqr(rotation[0+3*2] - rotation[2+3*0])+OpenCv.cvSqr(rotation[1+3*0] - rotation[0+3*1]));
-		
-		this.axisX = (rotation[2+3*1] - rotation[1+3*2])/norm;
-
-		this.axisY = (rotation[0+3*2] - rotation[2+3*0])/norm;
-
-		this.axisZ = (rotation[1+3*0] - rotation[0+3*1])/norm;
-		
-	}
-	
 	private CvPOSITObject icvCreatePOSITObject( List<Point3D> points ) {
 
 		int numPoints = points.size();
@@ -334,38 +310,6 @@ public class Posit {
 
 	public void setTranslation(double[] translation) {
 		this.translation = translation;
-	}
-
-	public double getAngle() {
-		return angle;
-	}
-
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
-
-	public double getAxisX() {
-		return axisX;
-	}
-
-	public void setAxisX(double axisX) {
-		this.axisX = axisX;
-	}
-
-	public double getAxisY() {
-		return axisY;
-	}
-
-	public void setAxisY(double axisY) {
-		this.axisY = axisY;
-	}
-
-	public double getAxisZ() {
-		return axisZ;
-	}
-
-	public void setAxisZ(double axisZ) {
-		this.axisZ = axisZ;
 	}	
 	
 }
