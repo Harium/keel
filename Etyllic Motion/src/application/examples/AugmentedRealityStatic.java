@@ -14,6 +14,7 @@ import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.modifier.AugmentedMarkerModifier;
+import br.com.etyllica.motion.filter.modifier.PositCoplanarModifier;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class AugmentedRealityStatic extends Application{
@@ -25,6 +26,8 @@ public class AugmentedRealityStatic extends Application{
 	private ColorStrategy colorStrategy;
 	
 	private AugmentedMarkerModifier modifier;
+	
+	private PositCoplanarModifier positModifier;
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -66,6 +69,8 @@ public class AugmentedRealityStatic extends Application{
 		
 		modifier = new AugmentedMarkerModifier();
 		
+		positModifier = new PositCoplanarModifier();
+		
 		cornerFilter = new FloodFillSearch(width, height);
 		
 		cornerFilter.setBorder(10);
@@ -89,6 +94,8 @@ public class AugmentedRealityStatic extends Application{
 		loadingPhrase = "Start Filter";
 				
 		feature = cornerFilter.filterFirst(b, new BoundingComponent(w, h));
+		
+		positModifier.modifyComponent(feature);
 
 		loading = 65;
 		loadingPhrase = "Show Result";
@@ -146,9 +153,13 @@ public class AugmentedRealityStatic extends Application{
 
 			g.drawString("Points = "+feature.getPoints().size(), 50, textHeight+25);
 			
-			g.drawString("AngleX = "+modifier.getAngleX(), 50, textHeight+50);
+			g.drawString("Angle = "+positModifier.getAngle(), 50, textHeight+50);
 			
-			g.drawString("AngleY = "+modifier.getAngleY(), 50, textHeight+75);
+			g.drawString("AxisX = "+positModifier.getAxisX(), 50, textHeight+75);
+			
+			g.drawString("AxisY = "+positModifier.getAxisY(), 50, textHeight+100);
+			
+			g.drawString("AxisZ = "+positModifier.getAxisZ(), 50, textHeight+125);
 			
 		}
 

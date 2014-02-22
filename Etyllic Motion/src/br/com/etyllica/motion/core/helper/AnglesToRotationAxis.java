@@ -5,8 +5,7 @@ import br.com.etyllica.motion.core.linear.Vec3;
 public class AnglesToRotationAxis extends RotationAxis {
 
 	//Angles to RotationAxis
-	//transforms independent angles to rotation
-	//Usage: glRotatef(angle, axisX, axisY, axisZ);	
+	//transforms independent angles in rotation axis
 	public AnglesToRotationAxis(double angleX, double angleY, double angleZ){
 		super();
 		
@@ -21,6 +20,8 @@ public class AnglesToRotationAxis extends RotationAxis {
 		this.axisY = vector.v[1];
 		
 		this.axisZ = vector.v[2];
+		
+		//Usage: glRotatef(angle, axisX, axisY, axisZ);
 				
 	}
 	
