@@ -1,19 +1,18 @@
 package br.com.etyllica.motion.filter.modifier;
 
+import br.com.etyllica.motion.core.helper.RotationAxis;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.posit.CoplanarPosit;
 import br.com.etyllica.motion.posit.Pose;
 
 
-public class PositCoplanarModifier implements ComponentModifierStrategy {
+public class PositCoplanarModifier extends RotationAxis implements ComponentModifierStrategy {
 
 	private double error;
 	
 	private double[] translation;
-	
-	private double[][] rotation;
-	
+		
 	private CoplanarPosit posit;
 	
 	public PositCoplanarModifier() {
@@ -31,7 +30,7 @@ public class PositCoplanarModifier implements ComponentModifierStrategy {
 		
 		this.translation = pose.getBestTranslation();
 		
-		this.rotation = pose.getBestRotation();
+		this.computeRotationValues(pose.getBestRotation());
 
 		return component;
 		
@@ -53,11 +52,4 @@ public class PositCoplanarModifier implements ComponentModifierStrategy {
 		this.translation = translation;
 	}
 
-	public double[][] getRotation() {
-		return rotation;
-	}
-
-	public void setRotation(double[][] rotation) {
-		this.rotation = rotation;
-	}
 }
