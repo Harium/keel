@@ -69,7 +69,7 @@ public class AugmentedRealityStatic extends Application{
 		
 		modifier = new AugmentedMarkerModifier();
 		
-		positModifier = new PositCoplanarModifier();
+		positModifier = new PositCoplanarModifier(width, height);
 		
 		cornerFilter = new FloodFillSearch(width, height);
 		

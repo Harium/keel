@@ -21,10 +21,17 @@ public class PositCoplanarModifier extends RotationAxis implements ComponentModi
 	
 	private List<Point2D> imagePoints;
 	
-	public PositCoplanarModifier() {
+	private int w, h;
+	
+	public PositCoplanarModifier(int w, int h) {
 		super();
 		
-		posit = new CoplanarPosit(1, 760);
+		this.w = w;
+		this.h = h;
+		
+		double focalLength = w;
+		
+		posit = new CoplanarPosit(1, focalLength);
 		
 		imagePoints = new ArrayList<Point2D>();
 	}
@@ -36,10 +43,17 @@ public class PositCoplanarModifier extends RotationAxis implements ComponentModi
 		
 		imagePoints.clear();
 		
-		imagePoints.add(points.get(0));
-		imagePoints.add(points.get(1));
-		imagePoints.add(points.get(3));
-		imagePoints.add(points.get(2));
+		Point2D a = points.get(0);
+		imagePoints.add(new Point2D(a.getX()-w/2, h/2-a.getY()));
+		
+		Point2D b = points.get(1);
+		imagePoints.add(new Point2D(b.getX()-w/2, h/2-b.getY()));
+		
+		Point2D d = points.get(3);
+		imagePoints.add(new Point2D(d.getX()-w/2, h/2-d.getY()));
+		
+		Point2D c = points.get(2);
+		imagePoints.add(new Point2D(c.getX()-w/2, h/2-c.getY()));
 		
 		Pose pose = posit.pose(imagePoints);
 		

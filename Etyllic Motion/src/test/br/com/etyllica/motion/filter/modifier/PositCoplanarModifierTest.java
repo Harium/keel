@@ -19,7 +19,7 @@ public class PositCoplanarModifierTest {
 	@Before
 	public void setUp(){
 		
-		posit = new PositCoplanarModifier();
+		posit = new PositCoplanarModifier(1024,480);
 		
 	}
 	
