@@ -17,7 +17,7 @@ public class Vec3 {
 	public Vec3(double x, double y, double z) {
 		super();
 		
-		v = new double[3];
+		this.v = new double[3];
 		
 		v[0] = x;
 		v[1] = y;
@@ -32,6 +32,16 @@ public class Vec3 {
 		this.v[1] = a.v[1];
 		
 		this.v[2] = a.v[2];
+				
+	};
+	
+	public void copy(double x, double y, double z){
+		
+		this.v[0] = x;
+		
+		this.v[1] = y;
+		
+		this.v[2] = z;
 				
 	};
 

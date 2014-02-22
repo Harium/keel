@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.linear.Point3D;
 import br.com.etyllica.motion.core.linear.Mat3;
 import br.com.etyllica.motion.core.linear.Vec3;
 
@@ -19,34 +18,6 @@ public class CoplanarPosit {
 	private Vec3 modelNormal;
 
 	private double focalLength;
-
-	private static class Pose{
-
-		protected double bestError;
-
-		protected double alternativeError;
-
-		double[][] bestRotation;
-
-		double[] bestTranslation;
-
-		double[][] alternativeRotation;
-
-		double[] alternativeTranslation;
-
-		public Pose(double error1, double[][] rotation1, double[] translation1, double error2, double[][] rotation2, double[] translation2){
-			super();
-
-			this.bestError = error1;
-			this.bestRotation = rotation1;
-			this.bestTranslation = translation1;
-			this.alternativeError = error2;
-			this.alternativeRotation = rotation2;
-			this.alternativeTranslation = translation2;
-
-		}
-
-	}
 
 	public CoplanarPosit(double modelSize, double focalLength){
 		this.model = this.buildModel(modelSize);
@@ -94,18 +65,17 @@ public class CoplanarPosit {
 
 	}
 
-	private Pose pose (Point2D[] points){
+	public Pose pose (List<Point2D> points) {
 
 		Vec3 eps = new Vec3(1.0, 1.0, 1.0);
 
-/*		Mat3 rotation1 = new Mat3();
+		Mat3 rotation1 = new Mat3();
 		Mat3 rotation2 = new Mat3();
 
 		Vec3 translation1 = new Vec3();
-		Vec3 translation2 = new Vec3();*/
+		Vec3 translation2 = new Vec3();
 
-		//TODO Must return translations and rotations
-		this.pos(points, eps);
+		this.pos(points, eps, rotation1, translation1, rotation2, translation2);
 
 		double error1 = this.iterate(points, rotation1, translation1);
 		double error2 = this.iterate(points, rotation2, translation2);
@@ -115,22 +85,22 @@ public class CoplanarPosit {
 					new Pose(error2, rotation2.m, translation2.v, error1, rotation1.m, translation1.v);
 	}
 
-	private void pos(Point2D[] points, Vec3 eps) {
+	private void pos(List<Point2D> points, Vec3 eps, Mat3 rotation1, Vec3 translation1, Mat3 rotation2, Vec3 translation2) {
 
-		Vec3 xi = new Vec3(points[1].getX(), points[2].getX(), points[3].getX());
-		Vec3 yi = new Vec3(points[1].getY(), points[2].getY(), points[3].getY());
+		Vec3 xi = new Vec3(points.get(1).getX(), points.get(2).getX(), points.get(3).getX());
+		Vec3 yi = new Vec3(points.get(1).getY(), points.get(2).getY(), points.get(3).getY());
 
-		Vec3 xs = Vec3.addScalar( Vec3.mult(xi, eps), -points[0].getX());
+		Vec3 xs = Vec3.addScalar( Vec3.mult(xi, eps), -points.get(0).getX());
 
-		Vec3 ys = Vec3.addScalar( Vec3.mult(yi, eps), -points[0].getY());
+		Vec3 ys = Vec3.addScalar( Vec3.mult(yi, eps), -points.get(0).getY());
 
 		Vec3 i0 = Mat3.multVector(this.modelPseudoInverse, xs);
 
 		Vec3 j0 = Mat3.multVector(this.modelPseudoInverse, ys);
 		double s = j0.square() - i0.square();
 
-		double ij = Vec3.dot(i0, j0),				
-				r = 0.0, theta = 0.0, scale, lambda, mu;
+		double ij = Vec3.dot(i0, j0);				
+		double r = 0.0, theta = 0.0;
 
 		if (0.0 == s){
 
@@ -149,8 +119,8 @@ public class CoplanarPosit {
 			theta /= 2.0;
 		}
 
-		lambda = r * Math.cos(theta);
-		mu = r * Math.sin(theta);
+		double lambda = r * Math.cos(theta);
+		double mu = r * Math.sin(theta);
 
 		//First possible rotation/translation
 		Vec3 i = Vec3.add(i0, Vec3.multScalar(this.modelNormal, lambda) );
@@ -160,15 +130,15 @@ public class CoplanarPosit {
 		double jnorm = j.normalize();
 
 		Vec3 k = Vec3.cross(i, j);
-		Mat3 rotation1 = new Mat3().copy( Mat3.fromRows(i, j, k) );
+		rotation1.copy(Mat3.fromRows(i, j, k));
 
-		scale = (inorm + jnorm) / 2.0;
+		double scale = (inorm + jnorm) / 2.0;
 
 		Vec3 temp = Mat3.multVector(rotation1, this.model.get(0));
 
-		Vec3 translation1 = new Vec3(
-				points[0].getX() / scale - temp.v[0],
-				points[0].getY() / scale - temp.v[1],
+		translation1.copy(
+				points.get(0).getX() / scale - temp.v[0],
+				points.get(0).getY() / scale - temp.v[1],
 				this.focalLength / scale);
 
 		//Second possible rotation/translation
@@ -177,38 +147,38 @@ public class CoplanarPosit {
 		inorm = i.normalize();
 		jnorm = j.normalize();
 		k = Vec3.cross(i, j);
-		Mat3 rotation2 = new Mat3().copy( Mat3.fromRows(i, j, k) );
+		rotation2.copy( Mat3.fromRows(i, j, k) );
 
 		scale = (inorm + jnorm) / 2.0;
 		temp = Mat3.multVector(rotation2, this.model.get(0));
 
-		Vec3 translation2 = new Vec3(
-				points[0].getX() / scale - temp.v[0],
-				points[0].getY() / scale - temp.v[1],
+		translation2.copy(
+				points.get(0).getX() / scale - temp.v[0],
+				points.get(0).getY() / scale - temp.v[1],
 				this.focalLength / scale);
 	};
 
-	private double iterate (Point2D[] points, Mat3 rotation, Vec3 translation){
+	private double iterate (List<Point2D> points, Mat3 rotation, Vec3 translation){
 
 		double prevError = Double.POSITIVE_INFINITY;
 
-		/*Mat3 rotation1 = new Mat3();
+		Mat3 rotation1 = new Mat3();
 		Mat3 rotation2 = new Mat3();
 
 		Vec3 translation1 = new Vec3();
-		Vec3 translation2 = new Vec3();*/
+		Vec3 translation2 = new Vec3();
 
 		int i = 0;
 
 		Vec3 eps;
-		double error, error1, error2;
+		
+		double error = 0, error1, error2;
 
 		for (; i < 100; ++ i){
 			eps = Vec3.addScalar( Vec3.multScalar( 
 					Mat3.multVector( this.modelVectors, rotation.row(2) ), 1.0 / translation.v[2]), 1.0);
 
-			//TODO Must return rotation1, rotation2, translation1, translation2
-			this.pos(points, eps);
+			this.pos(points, eps, rotation1, translation1, rotation2, translation2);
 
 			error1 = this.getError(points, rotation1, translation1);
 			error2 = this.getError(points, rotation2, translation2);
@@ -233,7 +203,7 @@ public class CoplanarPosit {
 		return error;
 	}
 
-	private double getError (Point2D[] points, Mat3 rotation, Vec3 translation){
+	private double getError (List<Point2D> points, Mat3 rotation, Vec3 translation){
 
 		Vec3 v1 = Vec3.add( Mat3.multVector(rotation, this.model.get(0)), translation);
 		Vec3 v2 = Vec3.add( Mat3.multVector(rotation, this.model.get(1)), translation);
@@ -258,10 +228,10 @@ public class CoplanarPosit {
 		modeled.add(new Point2D(v3.v[0], v3.v[1]));
 		modeled.add(new Point2D(v4.v[0], v4.v[1]));
 		
-		ia1 = this.angle( points[0], points[1], points[3] );
-		ia2 = this.angle( points[1], points[2], points[0] );
-		ia3 = this.angle( points[2], points[3], points[1] );
-		ia4 = this.angle( points[3], points[0], points[2] );
+		ia1 = this.angle( points.get(0), points.get(1), points.get(3) );
+		ia2 = this.angle( points.get(1), points.get(2), points.get(0) );
+		ia3 = this.angle( points.get(2), points.get(3), points.get(1) );
+		ia4 = this.angle( points.get(3), points.get(0), points.get(2) );
 
 		ma1 = this.angle( modeled.get(0), modeled.get(1), modeled.get(3) );
 		ma2 = this.angle( modeled.get(1), modeled.get(2), modeled.get(0) );
@@ -272,7 +242,7 @@ public class CoplanarPosit {
 				Math.abs(ia2 - ma2) +
 				Math.abs(ia3 - ma3) +
 				Math.abs(ia4 - ma4) ) / 4.0;
-	};
+	}
 
 	private double angle (Point2D a, Point2D b, Point2D c) {
 
@@ -282,6 +252,6 @@ public class CoplanarPosit {
 		
 		return Math.acos( (x1 * x2 + y1 * y2) / 
 				(Math.sqrt(x1 * x1 + y1 * y1) * Math.sqrt(x2 * x2 + y2 * y2) ) ) * 180.0 / Math.PI;
-	};
+	}
 
 }
