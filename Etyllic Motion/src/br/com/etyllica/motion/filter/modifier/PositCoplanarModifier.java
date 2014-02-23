@@ -20,7 +20,7 @@ public class PositCoplanarModifier extends RotationAxis implements ComponentModi
 	private CoplanarPosit posit;
 	
 	private List<Point2D> imagePoints;
-	
+		
 	private int w, h;
 	
 	public PositCoplanarModifier(int w, int h) {
@@ -34,26 +34,27 @@ public class PositCoplanarModifier extends RotationAxis implements ComponentModi
 		posit = new CoplanarPosit(1, focalLength);
 		
 		imagePoints = new ArrayList<Point2D>();
+		
+		for(int i=0;i<4;i++)
+			imagePoints.add(new Point2D(0,0));
 	}
 
 	@Override
 	public Component modifyComponent(Component component) {
 				
 		List<Point2D> points = component.getPoints();
-		
-		imagePoints.clear();
-		
+				
 		Point2D a = points.get(0);
-		imagePoints.add(new Point2D(a.getX()-w/2, h/2-a.getY()));
+		imagePoints.get(0).setLocation(a.getX()-w/2, h/2-a.getY());
 		
 		Point2D b = points.get(1);
-		imagePoints.add(new Point2D(b.getX()-w/2, h/2-b.getY()));
+		imagePoints.get(1).setLocation(b.getX()-w/2, h/2-b.getY());
 		
 		Point2D d = points.get(3);
-		imagePoints.add(new Point2D(d.getX()-w/2, h/2-d.getY()));
+		imagePoints.get(2).setLocation(d.getX()-w/2, h/2-d.getY());
 		
 		Point2D c = points.get(2);
-		imagePoints.add(new Point2D(c.getX()-w/2, h/2-c.getY()));
+		imagePoints.get(3).setLocation(c.getX()-w/2, h/2-c.getY());
 		
 		Pose pose = posit.pose(imagePoints);
 		
