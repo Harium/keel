@@ -8,11 +8,11 @@ import br.com.etyllica.motion.core.BooleanMaskSearch;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.features.Cross;
 
-public class BorderSearch extends BooleanMaskSearch {
+public class CornerSearch extends BooleanMaskSearch {
 
 	private Cross cross = new Cross();
 
-	public BorderSearch(int w, int h) {
+	public CornerSearch(int w, int h) {
 		super(w, h);
 	}
 	
@@ -172,19 +172,19 @@ public class BorderSearch extends BooleanMaskSearch {
 	}
 
 	private boolean upHardCorner(Cross cross){
-		return validateCross(cross, "FFF FTT TTT");
+		return validateCross(cross, "FFF FT(T|F) (T|F)T(T|F)");
 	}
 
 	private boolean downHardCorner(Cross cross){
-		return validateCross(cross, "TTT TTF FFF");
+		return validateCross(cross, "(T|F)T(T|F) (T|F)TF FFF");
 	}
 
 	private boolean leftHardCorner(Cross cross){
-		return validateCross(cross, "FFT FTT FFF");
+		return validateCross(cross, "F(T|F)(T|F) F(T|F)T FF(T|F)");
 	}
 
 	private boolean rightHardCorner(Cross cross){
-		return validateCross(cross, "TFF TTF TTF");
+		return validateCross(cross, "(T|F)(T|F)F T(T|F)F (T|F)FF");
 	}
 
 	public boolean validateCross(Cross cross, String pattern){

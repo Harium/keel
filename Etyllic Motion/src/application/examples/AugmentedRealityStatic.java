@@ -10,22 +10,26 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.modifier.AugmentedMarkerModifier;
+import br.com.etyllica.motion.filter.modifier.JarvisMarchModifier;
 import br.com.etyllica.motion.filter.modifier.PositCoplanarModifier;
+import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
+import br.com.etyllica.motion.filter.search.CornerSearch;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class AugmentedRealityStatic extends Application{
 
 	private FakeCamera cam;
 
-	private FloodFillSearch cornerFilter;
+	private CornerSearch cornerFilter;
 	
 	private ColorStrategy colorStrategy;
 	
-	private AugmentedMarkerModifier modifier;
+	private ComponentModifierStrategy modifier;
 	
 	private PositCoplanarModifier positModifier;
 
@@ -69,9 +73,11 @@ public class AugmentedRealityStatic extends Application{
 		
 		modifier = new AugmentedMarkerModifier();
 		
+		//modifier = new JarvisMarchModifier();
+		
 		positModifier = new PositCoplanarModifier(width, height);
 		
-		cornerFilter = new FloodFillSearch(width, height);
+		cornerFilter = new CornerSearch(width, height);
 		
 		cornerFilter.setBorder(10);
 		cornerFilter.setStep(1);
