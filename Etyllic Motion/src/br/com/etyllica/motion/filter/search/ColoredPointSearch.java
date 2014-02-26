@@ -10,7 +10,7 @@ import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 
-public class ColoredPointSearch extends BooleanMaskSearch{
+public class ColoredPointSearch extends BooleanMaskSearch {
 
 	public ColoredPointSearch(int w, int h) {
 		super(w, h);
@@ -21,7 +21,7 @@ public class ColoredPointSearch extends BooleanMaskSearch{
 	}
 
 	@Override
-	public Component filterFirst(BufferedImage bimg, Component component){
+	public Component filterFirst(BufferedImage bimg, Component component) {
 		
 		super.setup();
 		
@@ -33,11 +33,11 @@ public class ColoredPointSearch extends BooleanMaskSearch{
 		int w = component.getW()-border;
 		int h = component.getH()-border;
 		
-		for(int j=y;j<h;j+=step){
+		for(int j=y;j<h;j+=step) {
 			
-			for(int i=x;i<w;i+=step){
+			for(int i=x;i<w;i+=step) {
 				
-				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))){
+				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))) {
 					
 					lastComponent.setBounds(i, j, 1, 1);
 										
@@ -54,7 +54,7 @@ public class ColoredPointSearch extends BooleanMaskSearch{
 	}
 	
 	@Override
-	public List<Component> filter(BufferedImage bimg, Component component){
+	public List<Component> filter(BufferedImage bimg, Component component) {
 		
 		super.setup();
 		
@@ -63,11 +63,11 @@ public class ColoredPointSearch extends BooleanMaskSearch{
 
 		int i,j;
 
-		for(j=border;j<h-border;j+=step){
+		for(j=border;j<h-border;j+=step) {
 
-			for(i=border;i<w-border;i+=step){
+			for(i=border;i<w-border;i+=step) {
 
-				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))){
+				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))) {
 					
 					Component holder = new BoundingComponent(i, j, 1, 1);
 					

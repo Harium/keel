@@ -18,7 +18,7 @@ import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.CrossSearch;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
-import br.com.etyllica.motion.filter.search.BorderSearch;
+import br.com.etyllica.motion.filter.search.CornerSearch;
 import br.com.etyllica.motion.filter.search.NoiseSearch;
 import br.com.etyllica.util.SVGColor;
 
@@ -30,7 +30,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 	
 	private ColorStrategy blackColorStrategy = new ColorStrategy(Color.BLACK);
 
-	private BorderSearch skinFilter;
+	private CornerSearch skinFilter;
 	
 	private SkinColorStrategy skinColorStrategy = new SkinColorStrategy();
 
@@ -110,7 +110,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 		blackColorStrategy.setTolerance(tolerance);		
 		
 		
-		skinFilter = new BorderSearch(w, h);
+		skinFilter = new CornerSearch(w, h);
 		skinFilter.setBorder(DEFAULT_BORDER);
 		skinFilter.setStep(DEFAULT_STEP);
 		
