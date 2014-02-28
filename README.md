@@ -8,6 +8,7 @@ Etyllic Motion is a Image Processing Library built over [Etyllica](https://githu
 ##### Seach Algorithms: 
 - by Color
 - by Skin Color
+- Flood Fill
 - Corners
 
 ##### Modifier Algorithms:
@@ -19,6 +20,9 @@ Etyllic Motion is a Image Processing Library built over [Etyllica](https://githu
 ##### Image Capture: 
 
 It uses v4l4j to capture webcam stream. More details: [Installing V4l4j](https://github.com/yuripourre/etyllic-motion/wiki/Installing-V4l4j)
+
+#### LICENSE
+[GPL](https://www.gnu.org/copyleft/gpl.html)
 
 #### Related Projects:
 - [LuvMotion](https://github.com/yuripourre/luvmotion/)
