@@ -18,7 +18,7 @@ Etyllic Motion is a Image Processing Library built over [Etyllica](https://githu
 
 ##### Image Capture: 
 
-It uses v4l4j to capture webcam stream. More details: [Installing V4l4j](link here)
+It uses v4l4j to capture webcam stream. More details: [Installing V4l4j](https://github.com/yuripourre/etyllic-motion/wiki/Installing-V4l4j)
 
 #### Related Projects:
 - [LuvMotion](https://github.com/yuripourre/luvmotion/)
