@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.motion.core.strategy.SearchFilter;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 
 public class LeftToRightSearch extends SearchFilter {
@@ -19,7 +18,7 @@ public class LeftToRightSearch extends SearchFilter {
 		int w = component.getW();
 		int h = component.getH();
 		
-		Component lastComponent = new BoundingComponent(w, h);
+		Component lastComponent = new Component(w, h);
 
 		for(int i=x+border;i<w-border;i++){
 

@@ -11,7 +11,6 @@ import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
@@ -37,11 +36,11 @@ public class MultipleTrackingApplication extends Application{
 	@Override
 	public void load() {
 		
-		screen = new BoundingComponent(w, h);
+		screen = new Component(w, h);
 		
 		buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		
-		drawBuffer(w, h);
+		createElements(w, h);
 		
 		blackFilter = new FloodFillSearch(w, h);
 		blackFilter.setColorStrategy(new ColorStrategy(Color.BLACK.getRGB()));
@@ -56,7 +55,7 @@ public class MultipleTrackingApplication extends Application{
 		
 	}
 	
-	private void drawBuffer(int w, int h){
+	private void createElements(int w, int h){
 		
 		Graphics2D g = buffer.createGraphics();
 				

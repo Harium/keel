@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.opencv.OpenCv;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.modifier.PositModifier;
 
@@ -25,7 +24,7 @@ public class PositModiferTest {
 	
 	public void testModifier(){
 		
-		Component imageComponent = new BoundingComponent(200, 200);
+		Component imageComponent = new Component(200, 200);
 		
 		imageComponent.add(new Point2D(0,0));
 		

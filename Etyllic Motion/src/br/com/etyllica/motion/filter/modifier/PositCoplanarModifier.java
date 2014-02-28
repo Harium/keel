@@ -11,12 +11,10 @@ import br.com.etyllica.motion.posit.CoplanarPosit;
 import br.com.etyllica.motion.posit.Pose;
 
 
-public class PositCoplanarModifier extends RotationAxis implements ComponentModifierStrategy {
+public class PositCoplanarModifier implements ComponentModifierStrategy {
 
-	private double error;
+	private RotationAxis axis;
 	
-	private double[] translation;
-		
 	private CoplanarPosit posit;
 	
 	private List<Point2D> imagePoints;
@@ -31,7 +29,9 @@ public class PositCoplanarModifier extends RotationAxis implements ComponentModi
 		
 		double focalLength = w;
 		
-		posit = new CoplanarPosit(1, focalLength);
+		double rectangleSize = 1;
+		
+		posit = new CoplanarPosit(rectangleSize, focalLength);
 		
 		imagePoints = new ArrayList<Point2D>();
 		
@@ -42,8 +42,26 @@ public class PositCoplanarModifier extends RotationAxis implements ComponentModi
 	@Override
 	public Component modifyComponent(Component component) {
 				
-		List<Point2D> points = component.getPoints();
+		axis = coplanarPosit(component.getPoints());
+		
+		return component;
+		
+	}
+	
+	public RotationAxis coplanarPosit(List<Point2D> points){
+		
+		ajustPoints(points);
+		
+		Pose pose = posit.pose(imagePoints);
+		
+		RotationAxis axis = new RotationAxis(pose);
+		
+		return axis;
 				
+	}
+	
+	private void ajustPoints(List<Point2D> points){
+		
 		Point2D a = points.get(0);
 		imagePoints.get(0).setLocation(a.getX()-w/2, h/2-a.getY());
 		
@@ -56,32 +74,14 @@ public class PositCoplanarModifier extends RotationAxis implements ComponentModi
 		Point2D c = points.get(2);
 		imagePoints.get(3).setLocation(c.getX()-w/2, h/2-c.getY());
 		
-		Pose pose = posit.pose(imagePoints);
+	}
+
+	public RotationAxis getAxis() {
+		return axis;
+	}
+
+	public void setAxis(RotationAxis axis) {
+		this.axis = axis;
+	}
 		
-		this.error = pose.getBestError();
-		
-		this.translation = pose.getBestTranslation();
-		
-		this.computeRotationValues(pose.getBestRotation());
-
-		return component;
-		
-	}
-
-	public double getError() {
-		return error;
-	}
-
-	public void setError(double error) {
-		this.error = error;
-	}
-
-	public double[] getTranslation() {
-		return translation;
-	}
-
-	public void setTranslation(double[] translation) {
-		this.translation = translation;
-	}
-
 }

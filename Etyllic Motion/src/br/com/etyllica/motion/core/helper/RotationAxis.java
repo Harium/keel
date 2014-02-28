@@ -2,8 +2,12 @@ package br.com.etyllica.motion.core.helper;
 
 import org.opencv.OpenCv;
 
+import br.com.etyllica.motion.posit.Pose;
+
 public class RotationAxis {
 
+	protected double error = 0;
+	
 	protected double angle = 0;
 	
 	protected double axisX = 0;
@@ -12,8 +16,21 @@ public class RotationAxis {
 	
 	protected double axisZ = 0;
 	
+	protected double[] translation;
+	
 	public RotationAxis(){
 		super();
+	}
+	
+	public RotationAxis(Pose pose){
+		super();
+				
+		this.error = pose.getBestError();
+		
+		this.translation = pose.getBestTranslation();
+		
+		this.computeRotationValues(pose.getBestRotation());
+		
 	}
 	
 	protected void computeRotationValues(double[] rotation){
@@ -58,6 +75,22 @@ public class RotationAxis {
 
 	public double getAxisZ() {
 		return axisZ;
+	}
+	
+	public double getError() {
+		return error;
+	}
+
+	public void setError(double error) {
+		this.error = error;
+	}
+
+	public double[] getTranslation() {
+		return translation;
+	}
+
+	public void setTranslation(double[] translation) {
+		this.translation = translation;
 	}
 	
 }

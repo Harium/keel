@@ -1,5 +1,7 @@
 
 
+import examples.basic.application.MultipleTrackingApplication;
+import examples.basic.application.QuickHullExampleApplication;
 import application.AugmentedReality;
 import application.CaptchaCleaner;
 import application.FaceApplication;
@@ -14,9 +16,7 @@ import application.examples.FaceStatic;
 import application.examples.HollowTest;
 import application.examples.MagicWand;
 import application.examples.MagicWandStatic;
-import application.examples.MultipleTracking;
 import application.examples.SimpleCam;
-import application.examples.basic.QuickHullExample;
 import br.com.etyllica.Etyllica;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.motion.graph.SkinGraph;
@@ -33,7 +33,7 @@ public class EtyllicMotion extends Etyllica{
 		
 		//Basic Examples		
 		
-		return new QuickHullExample(w,h);		
+		return new QuickHullExampleApplication(w,h);		
 		
 		//return new MultipleTracking(w,h);
 		

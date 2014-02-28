@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.motion.core.BooleanMaskSearch;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
@@ -25,7 +24,7 @@ public class ColoredPointSearch extends BooleanMaskSearch {
 		
 		super.setup();
 		
-		Component lastComponent = new BoundingComponent(border, border, w-border, h-border);
+		Component lastComponent = new Component(border, border, w-border, h-border);
 								
 		int x = component.getLowestX()+border;
 		int y = component.getLowestY()+border;
@@ -69,7 +68,7 @@ public class ColoredPointSearch extends BooleanMaskSearch {
 
 				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))) {
 					
-					Component holder = new BoundingComponent(i, j, 1, 1);
+					Component holder = new Component(i, j, 1, 1);
 					
 					result.add(holder);
 

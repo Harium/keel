@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.motion.core.BooleanMaskSearch;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 
 public class TriangularSearch extends BooleanMaskSearch{
@@ -18,7 +17,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 		
 		super.setup();
 		
-		Component lastComponent = new BoundingComponent(0, 0, w, h);
+		Component lastComponent = new Component(0, 0, w, h);
 								
 		int x = component.getLowestX();
 		int y = component.getLowestY();
@@ -71,7 +70,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 					
 					int height = findVerticalLimit(bimg, i, j, h);
 					
-					Component holder = new BoundingComponent(i, j, i+width, j+height);
+					Component holder = new Component(i, j, i+width, j+height);
 										
 					updateMask(i, j, width, height, true);
 					
