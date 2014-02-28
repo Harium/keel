@@ -2,6 +2,7 @@ package application.examples;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -87,7 +88,7 @@ public class AugmentedRealityStatic extends Application{
 		cornerFilter.setComponentModifierStrategy(modifier);
 		
 		feature = new BoundingComponent(w, h);
-		
+				
 		reset(cam.getBufferedImage());
 				
 		loading = 100;

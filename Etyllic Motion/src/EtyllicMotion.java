@@ -16,6 +16,7 @@ import application.examples.MagicWand;
 import application.examples.MagicWandStatic;
 import application.examples.MultipleTracking;
 import application.examples.SimpleCam;
+import application.examples.basic.QuickHullExample;
 import br.com.etyllica.Etyllica;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.motion.graph.SkinGraph;
@@ -30,15 +31,22 @@ public class EtyllicMotion extends Etyllica{
 	@Override
 	public Application startApplication() {
 		
+		//Basic Examples		
+		
+		return new QuickHullExample(w,h);		
+		
 		//return new MultipleTracking(w,h);
 		
 		//return new SimpleCam(w,h);
-				
+		
+		
+		//Medium Examples
+		
 		//return new AirWrite(w,h);
 		
 		//return new MagicWandStatic(w,h);
 		
-		return new AugmentedRealityStatic(w,h);
+		//return new AugmentedRealityStatic(w,h);
 		
 		//return new MagicWand(w,h);
 		

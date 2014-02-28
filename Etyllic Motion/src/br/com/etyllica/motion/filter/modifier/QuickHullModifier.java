@@ -81,6 +81,7 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 	}
 
 	public void hullSet(Point2D A, Point2D B, ArrayList<Point2D> set, List<Point2D> hull){
+		
 		int insertPosition = hull.indexOf(B);
 		if (set.size() == 0) return;
 		if (set.size() == 1){

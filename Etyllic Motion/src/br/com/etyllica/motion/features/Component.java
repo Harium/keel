@@ -19,7 +19,17 @@ public class Component extends ColorComponent implements Comparable<Component>{
 	protected int highestX = 0;
 	
 	protected int highestY = 0;
-			
+	
+	public Component(){
+		super();
+		
+		highestX = Integer.MIN_VALUE;
+		highestY = Integer.MIN_VALUE;
+		
+		lowestX = Integer.MAX_VALUE;
+		lowestY = Integer.MAX_VALUE;
+	}
+	
 	public Component(int w, int h){
 		super();
 		
