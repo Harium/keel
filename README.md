@@ -10,7 +10,7 @@ Comparing to other computer vision libraries it is:
 - probably slower
 
 #### Main Goal
-The main goal is port widely known algorithms to Java and create a set of tools to help programmers to work with image processing/computer vision. If you are looking for a ultrafast library, try [OpenCV](http://opencv.org/) instead.
+The main goal is port widely known algorithms to Java and create a set of tools to help programmers to work with image processing/computer vision. If you are looking for an ultrafast library, try [OpenCV](http://opencv.org/) instead.
 
 
 #### Features:
