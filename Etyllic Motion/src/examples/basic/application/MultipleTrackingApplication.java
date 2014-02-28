@@ -1,4 +1,4 @@
-package application.examples;
+package examples.basic.application;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
-public class MultipleTracking extends Application{
+public class MultipleTrackingApplication extends Application{
 
 	private BufferedImage buffer;
 	
@@ -30,7 +30,7 @@ public class MultipleTracking extends Application{
 	
 	private List<Component> blackComponents;
 	
-	public MultipleTracking(int w, int h) {
+	public MultipleTrackingApplication(int w, int h) {
 		super(w, h);
 	}
 

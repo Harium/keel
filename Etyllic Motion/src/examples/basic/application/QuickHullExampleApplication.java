@@ -1,4 +1,4 @@
-package application.examples.basic;
+package examples.basic.application;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
 
-public class QuickHullExample extends Application {
+public class QuickHullExampleApplication extends Application {
 
 	private QuickHullModifier quickHullModifier;
 	
@@ -21,7 +21,7 @@ public class QuickHullExample extends Application {
 	
 	private List<Point2D> convexHull = null;
 	
-	public QuickHullExample(int w, int h) {
+	public QuickHullExampleApplication(int w, int h) {
 		super(w, h);//Size of our application
 	}
 		
