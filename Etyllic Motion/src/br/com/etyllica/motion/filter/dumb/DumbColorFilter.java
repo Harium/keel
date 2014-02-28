@@ -1,8 +1,8 @@
 package br.com.etyllica.motion.filter.dumb;
 
-import br.com.etyllica.motion.core.strategy.ColorValidatorStrategy;
+import br.com.etyllica.motion.core.strategy.ColorStrategy;
 
-public class DumbColorFilter implements ColorValidatorStrategy{
+public class DumbColorFilter implements ColorStrategy{
 
 	@Override
 	public boolean validateColor(int rgb) {

@@ -1,8 +1,8 @@
 package br.com.etyllica.motion.filter.color;
 
-import br.com.etyllica.motion.core.strategy.ColorValidatorStrategy;
+import br.com.etyllica.motion.core.strategy.ColorStrategy;
 
-public abstract class ToleranceStrategy implements ColorValidatorStrategy{
+public abstract class ToleranceStrategy implements ColorStrategy{
 
 	protected int tolerance = 0x40;
 

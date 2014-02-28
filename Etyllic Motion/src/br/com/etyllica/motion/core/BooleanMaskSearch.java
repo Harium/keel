@@ -1,6 +1,6 @@
 package br.com.etyllica.motion.core;
 
-import br.com.etyllica.motion.core.strategy.ColorValidatorStrategy;
+import br.com.etyllica.motion.core.strategy.ColorStrategy;
 import br.com.etyllica.motion.core.strategy.ComponentValidatorStrategy;
 
 
@@ -14,7 +14,7 @@ public abstract class BooleanMaskSearch extends ComponentFilter{
 		resetMask(w, h);
 	}
 	
-	public BooleanMaskSearch(int w, int h, ColorValidatorStrategy colorStrategy, ComponentValidatorStrategy componentStrategy){
+	public BooleanMaskSearch(int w, int h, ColorStrategy colorStrategy, ComponentValidatorStrategy componentStrategy){
 		super(w, h, colorStrategy, componentStrategy);
 		
 		resetMask(w, h);

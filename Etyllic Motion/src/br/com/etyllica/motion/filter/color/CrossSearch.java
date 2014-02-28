@@ -3,7 +3,7 @@ package br.com.etyllica.motion.filter.color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.motion.core.strategy.ColorValidatorStrategy;
+import br.com.etyllica.motion.core.strategy.ColorStrategy;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.features.Cross;
@@ -16,7 +16,7 @@ public class CrossSearch extends SearchFilter{
 		super();
 	}
 	
-	public CrossSearch(ColorValidatorStrategy colorValidator) {
+	public CrossSearch(ColorStrategy colorValidator) {
 		super();
 	}
 	
