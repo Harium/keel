@@ -1,7 +1,17 @@
 Etyllic Motion
 ==============
 
-Etyllic Motion is a Image Processing Library built over [Etyllica](https://github.com/yuripourre/etyllica/).
+Etyllic Motion is a Java Image Processing Library built over [Etyllica](https://github.com/yuripourre/etyllica/). 
+
+Comparing to other computer vision libraries it is:
+
+- higher-level
+- easier to use 
+- probably slower
+
+#### Main Goal
+The main goal is port widely known algorithms to Java and create a set of tools to help programmers to work with image processing/computer vision. If you are looking for a ultrafast library, try [OpenCV](http://opencv.org/) instead.
+
 
 #### Features:
 
