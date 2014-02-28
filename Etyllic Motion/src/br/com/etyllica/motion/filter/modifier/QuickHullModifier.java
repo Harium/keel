@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.helper.PointListHelper;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.features.Component;
 
@@ -33,6 +34,8 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 
 		//if (points.size() < 3) return (ArrayList)points.clone();
 		if (points.size() < 3) return points;
+		
+		List<Point2D> clone = PointListHelper.cloneList(points);
 
 		List<Point2D> convexHull = new ArrayList<Point2D>();
 
@@ -41,32 +44,32 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		double minX = Double.MAX_VALUE;
 		double maxX = Double.MIN_VALUE;
 		
-		for (int i = 0; i < points.size(); i++){
-			if (points.get(i).getX() < minX){
-				minX = points.get(i).getX();
+		for (int i = 0; i < clone.size(); i++){
+			if (clone.get(i).getX() < minX){
+				minX = clone.get(i).getX();
 				minPoint = i;
 			}
 			
-			if (points.get(i).getX() > maxX){
-				maxX = points.get(i).getX();
+			if (clone.get(i).getX() > maxX){
+				maxX = clone.get(i).getX();
 				maxPoint = i;       
 			}
 		}
 		
-		Point2D A = points.get(minPoint);
-		Point2D B = points.get(maxPoint);
+		Point2D A = clone.get(minPoint);
+		Point2D B = clone.get(maxPoint);
 		
 		convexHull.add(A);
 		convexHull.add(B);
 		
-		points.remove(A);
-		points.remove(B);
+		clone.remove(A);
+		clone.remove(B);
 
 		ArrayList<Point2D> leftSet = new ArrayList<Point2D>();
 		ArrayList<Point2D> rightSet = new ArrayList<Point2D>();
 
-		for (int i = 0; i < points.size(); i++){
-			Point2D p = points.get(i);
+		for (int i = 0; i < clone.size(); i++){
+			Point2D p = clone.get(i);
 			if (pointLocation(A,B,p) == -1)
 				leftSet.add(p);
 			else
