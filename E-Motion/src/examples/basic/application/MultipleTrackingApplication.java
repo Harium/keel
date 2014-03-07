@@ -12,16 +12,17 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.TrackingByColorFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
-public class MultipleTrackingApplication extends Application{
+public class MultipleTrackingApplication extends Application {
 
 	private BufferedImage buffer;
 	
-	private FloodFillSearch blueFilter;
+	private TrackingByColorFilter blueFilter;
 	
-	private FloodFillSearch blackFilter;
+	private TrackingByColorFilter blackFilter;
 	
 	private Component screen;
 	
@@ -42,20 +43,17 @@ public class MultipleTrackingApplication extends Application{
 		
 		createElements(w, h);
 		
-		blackFilter = new FloodFillSearch(w, h);
-		blackFilter.setColorStrategy(new ColorStrategy(Color.BLACK.getRGB()));
+		blackFilter = new TrackingByColorFilter(w, h, Color.BLACK);
 		
-		blueFilter = new FloodFillSearch(w, h);
-		blueFilter.setColorStrategy(new ColorStrategy(Color.BLUE.getRGB()));		
-		
-		
+		blueFilter = new TrackingByColorFilter(w, h, Color.BLUE);		
+				
 		blueComponents = blueFilter.filter(buffer, screen);
 		
 		blackComponents = blackFilter.filter(buffer, screen);
 		
 	}
 	
-	private void createElements(int w, int h){
+	private void createElements(int w, int h) {
 		
 		Graphics2D g = buffer.createGraphics();
 				
@@ -98,14 +96,17 @@ public class MultipleTrackingApplication extends Application{
 		g.setAlpha(100);
 		g.drawImage(buffer, 0, 0);
 		
-		g.setAlpha(90);		
-		for(Component component: blackComponents){
+		g.setAlpha(90);
+		
+		//Draw a red line around the black components
+		for(Component component: blackComponents) {
 			g.setStroke(new BasicStroke(3f));
 			g.setColor(Color.RED);
 			g.drawPolygon(component.getBoundingBox());
 		}
 		
-		for(Component component: blueComponents){
+		//Draw a yellow line around the blue components
+		for(Component component: blueComponents) {
 			g.setStroke(new BasicStroke(3f));
 			g.setColor(Color.YELLOW);
 			g.drawRect(component.getRectangle());
