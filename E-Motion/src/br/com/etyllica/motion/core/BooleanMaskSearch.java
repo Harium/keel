@@ -1,20 +1,20 @@
 package br.com.etyllica.motion.core;
 
-import br.com.etyllica.motion.core.strategy.ColorStrategy;
+import br.com.etyllica.motion.core.strategy.PixelStrategy;
 import br.com.etyllica.motion.core.strategy.ComponentValidatorStrategy;
 
 
-public abstract class BooleanMaskSearch extends ComponentFilter{
+public abstract class BooleanMaskSearch extends ComponentFilter {
 
 	protected boolean[][] mask;
 		
-	public BooleanMaskSearch(int w, int h){
+	public BooleanMaskSearch(int w, int h) {
 		super(w, h);
 		
 		resetMask(w, h);
 	}
 	
-	public BooleanMaskSearch(int w, int h, ColorStrategy colorStrategy, ComponentValidatorStrategy componentStrategy){
+	public BooleanMaskSearch(int w, int h, PixelStrategy colorStrategy, ComponentValidatorStrategy componentStrategy) {
 		super(w, h, colorStrategy, componentStrategy);
 		
 		resetMask(w, h);
@@ -35,15 +35,15 @@ public abstract class BooleanMaskSearch extends ComponentFilter{
 		resetMask(w,h);
 	}
 	
-	private void resetMask(int w, int h){
+	private void resetMask(int w, int h) {
 		
 		mask = new boolean[w][h];
 		
-		resetMask();
+		resetAllMask();
 		
 	}
 	
-	protected void resetMask(){
+	protected void resetAllMask() {
 		
 		int w = mask.length;
 		int h = mask[0].length;
@@ -52,7 +52,7 @@ public abstract class BooleanMaskSearch extends ComponentFilter{
 				
 	}
 	
-	public void updateMask(int i, int j, int w, int h, boolean update){
+	public void updateMask(int i, int j, int w, int h, boolean update) {
 		
 		for(int nj=j; nj<j+h; nj++){
 			
@@ -69,11 +69,11 @@ public abstract class BooleanMaskSearch extends ComponentFilter{
 	}
 
 	@Override
-	public void setup(){
+	public void setup() {
 		
 		super.setup();
 		
-		resetMask();
+		resetAllMask();
 		
 	}
 	

@@ -1,11 +1,11 @@
 package br.com.etyllica.motion.core;
 
-import br.com.etyllica.motion.core.strategy.ColorStrategy;
+import br.com.etyllica.motion.core.strategy.PixelStrategy;
 import br.com.etyllica.motion.core.strategy.ComponentValidatorStrategy;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 
 
-public abstract class ComponentFilter extends SearchFilter{
+public abstract class ComponentFilter extends SearchFilter {
 	
 	protected int w;
 	
@@ -18,7 +18,7 @@ public abstract class ComponentFilter extends SearchFilter{
 		this.h = h;
 	}
 	
-	public ComponentFilter(int w, int h, ColorStrategy colorStrategy, ComponentValidatorStrategy componentStrategy){
+	public ComponentFilter(int w, int h, PixelStrategy colorStrategy, ComponentValidatorStrategy componentStrategy){
 		super(colorStrategy, componentStrategy);
 		
 		this.w = w;

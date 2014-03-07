@@ -3,7 +3,7 @@ package br.com.etyllica.motion.filter.color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.motion.core.strategy.ColorStrategy;
+import br.com.etyllica.motion.core.strategy.PixelStrategy;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.features.Cross;
@@ -16,7 +16,7 @@ public class CrossSearch extends SearchFilter{
 		super();
 	}
 	
-	public CrossSearch(ColorStrategy colorValidator) {
+	public CrossSearch(PixelStrategy colorValidator) {
 		super();
 	}
 	
@@ -42,7 +42,7 @@ public class CrossSearch extends SearchFilter{
 
 			for(i=border;i<w-border*2;i+=step){
 
-				if(colorStrategy.validateColor(bimg.getRGB(i, j))){
+				if(pixelStrategy.validateColor(bimg.getRGB(i, j))){
 
 					setCross(i,j,bimg);
 
@@ -177,15 +177,15 @@ public class CrossSearch extends SearchFilter{
 
 	public boolean validateCross(Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight){
 
-		boolean result = colorStrategy.validateColor(cross.getUpperLeft())==upperLeft&&
-				colorStrategy.validateColor(cross.getUp())==up&&
-				colorStrategy.validateColor(cross.getUpperRight())==upperRight&&
-				colorStrategy.validateColor(cross.getLeft())==left&&
-				colorStrategy.validateColor(cross.getCenter())==center&&
-				colorStrategy.validateColor(cross.getRight())==right&&
-				colorStrategy.validateColor(cross.getLowerLeft())==lowerLeft&&
-				colorStrategy.validateColor(cross.getDown())==down&&
-				colorStrategy.validateColor(cross.getLowerRight())==lowerRight;
+		boolean result = pixelStrategy.validateColor(cross.getUpperLeft())==upperLeft&&
+				pixelStrategy.validateColor(cross.getUp())==up&&
+				pixelStrategy.validateColor(cross.getUpperRight())==upperRight&&
+				pixelStrategy.validateColor(cross.getLeft())==left&&
+				pixelStrategy.validateColor(cross.getCenter())==center&&
+				pixelStrategy.validateColor(cross.getRight())==right&&
+				pixelStrategy.validateColor(cross.getLowerLeft())==lowerLeft&&
+				pixelStrategy.validateColor(cross.getDown())==down&&
+				pixelStrategy.validateColor(cross.getLowerRight())==lowerRight;
 
 		return result;
 	}	
@@ -194,15 +194,15 @@ public class CrossSearch extends SearchFilter{
 
 		StringBuilder builder = new StringBuilder();
 
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getUpperLeft())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getUp())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getUpperRight())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getLeft())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getCenter())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getRight())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getLowerLeft())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getDown())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getLowerRight())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperLeft())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUp())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperRight())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLeft())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getCenter())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getRight())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerLeft())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getDown())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerRight())));
 
 		return builder.toString();
 	}

@@ -36,7 +36,7 @@ public class ColoredPointSearch extends BooleanMaskSearch {
 			
 			for(int i=x;i<w;i+=step) {
 				
-				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))) {
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))) {
 					
 					lastComponent.setBounds(i, j, 1, 1);
 										
@@ -66,7 +66,7 @@ public class ColoredPointSearch extends BooleanMaskSearch {
 
 			for(i=border;i<w-border;i+=step) {
 
-				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))) {
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))) {
 					
 					Component holder = new Component(i, j, 1, 1);
 					

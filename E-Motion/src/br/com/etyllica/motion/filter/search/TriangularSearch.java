@@ -29,7 +29,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 			
 			for(int i=x;i<w;i+=step){
 				
-				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))){
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))){
 					
 					int width = findHorizontalLimit(bimg, i, j, w);
 					
@@ -64,7 +64,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 
 			for(int i=x;i<w;i+=step){
 
-				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))){
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))){
 					
 					int width = findHorizontalLimit(bimg, i, j, w);
 					
@@ -91,7 +91,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 		
 		for(int ni=i;ni<w;ni++){
 			
-			if(!mask[ni][j]&&colorStrategy.validateColor(bimg.getRGB(ni, j))){
+			if(!mask[ni][j]&&pixelStrategy.validateColor(bimg.getRGB(ni, j))){
 				totalWidth++;
 			}else{
 				break;
@@ -109,7 +109,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 				
 		for(int nj=j;nj<h;nj++){
 			
-			if(!mask[i][nj]&&colorStrategy.validateColor(bimg.getRGB(i, nj))){
+			if(!mask[i][nj]&&pixelStrategy.validateColor(bimg.getRGB(i, nj))){
 				totalHeight++;
 			}else{
 				break;

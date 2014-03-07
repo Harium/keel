@@ -1,13 +1,13 @@
 package br.com.etyllica.motion.custom;
 
-import br.com.etyllica.motion.core.strategy.ColorStrategy;
+import br.com.etyllica.motion.core.strategy.PixelStrategy;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.core.strategy.ComponentValidatorStrategy;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 
 public abstract class CustomFilter extends SearchFilter{
 
-	protected ColorStrategy colorStrategy;
+	protected PixelStrategy colorStrategy;
 	
 	protected ComponentValidatorStrategy componentStrategy;
 	
@@ -17,11 +17,11 @@ public abstract class CustomFilter extends SearchFilter{
 		super();
 	}
 	
-	public ColorStrategy getColorStrategy() {
+	public PixelStrategy getColorStrategy() {
 		return colorStrategy;
 	}
 
-	public void setColorStrategy(ColorStrategy colorStrategy) {
+	public void setColorStrategy(PixelStrategy colorStrategy) {
 		this.colorStrategy = colorStrategy;
 	}
 

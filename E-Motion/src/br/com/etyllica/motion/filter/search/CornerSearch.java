@@ -29,7 +29,7 @@ public class CornerSearch extends BooleanMaskSearch {
 
 			for(int i=border;i<w-border*2;i+=step){
 
-				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))){
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))){
 
 					setCross(i,j,bimg);
 
@@ -62,7 +62,7 @@ public class CornerSearch extends BooleanMaskSearch {
 
 			for(int i=border;i<w-border*2;i+=step){
 
-				if(colorStrategy.validateColor(bimg.getRGB(i, j))){
+				if(pixelStrategy.validateColor(bimg.getRGB(i, j))){
 
 					setCross(i,j,bimg);
 
@@ -197,15 +197,15 @@ public class CornerSearch extends BooleanMaskSearch {
 
 	public boolean validateCross(Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight){
 
-		boolean result = colorStrategy.validateColor(cross.getUpperLeft())==upperLeft&&
-				colorStrategy.validateColor(cross.getUp())==up&&
-				colorStrategy.validateColor(cross.getUpperRight())==upperRight&&
-				colorStrategy.validateColor(cross.getLeft())==left&&
-				colorStrategy.validateColor(cross.getCenter())==center&&
-				colorStrategy.validateColor(cross.getRight())==right&&
-				colorStrategy.validateColor(cross.getLowerLeft())==lowerLeft&&
-				colorStrategy.validateColor(cross.getDown())==down&&
-				colorStrategy.validateColor(cross.getLowerRight())==lowerRight;
+		boolean result = pixelStrategy.validateColor(cross.getUpperLeft())==upperLeft&&
+				pixelStrategy.validateColor(cross.getUp())==up&&
+				pixelStrategy.validateColor(cross.getUpperRight())==upperRight&&
+				pixelStrategy.validateColor(cross.getLeft())==left&&
+				pixelStrategy.validateColor(cross.getCenter())==center&&
+				pixelStrategy.validateColor(cross.getRight())==right&&
+				pixelStrategy.validateColor(cross.getLowerLeft())==lowerLeft&&
+				pixelStrategy.validateColor(cross.getDown())==down&&
+				pixelStrategy.validateColor(cross.getLowerRight())==lowerRight;
 
 		return result;
 	}	
@@ -214,15 +214,15 @@ public class CornerSearch extends BooleanMaskSearch {
 
 		StringBuilder builder = new StringBuilder();
 
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getUpperLeft())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getUp())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getUpperRight())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getLeft())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getCenter())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getRight())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getLowerLeft())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getDown())));
-		builder.append(booleanToChar(colorStrategy.validateColor(cross.getLowerRight())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperLeft())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUp())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperRight())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLeft())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getCenter())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getRight())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerLeft())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getDown())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerRight())));
 
 		return builder.toString();
 	}

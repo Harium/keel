@@ -21,7 +21,7 @@ public class DumbSearch extends SearchFilter {
 		
 		for(int i=border;i<w-border;i++){
 
-				if(colorStrategy.validateColor(bimg.getRGB(i, j))){
+				if(pixelStrategy.validateColor(bimg.getRGB(i, j))){
 
 					lastComponent.setLocation(i, j);
 

@@ -41,7 +41,7 @@ public class FloodFillSearch extends BooleanMaskSearch{
 
 			for (int i = border; i < w-border*2; i+=step) {
 
-				if (!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i,j))) {
+				if (!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i,j))) {
 
 					Queue<Point2D> queue = new LinkedList<Point2D>();
 					queue.add(new Point2D(i, j));
@@ -53,7 +53,7 @@ public class FloodFillSearch extends BooleanMaskSearch{
 
 						if ((p.getX() >= 0) && (p.getX() < w &&
 								(p.getY() >= 0) && (p.getY() < h))) {
-							if (!mask[(int)p.getX()][(int)p.getY()] && colorStrategy.validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
+							if (!mask[(int)p.getX()][(int)p.getY()] && pixelStrategy.validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
 								mask[(int)p.getX()][(int)p.getY()] = true;
 
 								lista.add(p);

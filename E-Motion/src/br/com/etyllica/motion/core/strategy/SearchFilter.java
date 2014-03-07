@@ -16,7 +16,7 @@ public abstract class SearchFilter implements SearchStrategy {
 	
 	protected int border = 0;
 		
-	protected ColorStrategy colorStrategy;
+	protected PixelStrategy pixelStrategy;
 	
 	protected ComponentValidatorStrategy componentStrategy;
 	
@@ -27,17 +27,17 @@ public abstract class SearchFilter implements SearchStrategy {
 	public SearchFilter() {
 		super();
 		
-		this.colorStrategy = new DumbColorFilter();
+		this.pixelStrategy = new DumbColorFilter();
 		
 		this.componentStrategy = new DumbComponentFilter();
 		
 		this.componentModifierStrategy = new DumbComponentModifier();
 	}
 	
-	public SearchFilter(ColorStrategy colorStrategy, ComponentValidatorStrategy componentStrategy) {
+	public SearchFilter(PixelStrategy colorStrategy, ComponentValidatorStrategy componentStrategy) {
 		super();
 		
-		this.colorStrategy = colorStrategy;
+		this.pixelStrategy = colorStrategy;
 		
 		this.componentStrategy = componentStrategy;
 		
@@ -48,12 +48,12 @@ public abstract class SearchFilter implements SearchStrategy {
 		result.clear();	
 	}
 
-	public ColorStrategy getColorStrategy() {
-		return colorStrategy;
+	public PixelStrategy getColorStrategy() {
+		return pixelStrategy;
 	}
 
-	public void setColorStrategy(ColorStrategy colorStrategy) {
-		this.colorStrategy = colorStrategy;
+	public void setColorStrategy(PixelStrategy colorStrategy) {
+		this.pixelStrategy = colorStrategy;
 	}
 
 	public ComponentValidatorStrategy getComponentStrategy() {

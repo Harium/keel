@@ -24,7 +24,7 @@ public class RightToLeftSearch extends SearchFilter{
 
 			for(int j=y+border;j<h-border;j++){
 
-				if(colorStrategy.validateColor(bimg.getRGB(i, j))){
+				if(pixelStrategy.validateColor(bimg.getRGB(i, j))){
 
 					lastComponent.setLocation(i, j);
 
