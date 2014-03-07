@@ -41,7 +41,7 @@ public class RotationAxis {
 		
 		this.axisX = (rotation[2+3*1] - rotation[1+3*2])/norm;
 
-		this.axisY = (rotation[0+3*2] - rotation[2+3*0])/norm;
+		this.axisY = (rotation[2+3*0] - rotation[0+3*2])/norm;
 
 		this.axisZ = (rotation[1+3*0] - rotation[0+3*1])/norm;
 		
@@ -55,7 +55,7 @@ public class RotationAxis {
 		
 		this.axisX = (rotation[2][1] - rotation[1][2])/norm;
 
-		this.axisY = (rotation[0][2] - rotation[2][0])/norm;
+		this.axisY = (rotation[2][0] - rotation[0][2])/norm;
 
 		this.axisZ = (rotation[1][0] - rotation[0][1])/norm;
 		
