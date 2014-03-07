@@ -18,7 +18,7 @@ The main goal is port widely known algorithms to Java and create a tool to help 
 - [LuvMotion](https://github.com/yuripourre/luvmotion/) - Some Augmented Reality experiments.
 
 ### Wiki:
-- For more details, see the [wiki](https://github.com/yuripourre/e-motion/wiki/).
+- For more details, see the [wiki](https://github.com/yuripourre/e-motion/wiki/) or some [examples](https://github.com/yuripourre/e-motion/wiki/Examples).
 
 ### License:
 - [GPL](https://www.gnu.org/copyleft/gpl.html)
