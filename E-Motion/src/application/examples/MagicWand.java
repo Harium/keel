@@ -67,7 +67,7 @@ public class MagicWand extends Application{
 		cornerFilter = new FloodFillSearch(width, height);
 		cornerFilter.setBorder(10);
 
-		cornerFilter.setColorStrategy(colorStrategy);
+		cornerFilter.setPixelStrategy(colorStrategy);
 
 		cornerFilter.setComponentModifierStrategy(modifier);
 

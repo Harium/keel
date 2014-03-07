@@ -104,7 +104,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 		//border: 4 and step: 4
 		blackFilter.setBorder(DEFAULT_BORDER);
 		blackFilter.setStep(DEFAULT_STEP);
-		blackFilter.setColorStrategy(blackColorStrategy);
+		blackFilter.setPixelStrategy(blackColorStrategy);
 		
 		blackColorStrategy.setTolerance(tolerance);		
 		
@@ -115,7 +115,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 		
 		skinColorStrategy.setTolerance(tolerance-45);
 		
-		skinFilter.setColorStrategy(skinColorStrategy);
+		skinFilter.setPixelStrategy(skinColorStrategy);
 
 		quickFilter = new NoiseSearch(w, h);
 		

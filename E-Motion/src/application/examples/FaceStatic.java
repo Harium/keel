@@ -81,7 +81,7 @@ public class FaceStatic extends Application{
 		ColorStrategy blackColorFilter = new ColorStrategy(Color.BLACK.getRGB());
 		blackColorFilter.setTolerance(0x50);
 		
-		blackFilter.setColorStrategy(blackColorFilter);
+		blackFilter.setPixelStrategy(blackColorFilter);
 		blackFilter.setComponentModifierStrategy(modifier);
 		
 		//border: 4 and step: 4
@@ -92,7 +92,7 @@ public class FaceStatic extends Application{
 		ColorStrategy whiteColorFilter = new ColorStrategy(Color.WHITE.getRGB());
 		whiteColorFilter.setTolerance(0x64);
 		
-		whiteFilter.setColorStrategy(whiteColorFilter);
+		whiteFilter.setPixelStrategy(whiteColorFilter);
 		whiteFilter.setComponentModifierStrategy(modifier);
 		
 		whiteFilter.setBorder(4);
@@ -100,7 +100,7 @@ public class FaceStatic extends Application{
 		
 		skinFilter = new TriangularSearch(width, height);
 		skinFilter.setBorder(4);
-		skinFilter.setColorStrategy(new SkinColorStrategy());
+		skinFilter.setPixelStrategy(new SkinColorStrategy());
 		skinFilter.setComponentModifierStrategy(new EnvelopeModifier());
 		
 		loading = 60;

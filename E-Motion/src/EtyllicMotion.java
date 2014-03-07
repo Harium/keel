@@ -39,7 +39,7 @@ public class EtyllicMotion extends Etyllica{
 		
 		//return new SimpleCam(w,h);
 		
-		return new MagicWandStatic(w,h);
+		//return new MagicWandStatic(w,h);
 		
 		
 		//Medium Examples
@@ -59,8 +59,7 @@ public class EtyllicMotion extends Etyllica{
 		//return new HollowController(w,h);
 		//return new HollowTest(w,h);
 		
-		//return new FaceApplication(w,h);
-		//return new SkinTest(w,h);
+		return new FaceApplication(w,h);
 		
 		//return new FaceSampledMultiFilterStatic(w,h);
 		

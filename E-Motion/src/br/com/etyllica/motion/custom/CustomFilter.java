@@ -17,11 +17,11 @@ public abstract class CustomFilter extends SearchFilter{
 		super();
 	}
 	
-	public PixelStrategy getColorStrategy() {
+	public PixelStrategy getPixelStrategy() {
 		return colorStrategy;
 	}
 
-	public void setColorStrategy(PixelStrategy colorStrategy) {
+	public void setPixelStrategy(PixelStrategy colorStrategy) {
 		this.colorStrategy = colorStrategy;
 	}
 

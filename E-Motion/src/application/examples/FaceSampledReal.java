@@ -52,7 +52,7 @@ public class FaceSampledReal extends Application{
 		screen = new Component(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 
 		ColorStrategy colorStrategy = new ColorStrategy(Color.BLACK); 
-		colorFilter.setColorStrategy(colorStrategy);
+		colorFilter.setPixelStrategy(colorStrategy);
 		
 		final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
 		

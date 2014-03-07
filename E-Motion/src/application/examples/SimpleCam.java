@@ -48,7 +48,7 @@ public class SimpleCam extends Application{
 		colorFilter.setBorder(20);
 		
 		colorStrategy = new ColorStrategy(Color.BLACK.getRGB()); 
-		colorFilter.setColorStrategy(colorStrategy);
+		colorFilter.setPixelStrategy(colorStrategy);
 
 		mirror = new BufferedLayer(0, 0);
 

@@ -26,7 +26,7 @@ public class BarCodeFilter extends CustomFilter {
 
 		searchStrategy = new FloodFillSearch(w, h);
 		
-		searchStrategy.setColorStrategy(colorStrategy);
+		searchStrategy.setPixelStrategy(colorStrategy);
 		
 		searchStrategy.setComponentStrategy(componentStrategy);
 		

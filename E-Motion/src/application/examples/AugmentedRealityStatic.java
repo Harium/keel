@@ -78,7 +78,7 @@ public class AugmentedRealityStatic extends Application{
 		cornerFilter.setBorder(10);
 		cornerFilter.setStep(1);
 		
-		cornerFilter.setColorStrategy(colorStrategy);
+		cornerFilter.setPixelStrategy(colorStrategy);
 		
 		cornerFilter.setComponentModifierStrategy(modifier);
 		

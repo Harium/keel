@@ -41,7 +41,7 @@ public class LeftColorFilterTest {
 		
 		colorStrategy.setTolerance(10);
 		
-		filter.setColorStrategy(colorStrategy);
+		filter.setPixelStrategy(colorStrategy);
 				
 		filter.setBorder(1);
 		

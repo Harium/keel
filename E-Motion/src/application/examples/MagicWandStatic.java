@@ -2,6 +2,7 @@ package application.examples;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -20,9 +21,9 @@ public class MagicWandStatic extends Application{
 	private FakeCamera cam;
 
 	private FloodFillSearch cornerFilter;
-	
+
 	private ColorStrategy colorStrategy;
-	
+
 	private EnvelopeModifier modifier;
 
 	private boolean hide = false;
@@ -33,7 +34,7 @@ public class MagicWandStatic extends Application{
 
 	private final int IMAGES_TO_LOAD = 7;
 
-	private Component feature;
+	private List<Component> features;
 
 	public MagicWandStatic(int w, int h) {
 		super(w, h);
@@ -41,55 +42,53 @@ public class MagicWandStatic extends Application{
 
 	@Override
 	public void load() {
-		
+
 		loadingPhrase = "Loading Images";
 
 		cam = new FakeCamera();
-		
+
 		for(int i=0;i<IMAGES_TO_LOAD;i++){
 			cam.addImage("/wand/wand"+Integer.toString(i)+".png");
 		}
-		
+
 		loading = 25;
-		
+
 		loadingPhrase = "Configuring Filter";
 
 		int width = cam.getBufferedImage().getWidth();
-		
+
 		int height = cam.getBufferedImage().getHeight();
-						
+
 		loading = 40;
-				
+
 		colorStrategy = new ColorStrategy(Color.BLACK);
 		colorStrategy.setTolerance(0x10);
-		
+
 		modifier = new EnvelopeModifier();
-		
+
 		cornerFilter = new FloodFillSearch(width, height);
 		cornerFilter.setBorder(10);
-		
-		cornerFilter.setColorStrategy(colorStrategy);
-		
+
+		cornerFilter.setPixelStrategy(colorStrategy);
+
 		cornerFilter.setComponentModifierStrategy(modifier);
-		
-		feature = new Component(0, 0, w, h);
-		
+
 		reset(cam.getBufferedImage());
-				
+
 		loading = 100;
 	}
-	
+
 	private void reset(BufferedImage b){
-				
+
 		loading = 60;
 
 		loadingPhrase = "Start Filter";
-				
-		feature = cornerFilter.filterFirst(b, new Component(0, 0, w, h));
+
+		features = cornerFilter.filter(b, new Component(0, 0, w, h));
 
 		loading = 65;
 		loadingPhrase = "Show Result";
-		
+
 		loading = 70;
 		loadingPhrase = "Show Angle";
 	}
@@ -129,19 +128,25 @@ public class MagicWandStatic extends Application{
 
 		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
 
-		g.setColor(Color.BLUE);
-
-		for(Point2D ponto: feature.getPoints()){
-			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
-		}
+		g.setColor(Color.BLACK);
 		
-		if(feature.getPoints().size()>3){			
+		g.drawString("Angle = "+modifier.getAngle(), 50, 25);
+		
+		g.setColor(Color.BLUE);
+		
+		for(Component feature: features){
 
-			drawBox(g, feature);
+			for(Point2D ponto: feature.getPoints()){
+				g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
+			}
 
-			g.drawString("Angle = "+modifier.getAngle(), 50, 25);
-			
-			g.drawString("Points = "+feature.getPoints().size(), 50, 50);
+			if(feature.getPoints().size()>3){	
+
+				drawBox(g, feature);
+
+				g.drawString("Points = "+feature.getPoints().size(), 50, 50);
+
+			}
 
 		}
 

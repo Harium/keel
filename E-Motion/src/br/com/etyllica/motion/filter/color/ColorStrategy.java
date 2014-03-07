@@ -66,7 +66,11 @@ public class ColorStrategy extends ToleranceStrategy {
 	}
 
 	public void setColor(int color) {
-		this.color = color;	
+		this.color = color;
+	}
+	
+	public void setColor(Color color) {
+		this.color = color.getRGB();
 	}
 	
 }
