@@ -11,12 +11,21 @@ import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 
 public class ColorFilter extends BooleanMaskSearch {
 
+	private ColorStrategy colorStrategy;
+	
 	public ColorFilter(int w, int h) {
 		super(w, h);
 	}
 	
 	public ColorFilter(int w, int h, Color color) {
-		super(w, h, new ColorStrategy(color.getRGB()), new DumbComponentFilter());
+		super(w, h);
+		
+		colorStrategy = new ColorStrategy(color);
+		
+		this.pixelStrategy = colorStrategy;
+		
+		this.componentStrategy = new DumbComponentFilter();
+		
 	}
 
 	@Override
@@ -84,6 +93,22 @@ public class ColorFilter extends BooleanMaskSearch {
 		result.add(holder);
 		
 		return result;
+	}
+
+	public int getTolerance() {
+		return colorStrategy.getTolerance();
+	}
+
+	public void setTolerance(int tolerance) {
+		colorStrategy.setTolerance(tolerance);
+	}
+
+	public int getColor() {
+		return colorStrategy.getColor();
+	}
+
+	public void setColor(int color) {
+		colorStrategy.setColor(color);
 	}
 			
 }

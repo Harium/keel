@@ -33,18 +33,18 @@ public class EtyllicMotion extends Etyllica{
 		
 		//Basic Examples		
 		
-		return new QuickHullExampleApplication(w,h);
+		//return new QuickHullExampleApplication(w,h);
 		
 		//return new MultipleTrackingApplication(w,h);
 		
 		//return new SimpleCam(w,h);
 		
+		return new MagicWandStatic(w,h);
+		
 		
 		//Medium Examples
 		
-		//return new AirWrite(w,h);
-		
-		//return new MagicWandStatic(w,h);
+		//return new AirWrite(w,h);				
 		
 		//return new AugmentedRealityStatic(w,h);
 		
