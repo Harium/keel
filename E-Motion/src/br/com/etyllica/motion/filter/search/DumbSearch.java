@@ -15,8 +15,6 @@ public class DumbSearch extends SearchFilter {
 		int w = component.getW();
 		int h = component.getH();
 		
-		Component lastComponent = new Component(w, h);
-
 		for(int j=border;j<h-border;j++){
 		
 		for(int i=border;i<w-border;i++){

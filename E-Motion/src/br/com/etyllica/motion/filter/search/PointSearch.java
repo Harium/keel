@@ -17,7 +17,7 @@ public class PointSearch extends BooleanMaskSearch {
 		
 		super.setup();
 		
-		Component lastComponent = new Component(border, border, w-border, h-border);
+		lastComponent.reset();
 								
 		int x = component.getLowestX()+border;
 		int y = component.getLowestY()+border;

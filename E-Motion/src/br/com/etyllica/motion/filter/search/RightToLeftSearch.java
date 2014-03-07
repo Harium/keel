@@ -18,8 +18,6 @@ public class RightToLeftSearch extends SearchFilter{
 		int w = component.getW();
 		int h = component.getH();
 		
-		Component lastComponent = new Component(w, h);
-
 		for(int i=w-border;i>x+border;i--){
 
 			for(int j=y+border;j<h-border;j++){

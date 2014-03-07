@@ -22,6 +22,8 @@ public abstract class SearchFilter implements SearchStrategy {
 	
 	protected ComponentModifierStrategy componentModifierStrategy;
 	
+	protected Component lastComponent = new Component(0, 0, 1, 1);
+	
 	protected List<Component> result = new ArrayList<Component>();
 	
 	public SearchFilter() {
@@ -48,11 +50,11 @@ public abstract class SearchFilter implements SearchStrategy {
 		result.clear();	
 	}
 
-	public PixelStrategy getColorStrategy() {
+	public PixelStrategy getPixelStrategy() {
 		return pixelStrategy;
 	}
 
-	public void setColorStrategy(PixelStrategy colorStrategy) {
+	public void setPixelStrategy(PixelStrategy colorStrategy) {
 		this.pixelStrategy = colorStrategy;
 	}
 

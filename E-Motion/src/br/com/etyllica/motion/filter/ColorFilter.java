@@ -4,95 +4,44 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.motion.core.BooleanMaskSearch;
+import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
+import br.com.etyllica.motion.filter.search.ColoredPointSearch;
 
-public class ColorFilter extends BooleanMaskSearch {
+public class ColorFilter {
 
-	private ColorStrategy colorStrategy;
+	protected ColorStrategy colorStrategy;
+	
+	protected SearchFilter searchStrategy;
 	
 	public ColorFilter(int w, int h) {
-		super(w, h);
+		super();
+		
+		searchStrategy = new ColoredPointSearch(w, h);
 	}
-	
+		
 	public ColorFilter(int w, int h, Color color) {
-		super(w, h);
+		this(w, h);
 		
 		colorStrategy = new ColorStrategy(color);
+				
+		searchStrategy.setPixelStrategy(colorStrategy);
 		
-		this.pixelStrategy = colorStrategy;
-		
-		this.componentStrategy = new DumbComponentFilter();
+		searchStrategy.setComponentStrategy(new DumbComponentFilter());
 		
 	}
 
-	@Override
 	public Component filterFirst(BufferedImage bimg, Component component) {
 		
-		super.setup();
-		
-		Component lastComponent = new Component(border, border, w-border, h-border);
-								
-		int x = component.getLowestX()+border;
-		int y = component.getLowestY()+border;
-		
-		int w = component.getW()-border;
-		int h = component.getH()-border;
-		
-		for(int j=y;j<h;j+=step) {
-			
-			for(int i=x;i<w;i+=step) {
-				
-				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))) {
-					
-					lastComponent.setBounds(i, j, 1, 1);
-										
-					return lastComponent;
-
-				}
-
-			}
-
-		}
-
-		return lastComponent;
+		return searchStrategy.filterFirst(bimg, component);
 		
 	}
 	
-	/**
-	 * Returns a single component with all desired pixels 
-	 */
-	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
 		
-		super.setup();
-		
-		int w = bimg.getWidth();
-		int h = bimg.getHeight();
-
-		int i,j;
-		
-		Component holder = new Component(w, h);
-
-		for(j=border;j<h-border;j+=step) {
-
-			for(i=border;i<w-border;i+=step) {
-
-				if(!mask[i][j]&&colorStrategy.validateColor(bimg.getRGB(i, j))) {
-					
-					holder.add(i, j);
-					
-				}
-
-			}
-
-		}
-		
-		result.add(holder);
-		
-		return result;
+		return searchStrategy.filter(bimg, component);
 	}
 
 	public int getTolerance() {
@@ -107,7 +56,7 @@ public class ColorFilter extends BooleanMaskSearch {
 		return colorStrategy.getColor();
 	}
 
-	public void setColor(int color) {
+	public void setColor(Color color) {
 		colorStrategy.setColor(color);
 	}
 			

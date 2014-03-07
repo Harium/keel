@@ -23,9 +23,7 @@ public class ColoredPointSearch extends BooleanMaskSearch {
 	public Component filterFirst(BufferedImage bimg, Component component) {
 		
 		super.setup();
-		
-		Component lastComponent = new Component(border, border, w-border, h-border);
-								
+										
 		int x = component.getLowestX()+border;
 		int y = component.getLowestY()+border;
 		
@@ -57,14 +55,15 @@ public class ColoredPointSearch extends BooleanMaskSearch {
 		
 		super.setup();
 		
-		int w = bimg.getWidth();
-		int h = bimg.getHeight();
-
-		int i,j;
-
-		for(j=border;j<h-border;j+=step) {
-
-			for(i=border;i<w-border;i+=step) {
+		int x = component.getLowestX()+border;
+		int y = component.getLowestY()+border;
+		
+		int w = component.getW()-border;
+		int h = component.getH()-border;
+		
+		for(int j=y;j<h;j+=step) {
+			
+			for(int i=x;i<w;i+=step) {
 
 				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))) {
 					

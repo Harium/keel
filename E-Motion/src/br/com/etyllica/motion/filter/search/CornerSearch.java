@@ -23,8 +23,8 @@ public class CornerSearch extends BooleanMaskSearch {
 		int w = bimg.getWidth();
 		int h = bimg.getHeight();
 
-		Component holder = new Component(w,h);
-
+		lastComponent.reset();
+		
 		for(int j=border;j<h-border*2;j+=step){
 
 			for(int i=border;i<w-border*2;i+=step){
@@ -34,7 +34,7 @@ public class CornerSearch extends BooleanMaskSearch {
 					setCross(i,j,bimg);
 
 					if(isCorner(cross)){
-						holder.add(i, j);
+						lastComponent.add(i, j);
 						mask[i][j] = true;
 					}
 
@@ -44,7 +44,7 @@ public class CornerSearch extends BooleanMaskSearch {
 
 		}
 
-		return holder;
+		return lastComponent;
 	}
 
 	public List<Component> filter(BufferedImage bimg, Component component){
