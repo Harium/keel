@@ -13,8 +13,6 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.TrackingByColorFilter;
-import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class MultipleTrackingApplication extends Application {
 
@@ -37,16 +35,18 @@ public class MultipleTrackingApplication extends Application {
 	@Override
 	public void load() {
 		
-		screen = new Component(w, h);
-		
-		buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		
+		//Define the area to search for elements
+		screen = new Component(0, 0, w, h);
+
+		//Create the image with elements
 		createElements(w, h);
 		
+		//Define blue and black filters
 		blackFilter = new TrackingByColorFilter(w, h, Color.BLACK);
 		
 		blueFilter = new TrackingByColorFilter(w, h, Color.BLUE);		
-				
+		
+		//Filter the image 
 		blueComponents = blueFilter.filter(buffer, screen);
 		
 		blackComponents = blackFilter.filter(buffer, screen);
@@ -54,6 +54,8 @@ public class MultipleTrackingApplication extends Application {
 	}
 	
 	private void createElements(int w, int h) {
+		
+		buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		
 		Graphics2D g = buffer.createGraphics();
 				
@@ -80,18 +82,6 @@ public class MultipleTrackingApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void draw(Graphic g) {
 		g.setAlpha(100);
 		g.drawImage(buffer, 0, 0);
@@ -112,6 +102,18 @@ public class MultipleTrackingApplication extends Application {
 			g.drawRect(component.getRectangle());
 		}
 		
+	}
+	
+	@Override
+	public GUIEvent updateMouse(PointerEvent event) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GUIEvent updateKeyboard(KeyEvent event) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
