@@ -12,7 +12,6 @@ import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.custom.BarCodeFilter;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 
 public class BarCodeExample extends Application{
@@ -38,7 +37,7 @@ public class BarCodeExample extends Application{
 	@Override
 	public void load() {
 
-		screen = new BoundingComponent(w, h);
+		screen = new Component(0, 0, w, h);
 		
 		filter.setBorder(2);
 

@@ -16,19 +16,19 @@ public abstract class ToleranceStrategy implements ColorStrategy{
 		this.tolerance = tolerance;
 	}
 	
-	protected int getRed(int rgb){
+	protected static int getRed(int rgb) {
 
 		return (rgb >> 16) & 0xFF;
 
 	}
 
-	protected int getGreen(int rgb){
+	protected static int getGreen(int rgb) {
 
 		return (rgb >> 8) & 0xFF;
 
 	}
 
-	protected int getBlue(int rgb){
+	protected static int getBlue(int rgb) {
 
 		return rgb & 0xFF;
 		

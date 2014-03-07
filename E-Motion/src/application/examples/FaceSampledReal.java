@@ -13,22 +13,19 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.CrossSearch;
-import br.com.etyllica.motion.filter.polygon.NoiseQuickHullFilter;
-import br.com.etyllica.motion.filter.wand.MagicWandConvexFilter;
+import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
 
 public class FaceSampledReal extends Application{
 
 	private CameraV4L4J cam;
 
-	private CrossSearch colorFilter = new CrossSearch(0, 0);
+	private CrossSearch colorFilter = new CrossSearch();
 
-	private MagicWandConvexFilter filter = new MagicWandConvexFilter(0, 0);
-	
-	private NoiseQuickHullFilter quickFilter = new NoiseQuickHullFilter((int)w, (int)h);
-
+	private QuickHullModifier quickHull = new QuickHullModifier();
+		
 	private boolean hide = false;
 	private boolean pixels = true;
 
@@ -52,9 +49,10 @@ public class FaceSampledReal extends Application{
 
 		cam = new CameraV4L4J(0);
 		
-		screen = new BoundingComponent(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+		screen = new Component(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 
-		colorFilter.setColor(Color.BLACK.getRGB());
+		ColorStrategy colorStrategy = new ColorStrategy(Color.BLACK); 
+		colorFilter.setColorStrategy(colorStrategy);
 		
 		final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
 		
@@ -62,9 +60,7 @@ public class FaceSampledReal extends Application{
 		colorFilter.setStep(MAGIC_NUMBER);
 
 		loadingPhrase = "Configuring Filter";
-		filter.setWandColor(Color.BLACK);
-		filter.setTolerance(0);
-
+		
 		loading = 60;
 		reset(cam.getBufferedImage());
 
@@ -72,23 +68,18 @@ public class FaceSampledReal extends Application{
 	}
 
 	private void reset(BufferedImage b){
-		
-		int w = cam.getBufferedImage().getWidth(); 
-		int h = cam.getBufferedImage().getHeight();
-		
-		filter.setW(w);
-		filter.setH(h);
-
+				
 		//Sampled
 		sampledFeature = colorFilter.filter(b, screen).get(0);
 
 		sampledPolygon.reset();
 
 		//TODO Separate polygons
+		List<Point2D> points = quickHull.quickHull(sampledFeature.getPoints());
 		
-		quickFilter.filter(b, sampledFeature);
-		
-		sampledPolygon = quickFilter.getPolygon();
+		for(Point2D point: points){
+			sampledPolygon.addPoint((int)point.getX(), (int)point.getY());	
+		}
 		
 	}
 

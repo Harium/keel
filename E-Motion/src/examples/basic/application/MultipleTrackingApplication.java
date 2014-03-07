@@ -75,11 +75,10 @@ public class MultipleTrackingApplication extends Application{
 		
 		g.fillRect(30, 200, 100, 80);
 		
-		g.fillOval(420, 20, 20, 200);
+		g.fillRoundRect(440, 20, 20, 200, 50, 20);
 		
 		g.fillOval(390, 100, 80, 600);
-		
-		
+				
 	}
 
 	@Override

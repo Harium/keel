@@ -1,6 +1,6 @@
 package br.com.etyllica.motion.filter.color;
 
-public class SkinColorStrategy extends ToleranceStrategy{
+public class SkinColorStrategy extends ToleranceStrategy {
 	
 	public SkinColorStrategy() {
 		super();
@@ -15,7 +15,11 @@ public class SkinColorStrategy extends ToleranceStrategy{
 		return isSkin(rgb, tolerance);
 	}
 	
-	private boolean isSkin(int rgb, int tolerance){
+	public static boolean isSkin(int rgb) {
+		return isSkin(rgb, 0);
+	}
+	
+	public static boolean isSkin(int rgb, int tolerance) {
 
 		int r = getRed(rgb);
 		int g = getGreen(rgb);

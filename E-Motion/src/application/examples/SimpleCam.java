@@ -11,7 +11,6 @@ import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.TriangularSearch;
@@ -30,7 +29,7 @@ public class SimpleCam extends Application{
 	
 	private BufferedLayer mirror;
 
-	private BoundingComponent screen;
+	private Component screen;
 
 	private Component point;
 
@@ -41,7 +40,7 @@ public class SimpleCam extends Application{
 
 		cam = new CameraV4L4J(0);
 		
-		screen = new BoundingComponent(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+		screen = new Component(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 
 		loadingPhrase = "Setting Filter";
 

@@ -12,7 +12,6 @@ import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.gui.spinner.IntegerSpinner;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.CrossSearch;
@@ -98,7 +97,7 @@ public class FaceSampledMultiFilterStatic extends Application{
 		
 		int h = cam.getBufferedImage().getHeight();
 		
-		screen = new BoundingComponent(w, h);
+		screen = new Component(0, 0, w, h);
 
 		loadingPhrase = "Configuring Filter";
 		

@@ -2,7 +2,6 @@ package application.examples;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.List;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -12,15 +11,11 @@ import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.modifier.AugmentedMarkerModifier;
-import br.com.etyllica.motion.filter.modifier.JarvisMarchModifier;
 import br.com.etyllica.motion.filter.modifier.PositCoplanarModifier;
-import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
 import br.com.etyllica.motion.filter.search.CornerSearch;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class AugmentedRealityStatic extends Application{
 
@@ -87,7 +82,7 @@ public class AugmentedRealityStatic extends Application{
 		
 		cornerFilter.setComponentModifierStrategy(modifier);
 		
-		feature = new BoundingComponent(w, h);
+		feature = new Component(0, 0, w, h);
 				
 		reset(cam.getBufferedImage());
 				
@@ -100,7 +95,7 @@ public class AugmentedRealityStatic extends Application{
 
 		loadingPhrase = "Start Filter";
 				
-		feature = cornerFilter.filterFirst(b, new BoundingComponent(w, h));
+		feature = cornerFilter.filterFirst(b, new Component(0, 0, w, h));
 		
 		positModifier.modifyComponent(feature);
 
@@ -160,13 +155,13 @@ public class AugmentedRealityStatic extends Application{
 
 			g.drawString("Points = "+feature.getPoints().size(), 50, textHeight+25);
 			
-			g.drawString("Angle = "+positModifier.getAngle(), 50, textHeight+50);
+			g.drawString("Angle = "+positModifier.getAxis().getAngle(), 50, textHeight+50);
 			
-			g.drawString("AxisX = "+positModifier.getAxisX(), 50, textHeight+75);
+			g.drawString("AxisX = "+positModifier.getAxis().getAxisX(), 50, textHeight+75);
 			
-			g.drawString("AxisY = "+positModifier.getAxisY(), 50, textHeight+100);
+			g.drawString("AxisY = "+positModifier.getAxis().getAxisY(), 50, textHeight+100);
 			
-			g.drawString("AxisZ = "+positModifier.getAxisZ(), 50, textHeight+125);
+			g.drawString("AxisZ = "+positModifier.getAxis().getAxisZ(), 50, textHeight+125);
 			
 		}
 

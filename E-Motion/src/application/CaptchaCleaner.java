@@ -107,9 +107,7 @@ public class CaptchaCleaner extends Application{
 
 		backColor = null;
 		foreColor = null;
-		
-		MagicWandBoxFilter filter = new MagicWandBoxFilter((int)w, (int)h);
-		
+				
 		loading = 10;
 
 		b = cam.getBufferedImage();

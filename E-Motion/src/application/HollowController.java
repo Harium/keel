@@ -12,8 +12,8 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.hollowcontroller.FindRedLedActivatedFilter;
-import br.com.etyllica.motion.hollowcontroller.FindRedLedFilter;
+import br.com.etyllica.motion.filter.ColorFilter;
+import br.com.etyllica.motion.filter.RedLedFilter;
 
 
 public class HollowController extends Application {
@@ -28,9 +28,9 @@ public class HollowController extends Application {
 
 	private BufferedImage buf;
 
-	private FindRedLedFilter filter;
+	private RedLedFilter ledFilter;
 	
-	private FindRedLedActivatedFilter activeFilter;
+	private ColorFilter activeFilter;
 
 	private List<Component> lastButtons;
 
@@ -40,12 +40,15 @@ public class HollowController extends Application {
 	public void load() {
 
 		cam = new CameraV4L4J(0);
+		
+		final int w = cam.getBufferedImage().getWidth();
+		final int h = cam.getBufferedImage().getHeight();
 
-		screen = new Component(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight());
+		screen = new Component(w,h);
 
 		//Loading Filters
-		filter = new FindRedLedFilter(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight());
-		activeFilter = new FindRedLedActivatedFilter(cam.getBufferedImage().getWidth(),cam.getBufferedImage().getHeight());
+		ledFilter = new RedLedFilter(w, h);
+		activeFilter = new ColorFilter(w, h, Color.WHITE);
 
 		lastButtons = new ArrayList<Component>(8);
 
@@ -101,7 +104,7 @@ public class HollowController extends Application {
 
 		if(!activated){
 
-			components = filter.filter(buf, screen);
+			components = ledFilter.filter(buf, screen);
 
 			if(components!=null){
 

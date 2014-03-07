@@ -11,12 +11,12 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.loader.image.ImageLoader;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.hollowcontroller.FindRedLedFilter;
+import br.com.etyllica.motion.filter.RedLedFilter;
 
 public class HollowTest extends Application{
 
 	private Component screen;
-	private FindRedLedFilter filter;
+	private RedLedFilter filter;
 
 	private BufferedImage test;
 
@@ -40,7 +40,7 @@ public class HollowTest extends Application{
 	public void load() {
 
 		//TODO Change to Camera Size in Real Application
-		filter = new FindRedLedFilter((int)w, (int)h);
+		filter = new RedLedFilter(w, h);
 		
 		screen = new Component(w, h);
 

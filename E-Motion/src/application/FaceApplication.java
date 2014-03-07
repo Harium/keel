@@ -3,7 +3,6 @@ package application;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.context.Application;
@@ -15,8 +14,7 @@ import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.filter.face.ExtremelySimpleFindSkinFilter;
-import br.com.etyllica.motion.filter.face.FindEyeFilter;
+import br.com.etyllica.motion.filter.ColorFilter;
 
 
 public class FaceApplication extends Application {
@@ -35,8 +33,8 @@ public class FaceApplication extends Application {
 
 	private BufferedImage buf;
 
-	private ExtremelySimpleFindSkinFilter findFace;
-	private FindEyeFilter findEye;
+	private ColorFilter findFaceFilter;
+	private ColorFilter findEye;
 
 	private List<Component> faces;
 	private List<Component> eyes;
@@ -62,8 +60,8 @@ public class FaceApplication extends Application {
 		}
 		
 		//findFace = new FindSkinFilter(w,h);
-		findFace = new ExtremelySimpleFindSkinFilter(w,h);
-		findEye = new FindEyeFilter(w,h);
+		findFaceFilter = new ColorFilter(w,h);
+		findEye = new ColorFilter(w,h, Color.BLACK);
 		
 		lastFace = new ImageLayer(0,0,w,h);
 		
@@ -111,7 +109,7 @@ public class FaceApplication extends Application {
 
 		g.drawImage(buf,0,0);
 		
-		faces = findFace.filter(buf, screen);
+		faces = findFaceFilter.filter(buf, screen);
 		
 		for(Component face: faces){
 			eyes.addAll(findEye.filter(buf, face));

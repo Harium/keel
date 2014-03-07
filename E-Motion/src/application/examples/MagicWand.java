@@ -13,7 +13,6 @@ import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.modifier.EnvelopeModifier;
@@ -72,7 +71,7 @@ public class MagicWand extends Application{
 
 		cornerFilter.setComponentModifierStrategy(modifier);
 
-		feature = new BoundingComponent(w, h);
+		feature = new Component(0, 0, w, h);
 
 		mirror = new BufferedLayer(0, 0);
 
@@ -102,7 +101,7 @@ public class MagicWand extends Application{
 
 		loadingPhrase = "Start Filter";
 
-		feature = cornerFilter.filterFirst(b, new BoundingComponent(w, h));
+		feature = cornerFilter.filterFirst(b, new Component(0, 0, w, h));
 
 		loading = 65;
 		loadingPhrase = "Show Result";

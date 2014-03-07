@@ -15,7 +15,6 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.features.BoundingComponent;
 import br.com.etyllica.motion.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;
@@ -62,7 +61,7 @@ public class AirWrite extends Application{
 
 		cam = new CameraV4L4J(0);
 		
-		screen = new BoundingComponent(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+		screen = new Component(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		
 		loadingPhrase = "Setting PolygonMatcher";
 		matcher.setMinDistance(8);		
