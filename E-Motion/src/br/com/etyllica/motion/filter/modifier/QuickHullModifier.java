@@ -19,23 +19,22 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 				
 		List<Point2D> convexPolygon = quickHull(component.getPoints());
 		
-		Component poly = new Component(0, 0);
+		Component polygon = new Component(0, 0);
 		
-		for(Point2D ponto: convexPolygon){
-			poly.add(ponto);
+		for(Point2D ponto: convexPolygon) {
+			polygon.add(ponto);
 		}
 		
-		return poly;
+		return polygon;
 		
 	}
 		
-	//From www.ahristov.com/tutorial/geometry-games/convex-hull.html
-	public List<Point2D> quickHull(List<Point2D> points){
+	//Based on www.ahristov.com/tutorial/geometry-games/convex-hull.html
+	public List<Point2D> quickHull(List<Point2D> points) {
 
-		//if (points.size() < 3) return (ArrayList)points.clone();
-		if (points.size() < 3) return points;
-		
 		List<Point2D> clone = PointListHelper.cloneList(points);
+		
+		if (points.size() < 3) return clone;
 
 		List<Point2D> convexHull = new ArrayList<Point2D>();
 
@@ -44,13 +43,13 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		double minX = Double.MAX_VALUE;
 		double maxX = Double.MIN_VALUE;
 		
-		for (int i = 0; i < clone.size(); i++){
-			if (clone.get(i).getX() < minX){
+		for (int i = 0; i < clone.size(); i++) {
+			if (clone.get(i).getX() < minX) {
 				minX = clone.get(i).getX();
 				minPoint = i;
 			}
 			
-			if (clone.get(i).getX() > maxX){
+			if (clone.get(i).getX() > maxX) {
 				maxX = clone.get(i).getX();
 				maxPoint = i;       
 			}
@@ -68,7 +67,7 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		ArrayList<Point2D> leftSet = new ArrayList<Point2D>();
 		ArrayList<Point2D> rightSet = new ArrayList<Point2D>();
 
-		for (int i = 0; i < clone.size(); i++){
+		for (int i = 0; i < clone.size(); i++) {
 			Point2D p = clone.get(i);
 			if (pointLocation(A,B,p) == -1)
 				leftSet.add(p);
@@ -83,62 +82,80 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		return convexHull;
 	}
 
-	public void hullSet(Point2D A, Point2D B, ArrayList<Point2D> set, List<Point2D> hull){
+	public void hullSet(Point2D a, Point2D b, ArrayList<Point2D> list, List<Point2D> hull) {
 		
-		int insertPosition = hull.indexOf(B);
-		if (set.size() == 0) return;
-		if (set.size() == 1){
-			Point2D p = set.get(0);
-			set.remove(p);
+		if (list.size() == 0) return;
+		
+		int insertPosition = hull.indexOf(b);
+		
+		if (list.size() == 1) {
+			Point2D p = list.get(0);
+			list.remove(p);
 			hull.add(insertPosition,p);
 			return;
 		}
+				
+		Point2D point = null;
+		
 		double dist = Double.MIN_VALUE;
-		int furthestPoint = -1;
-		for (int i = 0; i < set.size(); i++){
-			Point2D p = set.get(i);
-			double distance  = distance(A,B,p);
-			if (distance > dist){
+		
+		for (Point2D p : list) {
+			
+			double distance  = distance(a,b,p);
+			
+			if (distance > dist) {
 				dist = distance;
-				furthestPoint = i;
+				point = p;
 			}
 		}
-		Point2D P = set.get(furthestPoint);
-		set.remove(furthestPoint);
-		hull.add(insertPosition,P);
+				
+		list.remove(point);
+		hull.add(insertPosition,point);
 
 		// Determine who's to the left of AP
 		ArrayList<Point2D> leftSetAP = new ArrayList<Point2D>();
-		for (int i = 0; i < set.size(); i++){
-			Point2D M = set.get(i);
-			if (pointLocation(A,P,M)==1){
-				//set.remove(M);
+		for (Point2D M: list) {
+			
+			if (pointLocation(a,point,M)==1) {
+
 				leftSetAP.add(M);
+				
 			}
+			
 		}
 
 		// Determine who's to the left of PB
 		ArrayList<Point2D> leftSetPB = new ArrayList<Point2D>();
-		for (int i = 0; i < set.size(); i++){
-			Point2D M = set.get(i);
-			if (pointLocation(P,B,M)==1){
-				//set.remove(M);
+		for (Point2D M: list) {
+			
+			if (pointLocation(point,b,M)==1) {
+			
 				leftSetPB.add(M);
+				
 			}
+			
 		}
-		hullSet(A,P,leftSetAP,hull);
-		hullSet(P,B,leftSetPB,hull);
+		
+		hullSet(a,point,leftSetAP,hull);
+		hullSet(point,b,leftSetPB,hull);
 	}
 
-	public double pointLocation(Point2D A, Point2D B, Point2D P){
-		double cp1 = (B.getX()-A.getX())*(P.getY()-A.getY()) - (B.getY()-A.getY())*(P.getX()-A.getX());
-		return (cp1>0)?1:-1;
+	public double pointLocation(Point2D a, Point2D b, Point2D c) {
+		double ABx = b.getX()-a.getX();
+		double ABy = b.getY()-a.getY();
+		double ACx = c.getX()-a.getX();
+		double ACy = c.getY()-a.getY();
+		
+		double cp1 = (ABx)*(ACy) - (ABy)*(ACx);
+		
+		return (cp1>0)?1:-1;		
 	}
 
-	public double distance(Point2D a, Point2D b, Point2D c){
+	public double distance(Point2D a, Point2D b, Point2D c) {
 		double ABx = b.getX()-a.getX();
 		double ABy = b.getY()-a.getY();
 		double num = ABx*(a.getY()-c.getY())-ABy*(a.getX()-c.getX());
+		
 		if (num < 0) num = -num;
 		return num;
 	}
