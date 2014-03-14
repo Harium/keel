@@ -21,9 +21,9 @@ public class SkinColorStrategy extends ToleranceStrategy {
 	
 	public static boolean isSkin(int rgb, int tolerance) {
 
-		int r = getRed(rgb);
-		int g = getGreen(rgb);
-		int b = getBlue(rgb);
+		int r = ColorStrategy.getRed(rgb);
+		int g = ColorStrategy.getGreen(rgb);
+		int b = ColorStrategy.getBlue(rgb);
 
 		float x = r;
 		float y = b+(g-b);

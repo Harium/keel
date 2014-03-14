@@ -15,25 +15,7 @@ public abstract class ToleranceStrategy implements PixelStrategy {
 		
 		this.tolerance = tolerance;
 	}
-	
-	protected static int getRed(int rgb) {
-
-		return (rgb >> 16) & 0xFF;
-
-	}
-
-	protected static int getGreen(int rgb) {
-
-		return (rgb >> 8) & 0xFF;
-
-	}
-
-	protected static int getBlue(int rgb) {
-
-		return rgb & 0xFF;
 		
-	}
-	
 	public int getTolerance() {
 		return tolerance;
 	}
