@@ -46,9 +46,10 @@ public class MelanomaFinderApplication extends Application {
 		averageColor = filter.getColor();
 		
 		int width = buffer.getWidth();
+		int height = buffer.getHeight();
 		
 		//Define the area to search for elements
-		screen = new Component(0, 0, width, buffer.getHeight());
+		screen = new Component(0, 0, width, height);
 		
 		//Define skin filter
 		skinFilter = new TrackingByNegativeColorFilter(w, h, averageColor, 30);
