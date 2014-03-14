@@ -6,20 +6,20 @@ public class ColorStrategy extends ToleranceStrategy {
 
 	protected int color = Color.BLACK.getRGB();
 	
-	public ColorStrategy(){
+	public ColorStrategy() {
 		super();
 	}
 	
-	public ColorStrategy(Color color){
+	public ColorStrategy(Color color) {
 		this(color.getRGB());
 	}
 	
-	public ColorStrategy(Color color, int tolerance){
+	public ColorStrategy(Color color, int tolerance) {
 		this(color);
 		this.tolerance = tolerance;
 	}
 	
-	public ColorStrategy(int color){
+	public ColorStrategy(int color) {
 		super();
 		this.color = color;
 	}
@@ -29,20 +29,20 @@ public class ColorStrategy extends ToleranceStrategy {
 		return isColor(rgb, this.color, tolerance);
 	}
 	
-	public boolean isColor(int rgb, int color){
+	public static boolean isColor(int rgb, int color) {
 		
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
 		int b = getBlue(rgb);
 
-		if((r==getRed(color))&&(g==getGreen(color))&&(b==getBlue(color))){
+		if((r==getRed(color))&&(g==getGreen(color))&&(b==getBlue(color))) {
 			return true;
 		}
 		return false;
 		
 	}
 	
-	public boolean isColor(int rgb, int color, int tolerance){
+	public static boolean isColor(int rgb, int color, int tolerance) {
 		
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
@@ -54,9 +54,10 @@ public class ColorStrategy extends ToleranceStrategy {
 
 		if((r>=cr-tolerance)&&(r<=cr+tolerance)&&
 			(g>=cg-tolerance)&&(g<=cg+tolerance)&&
-			(b>=cb-tolerance)&&(b<=cb+tolerance)){
+			(b>=cb-tolerance)&&(b<=cb+tolerance)) {
 			return true;
 		}
+		
 		return false;
 		
 	}
