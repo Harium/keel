@@ -2,9 +2,9 @@ package br.com.etyllica.motion.filter;
 
 import java.awt.Color;
 
+import br.com.etyllica.motion.core.strategy.ComponentValidationStrategy;
 import br.com.etyllica.motion.filter.color.NegativeColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
-import br.com.etyllica.motion.filter.validation.CountComponentPoints;
 
 public class TrackingByNegativeColorFilter extends ColorFilter {
 	
@@ -22,9 +22,7 @@ public class TrackingByNegativeColorFilter extends ColorFilter {
 		colorStrategy = new NegativeColorStrategy(color, 0x40);
 		
 		searchStrategy.setPixelStrategy(colorStrategy);
-		
-		searchStrategy.addComponentStrategy(new CountComponentPoints(40));
-		
+				
 	}
 	
 	public TrackingByNegativeColorFilter(int w, int h, Color color, int tolerance) {
@@ -32,6 +30,10 @@ public class TrackingByNegativeColorFilter extends ColorFilter {
 
 		colorStrategy.setTolerance(tolerance);
 		
+	}
+	
+	public void addValidation(ComponentValidationStrategy validation) {
+		searchStrategy.addComponentStrategy(validation);
 	}
 			
 }
