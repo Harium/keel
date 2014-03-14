@@ -8,15 +8,15 @@ import java.util.Queue;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.BooleanMaskSearch;
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.filter.ComponentPointCount;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
+import br.com.etyllica.motion.filter.validation.CountComponentPoints;
 
-public class FloodFillSearch extends BooleanMaskSearch{
+public class FloodFillSearch extends BooleanMaskSearch {
 
 	private Component lastComponent;
 	
 	public FloodFillSearch(int w, int h) {
-		super(w, h, new SkinColorStrategy(), new ComponentPointCount(180));
+		super(w, h, new SkinColorStrategy(), new CountComponentPoints(180));
 	}
 	
 	@Override
@@ -33,26 +33,33 @@ public class FloodFillSearch extends BooleanMaskSearch{
 	}
 
 	@Override
-	public List<Component> filter(BufferedImage bimg, Component component){
+	public List<Component> filter(BufferedImage bimg, Component component) {
 
 		super.setup();
 		
-		for (int j = border; j < h-border*2; j+=step) {
+		int x = border;
+		int y = border;
+		int width = component.getW()-border*2;
+		int height = component.getH()-border*2;
+		
+		for (int j = y; j < height; j+=step) {
 
-			for (int i = border; i < w-border*2; i+=step) {
+			for (int i = x; i < width; i+=step) {
 
 				if (!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i,j))) {
-
+										
 					Queue<Point2D> queue = new LinkedList<Point2D>();
 					queue.add(new Point2D(i, j));
 
-					Component lista = new Component(w,h);
+					Component lista = new Component();
 
 					while (!queue.isEmpty()) {
+						
 						Point2D p = queue.remove();
 
-						if ((p.getX() >= 0) && (p.getX() < w &&
-								(p.getY() >= 0) && (p.getY() < h))) {
+						if ((p.getX() >= x) && (p.getX() < width &&
+								(p.getY() >= y) && (p.getY() < height))) {
+							
 							if (!mask[(int)p.getX()][(int)p.getY()] && pixelStrategy.validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
 								mask[(int)p.getX()][(int)p.getY()] = true;
 
@@ -65,18 +72,23 @@ public class FloodFillSearch extends BooleanMaskSearch{
 
 								//queue.add(new Ponto((int)p.getX() + 1, (int)p.getY() + 1));
 							}
+							
 						}
+						
 					}
 
-					if(componentStrategy.validateComponent(lista)){
-
-						//System.out.println("Blob detected : " + lista.getNumeroPontos() + " pixels.");
+					if(componentStrategy.validateComponent(lista)) {
 
 						result.add(componentModifierStrategy.modifyComponent(lista));
 
 					}
 
+				} else {
+					
+					mask[i][j] = true;
+					
 				}
+				
 			}
 		}
 
