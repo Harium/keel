@@ -15,6 +15,7 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.filter.TrackingByNegativeColorFilter;
+import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
 import br.com.etyllica.motion.filter.validation.CountComponentPoints;
 import br.com.etyllica.motion.filter.validation.MaxComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
@@ -32,6 +33,8 @@ public class MelanomaFinderApplication extends Application {
 	private List<Component> candidates;
 	
 	private Color averageSkinColor;
+
+	private List<Point2D> convexHull;
 		
 	public MelanomaFinderApplication(int w, int h) {
 		super(w, h);
@@ -69,6 +72,10 @@ public class MelanomaFinderApplication extends Application {
 		
 		biggestComponent = findBiggestComponent(candidates);
 		
+		QuickHullModifier convexHullModifier = new QuickHullModifier();
+		
+		convexHull = convexHullModifier.quickHull(biggestComponent.getPoints());
+		
 		loadingPhrase = "Filter Complete";
 				
 	}
@@ -99,7 +106,7 @@ public class MelanomaFinderApplication extends Application {
 		g.setAlpha(100);
 		g.drawImage(buffer, 0, 0);
 		
-		g.setAlpha(90);
+		g.setAlpha(50);
 		
 		//Draw a black line around the skin components
 		for(Component candidate : candidates) {
@@ -116,6 +123,7 @@ public class MelanomaFinderApplication extends Application {
 		
 		g.setAlpha(50);
 		drawComponentMask(g, biggestComponent);
+		drawConvexHullMask(g, biggestComponent);
 		
 		g.setAlpha(100);
 		g.setColor(averageSkinColor);
@@ -126,7 +134,23 @@ public class MelanomaFinderApplication extends Application {
 	private void drawComponentMask(Graphic g, Component component) {
 		
 		for(Point2D point: component.getPoints()) {
-			g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);	
+			g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
+		}
+		
+	}
+	
+	private void drawConvexHullMask(Graphic g, Component component) {
+				
+		Point2D centroid = component.getCenter();
+		
+		for(Point2D point: convexHull) {
+			
+			g.drawLine(point, centroid);
+			
+			g.setColor(Color.RED);
+			g.fillCircle(point, 5);
+			g.setColor(Color.BLACK);
+			g.drawCircle(point, 5);
 		}
 		
 	}
