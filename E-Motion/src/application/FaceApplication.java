@@ -129,7 +129,7 @@ public class FaceApplication extends Application {
 			//TODO Write Number of Points
 			g.setColor(Color.WHITE);
 			g.drawRect(component.getCamada());
-			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()), Color.BLACK);
+			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getPointCount()), Color.BLACK);
 
 		}
 		
@@ -143,7 +143,7 @@ public class FaceApplication extends Application {
 			//TODO Write Number of Points
 			g.setColor(Color.BLUE);
 			g.drawRect(component.getCamada());
-			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()), Color.BLACK);
+			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getPointCount()), Color.BLACK);
 
 		}
 		
@@ -178,7 +178,7 @@ public class FaceApplication extends Application {
 
 		for(Component componente:componentes){
 
-			if(componente.getNumeroPontos()>=maxPontos){
+			if(componente.getPointCount()>=maxPontos){
 
 				if(componente.getHighestX()<maxX){
 

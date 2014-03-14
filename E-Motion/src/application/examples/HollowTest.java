@@ -71,7 +71,7 @@ public class HollowTest extends Application{
 			g.setColor(color);
 			g.drawRect(component.getCamada());
 			g.setColor(Color.WHITE);
-			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()),Color.BLACK);
+			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getPointCount()),Color.BLACK);
 		}		
 		
 	}

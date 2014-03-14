@@ -20,7 +20,7 @@ public class CountComponentPoints implements ComponentValidationStrategy {
 	@Override
 	public boolean validate(Component component) {
 
-		return component.getNumeroPontos()>=points;
+		return component.getPointCount()>=points;
 		
 	}
 	

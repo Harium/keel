@@ -7,6 +7,7 @@ import java.util.List;
 import br.com.etyllica.layer.GeometricLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
 
 public class Component extends ColorComponent implements Comparable<Component>{
 
@@ -20,11 +21,11 @@ public class Component extends ColorComponent implements Comparable<Component>{
 
 	protected int highestY = 0;
 
-	public Component(){
+	public Component() {
 		this(Integer.MAX_VALUE, Integer.MAX_VALUE);
 	}
 
-	public Component(int w, int h){
+	public Component(int w, int h) {
 		super();
 
 		highestX = 0;
@@ -34,7 +35,7 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		lowestY = h;		
 	}
 
-	public Component(int x, int y, int w, int h){
+	public Component(int x, int y, int w, int h) {
 		super();
 
 		lowestX = x;
@@ -46,31 +47,31 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		highestY = h;		
 	}
 
-	public void add(int x, int y){
+	public void add(int x, int y) {
 		add(new Point2D(x, y));
 	}
 
-	public void add(Point2D p, int rgb){
-		byte r = (byte) ((rgb & 0x00ff0000) >> 16);
-		byte g = (byte) ((rgb & 0x0000ff00) >> 8);
-		byte b = (byte) (rgb & 0x000000ff);
+	public void add(Point2D p, int rgb) {
+		int r = ColorStrategy.getRed(rgb);
+		int g = ColorStrategy.getGreen(rgb);
+		int b = ColorStrategy.getBlue(rgb);
 
 		addLogic(p);
 	}
 
-	public void add(Point2D p){
+	public void add(Point2D p) {
 
-		if((int)p.getX()>highestX){
+		if((int)p.getX()>highestX) {
 			highestX = (int)p.getX();
 		}
-		else if((int)p.getX()<lowestX){
+		else if((int)p.getX()<lowestX) {
 			lowestX = (int)p.getX();
 		}
 
-		if((int)p.getY()>highestY){
+		if((int)p.getY()>highestY) {
 			highestY = (int)p.getY();
 		}
-		else if((int)p.getY()<lowestY){
+		else if((int)p.getY()<lowestY) {
 			lowestY = (int)p.getY();
 		}
 
@@ -78,11 +79,11 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		addLogic(p);
 	}
 
-	protected void addLogic(Point2D p){
+	protected void addLogic(Point2D p) {
 
 	}
 
-	public int getNumeroPontos(){
+	public int getPointCount() {
 		return points.size();
 	}
 
@@ -126,7 +127,7 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		this.highestY = highestY;
 	}
 
-	public Polygon getBoundingBox(){
+	public Polygon getBoundingBox() {
 		Polygon p = new Polygon();
 		p.addPoint(lowestX,lowestY);
 		p.addPoint(highestX,lowestY);
@@ -136,28 +137,32 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		return p;
 	}
 
-	public Polygon getPolygon(){
+	public Polygon getPolygon() {
 		Polygon p = new Polygon();
 
-		for(Point2D point: points){
+		for(Point2D point: points) {
 			p.addPoint((int)point.getX(), (int)point.getY());
 		}
 
 		return p;
 	}
 
-	public GeometricLayer getRectangle(){
+	public GeometricLayer getRectangle() {
 
 		GeometricLayer rect = new GeometricLayer(lowestX, lowestY, highestX-lowestX, highestY-lowestY);
 
 		return rect;
 	}
 
-	public double getConcentration(){
-		int area = getW()*getH();
+	public double getConcentration() {
+		int area = getArea();
 
 		return (double)(area/points.size());
 
+	}
+	
+	public int getArea() {
+		return getW()*getH();
 	}
 
 	public Point2D getCenter() {
@@ -166,7 +171,7 @@ public class Component extends ColorComponent implements Comparable<Component>{
 
 		double countY = 0;
 
-		for(Point2D point: points){
+		for(Point2D point: points) {
 
 			countX+=point.getX();
 
@@ -200,9 +205,9 @@ public class Component extends ColorComponent implements Comparable<Component>{
 
 		double dif = component.getConcentration()*component.getH()-this.getConcentration()*getH();
 
-		if(dif>0){
+		if(dif>0) {
 			return 1;
-		}else if(dif<0){
+		}else if(dif<0) {
 			return -1;
 		}else{
 			return 0;
@@ -210,17 +215,17 @@ public class Component extends ColorComponent implements Comparable<Component>{
 
 	}
 
-	public void merge(Component component){
+	public void merge(Component component) {
 
-		for(Point2D point:component.getPoints()){
+		for(Point2D point:component.getPoints()) {
 			add(point);
 		}
 
 	}
 
-	public void mergePolygon(Polygon p){
+	public void mergePolygon(Polygon p) {
 
-		for(int i=0;i<p.npoints;i++){
+		for(int i=0;i<p.npoints;i++) {
 
 			Point2D point = new Point2D(p.xpoints[i], p.ypoints[i]);
 
@@ -248,15 +253,15 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		return lowestY;
 	}
 
-	public int getW(){
+	public int getW() {
 		return highestX-lowestX;
 	}
 
-	public int getH(){
+	public int getH() {
 		return highestY-lowestY;
 	}
 
-	public void reset(){
+	public void reset() {
 
 		points.clear();
 
