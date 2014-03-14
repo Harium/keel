@@ -26,9 +26,11 @@ public class MelanomaFinderApplication extends Application {
 		
 	private Component screen;
 	
+	private Component biggestComponent;
+	
 	private List<Component> candidates;
 	
-	private Color averageColor;
+	private Color averageSkinColor;
 		
 	public MelanomaFinderApplication(int w, int h) {
 		super(w, h);
@@ -43,7 +45,7 @@ public class MelanomaFinderApplication extends Application {
 		AverageColorFilter filter = new AverageColorFilter();
 		filter.process(buffer);
 		
-		averageColor = filter.getColor();
+		averageSkinColor = filter.getColor();
 		
 		int width = buffer.getWidth();
 		int height = buffer.getHeight();
@@ -52,7 +54,7 @@ public class MelanomaFinderApplication extends Application {
 		screen = new Component(0, 0, width, height);
 		
 		//Define skin filter
-		skinFilter = new TrackingByNegativeColorFilter(w, h, averageColor, 30);
+		skinFilter = new TrackingByNegativeColorFilter(w, h, averageSkinColor, 30);
 		
 		skinFilter.addValidation(new CountComponentPoints(50));
 		skinFilter.addValidation(new MinComponentDimension(20));
@@ -64,22 +66,18 @@ public class MelanomaFinderApplication extends Application {
 
 		candidates = skinFilter.filter(buffer, screen);
 		
+		biggestComponent = findBiggestComponent(candidates);
+		
 		loadingPhrase = "Filter Complete";
 				
 	}
-		
-	@Override
-	public void draw(Graphic g) {
-		g.setAlpha(100);
-		g.drawImage(buffer, 0, 0);
-		
-		g.setAlpha(90);
-		
-		int biggestArea = 0;
+	
+	private Component findBiggestComponent(List<Component> components) {
 		
 		Component biggestComponent = candidates.get(0);
 		
-		//Draw a red line around the black components
+		int biggestArea = 0;
+		
 		for(int i=0;i<candidates.size(); i++) {
 			
 			Component candidate = candidates.get(i);
@@ -89,16 +87,33 @@ public class MelanomaFinderApplication extends Application {
 				biggestArea = candidate.getArea();
 			}
 			
+		}
+		
+		return biggestComponent;
+		
+	}
+		
+	@Override
+	public void draw(Graphic g) {
+		g.setAlpha(100);
+		g.drawImage(buffer, 0, 0);
+		
+		g.setAlpha(90);
+		
+		//Draw a black line around the skin components
+		for(Component candidate : candidates) {
+			
 			g.setStroke(new BasicStroke(3f));
 			g.setColor(Color.BLACK);
-			g.drawPolygon(candidates.get(i).getBoundingBox());
+			g.drawPolygon(candidate.getBoundingBox());
+			
 		}
 		
 		//Draw Biggest Component
 		g.setColor(Color.BLUE);
 		g.drawPolygon(biggestComponent.getBoundingBox());
 		
-		g.setColor(averageColor);
+		g.setColor(averageSkinColor);
 		g.fillRect(0, 0, 40, 30);
 		
 	}
