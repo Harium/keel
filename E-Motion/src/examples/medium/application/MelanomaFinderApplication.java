@@ -11,6 +11,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.filter.TrackingByNegativeColorFilter;
@@ -113,8 +114,20 @@ public class MelanomaFinderApplication extends Application {
 		g.setColor(Color.BLUE);
 		g.drawPolygon(biggestComponent.getBoundingBox());
 		
+		g.setAlpha(50);
+		drawComponentMask(g, biggestComponent);
+		
+		g.setAlpha(100);
 		g.setColor(averageSkinColor);
 		g.fillRect(0, 0, 40, 30);
+		
+	}
+	
+	private void drawComponentMask(Graphic g, Component component) {
+		
+		for(Point2D point: component.getPoints()) {
+			g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);	
+		}
 		
 	}
 	
