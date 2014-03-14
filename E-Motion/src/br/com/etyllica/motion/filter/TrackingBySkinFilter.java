@@ -18,7 +18,7 @@ public class TrackingBySkinFilter extends SkinColorFilter {
 		searchStrategy.setPixelStrategy(colorStrategy);
 		
 		//Reduce Noise
-		searchStrategy.setComponentStrategy(new CountComponentPoints(10));
+		searchStrategy.addComponentStrategy(new CountComponentPoints(10));
 		
 	}
 			

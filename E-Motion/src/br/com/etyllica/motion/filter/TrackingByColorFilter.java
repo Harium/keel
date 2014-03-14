@@ -3,7 +3,6 @@ package br.com.etyllica.motion.filter;
 import java.awt.Color;
 
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class TrackingByColorFilter extends ColorFilter {
@@ -22,9 +21,7 @@ public class TrackingByColorFilter extends ColorFilter {
 		colorStrategy = new ColorStrategy(color, 0x40);
 		
 		searchStrategy.setPixelStrategy(colorStrategy);
-		
-		searchStrategy.setComponentStrategy(new DumbComponentFilter());
-		
+				
 	}
 	
 	public TrackingByColorFilter(int w, int h, Color color, int tolerance) {

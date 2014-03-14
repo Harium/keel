@@ -16,7 +16,9 @@ public class FloodFillSearch extends BooleanMaskSearch {
 	private Component lastComponent;
 	
 	public FloodFillSearch(int w, int h) {
-		super(w, h, new SkinColorStrategy(), new CountComponentPoints(180));
+		super(w, h, new SkinColorStrategy());
+		
+		this.validations.add(new CountComponentPoints(180));
 	}
 	
 	@Override
@@ -77,7 +79,7 @@ public class FloodFillSearch extends BooleanMaskSearch {
 						
 					}
 
-					if(componentStrategy.validateComponent(lista)) {
+					if(this.validate(lista)) {
 
 						result.add(componentModifierStrategy.modifyComponent(lista));
 

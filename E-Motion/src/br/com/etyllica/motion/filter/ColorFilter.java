@@ -7,7 +7,6 @@ import java.util.List;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;
 
 public class ColorFilter {
@@ -28,9 +27,7 @@ public class ColorFilter {
 		colorStrategy = new ColorStrategy(color);
 				
 		searchStrategy.setPixelStrategy(colorStrategy);
-		
-		searchStrategy.setComponentStrategy(new DumbComponentFilter());
-		
+				
 	}
 
 	public Component filterFirst(BufferedImage bimg, Component component) {

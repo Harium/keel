@@ -6,7 +6,6 @@ import java.util.List;
 import br.com.etyllica.motion.core.SearchStrategy;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.dumb.DumbColorFilter;
-import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 import br.com.etyllica.motion.filter.dumb.DumbComponentModifier;
 
 
@@ -17,33 +16,37 @@ public abstract class SearchFilter implements SearchStrategy {
 	protected int border = 0;
 		
 	protected PixelStrategy pixelStrategy;
-	
-	protected ComponentValidatorStrategy componentStrategy;
-		
+			
 	protected ComponentModifierStrategy componentModifierStrategy;
 	
 	protected Component lastComponent = new Component(0, 0, 1, 1);
 	
 	protected List<Component> result = new ArrayList<Component>();
 	
-	//protected List<ComponentValidatorStrategy> validations = new ArrayList<ComponentValidatorStrategy>();
+	protected List<ComponentValidationStrategy> validations = new ArrayList<ComponentValidationStrategy>();
 	
 	public SearchFilter() {
 		super();
 		
 		this.pixelStrategy = new DumbColorFilter();
-		
-		this.componentStrategy = new DumbComponentFilter();
-		
+				
 		this.componentModifierStrategy = new DumbComponentModifier();
 	}
 	
-	public SearchFilter(PixelStrategy colorStrategy, ComponentValidatorStrategy componentStrategy) {
+	public SearchFilter(PixelStrategy colorStrategy) {
 		super();
 		
 		this.pixelStrategy = colorStrategy;
 		
-		this.componentStrategy = componentStrategy;
+		this.componentModifierStrategy = new DumbComponentModifier();
+	}
+	
+	public SearchFilter(PixelStrategy colorStrategy, ComponentValidationStrategy componentStrategy) {
+		super();
+		
+		this.pixelStrategy = colorStrategy;
+		
+		this.validations.add(componentStrategy);
 		
 		this.componentModifierStrategy = new DumbComponentModifier();
 	}
@@ -60,12 +63,16 @@ public abstract class SearchFilter implements SearchStrategy {
 		this.pixelStrategy = colorStrategy;
 	}
 
-	public ComponentValidatorStrategy getComponentStrategy() {
-		return componentStrategy;
+	public List<ComponentValidationStrategy> getComponentStrategies() {
+		return validations;
 	}
 
-	public void setComponentStrategy(ComponentValidatorStrategy componentStrategy) {
-		this.componentStrategy = componentStrategy;
+	public void addComponentStrategy(ComponentValidationStrategy validation) {
+		this.validations.add(validation);
+	}
+	
+	public void setComponentStrategy(List<ComponentValidationStrategy> validations) {
+		this.validations = validations;
 	}
 	
 	public ComponentModifierStrategy getComponentModifierStrategy() {
@@ -91,5 +98,18 @@ public abstract class SearchFilter implements SearchStrategy {
 	public void setBorder(int border) {
 		this.border = border;
 	}
+	
+	protected boolean validate(Component component) {
+		
+		for(ComponentValidationStrategy validation : validations) {
+		
+			if(!validation.validate(component)) {
+				return false;
+			}
 			
+		}
+		
+		return true;
+	}
+	
 }

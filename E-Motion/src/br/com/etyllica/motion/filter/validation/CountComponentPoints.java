@@ -1,9 +1,9 @@
 package br.com.etyllica.motion.filter.validation;
 
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.core.strategy.ComponentValidatorStrategy;
+import br.com.etyllica.motion.core.strategy.ComponentValidationStrategy;
 
-public class CountComponentPoints implements ComponentValidatorStrategy {
+public class CountComponentPoints implements ComponentValidationStrategy {
 
 	private int points = 180;
 	
@@ -18,7 +18,7 @@ public class CountComponentPoints implements ComponentValidatorStrategy {
 	}
 	
 	@Override
-	public boolean validateComponent(Component component) {
+	public boolean validate(Component component) {
 
 		return component.getNumeroPontos()>=points;
 		

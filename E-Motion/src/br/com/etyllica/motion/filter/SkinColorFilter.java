@@ -7,7 +7,6 @@ import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 import br.com.etyllica.motion.filter.color.ToleranceStrategy;
-import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;
 
 public class SkinColorFilter {
@@ -28,9 +27,7 @@ public class SkinColorFilter {
 		colorStrategy = new SkinColorStrategy(tolerance);
 				
 		searchStrategy.setPixelStrategy(colorStrategy);
-		
-		searchStrategy.setComponentStrategy(new DumbComponentFilter());
-		
+				
 	}
 
 	public Component filterFirst(BufferedImage bimg, Component component) {

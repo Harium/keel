@@ -6,7 +6,6 @@ import java.util.List;
 
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 import br.com.etyllica.motion.filter.modifier.EnvelopeModifier;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
@@ -18,18 +17,14 @@ public class BarCodeFilter extends CustomFilter {
 		super();
 		
 		colorStrategy = new ColorStrategy(Color.BLACK);
-		
-		componentStrategy = new DumbComponentFilter();
-		
+				
 		modifierStrategy = new EnvelopeModifier();
 		
 
 		searchStrategy = new FloodFillSearch(w, h);
 		
 		searchStrategy.setPixelStrategy(colorStrategy);
-		
-		searchStrategy.setComponentStrategy(componentStrategy);
-		
+				
 		searchStrategy.setComponentModifierStrategy(modifierStrategy);
 		
 	}

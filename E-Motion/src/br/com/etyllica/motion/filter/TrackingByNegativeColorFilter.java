@@ -3,7 +3,6 @@ package br.com.etyllica.motion.filter;
 import java.awt.Color;
 
 import br.com.etyllica.motion.filter.color.NegativeColorStrategy;
-import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 import br.com.etyllica.motion.filter.validation.CountComponentPoints;
 
@@ -24,7 +23,7 @@ public class TrackingByNegativeColorFilter extends ColorFilter {
 		
 		searchStrategy.setPixelStrategy(colorStrategy);
 		
-		searchStrategy.setComponentStrategy(new CountComponentPoints(40));
+		searchStrategy.addComponentStrategy(new CountComponentPoints(40));
 		
 	}
 	

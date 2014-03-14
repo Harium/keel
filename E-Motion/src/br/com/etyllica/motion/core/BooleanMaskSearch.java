@@ -1,7 +1,6 @@
 package br.com.etyllica.motion.core;
 
 import br.com.etyllica.motion.core.strategy.PixelStrategy;
-import br.com.etyllica.motion.core.strategy.ComponentValidatorStrategy;
 
 
 public abstract class BooleanMaskSearch extends ComponentFilter {
@@ -14,8 +13,8 @@ public abstract class BooleanMaskSearch extends ComponentFilter {
 		resetMask(w, h);
 	}
 	
-	public BooleanMaskSearch(int w, int h, PixelStrategy colorStrategy, ComponentValidatorStrategy componentStrategy) {
-		super(w, h, colorStrategy, componentStrategy);
+	public BooleanMaskSearch(int w, int h, PixelStrategy pixelStrategy) {
+		super(w, h, pixelStrategy);
 		
 		resetMask(w, h);
 		

@@ -7,7 +7,6 @@ import java.util.List;
 import br.com.etyllica.motion.core.BooleanMaskSearch;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 
 public class ColoredPointSearch extends BooleanMaskSearch {
 
@@ -16,7 +15,7 @@ public class ColoredPointSearch extends BooleanMaskSearch {
 	}
 	
 	public ColoredPointSearch(int w, int h, Color color) {
-		super(w, h, new ColorStrategy(color.getRGB()), new DumbComponentFilter());
+		super(w, h, new ColorStrategy(color.getRGB()));
 	}
 
 	@Override
