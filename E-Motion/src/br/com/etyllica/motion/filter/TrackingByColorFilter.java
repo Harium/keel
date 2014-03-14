@@ -19,11 +19,18 @@ public class TrackingByColorFilter extends ColorFilter {
 
 		this.searchStrategy = new FloodFillSearch(w, h);
 		
-		colorStrategy = new ColorStrategy(color);
+		colorStrategy = new ColorStrategy(color, 0x40);
 		
 		searchStrategy.setPixelStrategy(colorStrategy);
 		
 		searchStrategy.setComponentStrategy(new DumbComponentFilter());
+		
+	}
+	
+	public TrackingByColorFilter(int w, int h, Color color, int tolerance) {
+		this(w, h, color);
+
+		colorStrategy.setTolerance(tolerance);
 		
 	}
 			
