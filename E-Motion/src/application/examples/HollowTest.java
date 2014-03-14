@@ -10,7 +10,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.loader.image.ImageLoader;
 import br.com.etyllica.core.video.Graphic;
-import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.RedLedFilter;
 
 public class HollowTest extends Application{

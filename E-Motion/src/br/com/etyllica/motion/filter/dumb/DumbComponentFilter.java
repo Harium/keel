@@ -1,7 +1,7 @@
 package br.com.etyllica.motion.filter.dumb;
 
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.ComponentValidatorStrategy;
-import br.com.etyllica.motion.features.Component;
 
 public class DumbComponentFilter implements ComponentValidatorStrategy{
 

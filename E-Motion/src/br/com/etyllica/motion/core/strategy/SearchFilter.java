@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.motion.core.SearchStrategy;
-import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.dumb.DumbColorFilter;
 import br.com.etyllica.motion.filter.dumb.DumbComponentFilter;
 import br.com.etyllica.motion.filter.dumb.DumbComponentModifier;

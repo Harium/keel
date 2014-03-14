@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.matcher;
+package br.com.etyllica.motion.core.gesture;
 
 import java.awt.Polygon;
 import java.util.List;

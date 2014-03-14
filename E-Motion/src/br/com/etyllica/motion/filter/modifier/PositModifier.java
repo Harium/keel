@@ -7,9 +7,9 @@ import org.opencv.criteria.CvTermCriteria;
 import org.opencv.modules.calib3d.Posit;
 
 import br.com.etyllica.linear.Point3D;
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.RotationAxis;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
-import br.com.etyllica.motion.features.Component;
 
 public class PositModifier extends RotationAxis implements ComponentModifierStrategy {
 	

@@ -7,7 +7,7 @@ import java.util.Queue;
 
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.BooleanMaskSearch;
-import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.ComponentPointCount;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 

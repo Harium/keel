@@ -1,8 +1,8 @@
 package br.com.etyllica.motion.filter.modifier;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
-import br.com.etyllica.motion.features.Component;
 
 public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 

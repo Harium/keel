@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.gesture;
+package br.com.etyllica.motion.core.gesture;
 
 public class GestureRegex {
 

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.motion.core.BooleanMaskSearch;
-import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.features.Cross;
+import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.core.features.Cross;
 
 public class CornerSearch extends BooleanMaskSearch {
 

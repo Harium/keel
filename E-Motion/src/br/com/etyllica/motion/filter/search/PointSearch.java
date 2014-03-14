@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.motion.core.BooleanMaskSearch;
-import br.com.etyllica.motion.features.Component;
+import br.com.etyllica.motion.core.features.Component;
 
 public class PointSearch extends BooleanMaskSearch {
 

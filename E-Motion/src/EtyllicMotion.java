@@ -21,7 +21,7 @@ import br.com.etyllica.Etyllica;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.motion.graph.SkinGraph;
 
-public class EtyllicMotion extends Etyllica{
+public class EtyllicMotion extends Etyllica {
 
 	public EtyllicMotion() {
 		super(800, 480);
@@ -59,9 +59,9 @@ public class EtyllicMotion extends Etyllica{
 		//return new HollowController(w,h);
 		//return new HollowTest(w,h);
 		
-		return new FaceApplication(w,h);
+		//return new FaceApplication(w,h);
 		
-		//return new FaceSampledMultiFilterStatic(w,h);
+		return new FaceSampledMultiFilterStatic(w,h);
 		
 		//return new FaceSampledStatic(w,h);
 		

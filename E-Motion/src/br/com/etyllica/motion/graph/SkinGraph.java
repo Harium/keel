@@ -12,7 +12,7 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.Layer;
 
-public class SkinGraph extends Application{
+public class SkinGraph extends Application {
 
 	private List<ColorPoint> good = new ArrayList<ColorPoint>();
 	private List<ColorPoint> bad = new ArrayList<ColorPoint>();

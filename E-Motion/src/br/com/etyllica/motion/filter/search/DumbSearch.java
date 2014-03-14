@@ -3,8 +3,8 @@ package br.com.etyllica.motion.filter.search;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
-import br.com.etyllica.motion.features.Component;
 
 public class DumbSearch extends SearchFilter {
 

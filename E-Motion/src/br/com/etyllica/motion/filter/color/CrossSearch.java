@@ -3,10 +3,10 @@ package br.com.etyllica.motion.filter.color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.core.features.Cross;
 import br.com.etyllica.motion.core.strategy.PixelStrategy;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
-import br.com.etyllica.motion.features.Component;
-import br.com.etyllica.motion.features.Cross;
 
 public class CrossSearch extends SearchFilter{
 
