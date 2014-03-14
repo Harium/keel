@@ -19,12 +19,14 @@ public abstract class SearchFilter implements SearchStrategy {
 	protected PixelStrategy pixelStrategy;
 	
 	protected ComponentValidatorStrategy componentStrategy;
-	
+		
 	protected ComponentModifierStrategy componentModifierStrategy;
 	
 	protected Component lastComponent = new Component(0, 0, 1, 1);
 	
 	protected List<Component> result = new ArrayList<Component>();
+	
+	//protected List<ComponentValidatorStrategy> validations = new ArrayList<ComponentValidatorStrategy>();
 	
 	public SearchFilter() {
 		super();
