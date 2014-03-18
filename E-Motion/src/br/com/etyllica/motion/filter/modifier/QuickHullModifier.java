@@ -88,7 +88,7 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 			
 			Point2D p = list.get(i);
 			
-			if (pointLocation(minPoint, maxPoint, p) == -1) {
+			if (!isPointLocationPositive(minPoint, maxPoint, p)) {
 				leftSet.add(p);
 				list.remove(i);
 			}
@@ -112,10 +112,12 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		int insertPosition = hull.indexOf(b);
 		
 		if (list.size() == 1) {
+			
 			Point2D p = list.get(0);
 			list.remove(p);
 			hull.add(insertPosition, p);
 			return;
+			
 		}
 				
 		Point2D point = null;
@@ -136,11 +138,12 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		
 		hull.add(insertPosition,point);
 
-		// Determine who's to the left of AP
+		// Determine who's to the left of AP segment
 		List<Point2D> leftSetAP = new ArrayList<Point2D>();
+		
 		for (Point2D M: list) {
 			
-			if (pointLocation(a,point,M)==1) {
+			if (isPointLocationPositive(a,point,M)) {
 
 				leftSetAP.add(M);
 				
@@ -148,11 +151,12 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 			
 		}
 
-		// Determine who's to the left of PB
+		// Determine who's to the left of PB segment
 		List<Point2D> leftSetPB = new ArrayList<Point2D>();
+		
 		for (Point2D M: list) {
 			
-			if (pointLocation(point,b,M)==1) {
+			if (isPointLocationPositive(point,b,M)) {
 			
 				leftSetPB.add(M);
 				
@@ -165,7 +169,7 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		hullSet(point, b, leftSetPB, hull);
 	}
 
-	public double pointLocation(Point2D a, Point2D b, Point2D c) {
+	public boolean isPointLocationPositive(Point2D a, Point2D b, Point2D c) {
 		
 		double ABx = b.getX()-a.getX();
 		double ABy = b.getY()-a.getY();
@@ -174,16 +178,17 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		
 		double cp1 = (ABx)*(ACy) - (ABy)*(ACx);
 		
-		return (cp1>0)?1:-1;
+		return (cp1>0);
 	}
 
 	public double distance(Point2D a, Point2D b, Point2D c) {
 		
 		double ABx = b.getX()-a.getX();
 		double ABy = b.getY()-a.getY();
+		
 		double num = ABx*(a.getY()-c.getY())-ABy*(a.getX()-c.getX());
 		
-		if (num < 0){
+		if (num < 0) {
 			num = -num;
 		}
 		
