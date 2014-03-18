@@ -8,6 +8,17 @@ import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
+
+/**
+ * QuickHull modifier based on Alexander Hristov's code at
+ * 
+ * www.ahristov.com/tutorial/geometry-games/convex-hull.html
+ *
+ * @license GPL
+ *
+ */
+
+
 public class QuickHullModifier implements ComponentModifierStrategy {
 
 	public QuickHullModifier() {
@@ -28,61 +39,73 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		return polygon;
 		
 	}
-		
-	//Based on www.ahristov.com/tutorial/geometry-games/convex-hull.html
+
 	public List<Point2D> quickHull(List<Point2D> points) {
 
-		List<Point2D> clone = PointListHelper.cloneList(points);
+		List<Point2D> list = PointListHelper.cloneList(points);
 		
-		if (points.size() < 3) return clone;
+		if (points.size() < 3) return list;
 
 		List<Point2D> convexHull = new ArrayList<Point2D>();
 
-		// find extremals
-		int minPoint = -1, maxPoint = -1;
+		Point2D firstPoint = list.get(0);
+		
+		Point2D minPoint = firstPoint;
+		Point2D maxPoint = firstPoint;
+		
 		double minX = Double.MAX_VALUE;
 		double maxX = Double.MIN_VALUE;
 		
-		for (int i = 0; i < clone.size(); i++) {
-			if (clone.get(i).getX() < minX) {
-				minX = clone.get(i).getX();
-				minPoint = i;
+		// find extremals (in x axis)
+		for (Point2D point: list) {
+			
+			if (point.getX() < minX) {
+				minX = point.getX();
+				minPoint = point;			
+			}else if (point.getX() > maxX) {
+				maxX = point.getX();
+				maxPoint = point;       
 			}
 			
-			if (clone.get(i).getX() > maxX) {
-				maxX = clone.get(i).getX();
-				maxPoint = i;       
-			}
 		}
-		
-		Point2D A = clone.get(minPoint);
-		Point2D B = clone.get(maxPoint);
-		
-		convexHull.add(A);
-		convexHull.add(B);
-		
-		clone.remove(A);
-		clone.remove(B);
 
-		ArrayList<Point2D> leftSet = new ArrayList<Point2D>();
-		ArrayList<Point2D> rightSet = new ArrayList<Point2D>();
+		convexHull.add(minPoint);
+		convexHull.add(maxPoint);
+		
+		list.remove(minPoint);
+		list.remove(maxPoint);
 
-		for (int i = 0; i < clone.size(); i++) {
-			Point2D p = clone.get(i);
-			if (pointLocation(A,B,p) == -1)
+		return calculateConvexHull(minPoint, maxPoint, list, convexHull);
+		
+	}
+	
+	private List<Point2D> calculateConvexHull(Point2D minPoint, Point2D maxPoint, List<Point2D> list, List<Point2D> hull) {
+		
+		List<Point2D> leftSet = new ArrayList<Point2D>();
+
+		//Separate Points in Left or Right based on max/min point distance
+		for (int i=list.size()-1; i > 0; i--) {
+			
+			Point2D p = list.get(i);
+			
+			if (pointLocation(minPoint, maxPoint, p) == -1) {
 				leftSet.add(p);
-			else
-				rightSet.add(p);
+				list.remove(i);
+			}
+			
 		}
 		
-		hullSet(A,B,rightSet,convexHull);
+		List<Point2D> rightSet = list;
 		
-		hullSet(B,A,leftSet,convexHull);
+		hullSet(minPoint, maxPoint, rightSet, hull);
+		
+		hullSet(maxPoint, minPoint, leftSet, hull);
 
-		return convexHull;
+		return hull;
+		
 	}
 
-	public void hullSet(Point2D a, Point2D b, ArrayList<Point2D> list, List<Point2D> hull) {
+	public void hullSet(Point2D a, Point2D b, List<Point2D> list, List<Point2D> hull) {
 		
 		if (list.size() == 0) return;
 		
@@ -91,7 +114,7 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		if (list.size() == 1) {
 			Point2D p = list.get(0);
 			list.remove(p);
-			hull.add(insertPosition,p);
+			hull.add(insertPosition, p);
 			return;
 		}
 				
@@ -101,7 +124,7 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		
 		for (Point2D p : list) {
 			
-			double distance  = distance(a,b,p);
+			double distance = distance(a,b,p);
 			
 			if (distance > dist) {
 				dist = distance;
@@ -110,10 +133,11 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		}
 				
 		list.remove(point);
+		
 		hull.add(insertPosition,point);
 
 		// Determine who's to the left of AP
-		ArrayList<Point2D> leftSetAP = new ArrayList<Point2D>();
+		List<Point2D> leftSetAP = new ArrayList<Point2D>();
 		for (Point2D M: list) {
 			
 			if (pointLocation(a,point,M)==1) {
@@ -125,7 +149,7 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		}
 
 		// Determine who's to the left of PB
-		ArrayList<Point2D> leftSetPB = new ArrayList<Point2D>();
+		List<Point2D> leftSetPB = new ArrayList<Point2D>();
 		for (Point2D M: list) {
 			
 			if (pointLocation(point,b,M)==1) {
@@ -136,11 +160,13 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 			
 		}
 		
-		hullSet(a,point,leftSetAP,hull);
-		hullSet(point,b,leftSetPB,hull);
+		hullSet(a, point, leftSetAP, hull);
+		
+		hullSet(point, b, leftSetPB, hull);
 	}
 
 	public double pointLocation(Point2D a, Point2D b, Point2D c) {
+		
 		double ABx = b.getX()-a.getX();
 		double ABy = b.getY()-a.getY();
 		double ACx = c.getX()-a.getX();
@@ -148,15 +174,19 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		
 		double cp1 = (ABx)*(ACy) - (ABy)*(ACx);
 		
-		return (cp1>0)?1:-1;		
+		return (cp1>0)?1:-1;
 	}
 
 	public double distance(Point2D a, Point2D b, Point2D c) {
+		
 		double ABx = b.getX()-a.getX();
 		double ABy = b.getY()-a.getY();
 		double num = ABx*(a.getY()-c.getY())-ABy*(a.getX()-c.getX());
 		
-		if (num < 0) num = -num;
+		if (num < 0){
+			num = -num;
+		}
+		
 		return num;
 	}
 
