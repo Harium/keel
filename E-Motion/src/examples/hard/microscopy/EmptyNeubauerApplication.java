@@ -31,28 +31,72 @@ public class EmptyNeubauerApplication extends Application {
 		loading = 100;
 	}
 
+	//if 1mm = 128px
+	
+	final int spacing1mm = 64;
+	
+	final int spacing025mm = spacing1mm/4;
+	
+	final int spacing005mm = spacing025mm/4;
+	
+	final int lineSize = 1100;
+	
+	final float lineWidth = 8f;
+	
 	@Override
 	public void draw(Graphic g) {
-
+				
 		g.setColor(background);
 		g.fillRect(0, 0, w, h);
 
 		g.setColor(Color.WHITE);
-		g.setBasicStroke(8f);
-		
-		
-		//Draw Vertical Lines
-		int lineX = 10;
-		
-		for(int i=0;i<3;i++) {
+		g.setBasicStroke(1);
+				
+		//Draw 1mm lines
+		for(int i=1;i<13;i++) {
 			
-			final int lineOffset = 18;
-		
-			g.drawLine(offsetX+lineX+lineOffset*i, offsetY, offsetX+lineX+lineOffset*i, offsetY+2000);
+			drawHorizontalLine(g, spacing1mm, i);
+			
+			drawVerticalLine(g, spacing1mm, i);
 			
 		}
 		
-
+		g.setColor(Color.WHITE);
+		//Draw 0.25mm lines
+		for(int i=1;i<13;i++) {
+			
+			drawHorizontalLine(g, spacing025mm+spacing1mm*4, spacing025mm, i);
+			
+			drawVerticalLine(g, spacing025mm+spacing1mm*4 , spacing025mm, i);
+			
+		}
+		
+	}
+	
+	public void drawHorizontalLine(Graphic g, int spacing, int i) {
+		drawHorizontalLine(g, 0, spacing, i);
+	}
+	
+	public void drawHorizontalLine(Graphic g, int offset, int spacing, int i) {
+		
+		float lineOffset = lineWidth+spacing;
+		
+		g.drawLine(offsetX, offsetY+offset+(lineOffset)*i, offsetX+lineSize, offsetY+offset+(lineOffset)*i);
+		
+	}
+	
+	public void drawVerticalLine(Graphic g, int spacing, int i) {
+		
+		drawVerticalLine(g, 0, spacing, i);
+		
+	}
+	
+	public void drawVerticalLine(Graphic g, int offset, int spacing, int i) {
+		
+		float lineOffset = lineWidth+spacing;
+		
+		g.drawLine(offsetX+offset+(lineOffset)*i, offsetY, offsetX+offset+(lineOffset)*i, offsetY+lineSize);
+		
 	}
 
 	@Override
