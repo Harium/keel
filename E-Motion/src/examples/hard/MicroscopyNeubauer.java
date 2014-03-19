@@ -10,7 +10,7 @@ public class MicroscopyNeubauer extends Etyllica {
 	private static final long serialVersionUID = 1L;
 
 	public MicroscopyNeubauer() {
-		super(640, 480);
+		super(1280,720);
 	}
 
 	@Override

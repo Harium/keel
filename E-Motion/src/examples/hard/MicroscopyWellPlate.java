@@ -10,7 +10,7 @@ public class MicroscopyWellPlate extends Etyllica {
 	private static final long serialVersionUID = 1L;
 
 	public MicroscopyWellPlate() {
-		super(640, 480);
+		super(1280,720);
 	}
 
 	@Override
