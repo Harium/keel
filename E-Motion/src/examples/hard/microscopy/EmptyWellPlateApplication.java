@@ -17,6 +17,10 @@ public class EmptyWellPlateApplication extends Application {
 
 	private int offsetX = 0;
 	private int offsetY = 0;
+	
+	private final int WELL_PLATES = 3;
+	
+	private final int PLATE_RADIUS = 3000;
 
 	public EmptyWellPlateApplication(int w, int h) {
 		super(w, h);
@@ -27,16 +31,20 @@ public class EmptyWellPlateApplication extends Application {
 		// TODO Auto-generated method stub
 		loading = 100;
 	}
-
+	
 	@Override
 	public void draw(Graphic g) {
+		
+		for(int i=0; i<WELL_PLATES; i++) {
+			
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillOval(offsetX+PLATE_RADIUS*i, offsetY, PLATE_RADIUS, PLATE_RADIUS);
 
-		g.setColor(Color.LIGHT_GRAY);		
-		g.fillOval(offsetX, offsetY, 3000, 3000);
-
-		g.setColor(Color.BLACK);
-		g.setBasicStroke(20f);
-		g.drawOval(offsetX, offsetY, 3000, 3000);
+			g.setColor(Color.BLACK);
+			g.setBasicStroke(20f);
+			g.drawOval(offsetX+PLATE_RADIUS*i, offsetY, PLATE_RADIUS, PLATE_RADIUS);
+			
+		}
 
 	}
 
