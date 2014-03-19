@@ -33,13 +33,13 @@ public class EmptyNeubauerApplication extends Application {
 
 	//if 1mm = 128px
 	
-	final int spacing1mm = 64;
+	int zoom = 1;
 	
-	final int spacing025mm = spacing1mm/4;
+	final int spacing025mm = 100*zoom;
+		
+	final int spacing005mm = spacing025mm/5;	
 	
-	final int spacing005mm = spacing025mm/4;
-	
-	final int lineSize = 1100;
+	final int lineSize = spacing025mm*13-4;
 	
 	final float lineWidth = 8f;
 	
@@ -49,27 +49,28 @@ public class EmptyNeubauerApplication extends Application {
 		g.setColor(background);
 		g.fillRect(0, 0, w, h);
 
-		g.setColor(Color.WHITE);
 		g.setBasicStroke(1);
-				
-		//Draw 1mm lines
-		for(int i=1;i<13;i++) {
+
+		g.setColor(Color.WHITE);
+		//Draw 0.25mm lines
+		for(int i=0;i<13;i++) {
 			
-			drawHorizontalLine(g, spacing1mm, i);
+			drawHorizontalLine(g, spacing025mm, i);
 			
-			drawVerticalLine(g, spacing1mm, i);
+			drawVerticalLine(g, spacing025mm, i);
+			
+		}		
+
+		//Draw 0.05mm lines
+		for(int i=16;i<33;i++) {		
+						
+			drawHorizontalLine(g, spacing005mm-1, i);
+			
+			drawVerticalLine(g, spacing005mm-1, i);
 			
 		}
 		
-		g.setColor(Color.WHITE);
-		//Draw 0.25mm lines
-		for(int i=1;i<13;i++) {
-			
-			drawHorizontalLine(g, spacing025mm+spacing1mm*4, spacing025mm, i);
-			
-			drawVerticalLine(g, spacing025mm+spacing1mm*4 , spacing025mm, i);
-			
-		}
+		
 		
 	}
 	
