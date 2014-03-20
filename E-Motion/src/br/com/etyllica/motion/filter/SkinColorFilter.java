@@ -4,21 +4,16 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 import br.com.etyllica.motion.filter.color.ToleranceStrategy;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;
 
-public class SkinColorFilter {
+public class SkinColorFilter extends TrackingFilter {
 
 	protected ToleranceStrategy colorStrategy;
-	
-	protected SearchFilter searchStrategy;
-	
-	public SkinColorFilter(int w, int h) {
-		super();
 		
-		searchStrategy = new ColoredPointSearch(w, h);
+	public SkinColorFilter(int w, int h) {
+		super(new ColoredPointSearch(w, h));		
 	}
 		
 	public SkinColorFilter(int w, int h, int tolerance) {

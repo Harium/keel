@@ -5,20 +5,15 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;
 
-public class ColorFilter {
+public class ColorFilter extends TrackingFilter {
 
 	protected ColorStrategy colorStrategy;
-	
-	protected SearchFilter searchStrategy;
-	
-	public ColorFilter(int w, int h) {
-		super();
 		
-		searchStrategy = new ColoredPointSearch(w, h);
+	public ColorFilter(int w, int h) {
+		super(new ColoredPointSearch(w, h));
 	}
 		
 	public ColorFilter(int w, int h, Color color) {
@@ -56,5 +51,5 @@ public class ColorFilter {
 	public void setColor(Color color) {
 		colorStrategy.setColor(color);
 	}
-			
+
 }
