@@ -27,7 +27,7 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 
 	@Override
 	public Component modifyComponent(Component component) {
-				
+		
 		List<Point2D> convexPolygon = quickHull(component.getPoints());
 		
 		Component polygon = new Component(0, 0);

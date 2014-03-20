@@ -40,8 +40,11 @@ public class FloodFillSearch extends BooleanMaskSearch {
 		super.setup();
 		
 		int x = border;
+		
 		int y = border;
+		
 		int width = component.getW()-border*2;
+		
 		int height = component.getH()-border*2;
 		
 		for (int j = y; j < height; j+=step) {
@@ -53,7 +56,7 @@ public class FloodFillSearch extends BooleanMaskSearch {
 					Queue<Point2D> queue = new LinkedList<Point2D>();
 					queue.add(new Point2D(i, j));
 
-					Component lista = new Component();
+					Component found = new Component();
 
 					while (!queue.isEmpty()) {
 						
@@ -65,23 +68,22 @@ public class FloodFillSearch extends BooleanMaskSearch {
 							if (!mask[(int)p.getX()][(int)p.getY()] && pixelStrategy.validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
 								mask[(int)p.getX()][(int)p.getY()] = true;
 
-								lista.add(p);
+								found.add(p);
 
 								queue.add(new Point2D((int)p.getX() + step, (int)p.getY()));
 								queue.add(new Point2D((int)p.getX() - step, (int)p.getY()));
 								queue.add(new Point2D((int)p.getX(), (int)p.getY() + step));
 								queue.add(new Point2D((int)p.getX(), (int)p.getY() - step));
 
-								//queue.add(new Ponto((int)p.getX() + 1, (int)p.getY() + 1));
 							}
 							
 						}
 						
 					}
 
-					if(this.validate(lista)) {
+					if(this.validate(found)) {
 
-						result.add(componentModifierStrategy.modifyComponent(lista));
+						result.add(componentModifierStrategy.modifyComponent(found));
 
 					}
 
