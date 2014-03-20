@@ -34,7 +34,7 @@ public abstract class BooleanMaskSearch extends ComponentFilter {
 		resetMask(w,h);
 	}
 	
-	private void resetMask(int w, int h) {
+	public void resetMask(int w, int h) {
 		
 		mask = new boolean[w][h];
 		

@@ -1,7 +1,10 @@
 package br.com.etyllica.motion.filter;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
@@ -29,6 +32,14 @@ public class TrackingByColorFilter extends ColorFilter {
 
 		colorStrategy.setTolerance(tolerance);
 		
+	}
+	
+	@Override
+	public List<Component> filter(BufferedImage bimg, Component component) {
+		
+		((FloodFillSearch)searchStrategy).resetMask(bimg.getWidth(), bimg.getHeight());
+		
+		return searchStrategy.filter(bimg, component);
 	}
 			
 }

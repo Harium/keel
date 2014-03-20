@@ -27,7 +27,9 @@ public class FloodFillSearch extends BooleanMaskSearch {
 		List<Component> list = filter(bimg, component);
 		
 		if(!list.isEmpty()){
+			
 			lastComponent = list.get(0);
+			
 		}
 		
 		return lastComponent;
@@ -51,9 +53,10 @@ public class FloodFillSearch extends BooleanMaskSearch {
 
 			for (int i = x; i < width; i+=step) {
 
-				if (!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i,j))) {
+				if (!mask[i][j] && pixelStrategy.validateColor(bimg.getRGB(i,j))) {
 										
 					Queue<Point2D> queue = new LinkedList<Point2D>();
+					
 					queue.add(new Point2D(i, j));
 
 					Component found = new Component();
@@ -65,7 +68,9 @@ public class FloodFillSearch extends BooleanMaskSearch {
 						if ((p.getX() >= x) && (p.getX() < width &&
 								(p.getY() >= y) && (p.getY() < height))) {
 							
-							if (!mask[(int)p.getX()][(int)p.getY()] && pixelStrategy.validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
+							if (!mask[(int)p.getX()][(int)p.getY()] && 
+									pixelStrategy.validateColor(bimg.getRGB((int)p.getX(), (int)p.getY()))) {
+								
 								mask[(int)p.getX()][(int)p.getY()] = true;
 
 								found.add(p);
