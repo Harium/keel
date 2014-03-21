@@ -11,13 +11,15 @@ import br.com.etyllica.core.video.Graphic;
 
 public class EmptyNeubauerApplication extends Application {
 
+	protected int zoom = 4;
+	
 	private int dragX = 0;
 	private int dragY = 0;
 
 	private boolean mouseDrag = false;
 
-	private int offsetX = 0;
-	private int offsetY = 0;
+	protected int offsetX = 0;
+	protected int offsetY = 0;
 
 	private Color background = new Color(0xC3, 0xB3, 0xA4);
 
@@ -25,11 +27,9 @@ public class EmptyNeubauerApplication extends Application {
 		super(w, h);
 	}
 	
-	private int zoom = 1;
+	private int spacing005mm = 0;
 
-	private int spacing005mm = 16*zoom;
-		
-	private int lineSize = spacing005mm*60;
+	protected int lineSize = 0;
 
 	@Override
 	public void load() {
@@ -41,7 +41,7 @@ public class EmptyNeubauerApplication extends Application {
 	
 	private void changeZoom() {
 		
-		spacing005mm = 16*zoom;
+		spacing005mm = 4*zoom;
 		
 		lineSize = spacing005mm*60;
 		
@@ -50,10 +50,18 @@ public class EmptyNeubauerApplication extends Application {
 	@Override
 	public void draw(Graphic g) {
 		
+		drawNeubauer(g);
+		
+		drawInformation(g);
+
+	}
+	
+	protected void drawNeubauer(Graphic g){
+		
 		g.setColor(background);
 		g.fillRect(0, 0, w, h);
 
-		g.setBasicStroke(1);
+		g.setBasicStroke(1f);
 
 		g.setColor(Color.WHITE);
 		
@@ -71,35 +79,46 @@ public class EmptyNeubauerApplication extends Application {
 		drawStrongLines(g,spacing005mm);
 
 		drawMiddleLines(g, spacing005mm);
-
+		
+	}
+	
+	protected void drawInformation(Graphic g) {
+		
+		g.setColor(Color.WHITE);
+		
+		g.setFontSize(20f);		
+		
+		g.drawShadow(20, 60, "Zoom: "+zoom+"x");
+		
 	}
 
 	private void drawStrongLines(Graphic g, int spacing005mm) {
 		
-		g.setBasicStroke(3f);
+		g.setBasicStroke(1f);
 		
 		for(int i=0;i<4; i++) {
-			drawVerticalLine(g, spacing005mm, i*4*5);
+			
+			drawVerticalStrongLine(g, spacing005mm, i*4*5);			
+			
 			drawHorizontalLine(g, spacing005mm, i*4*5);
+			
 		}
+		
+		
 		
 	}
 	
 	private void drawMiddleLines(Graphic g, int spacing005mm) {
 
 		//Strong Lines
-		g.setBasicStroke(3f);
-		
 		for(int i=0;i<=5;i++) {
 			
-			drawVerticalLine(g, spacing005mm, 4*5+4*i);
-			drawHorizontalLine(g, spacing005mm, 4*5+4*i);
+			drawVerticalStrongLine(g, spacing005mm, 4*5+4*i);
+			drawHorizontalStrongLine(g, spacing005mm, 4*5+4*i);
 			
 		}
 		
 		//Thin lines
-		g.setBasicStroke(1f);
-
 		for(int i=0;i<20;i++) {
 
 			drawVerticalLine(g, spacing005mm, 4*5+i);
@@ -109,7 +128,15 @@ public class EmptyNeubauerApplication extends Application {
 
 
 	}
+	
+	private void drawHorizontalStrongLine(Graphic g, int spacing, int i) {
 
+		drawHorizontalLine(g, 0, spacing, i);
+		drawHorizontalLine(g, -1*zoom/4, spacing, i);
+		drawHorizontalLine(g, +1*zoom/4, spacing, i);
+
+	}
+	
 	private void drawHorizontalLine(Graphic g, int spacing, int i) {
 		drawHorizontalLine(g, 0, spacing, i);
 	}
@@ -123,6 +150,14 @@ public class EmptyNeubauerApplication extends Application {
 	private void drawVerticalLine(Graphic g, int spacing, int i) {
 
 		drawVerticalLine(g, 0, spacing, i);
+
+	}
+	
+	private void drawVerticalStrongLine(Graphic g, int spacing, int i) {
+
+		drawVerticalLine(g, 0, spacing, i);
+		drawVerticalLine(g, -1*zoom/4, spacing, i);
+		drawVerticalLine(g, +1*zoom/4, spacing, i);
 
 	}
 
