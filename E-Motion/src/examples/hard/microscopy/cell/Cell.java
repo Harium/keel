@@ -13,7 +13,7 @@ public class Cell extends Layer {
 	
 	protected final float borderWidth = 0.2f;
 	
-	protected Color color;
+	protected Color color = Color.WHITE;
 	
 	public Cell(int x, int y) {
 		super(x, y);
