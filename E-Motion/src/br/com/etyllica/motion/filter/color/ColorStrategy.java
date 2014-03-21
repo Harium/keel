@@ -38,11 +38,18 @@ public class ColorStrategy extends ToleranceStrategy {
 		if((r==getRed(color))&&(g==getGreen(color))&&(b==getBlue(color))) {
 			return true;
 		}
+		
 		return false;
 		
 	}
 	
 	public static boolean isColor(int rgb, int color, int tolerance) {
+				
+		return isColor(rgb, color, tolerance, tolerance);
+		
+	}
+	
+	public static boolean isColor(int rgb, int color, int minTolerance, int maxTolerance) {
 		
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
@@ -52,9 +59,29 @@ public class ColorStrategy extends ToleranceStrategy {
 		int cg = getGreen(color);
 		int cb = getBlue(color);
 
-		if((r>=cr-tolerance)&&(r<=cr+tolerance)&&
-			(g>=cg-tolerance)&&(g<=cg+tolerance)&&
-			(b>=cb-tolerance)&&(b<=cb+tolerance)) {
+		if((r>=cr-minTolerance)&&(r<=cr+maxTolerance)&&
+			(g>=cg-minTolerance)&&(g<=cg+maxTolerance)&&
+			(b>=cb-minTolerance)&&(b<=cb+maxTolerance)) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	public static boolean isDarkerColor(int rgb, int color, int tolerance) {
+		
+		int r = getRed(rgb);
+		int g = getGreen(rgb);
+		int b = getBlue(rgb);
+		
+		int cr = getRed(color);
+		int cg = getGreen(color);
+		int cb = getBlue(color);
+
+		if((r<=cr)&&(r>=cr-tolerance)&&
+			(g<=cg)&&(g>=cg-tolerance)&&
+			(b<=cb)&&(b>=cb-tolerance)) {
 			return true;
 		}
 		
