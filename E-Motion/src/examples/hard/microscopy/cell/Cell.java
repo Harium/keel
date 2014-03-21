@@ -9,7 +9,7 @@ public class Cell extends Layer {
 		
 	private Color borderColor = new Color(0x7C, 0x66, 0x59);
 	
-	protected final float radius = 0.9f;
+	protected final float radius = 0.7f;
 	
 	protected final float borderWidth = 0.2f;
 	
