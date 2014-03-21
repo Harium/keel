@@ -5,5 +5,5 @@ import java.awt.image.BufferedImage;
 public interface ProcessFilter {
 
 	public void process(BufferedImage buffer);
-	
+		
 }

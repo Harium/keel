@@ -2,11 +2,14 @@ package br.com.etyllica.motion.custom;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.ProcessFilter;
+import br.com.etyllica.motion.core.ProcessPointsFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 
-public class AverageColorFilter implements ProcessFilter {
+public class AverageColorFilter implements ProcessFilter, ProcessPointsFilter {
 
 	private int pixelCount;
 	
@@ -82,6 +85,39 @@ public class AverageColorFilter implements ProcessFilter {
 
 	public Color getColor() {
 		return color;
+	}
+
+	@Override
+	public void process(BufferedImage buffer, List<Point2D> points) {
+		
+		reset();
+		
+		for(Point2D point: points) {
+			
+			int i = (int)point.getX();
+			
+			int j = (int)point.getY();
+			
+			int rgb = buffer.getRGB(i, j);
+			
+			averageRed += ColorStrategy.getRed(rgb);
+			
+			averageBlue += ColorStrategy.getBlue(rgb);
+			
+			averageGreen += ColorStrategy.getGreen(rgb);
+			
+			pixelCount ++;
+			
+		}
+			
+		averageRed /= pixelCount;
+		
+		averageBlue /= pixelCount;
+		
+		averageGreen /= pixelCount;
+		
+		this.color = new Color(averageRed, averageGreen, averageBlue);
+		
 	}
 		
 }
