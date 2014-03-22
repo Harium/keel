@@ -47,9 +47,10 @@ public class MelanomaFinderApplication extends Application {
 	@Override
 	public void load() {
 
-		//Create the image with elements
+		//Load the image with elements
 		buffer = new BufferedLayer("melanoma/melanoma1.png").getModifiedBuffer();
 
+		//Process image to calculate it's Average Color
 		AverageColorFilter avgColorFilter = new AverageColorFilter();
 		avgColorFilter.process(buffer);
 
@@ -64,29 +65,34 @@ public class MelanomaFinderApplication extends Application {
 		//Define skin filter
 		skinFilter = new TrackingByDarkerColorFilter(w, h, averageSkinColor, 80);
 
-		skinFilter.addValidation(new ComponentDensityValidation(50));
-		skinFilter.addValidation(new MinComponentDimension(20));
-		skinFilter.addValidation(new MaxComponentDimension(width/2));
+		//Define validations
+		skinFilter.addValidation(new ComponentDensityValidation(50)); //Components must have at least 50% of pixel density  
+		skinFilter.addValidation(new MinComponentDimension(20)); //Components should be bigger than 20x20px 
+		skinFilter.addValidation(new MaxComponentDimension(width/2)); //Components should be smaller than (width/2)x(width/2)px
 
 		loading = 80;
 
 		loadingPhrase = "Start Filter";
 
+		//Search for melanoma candidates
 		candidates = skinFilter.filter(buffer, screen);
 
+		//Find the biggest component/candidate
 		biggestComponent = findBiggestComponent(candidates);
 
 		QuickHullModifier convexHullModifier = new QuickHullModifier();
 
+		//Apply QuickHull Modifier in the biggest component
 		convexHull = convexHullModifier.quickHull(biggestComponent.getPoints());
-
-		loadingPhrase = "Filter Complete";
 		
 		//Creates a new avgColorFilter
 		avgColorFilter = new AverageColorFilter();
 		avgColorFilter.process(buffer, biggestComponent.getPoints());
 		
+		//Calculate melonama's average color
 		avgBiggestComponentColor = avgColorFilter.getColor();
+		
+		loadingPhrase = "Filter Complete";
 
 	}
 
@@ -118,7 +124,7 @@ public class MelanomaFinderApplication extends Application {
 
 		g.setAlpha(50);
 
-		//Draw a black line around the skin components
+		//Draw a black rectangle around the skin components
 		for(Component candidate : candidates) {
 
 			g.setStroke(new BasicStroke(3f));
@@ -126,7 +132,7 @@ public class MelanomaFinderApplication extends Application {
 			g.drawPolygon(candidate.getBoundingBox());
 
 			if(!hide){
-				drawComponentMask(g, candidate);	
+				drawComponentPixels(g, candidate);	
 			}
 
 		}
@@ -136,25 +142,38 @@ public class MelanomaFinderApplication extends Application {
 		g.drawPolygon(biggestComponent.getBoundingBox());
 
 		if(!hide) {
+			
 			g.setAlpha(50);
 
-			drawComponentMask(g, biggestComponent);
-			drawConvexHullMask(g, biggestComponent);
-			
+			drawComponentPixels(g, biggestComponent);
+			drawConvexHullMask(g, biggestComponent);			
 			
 		}
 		
-		//Draw averageSkinColor Rect
 		g.setAlpha(100);
-		g.setColor(averageSkinColor);
-		g.fillRect(0, 0, 40, 30);
 		
+		//Draw Information in the top-left corner
+		
+		//Draw average skin color Rectangle
+		g.setColor(averageSkinColor);
+		g.fillRect(0, 40, 40, 30);
+		
+		g.setColor(Color.WHITE);
+		g.drawShadow(45, 60, "← avg skin color");
+		
+		//Draw average melanoma color rectangle
 		g.setColor(avgBiggestComponentColor);
-		g.fillRect(0, 36, 40, 30);
+		g.fillRect(0, 86, 40, 30);
+		
+		g.setColor(Color.WHITE);
+		g.drawShadow(45, 106, "← avg melanoma color");
+		
+		//How to show/hide pixel mask 
+		g.writeX(380, "Press H to show/hide colored pixels");
 
 	}
 
-	private void drawComponentMask(Graphic g, Component component) {
+	private void drawComponentPixels(Graphic g, Component component) {
 
 		for(Point2D point: component.getPoints()) {
 			g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
@@ -193,7 +212,6 @@ public class MelanomaFinderApplication extends Application {
 
 		}
 
-		// TODO Auto-generated method stub
 		return null;
 	}
 
