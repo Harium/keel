@@ -12,13 +12,14 @@ import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.TrackingByColorFilter;
+import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
 import br.com.etyllica.util.SVGColor;
 
 public class FaceSkinFilterStatic extends Application {
 
 	private FakeCamera cam = new FakeCamera();
 
-	private TrackingByColorFilter skinFilter;
+	private TrackingByMultipleColorFilter skinFilter;
 
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -54,7 +55,8 @@ public class FaceSkinFilterStatic extends Application {
 		
 		loadingPhrase = "Configuring Filter";
 		
-		skinFilter = new TrackingByColorFilter(width, height, new Color(0xAF, 0x80, 0x66), 0x26);
+		skinFilter = new TrackingByMultipleColorFilter(width, height);
+		skinFilter.addColor(new Color(0xAF, 0x80, 0x66), 0x26);
 				
 		//skinFilter.addComponentStrategy(new MinComponentDimension(30));
 		//skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));

@@ -1,7 +1,6 @@
 package br.com.etyllica.motion.core;
 
 import br.com.etyllica.motion.core.strategy.PixelStrategy;
-import br.com.etyllica.motion.core.strategy.ComponentValidationStrategy;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 
 

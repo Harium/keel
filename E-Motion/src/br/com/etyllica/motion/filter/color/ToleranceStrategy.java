@@ -27,4 +27,5 @@ public abstract class ToleranceStrategy implements PixelStrategy {
 	public void setOffsetTolerance(int tolerance) {
 		this.tolerance += tolerance;
 	}
+	
 }
