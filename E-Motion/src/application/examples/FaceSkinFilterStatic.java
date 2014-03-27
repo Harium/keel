@@ -8,11 +8,15 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.TrackingByColorFilter;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
+import br.com.etyllica.motion.filter.validation.DensityValidation;
+import br.com.etyllica.motion.filter.validation.MinComponentDimension;
 import br.com.etyllica.util.SVGColor;
 
 public class FaceSkinFilterStatic extends Application {
@@ -58,7 +62,8 @@ public class FaceSkinFilterStatic extends Application {
 		skinFilter = new TrackingByMultipleColorFilter(width, height);
 		skinFilter.addColor(new Color(0xAF, 0x80, 0x66), 0x26);
 				
-		//skinFilter.addComponentStrategy(new MinComponentDimension(30));
+		//skinFilter.addComponentStrategy(new DensityValidation(30));
+		skinFilter.addComponentStrategy(new MinComponentDimension(30));
 		//skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
 		
 		loading = 60;
@@ -80,7 +85,23 @@ public class FaceSkinFilterStatic extends Application {
 
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
+
+		if(event.onButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+			
+			int x = event.getX();
+			
+			int y = event.getY();
+			
+			BufferedImage buffer = cam.getBufferedImage(); 
+			
+			int rgb = buffer.getRGB(x, y);
+			
+			skinFilter.addColor(new Color(rgb), 0x10);
+			
+			reset(buffer);
+			
+		}
+		
 		return GUIEvent.NONE;
 	}
 
@@ -127,10 +148,18 @@ public class FaceSkinFilterStatic extends Application {
 		g.setColor(Color.BLUE);
 		
 		g.setBasicStroke(2);
-		for(Component skin: skinFeatures){
+		
+		for(Component skin: skinFeatures) {
 			
 			g.setColor(SVGColor.BLUE_VIOLET);
 			g.drawRect(skin.getRectangle());
+			
+			for(Point2D point: skin.getPoints()) {
+
+				g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
+				
+			}
+			
 			
 		}
 
