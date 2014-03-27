@@ -17,12 +17,12 @@ public class MultipleColorStrategy implements PixelStrategy {
 	@Override
 	public boolean validateColor(int rgb) {
 		
-		boolean result = true;
+		boolean result = false;
 		
 		for(ColorStrategy strategy: colors) {
 			
-			if(!strategy.validateColor(rgb)) {
-				result = false;
+			if(strategy.validateColor(rgb)) {
+				result = true;
 				break;
 			}
 			
