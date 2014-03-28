@@ -12,17 +12,19 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.camera.Camera;
+import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
-import br.com.etyllica.motion.filter.validation.CountComponentPoints;
+import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MaxComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
 import br.com.etyllica.util.SVGColor;
 
-public class FaceSkinFilterStatic extends Application {
+public class FaceSkinFilter extends Application {
 
-	private FakeCamera cam = new FakeCamera();
+	private Camera cam;
 
 	private TrackingByMultipleColorFilter skinFilter;
 
@@ -42,20 +44,16 @@ public class FaceSkinFilterStatic extends Application {
 	
 	private ImageLayer pirateHat;
 
-	public FaceSkinFilterStatic(int w, int h) {
+	public FaceSkinFilter(int w, int h) {
 		super(w, h);
 	}
 
 	@Override
 	public void load() {
 
+		cam = new CameraV4L4J();
+		
 		loadingPhrase = "Loading Images";
-
-		for(int i=1;i<=IMAGES_TO_LOAD;i++){
-			loading = i;
-
-			cam.addImage("skin/skin"+Integer.toString(i)+".jpg");
-		}
 
 		int width = cam.getBufferedImage().getWidth();
 		int height = cam.getBufferedImage().getHeight();
@@ -64,11 +62,15 @@ public class FaceSkinFilterStatic extends Application {
 
 		configureSkinFilter(width, height);
 		pirateHat = new ImageLayer("effects/piratehat.png");
-		
-		loading = 60;
-		reset(cam.getBufferedImage());
+
+		updateAtFixedRate(100);
 		
 		loading = 100;
+	}
+	
+	@Override
+	public void timeUpdate(long now) {
+		reset(cam.getBufferedImage());
 	}
 	
 	private void configureSkinFilter(int width, int height) {
@@ -81,38 +83,33 @@ public class FaceSkinFilterStatic extends Application {
 		//C4 C2 B0 A0 8D 7C 6A 5C 4B 3D 2F
 		//CD BA A6 93 82 70 5F 4F 41 35 2A
 		
-		int tolerance = 0x15;
+		int tolerance = 0x10;
 
-		skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance);
+		//skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance);
 
-		skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance);
+		//skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance);
 
-		skinFilter.addColor(new Color(0xE0, 0xB0, 0xA6), tolerance);
+		//skinFilter.addColor(new Color(0xE0, 0xB0, 0xA6), tolerance);
 
-		skinFilter.addColor(new Color(0xD4, 0xA0, 0x93), tolerance);
+		//skinFilter.addColor(new Color(0xD4, 0xA0, 0x93), tolerance);
 
-		skinFilter.addColor(new Color(0xC6, 0x8D, 0x82), tolerance);
+		//skinFilter.addColor(new Color(0xC6, 0x8D, 0x82), tolerance);
 
-		skinFilter.addColor(new Color(0xB6, 0x7C, 0x70), tolerance);
+		//skinFilter.addColor(new Color(0xB6, 0x7C, 0x70), tolerance);
 
-		skinFilter.addColor(new Color(0xA3, 0x6A, 0x5F), tolerance);
+		//skinFilter.addColor(new Color(0xA3, 0x6A, 0x5F), tolerance);
 
-		skinFilter.addColor(new Color(0x90, 0x5C, 0x4F), tolerance);
+		//skinFilter.addColor(new Color(0x90, 0x5C, 0x4F), tolerance);
 
-		skinFilter.addColor(new Color(0x7B, 0x4B, 0x41), tolerance);
+		//skinFilter.addColor(new Color(0x7B, 0x4B, 0x41), tolerance);
 
-		skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance);
+		//skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance);
 
-		skinFilter.addColor(new Color(0x4E, 0x2F, 0x2A), tolerance);
-		
-		//Very White people
-		//skinFilter.addColor(new Color(0xA7, 0x85, 0x93), 0x10);
-		//skinFilter.addColor(new Color(0x5d, 0x4b, 0x5b), 0x10);
+		//skinFilter.addColor(new Color(0x4E, 0x2F, 0x2A), tolerance);
 
-		//skinFilter.addComponentStrategy(new MinDensityValidation(10));
-		skinFilter.addComponentStrategy(new MinComponentDimension(40));//Avoid small noises
-		skinFilter.addComponentStrategy(new CountComponentPoints(220));//Avoid small noises
-		//skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
+		skinFilter.addComponentStrategy(new MinDensityValidation(15));
+		skinFilter.addComponentStrategy(new MinComponentDimension(30));//Avoid small noises
+		skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
 		
 	}
 
@@ -143,13 +140,9 @@ public class FaceSkinFilterStatic extends Application {
 
 				int rgb = buffer.getRGB(x, y);
 
-				Color color = new Color(rgb);
-				
-				skinFilter.addColor(color, 0x10);
-				
-				System.out.println("Adds color 0x"+Integer.toString(color.getRed(), 16)+", 0x"+Integer.toString(color.getGreen(), 16)+", 0x"+Integer.toString(color.getBlue(), 16));
+				skinFilter.addColor(new Color(rgb), 0x10);
 
-				reset(buffer);
+				reset(buffer);	
 			}
 
 		}
@@ -159,16 +152,6 @@ public class FaceSkinFilterStatic extends Application {
 
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
-
-		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
-			cam.nextFrame();
-			reset(cam.getBufferedImage());
-		}
-
-		else if(event.isKeyDown(KeyEvent.TSK_SETA_ESQUERDA)){
-			cam.previousFrame();
-			reset(cam.getBufferedImage());
-		}
 
 		if(event.isKeyDown(KeyEvent.TSK_H)){
 			hide = !hide;
@@ -193,12 +176,8 @@ public class FaceSkinFilterStatic extends Application {
 	@Override
 	public void draw(Graphic g) {
 
-		g.setColor(Color.BLACK);
-		
 		if(!hide){
-			//g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
-			g.fillRect(0, 0, 640, 480);
-			
+			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
 		}
 
 		g.setColor(Color.BLUE);
@@ -230,7 +209,7 @@ public class FaceSkinFilterStatic extends Application {
 		if(!skinFeatures.isEmpty()) {
 			
 			Component biggestComponent = findBiggestComponent(skinFeatures);
-						
+			
 			double angle = drawAndCalculateAngle(biggestComponent, g);
 		
 			double hatScale = 2;//The Pirate Hat has the double of the head width
@@ -238,10 +217,9 @@ public class FaceSkinFilterStatic extends Application {
 			double scale = ((double)biggestComponent.getW()*hatScale/(double)this.w);
 						
 			pirateHat.setScale(scale);
-			pirateHat.setAngle(angle-90);
+			//pirateHat.setAngle(angle);
 			
 			pirateHat.centralizeX(biggestComponent.getX(), biggestComponent.getX()+biggestComponent.getW());
-						
 			pirateHat.setY(biggestComponent.getY()-(int)((pirateHat.getH())*scale));
 			
 			pirateHat.draw(g);
@@ -277,12 +255,10 @@ public class FaceSkinFilterStatic extends Application {
 
 		int lowerPoints = 0, lowerX = 0, lowerY = 0;
 
-		int centerY = component.getY()+component.getH()/2;
-		
 		for(Point2D point: component.getPoints()) {
 
 			//Point lower
-			if(point.getY()>centerY) {
+			if(point.getY()>component.getX()+component.getH()/2) {
 				lowerPoints++;
 				lowerX += point.getX();
 				lowerY += point.getY();
@@ -293,9 +269,6 @@ public class FaceSkinFilterStatic extends Application {
 			}
 
 		}
-		
-		g.setColor(Color.BLACK);
-		g.drawLine(component.getX(), centerY, component.getX()+component.getW(), centerY);
 
 		if(upperPoints>0&&lowerPoints>0) {
 

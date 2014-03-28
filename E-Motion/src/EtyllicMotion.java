@@ -12,6 +12,7 @@ import application.examples.AugmentedRealityStatic;
 import application.examples.BarCodeExample;
 import application.examples.FaceSampledMultiFilterStatic;
 import application.examples.FaceSampledReal;
+import application.examples.FaceSkinFilter;
 import application.examples.FaceStatic;
 import application.examples.FaceSkinFilterStatic;
 import application.examples.HollowTest;
@@ -56,6 +57,7 @@ public class EtyllicMotion extends Etyllica {
 		//return new FaceStatic(w,h);
 		
 		return new FaceSkinFilterStatic(w,h);
+		//return new FaceSkinFilter(w,h);
 				
 		//return new HollowController(w,h);
 		//return new HollowTest(w,h);
