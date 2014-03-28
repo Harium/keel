@@ -16,7 +16,7 @@ import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.filter.TrackingByDarkerColorFilter;
 import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
-import br.com.etyllica.motion.filter.validation.DensityValidation;
+import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MaxComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
 
@@ -66,7 +66,7 @@ public class MelanomaFinderApplication extends Application {
 		skinFilter = new TrackingByDarkerColorFilter(w, h, averageSkinColor, 80);
 
 		//Define validations
-		skinFilter.addValidation(new DensityValidation(50)); //Components must have at least 50% of pixel density  
+		skinFilter.addValidation(new MinDensityValidation(50)); //Components must have at least 50% of pixel density  
 		skinFilter.addValidation(new MinComponentDimension(20)); //Components should be bigger than 20x20px 
 		skinFilter.addValidation(new MaxComponentDimension(width/2)); //Components should be smaller than (width/2)x(width/2)px
 
