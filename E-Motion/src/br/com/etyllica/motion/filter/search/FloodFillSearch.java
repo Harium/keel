@@ -22,6 +22,12 @@ public class FloodFillSearch extends BooleanMaskSearch {
 
 		this.validations.add(new CountComponentPoints(180));
 	}
+	
+	public FloodFillSearch(int w, int h, int minNeighbors) {
+		super(w, h, new SkinColorStrategy());
+		
+		this.minNeighbors = minNeighbors;
+	}
 
 	@Override
 	public Component filterFirst(BufferedImage bimg, Component component) {
