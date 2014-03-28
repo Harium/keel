@@ -118,6 +118,15 @@ public class ColorStrategy extends ToleranceStrategy {
 		
 	}
 	
+	public static int getRGB(int red, int green, int blue) {
+		
+		int rgb = red;
+		rgb = (rgb << 8) + green;
+		rgb = (rgb << 8) + blue;
+		
+		return rgb;
+	}
+	
 	public int getColor() {
 		return color;
 	}
