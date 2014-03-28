@@ -173,7 +173,7 @@ public class AirWrite extends Application{
 		g.setColor(colorStrategy.getColor());
 		g.fillRect(0, 0, 30, 30);
 		g.setColor(Color.WHITE);
-		g.drawShadow(10, 15, Integer.toString(colorStrategy.getTolerance()));
+		g.drawShadow(10, 15, Integer.toString(colorStrategy.getMaxToleranceRed()));
 		
 		int border = colorFilter.getBorder();
 		

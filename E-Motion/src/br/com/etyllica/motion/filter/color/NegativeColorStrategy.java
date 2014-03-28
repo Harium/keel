@@ -9,12 +9,11 @@ public class NegativeColorStrategy extends ColorStrategy {
 	}
 	
 	public NegativeColorStrategy(Color color) {
-		this(color.getRGB());
+		super(color.getRGB());
 	}
 	
 	public NegativeColorStrategy(Color color, int tolerance) {
-		this(color);
-		this.tolerance = tolerance;
+		super(color, tolerance);
 	}
 	
 	public NegativeColorStrategy(int color) {

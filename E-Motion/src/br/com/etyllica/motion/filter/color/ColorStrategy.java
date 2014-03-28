@@ -16,7 +16,8 @@ public class ColorStrategy extends ToleranceStrategy {
 	
 	public ColorStrategy(Color color, int tolerance) {
 		this(color);
-		this.tolerance = tolerance;
+		
+		setTolerance(tolerance);
 	}
 	
 	public ColorStrategy(int color) {
@@ -26,7 +27,7 @@ public class ColorStrategy extends ToleranceStrategy {
 	
 	@Override
 	public boolean validateColor(int rgb) {
-		return isColor(rgb, this.color, tolerance);
+		return isColor(rgb, this.color, minToleranceRed, maxToleranceRed, minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
 	}
 	
 	public static boolean isColor(int rgb, int color) {
@@ -42,14 +43,20 @@ public class ColorStrategy extends ToleranceStrategy {
 		return false;
 		
 	}
-	
+		
 	public static boolean isColor(int rgb, int color, int tolerance) {
-				
+		
 		return isColor(rgb, color, tolerance, tolerance);
 		
 	}
 	
 	public static boolean isColor(int rgb, int color, int minTolerance, int maxTolerance) {
+				
+		return isColor(rgb, color, minTolerance, maxTolerance, minTolerance, maxTolerance, minTolerance, maxTolerance);
+		
+	}
+	
+	public static boolean isColor(int rgb, int color, int minToleranceRed, int maxToleranceRed, int minToleranceGreen, int maxToleranceGreen, int minToleranceBlue, int maxToleranceBlue) {
 		
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
@@ -59,9 +66,9 @@ public class ColorStrategy extends ToleranceStrategy {
 		int cg = getGreen(color);
 		int cb = getBlue(color);
 
-		if((r>=cr-minTolerance)&&(r<=cr+maxTolerance)&&
-			(g>=cg-minTolerance)&&(g<=cg+maxTolerance)&&
-			(b>=cb-minTolerance)&&(b<=cb+maxTolerance)) {
+		if((r>=cr-minToleranceRed)&&(r<=cr+maxToleranceRed)&&
+			(g>=cg-minToleranceGreen)&&(g<=cg+maxToleranceGreen)&&
+			(b>=cb-minToleranceBlue)&&(b<=cb+maxToleranceBlue)) {
 			return true;
 		}
 		
@@ -70,6 +77,10 @@ public class ColorStrategy extends ToleranceStrategy {
 	}
 	
 	public static boolean isDarkerColor(int rgb, int color, int tolerance) {
+		return isDarkerColor(rgb, color, tolerance, tolerance, tolerance);
+	}
+	
+	public static boolean isDarkerColor(int rgb, int color, int minToleranceRed, int minToleranceGreen, int minToleranceBlue) {
 		
 		int r = getRed(rgb);
 		int g = getGreen(rgb);
@@ -79,9 +90,9 @@ public class ColorStrategy extends ToleranceStrategy {
 		int cg = getGreen(color);
 		int cb = getBlue(color);
 
-		if((r<=cr)&&(r>=cr-tolerance)&&
-			(g<=cg)&&(g>=cg-tolerance)&&
-			(b<=cb)&&(b>=cb-tolerance)) {
+		if((r<=cr)&&(r>=cr-minToleranceRed)&&
+			(g<=cg)&&(g>=cg-minToleranceGreen)&&
+			(b<=cb)&&(b>=cb-minToleranceBlue)) {
 			return true;
 		}
 		

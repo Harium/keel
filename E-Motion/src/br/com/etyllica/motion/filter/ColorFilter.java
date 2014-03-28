@@ -36,10 +36,6 @@ public class ColorFilter extends TrackingFilter {
 		return searchStrategy.filter(bimg, component);
 	}
 
-	public int getTolerance() {
-		return colorStrategy.getTolerance();
-	}
-
 	public void setTolerance(int tolerance) {
 		colorStrategy.setTolerance(tolerance);
 	}

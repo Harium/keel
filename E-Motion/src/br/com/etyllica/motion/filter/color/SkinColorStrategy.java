@@ -1,13 +1,15 @@
 package br.com.etyllica.motion.filter.color;
 
-public class SkinColorStrategy extends ToleranceStrategy {
-	
+import br.com.etyllica.motion.core.strategy.PixelStrategy;
+
+public class SkinColorStrategy extends SimpleToleranceStrategy implements PixelStrategy {
+		
 	public SkinColorStrategy() {
 		super();
 	}
 	
 	public SkinColorStrategy(int tolerance) {
-		super(tolerance);		
+		super(tolerance);
 	}
 
 	@Override

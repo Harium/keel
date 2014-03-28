@@ -2,16 +2,18 @@ package br.com.etyllica.motion.filter.color;
 
 import java.awt.Color;
 
+import br.com.etyllica.motion.filter.ColorFilter;
+
 
 public class DarkerColorStrategy extends ColorStrategy {
 
 	public DarkerColorStrategy(Color color, int tolerance) {
-		super(color, tolerance);
+		super(color, tolerance);		
 	}
 	
 	@Override
 	public boolean validateColor(int rgb) {
-		return isDarkerColor(rgb, this.color, this.tolerance);
+		return ColorStrategy.isDarkerColor(rgb, this.color, this.minToleranceRed, this.minToleranceGreen, this.minToleranceBlue);
 	}
 		
 }
