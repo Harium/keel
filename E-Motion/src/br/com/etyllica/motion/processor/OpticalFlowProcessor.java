@@ -11,11 +11,9 @@ import java.awt.image.BufferedImage;
 
 public class OpticalFlowProcessor implements ImageProcessor {
 
-	BufferedImage input1;
+	private BufferedImage input1;
 
-	BufferedImage input2;
-
-	BufferedImage output;
+	private BufferedImage output;
 
 	private int progress;
 
@@ -33,11 +31,9 @@ public class OpticalFlowProcessor implements ImageProcessor {
 		progress = 0;
 	}
 
-	public void init(BufferedImage input1, BufferedImage input2, int window, int displacement) {
+	public void init(BufferedImage input1, int window, int displacement) {
 
 		this.input1 = input1;
-
-		this.input2 = input2;
 
 		this.output = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		
@@ -52,7 +48,7 @@ public class OpticalFlowProcessor implements ImageProcessor {
 
 	}
 	
-	public BufferedImage process() {
+	public BufferedImage process(BufferedImage input2) {
 
 		progress = 0;
 
