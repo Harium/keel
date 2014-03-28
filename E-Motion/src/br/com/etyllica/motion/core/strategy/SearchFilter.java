@@ -13,7 +13,7 @@ public abstract class SearchFilter implements SearchStrategy {
 
 	protected int step = 1;
 	
-	protected int border = 0;
+	protected int border = 1;
 		
 	protected PixelStrategy pixelStrategy;
 			
