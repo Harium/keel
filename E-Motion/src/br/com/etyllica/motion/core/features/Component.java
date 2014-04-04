@@ -7,7 +7,6 @@ import java.util.List;
 import br.com.etyllica.layer.GeometricLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.filter.color.ColorStrategy;
 
 public class Component extends ColorComponent implements Comparable<Component> {
 
@@ -51,28 +50,28 @@ public class Component extends ColorComponent implements Comparable<Component> {
 		add(new Point2D(x, y));
 	}
 
-	public void add(Point2D p, int rgb) {
-		int r = ColorStrategy.getRed(rgb);
-		int g = ColorStrategy.getGreen(rgb);
-		int b = ColorStrategy.getBlue(rgb);
-
-		addLogic(p);
-	}
-
 	public void add(Point2D p) {
 
-		if((int)p.getX()>highestX) {
-			highestX = (int)p.getX();
-		}
-		else if((int)p.getX()<lowestX) {
-			lowestX = (int)p.getX();
+		int px = (int)p.getX();
+		
+		int py = (int)p.getY();
+		
+		if(px > highestX) {
+			
+			highestX = px;
+			
+		} else if(px < lowestX) {
+			
+			lowestX = px;
 		}
 
-		if((int)p.getY()>highestY) {
-			highestY = (int)p.getY();
-		}
-		else if((int)p.getY()<lowestY) {
-			lowestY = (int)p.getY();
+		if(py > highestY) {
+			
+			highestY = py;
+			
+		} else if(py < lowestY) {
+			
+			lowestY = py;
 		}
 
 		points.add(p);
@@ -128,7 +127,9 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	}
 
 	public Polygon getBoundingBox() {
+		
 		Polygon p = new Polygon();
+		
 		p.addPoint(lowestX,lowestY);
 		p.addPoint(highestX,lowestY);
 		p.addPoint(highestX,highestY);
@@ -138,6 +139,7 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	}
 
 	public Polygon getPolygon() {
+		
 		Polygon p = new Polygon();
 
 		for(Point2D point: points) {
