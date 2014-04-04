@@ -9,7 +9,7 @@ import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 
-public class Component extends ColorComponent implements Comparable<Component>{
+public class Component extends ColorComponent implements Comparable<Component> {
 
 	protected List<Point2D> points = new ArrayList<Point2D>();
 
@@ -154,7 +154,7 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		return rect;
 	}
 
-	public double getConcentration() {
+	public double getDensity() {
 		int area = getArea();
 
 		return (double)(area/points.size());
@@ -203,7 +203,7 @@ public class Component extends ColorComponent implements Comparable<Component>{
 		// TODO Auto-generated method stub
 		//return component.getPoints().size()*getH()-points.size()*getH();
 
-		double dif = component.getConcentration()*component.getH()-this.getConcentration()*getH();
+		double dif = component.getDensity()*component.getH()-this.getDensity()*getH();
 
 		if(dif>0) {
 			return 1;
