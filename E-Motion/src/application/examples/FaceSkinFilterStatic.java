@@ -18,6 +18,9 @@ import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
 import br.com.etyllica.motion.filter.validation.CountComponentPoints;
 import br.com.etyllica.motion.filter.validation.MaxComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
+import br.com.etyllica.motion.filter.validation.MinDensityValidation;
+import br.com.etyllica.motion.processor.BlackAndWhiteQuickProcessor;
+import br.com.etyllica.motion.processor.ContrastQuickProcessor;
 import br.com.etyllica.util.SVGColor;
 
 public class FaceSkinFilterStatic extends Application {
@@ -26,7 +29,7 @@ public class FaceSkinFilterStatic extends Application {
 
 	private TrackingByMultipleColorFilter skinFilter;
 
-	private boolean hide = false;
+	private boolean hide = true;
 	private boolean pixels = true;
 	private boolean drawCleanedOnly = false;
 	private boolean drawBox = true;
@@ -41,6 +44,8 @@ public class FaceSkinFilterStatic extends Application {
 	private Component screen;
 	
 	private ImageLayer pirateHat;
+	
+	private Component overMouse = null;
 
 	public FaceSkinFilterStatic(int w, int h) {
 		super(w, h);
@@ -81,15 +86,15 @@ public class FaceSkinFilterStatic extends Application {
 		//C4 C2 B0 A0 8D 7C 6A 5C 4B 3D 2F
 		//CD BA A6 93 82 70 5F 4F 41 35 2A
 		
-		int tolerance = 0x15;
+		int tolerance = 0x14;
 
-		skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance);
+		skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance, tolerance, 0x19);
 
-		skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance);
+		skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance, tolerance, 0x19);
 
 		skinFilter.addColor(new Color(0xE0, 0xB0, 0xA6), tolerance);
 
-		skinFilter.addColor(new Color(0xD4, 0xA0, 0x93), tolerance);
+		//skinFilter.addColor(new Color(0xD4, 0xA0, 0x93), tolerance/2);
 
 		skinFilter.addColor(new Color(0xC6, 0x8D, 0x82), tolerance);
 
@@ -97,19 +102,22 @@ public class FaceSkinFilterStatic extends Application {
 
 		skinFilter.addColor(new Color(0xA3, 0x6A, 0x5F), tolerance);
 
-		skinFilter.addColor(new Color(0x90, 0x5C, 0x4F), tolerance);
+		//skinFilter.addColor(new Color(0x90, 0x5C, 0x4F), tolerance);
 
 		skinFilter.addColor(new Color(0x7B, 0x4B, 0x41), tolerance);
-
-		skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance);
-
-		skinFilter.addColor(new Color(0x4E, 0x2F, 0x2A), tolerance);
 		
+		skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance, 0x19, 0x19);
+
+		skinFilter.addColor(new Color(0x4E, 0x2F, 0x2A), tolerance, 0x19, 0x19);
+
+		//Shadow and Mouth
+		skinFilter.addColor(new Color(0x6b, 0x57, 0x60), tolerance);
+
 		//Very White people
 		//skinFilter.addColor(new Color(0xA7, 0x85, 0x93), 0x10);
 		//skinFilter.addColor(new Color(0x5d, 0x4b, 0x5b), 0x10);
 
-		//skinFilter.addComponentStrategy(new MinDensityValidation(10));
+		skinFilter.addComponentStrategy(new MinDensityValidation(22));
 		skinFilter.addComponentStrategy(new MinComponentDimension(40));//Avoid small noises
 		skinFilter.addComponentStrategy(new CountComponentPoints(220));//Avoid small noises
 		//skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
@@ -130,18 +138,30 @@ public class FaceSkinFilterStatic extends Application {
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 
+		int mx = event.getX();
+
+		int my = event.getY();
+		
+		if(!skinFeatures.isEmpty()) {
+			
+			for(Component component: skinFeatures) {
+				
+				if(component.colidePoint(mx, my)) {
+					
+					overMouse = component;
+					
+				}
+			}
+			
+		}
+		
 		if(event.onButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
-
-			int x = event.getX();
-
-			int y = event.getY();
-
 
 			BufferedImage buffer = cam.getBufferedImage();
 
-			if(x<buffer.getWidth()&&y<buffer.getHeight()) {
+			if(mx<buffer.getWidth()&&my<buffer.getHeight()) {
 
-				int rgb = buffer.getRGB(x, y);
+				int rgb = buffer.getRGB(mx, my);
 
 				Color color = new Color(rgb);
 				
@@ -153,7 +173,7 @@ public class FaceSkinFilterStatic extends Application {
 			}
 
 		}
-
+		
 		return GUIEvent.NONE;
 	}
 
@@ -196,8 +216,11 @@ public class FaceSkinFilterStatic extends Application {
 		g.setColor(Color.BLACK);
 		
 		if(!hide){
-			//g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
-			g.fillRect(0, 0, 640, 480);
+			
+			BufferedImage image = new ContrastQuickProcessor().process(cam.getBufferedImage());
+			
+			g.drawImage(image, xOffset, yOffset);
+			//g.fillRect(0, 0, 640, 480);
 			
 		}
 
@@ -206,30 +229,78 @@ public class FaceSkinFilterStatic extends Application {
 
 		g.setBasicStroke(2);
 
-		for(Component skin: skinFeatures) {
+		drawFeatures(skinFeatures, g);
+		
+		drawFeatureInfo(g);
+		
+	}
+	
+	private void drawFeatureInfo(Graphic g) {
+		
+		g.setColor(Color.BLACK);
+		
+		g.setFontSize(20);
+		
+		if(overMouse!=null) {
+			
+			int offsetX = 650;
+			
+			g.drawShadow(offsetX, 40, "x: "+overMouse.getX());
+			
+			g.drawShadow(offsetX, 60, "y: "+overMouse.getY());
+			
+			g.drawShadow(offsetX, 80, "w: "+overMouse.getW());
+			
+			g.drawShadow(offsetX, 100, "h: "+overMouse.getH());
+			
+			g.drawShadow(offsetX, 120, "area: "+overMouse.getArea());
+			
+			g.drawShadow(offsetX, 140, "dens: "+(int)overMouse.getDensity()+"%");
+			
+		}
+		
+	}
+	
+	private void drawFeatures(List<Component> components, Graphic g) {
+		
+		List<Component> features = components;
+		//List<Component> features = mergeComponents(skinFeatures);
+		
+		for(Component component: features) {
 
-			g.setColor(SVGColor.BLUE_VIOLET);
-			g.drawRect(skin.getRectangle());
+			if(component != overMouse) {
+			
+				g.setColor(SVGColor.BLUE_VIOLET);
+				
+			} else {
+				
+				g.setColor(SVGColor.RED);
+				
+			}
+			
+			g.drawRect(component.getRectangle());
 
 			g.setBasicStroke(1);
 			
-			for(Point2D point: skin.getPoints()) {
+			for(Point2D point: component.getPoints()) {
 
 				g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
 
 			}
 
 		}
-		
-		drawPirateHat(skinFeatures, g);
+				
+		drawPirateHat(features, g);
 		
 	}
 	
 	private void drawPirateHat(List<Component> components, Graphic g) {
 		
-		if(!skinFeatures.isEmpty()) {
+		if(!components.isEmpty()) {
 			
-			Component biggestComponent = findBiggestComponent(skinFeatures);
+			//Merge components
+			
+			Component biggestComponent = findBiggestComponent(components);
 						
 			double angle = drawAndCalculateAngle(biggestComponent, g);
 		
@@ -250,19 +321,48 @@ public class FaceSkinFilterStatic extends Application {
 		
 	}
 	
+	private List<Component> mergeComponents(List<Component> components) {
+		
+		Component currentComponent;
+		
+		for(int i=0; i<skinFeatures.size(); i++) {
+			
+			currentComponent = skinFeatures.get(i);
+			
+			for(int j=i+1; j<skinFeatures.size()-1;j++) {
+					
+				Component candidate = skinFeatures.get(j);
+				
+				if(currentComponent.colide(candidate)) {
+										
+					currentComponent.merge(candidate);
+					
+					skinFeatures.remove(j);
+					
+				}
+			}
+			
+		}
+		
+		return skinFeatures;		
+		
+	}
+	
 	private Component findBiggestComponent(List<Component> components) {
 
 		Component biggestComponent = components.get(0);
 
-		int biggestArea = 0;
+		double biggestArea = 0;
 
 		for(int i=0;i<components.size(); i++) {
 
 			Component candidate = components.get(i);
 
-			if(candidate.getArea() > biggestArea) {
+			double weight = candidate.getArea()*candidate.getDensity();
+			
+			if(weight > biggestArea) {
 				biggestComponent = candidate;
-				biggestArea = candidate.getArea();
+				biggestArea = weight;
 			}
 
 		}
