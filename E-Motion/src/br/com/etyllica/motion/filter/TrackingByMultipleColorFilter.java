@@ -28,7 +28,7 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
 	}
 	
 	public TrackingByMultipleColorFilter(int w, int h, Color color) {
-		this(w, h, color, 0x40);		
+		this(w, h, color, 0x40);
 	}
 	
 	public List<Component> filter(BufferedImage bimg, Component component) {
@@ -40,6 +40,10 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
 
 	public void addColor(Color color, int tolerance) {
 		colorStrategy.addColor(color, tolerance);
+	}
+	
+	public void addColor(Color color, int redTolerance, int greenTolerance, int blueTolerance) {
+		colorStrategy.addColor(color, redTolerance, greenTolerance, blueTolerance);
 	}
 			
 }
