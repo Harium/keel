@@ -20,7 +20,7 @@ public class MinDensityValidation implements ComponentValidationStrategy {
 	@Override
 	public boolean validate(Component component) {
 
-		return component.getPointCount()*100 / component.getArea() >= density;
+		return component.getDensity() >= density;
 		
 	}
 	

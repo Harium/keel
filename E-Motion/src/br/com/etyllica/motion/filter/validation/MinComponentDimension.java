@@ -20,7 +20,7 @@ public class MinComponentDimension implements ComponentValidationStrategy {
 	@Override
 	public boolean validate(Component component) {
 
-		return component.getW()>=dimension||component.getH()>=dimension;
+		return component.getW()>=dimension&&component.getH()>=dimension;
 		
 	}
 	
