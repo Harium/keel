@@ -34,5 +34,9 @@ public class MultipleColorStrategy implements PixelStrategy {
 	public void addColor(Color color, int tolerance) {
 		colors.add(new ColorStrategy(color, tolerance));
 	}
+	
+	public void addColor(Color color, int redTolerance, int greenTolerance, int blueTolerance) {
+		colors.add(new ColorStrategy(color, redTolerance, greenTolerance, blueTolerance));
+	}
 		
 }
