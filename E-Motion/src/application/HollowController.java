@@ -98,7 +98,7 @@ public class HollowController extends Application {
 			}
 			g.setColor(color);
 
-			g.drawRect(component.getCamada());			
+			g.drawRect(component.getLayer());			
 
 		}
 
@@ -119,7 +119,7 @@ public class HollowController extends Application {
 
 				for(Component component: components){
 					g.setColor(color);
-					g.drawRect(component.getCamada());
+					g.drawRect(component.getLayer());
 					/*g.setColor(Color.WHITE);
 					g.escreveLabelSombra(component.getMenorX(), component.getMenorY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()),Color.BLACK);*/
 				}

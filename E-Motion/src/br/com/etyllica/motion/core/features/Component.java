@@ -53,24 +53,24 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	public void add(Point2D p) {
 
 		int px = (int)p.getX();
-		
+
 		int py = (int)p.getY();
-		
+
 		if(px > highestX) {
-			
+
 			highestX = px;
-			
+
 		} else if(px < lowestX) {
-			
+
 			lowestX = px;
 		}
 
 		if(py > highestY) {
-			
+
 			highestY = py;
-			
+
 		} else if(py < lowestY) {
-			
+
 			lowestY = py;
 		}
 
@@ -127,9 +127,9 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	}
 
 	public Polygon getBoundingBox() {
-		
+
 		Polygon p = new Polygon();
-		
+
 		p.addPoint(lowestX,lowestY);
 		p.addPoint(highestX,lowestY);
 		p.addPoint(highestX,highestY);
@@ -139,7 +139,7 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	}
 
 	public Polygon getPolygon() {
-		
+
 		Polygon p = new Polygon();
 
 		for(Point2D point: points) {
@@ -159,10 +159,10 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	public double getDensity() {
 		int area = getArea();
 
-		return (double)(area/points.size());
+		return (double)(points.size()*100/area);
 
 	}
-	
+
 	public int getArea() {
 		return getW()*getH();
 	}
@@ -186,7 +186,7 @@ public class Component extends ColorComponent implements Comparable<Component> {
 		return center;
 	}
 
-	public Layer getCamada() {
+	public Layer getLayer() {
 
 		return new Layer(lowestX,lowestY,getW(),getH());
 	}
@@ -203,9 +203,9 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	public int compareTo(Component component) {
 
 		// TODO Auto-generated method stub
-		//return component.getPoints().size()*getH()-points.size()*getH();
+		//return component.getPoints().size()*getW()-points.size()*getH();
 
-		double dif = component.getDensity()*component.getH()-this.getDensity()*getH();
+		double dif = component.getDensity()*component.getH()-this.getDensity()*getW();
 
 		if(dif>0) {
 			return 1;
@@ -222,6 +222,37 @@ public class Component extends ColorComponent implements Comparable<Component> {
 		for(Point2D point:component.getPoints()) {
 			add(point);
 		}
+
+	}
+
+	public boolean colidePoint(int px, int py) {
+
+		if((px<getX())||(px>getX() + getW())){
+			return false;
+		}
+
+		if((py<getY())||(py>getY() + getH())){
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean colide(Component component) {
+
+		int bx = component.getX();
+		int bw = component.getW();
+
+		int by = component.getY();
+		int bh = component.getH();
+
+		if(bx + bw < getX())	return false;
+		if(bx > getX() + getW())		return false;
+
+		if(by + bh < getY())	return false;
+		if(by > getY() + getH())		return false;
+
+		return true;
 
 	}
 
