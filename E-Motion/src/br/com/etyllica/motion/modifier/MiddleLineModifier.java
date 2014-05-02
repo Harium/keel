@@ -56,9 +56,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 		graph.clear();
 		
 		List<Direction> directions = new ArrayList<Direction>();
-		
-		int maxIndex = list.size()-3;
-		
+				
 		for (int i=0; i<list.size()-1; i++) {
 				
 			Point2D fa = list.get(i);
@@ -66,8 +64,8 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 									
 			directions.add(rate(fa,fb));
 			
-			if(i>3&&i<maxIndex) {
-								
+			if(i>=3) {
+
 				int initialIndex = directions.size()-3;
 				
 				if(isRegion(directions.subList(initialIndex, directions.size()))) {
@@ -202,8 +200,8 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 		
 		Direction b = list.get(1);
 		
-		Direction c = list.get(2);
-				
+		Direction c = list.get(2);		
+		
 		return isRegion(a, b, c);
 		
 	}

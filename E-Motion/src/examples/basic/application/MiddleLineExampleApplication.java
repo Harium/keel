@@ -46,6 +46,8 @@ public class MiddleLineExampleApplication extends Application {
 		listOfPoints.add(new Point2D(256,443));
 		listOfPoints.add(new Point2D(196,412));
 		listOfPoints.add(new Point2D(268,339));
+		//Repeat first Point
+		listOfPoints.add(new Point2D(203,252));
 				
 		modifier = new MiddleLineModifier();
 		
