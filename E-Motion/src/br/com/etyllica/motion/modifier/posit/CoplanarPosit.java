@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.linear.Mat3;
-import br.com.etyllica.motion.core.linear.Vec3;
+import br.com.etyllica.linear.vector.Mat3D;
+import br.com.etyllica.linear.vector.Vec3D;
 
 public class CoplanarPosit {
 
-	private List<Vec3> model;
+	private List<Vec3D> model;
 
-	private Mat3 modelVectors;
+	private Mat3D modelVectors;
 
-	private Mat3 modelPseudoInverse;
+	private Mat3D modelPseudoInverse;
 
-	private Vec3 modelNormal;
+	private Vec3D modelNormal;
 
 	private double focalLength;
 
@@ -26,16 +26,16 @@ public class CoplanarPosit {
 		this.init();
 	}
 
-	private List<Vec3> buildModel(double modelSize) {
+	private List<Vec3D> buildModel(double modelSize) {
 
 		double half = modelSize / 2.0;
 
-		List<Vec3> model = new ArrayList<Vec3>();
+		List<Vec3D> model = new ArrayList<Vec3D>();
 
-		model.add(new Vec3(-half,  half, 0.0));
-		model.add(new Vec3( half,  half, 0.0));
-		model.add(new Vec3( half,  -half, 0.0));
-		model.add(new Vec3(-half,  -half, 0.0));
+		model.add(new Vec3D(-half,  half, 0.0));
+		model.add(new Vec3D( half,  half, 0.0));
+		model.add(new Vec3D( half,  -half, 0.0));
+		model.add(new Vec3D(-half,  -half, 0.0));
 
 		return model;
 
@@ -43,23 +43,23 @@ public class CoplanarPosit {
 
 	private void init(){
 
-		Vec3 d = new Vec3();
+		Vec3D d = new Vec3D();
 
-		Mat3 v = new Mat3();
+		Mat3D v = new Mat3D();
 
-		Mat3 u;
+		Mat3D u;
 
-		this.modelVectors = Mat3.fromRows(
-				Vec3.sub(this.model.get(1), this.model.get(0)),
-				Vec3.sub(this.model.get(2), this.model.get(0)),
-				Vec3.sub(this.model.get(3), this.model.get(0)) );
+		this.modelVectors = Mat3D.fromRows(
+				Vec3D.sub(this.model.get(1), this.model.get(0)),
+				Vec3D.sub(this.model.get(2), this.model.get(0)),
+				Vec3D.sub(this.model.get(3), this.model.get(0)) );
 
-		u = Mat3.clone(this.modelVectors);
+		u = Mat3D.clone(this.modelVectors);
 
 		SVD.svdcmp(u.m, 3, 3, d.v, v.m);
 
-		this.modelPseudoInverse = Mat3.mult(
-				Mat3.mult(v, Mat3.fromDiagonal( Vec3.inverse(d) ) ), Mat3.transpose(u) );
+		this.modelPseudoInverse = Mat3D.mult(
+				Mat3D.mult(v, Mat3D.fromDiagonal( Vec3D.inverse(d) ) ), Mat3D.transpose(u) );
 
 		this.modelNormal = v.column( d.minIndex() );
 
@@ -67,13 +67,13 @@ public class CoplanarPosit {
 
 	public Pose pose (List<Point2D> points) {
 
-		Vec3 eps = new Vec3(1.0, 1.0, 1.0);
+		Vec3D eps = new Vec3D(1.0, 1.0, 1.0);
 
-		Mat3 rotation1 = new Mat3();
-		Mat3 rotation2 = new Mat3();
+		Mat3D rotation1 = new Mat3D();
+		Mat3D rotation2 = new Mat3D();
 
-		Vec3 translation1 = new Vec3();
-		Vec3 translation2 = new Vec3();
+		Vec3D translation1 = new Vec3D();
+		Vec3D translation2 = new Vec3D();
 
 		this.pos(points, eps, rotation1, translation1, rotation2, translation2);
 
@@ -85,21 +85,21 @@ public class CoplanarPosit {
 					new Pose(error2, rotation2.m, translation2.v, error1, rotation1.m, translation1.v);
 	}
 
-	private void pos(List<Point2D> points, Vec3 eps, Mat3 rotation1, Vec3 translation1, Mat3 rotation2, Vec3 translation2) {
+	private void pos(List<Point2D> points, Vec3D eps, Mat3D rotation1, Vec3D translation1, Mat3D rotation2, Vec3D translation2) {
 
-		Vec3 xi = new Vec3(points.get(1).getX(), points.get(2).getX(), points.get(3).getX());
-		Vec3 yi = new Vec3(points.get(1).getY(), points.get(2).getY(), points.get(3).getY());
+		Vec3D xi = new Vec3D(points.get(1).getX(), points.get(2).getX(), points.get(3).getX());
+		Vec3D yi = new Vec3D(points.get(1).getY(), points.get(2).getY(), points.get(3).getY());
 
-		Vec3 xs = Vec3.addScalar( Vec3.mult(xi, eps), -points.get(0).getX());
+		Vec3D xs = Vec3D.addScalar( Vec3D.mult(xi, eps), -points.get(0).getX());
 
-		Vec3 ys = Vec3.addScalar( Vec3.mult(yi, eps), -points.get(0).getY());
+		Vec3D ys = Vec3D.addScalar( Vec3D.mult(yi, eps), -points.get(0).getY());
 
-		Vec3 i0 = Mat3.multVector(this.modelPseudoInverse, xs);
+		Vec3D i0 = Mat3D.multVector(this.modelPseudoInverse, xs);
 
-		Vec3 j0 = Mat3.multVector(this.modelPseudoInverse, ys);
+		Vec3D j0 = Mat3D.multVector(this.modelPseudoInverse, ys);
 		double s = j0.square() - i0.square();
 
-		double ij = Vec3.dot(i0, j0);				
+		double ij = Vec3D.dot(i0, j0);				
 		double r = 0.0, theta = 0.0;
 
 		if (0.0 == s){
@@ -123,18 +123,18 @@ public class CoplanarPosit {
 		double mu = r * Math.sin(theta);
 
 		//First possible rotation/translation
-		Vec3 i = Vec3.add(i0, Vec3.multScalar(this.modelNormal, lambda) );
-		Vec3 j = Vec3.add(j0, Vec3.multScalar(this.modelNormal, mu) );
+		Vec3D i = Vec3D.add(i0, Vec3D.multScalar(this.modelNormal, lambda) );
+		Vec3D j = Vec3D.add(j0, Vec3D.multScalar(this.modelNormal, mu) );
 
 		double inorm = i.normalize();
 		double jnorm = j.normalize();
 
-		Vec3 k = Vec3.cross(i, j);
-		rotation1.copy(Mat3.fromRows(i, j, k));
+		Vec3D k = Vec3D.cross(i, j);
+		rotation1.copy(Mat3D.fromRows(i, j, k));
 
 		double scale = (inorm + jnorm) / 2.0;
 
-		Vec3 temp = Mat3.multVector(rotation1, this.model.get(0));
+		Vec3D temp = Mat3D.multVector(rotation1, this.model.get(0));
 
 		translation1.copy(
 				points.get(0).getX() / scale - temp.v[0],
@@ -142,15 +142,15 @@ public class CoplanarPosit {
 				this.focalLength / scale);
 
 		//Second possible rotation/translation
-		i = Vec3.sub(i0, Vec3.multScalar(this.modelNormal, lambda) );
-		j = Vec3.sub(j0, Vec3.multScalar(this.modelNormal, mu) );
+		i = Vec3D.sub(i0, Vec3D.multScalar(this.modelNormal, lambda) );
+		j = Vec3D.sub(j0, Vec3D.multScalar(this.modelNormal, mu) );
 		inorm = i.normalize();
 		jnorm = j.normalize();
-		k = Vec3.cross(i, j);
-		rotation2.copy( Mat3.fromRows(i, j, k) );
+		k = Vec3D.cross(i, j);
+		rotation2.copy( Mat3D.fromRows(i, j, k) );
 
 		scale = (inorm + jnorm) / 2.0;
-		temp = Mat3.multVector(rotation2, this.model.get(0));
+		temp = Mat3D.multVector(rotation2, this.model.get(0));
 
 		translation2.copy(
 				points.get(0).getX() / scale - temp.v[0],
@@ -158,25 +158,25 @@ public class CoplanarPosit {
 				this.focalLength / scale);
 	};
 
-	private double iterate (List<Point2D> points, Mat3 rotation, Vec3 translation){
+	private double iterate (List<Point2D> points, Mat3D rotation, Vec3D translation) {
 
 		double prevError = Double.POSITIVE_INFINITY;
 
-		Mat3 rotation1 = new Mat3();
-		Mat3 rotation2 = new Mat3();
+		Mat3D rotation1 = new Mat3D();
+		Mat3D rotation2 = new Mat3D();
 
-		Vec3 translation1 = new Vec3();
-		Vec3 translation2 = new Vec3();
+		Vec3D translation1 = new Vec3D();
+		Vec3D translation2 = new Vec3D();
 
 		int i = 0;
 
-		Vec3 eps;
+		Vec3D eps;
 		
 		double error = 0, error1, error2;
 
 		for (; i < 100; ++ i){
-			eps = Vec3.addScalar( Vec3.multScalar( 
-					Mat3.multVector( this.modelVectors, rotation.row(2) ), 1.0 / translation.v[2]), 1.0);
+			eps = Vec3D.addScalar( Vec3D.multScalar( 
+					Mat3D.multVector( this.modelVectors, rotation.row(2) ), 1.0 / translation.v[2]), 1.0);
 
 			this.pos(points, eps, rotation1, translation1, rotation2, translation2);
 
@@ -203,12 +203,12 @@ public class CoplanarPosit {
 		return error;
 	}
 
-	private double getError (List<Point2D> points, Mat3 rotation, Vec3 translation){
+	private double getError (List<Point2D> points, Mat3D rotation, Vec3D translation){
 
-		Vec3 v1 = Vec3.add( Mat3.multVector(rotation, this.model.get(0)), translation);
-		Vec3 v2 = Vec3.add( Mat3.multVector(rotation, this.model.get(1)), translation);
-		Vec3 v3 = Vec3.add( Mat3.multVector(rotation, this.model.get(2)), translation);
-		Vec3 v4 = Vec3.add( Mat3.multVector(rotation, this.model.get(3)), translation);
+		Vec3D v1 = Vec3D.add( Mat3D.multVector(rotation, this.model.get(0)), translation);
+		Vec3D v2 = Vec3D.add( Mat3D.multVector(rotation, this.model.get(1)), translation);
+		Vec3D v3 = Vec3D.add( Mat3D.multVector(rotation, this.model.get(2)), translation);
+		Vec3D v4 = Vec3D.add( Mat3D.multVector(rotation, this.model.get(3)), translation);
 
 		double ia1, ia2, ia3, ia4, ma1, ma2, ma3, ma4;
 
