@@ -2,7 +2,7 @@ package br.com.etyllica.motion.core.helper;
 
 import org.opencv.OpenCv;
 
-import br.com.etyllica.motion.posit.Pose;
+import br.com.etyllica.motion.modifier.posit.Pose;
 
 public class RotationAxis {
 

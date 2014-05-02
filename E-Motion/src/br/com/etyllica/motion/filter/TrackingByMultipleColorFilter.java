@@ -45,5 +45,9 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
 	public void addColor(Color color, int redTolerance, int greenTolerance, int blueTolerance) {
 		colorStrategy.addColor(color, redTolerance, greenTolerance, blueTolerance);
 	}
+		
+	public void addColor(Color color, int maxTolerance, int minTolerance) {
+		colorStrategy.addColor(color, maxTolerance, minTolerance);
+	}
 			
 }

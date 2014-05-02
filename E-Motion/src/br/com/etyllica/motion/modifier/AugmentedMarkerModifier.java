@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.filter.modifier;
+package br.com.etyllica.motion.modifier;
 
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;

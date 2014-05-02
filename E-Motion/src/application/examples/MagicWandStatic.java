@@ -13,8 +13,8 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.modifier.EnvelopeModifier;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
+import br.com.etyllica.motion.modifier.EnvelopeModifier;
 
 public class MagicWandStatic extends Application{
 

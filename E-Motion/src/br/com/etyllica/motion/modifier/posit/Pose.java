@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.posit;
+package br.com.etyllica.motion.modifier.posit;
 
 public class Pose {
 

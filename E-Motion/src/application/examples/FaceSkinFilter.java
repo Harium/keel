@@ -17,6 +17,7 @@ import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
+import br.com.etyllica.motion.filter.validation.CountComponentPoints;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MaxComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
@@ -55,12 +56,9 @@ public class FaceSkinFilter extends Application {
 		
 		loadingPhrase = "Loading Images";
 
-		int width = cam.getBufferedImage().getWidth();
-		int height = cam.getBufferedImage().getHeight();
-
 		loadingPhrase = "Configuring Filter";
 
-		configureSkinFilter(width, height);
+		configureSkinFilter();
 		pirateHat = new ImageLayer("effects/piratehat.png");
 
 		updateAtFixedRate(100);
@@ -73,7 +71,10 @@ public class FaceSkinFilter extends Application {
 		reset(cam.getBufferedImage());
 	}
 	
-	private void configureSkinFilter(int width, int height) {
+	private void configureSkinFilter() {
+		
+		int width = cam.getBufferedImage().getWidth();
+		int height = cam.getBufferedImage().getHeight();
 		
 		skinFilter = new TrackingByMultipleColorFilter(width, height);
 		
@@ -83,33 +84,47 @@ public class FaceSkinFilter extends Application {
 		//C4 C2 B0 A0 8D 7C 6A 5C 4B 3D 2F
 		//CD BA A6 93 82 70 5F 4F 41 35 2A
 		
-		int tolerance = 0x10;
+		int tolerance = 0x14;
+		
+		int highTolerance = 0x19;
+		
+		int lowTolerance = 0x0A;				
 
-		//skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance);
+		/*skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance, tolerance, highTolerance);
 
-		//skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance);
+		skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance, tolerance, highTolerance);
 
-		//skinFilter.addColor(new Color(0xE0, 0xB0, 0xA6), tolerance);
+		skinFilter.addColor(new Color(0xE0, 0xB0, 0xA6), tolerance);
 
-		//skinFilter.addColor(new Color(0xD4, 0xA0, 0x93), tolerance);
+		//skinFilter.addColor(new Color(0xD4, 0xA0, 0x93), tolerance/2);
 
-		//skinFilter.addColor(new Color(0xC6, 0x8D, 0x82), tolerance);
+		skinFilter.addColor(new Color(0xC6, 0x8D, 0x82), tolerance);
+				
+		skinFilter.addColor(new Color(0xB6, 0x7C, 0x70), tolerance);
 
-		//skinFilter.addColor(new Color(0xB6, 0x7C, 0x70), tolerance);
-
-		//skinFilter.addColor(new Color(0xA3, 0x6A, 0x5F), tolerance);
+		skinFilter.addColor(new Color(0xA3, 0x6A, 0x5F), tolerance);
 
 		//skinFilter.addColor(new Color(0x90, 0x5C, 0x4F), tolerance);
 
-		//skinFilter.addColor(new Color(0x7B, 0x4B, 0x41), tolerance);
+		skinFilter.addColor(new Color(0x7B, 0x4B, 0x41), tolerance);
+		
+		skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance, highTolerance, highTolerance);
 
-		//skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance);
+		skinFilter.addColor(new Color(0x4E, 0x2F, 0x2A), tolerance, lowTolerance, lowTolerance);
 
-		//skinFilter.addColor(new Color(0x4E, 0x2F, 0x2A), tolerance);
+		//Shadow and Mouth
+		skinFilter.addColor(new Color(0x6b, 0x57, 0x60), tolerance);*/
 
-		skinFilter.addComponentStrategy(new MinDensityValidation(15));
-		skinFilter.addComponentStrategy(new MinComponentDimension(30));//Avoid small noises
-		skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
+		//Very White people
+		//skinFilter.addColor(new Color(0xA7, 0x85, 0x93), 0x10);
+		//skinFilter.addColor(new Color(0x5d, 0x4b, 0x5b), 0x10);
+		
+		//Medium Color
+		//skinFilter.addColor(new Color(0xC1, 0xAE, 0xb0), lowTolerance);
+		
+		skinFilter.addComponentStrategy(new MinDensityValidation(22));
+		skinFilter.addComponentStrategy(new MinComponentDimension(40));//Avoid small noises
+		skinFilter.addComponentStrategy(new CountComponentPoints(220));//Avoid small noises
 		
 	}
 

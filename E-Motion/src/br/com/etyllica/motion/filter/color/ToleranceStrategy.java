@@ -26,20 +26,37 @@ public abstract class ToleranceStrategy implements PixelStrategy {
 		setTolerance(tolerance);
 	}
 	
+	public ToleranceStrategy(int maxTolerance, int minTolerance) {
+		super();
+		
+		setTolerance(maxTolerance, minTolerance);
+	}
+	
 	public void setTolerance(int tolerance) {
 		
 		setTolerance(tolerance, tolerance, tolerance);	
 	}
 	
+	public void setTolerance(int maxTolerance, int minTolerance) {
+		
+		setTolerance(maxTolerance, maxTolerance, maxTolerance, minTolerance, minTolerance, minTolerance);
+	}
+	
 	public void setTolerance(int redTolerance, int greenTolerance, int blueTolerance) {
 		
-		maxToleranceRed = redTolerance;
-		maxToleranceGreen = greenTolerance;
-		maxToleranceBlue = blueTolerance;
+		setTolerance(redTolerance, greenTolerance, blueTolerance, redTolerance, greenTolerance, blueTolerance);
 		
-		minToleranceRed = redTolerance;
-		minToleranceGreen = greenTolerance;
-		minToleranceBlue = blueTolerance;
+	}
+	
+	public void setTolerance(int redMaxTolerance, int greenMaxTolerance, int blueMaxTolerance, int redMinTolerance, int greenMinTolerance, int blueMinTolerance) {
+		
+		maxToleranceRed = redMaxTolerance;
+		maxToleranceGreen = greenMaxTolerance;
+		maxToleranceBlue = blueMaxTolerance;
+		
+		minToleranceRed = redMinTolerance;
+		minToleranceGreen = greenMinTolerance;
+		minToleranceBlue = blueMinTolerance;
 		
 	}
 	

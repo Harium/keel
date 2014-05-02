@@ -20,6 +20,12 @@ public class ColorStrategy extends ToleranceStrategy {
 		setTolerance(tolerance);
 	}
 	
+	public ColorStrategy(Color color, int maxTolerance, int minTolerance) {
+		this(color);
+		
+		setTolerance(maxTolerance, minTolerance);
+	}
+	
 	public ColorStrategy(Color color, int redTolerance, int greenTolerance, int blueTolerance) {
 		this(color);
 		

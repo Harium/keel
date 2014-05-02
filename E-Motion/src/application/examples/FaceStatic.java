@@ -17,9 +17,9 @@ import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.CrossSearch;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
-import br.com.etyllica.motion.filter.modifier.EnvelopeModifier;
-import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
 import br.com.etyllica.motion.filter.search.TriangularSearch;
+import br.com.etyllica.motion.modifier.EnvelopeModifier;
+import br.com.etyllica.motion.modifier.QuickHullModifier;
 import br.com.etyllica.util.SVGColor;
 
 public class FaceStatic extends Application{

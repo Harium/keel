@@ -11,7 +11,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.filter.modifier.QuickHullModifier;
+import br.com.etyllica.motion.modifier.QuickHullModifier;
 
 public class QuickHullExampleApplication extends Application {
 
@@ -46,7 +46,7 @@ public class QuickHullExampleApplication extends Application {
 		
 		g.writeX(70, "Press Left Mouse Button to Add Points");
 		
-		g.writeX(90, "Press Right Mouse Button to Compute the ConvexHull");
+		g.writeX(90, "Press Right Mouse Button to Compute the Convex Hull");
 		
 		for(Point2D point: listOfPoints){
 			g.drawCircle(point, 5);

@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.processor;
+package br.com.etyllica.motion.filter.image;
 
 import java.awt.image.BufferedImage;
 

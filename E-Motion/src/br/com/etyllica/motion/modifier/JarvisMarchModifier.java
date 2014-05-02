@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.filter.modifier;
+package br.com.etyllica.motion.modifier;
 
 import static java.lang.Math.sqrt;
 

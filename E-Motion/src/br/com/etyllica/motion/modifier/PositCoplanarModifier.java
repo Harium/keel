@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.filter.modifier;
+package br.com.etyllica.motion.modifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,8 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.RotationAxis;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
-import br.com.etyllica.motion.posit.CoplanarPosit;
-import br.com.etyllica.motion.posit.Pose;
+import br.com.etyllica.motion.modifier.posit.CoplanarPosit;
+import br.com.etyllica.motion.modifier.posit.Pose;
 
 
 public class PositCoplanarModifier implements ComponentModifierStrategy {

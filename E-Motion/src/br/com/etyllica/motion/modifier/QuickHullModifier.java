@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.filter.modifier;
+package br.com.etyllica.motion.modifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,8 @@ import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
 public class QuickHullModifier implements ComponentModifierStrategy {
 
+	private List<Point2D> convexHull = new ArrayList<Point2D>();
+	
 	public QuickHullModifier() {
 		super();
 	}
@@ -46,7 +48,8 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		
 		if (points.size() < 3) return list;
 
-		List<Point2D> convexHull = new ArrayList<Point2D>();
+		//Clear List
+		convexHull.clear();
 
 		Point2D firstPoint = list.get(0);
 		
