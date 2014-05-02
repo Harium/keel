@@ -8,18 +8,18 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.input.mouse.MouseButton;
-import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.Layer;
 
-public class SkinGraph extends Application {
+public class SkinGraphic extends Application {
 
 	private List<ColorPoint> good = new ArrayList<ColorPoint>();
 	private List<ColorPoint> bad = new ArrayList<ColorPoint>();
 	
 	private boolean validateGraph = true;
 
-	public SkinGraph(int w, int h){
+	public SkinGraphic(int w, int h) {
 		super(w,h);
 	}
 
@@ -39,8 +39,8 @@ public class SkinGraph extends Application {
 
 		int blueDots = 0; 
 
-		for(Layer ponto: good){
-			if(ponto.getY()>256){
+		for(Layer ponto: good) {
+			if(ponto.getY()>256) {
 				blueDots++;
 			}
 		}
@@ -51,13 +51,13 @@ public class SkinGraph extends Application {
 		loading = 100;
 	}
 
-	private void addGoodPoint(int r, int g, int b){
+	private void addGoodPoint(int r, int g, int b) {
 
 		good.add(new ColorPoint(r,g,b));
 
 	}
 
-	private void addBadPoint(int r, int g, int b){
+	private void addBadPoint(int r, int g, int b) {
 
 		ColorPoint badPoint = new ColorPoint(r, g, b);
 		badPoint.setColor(Color.RED);
@@ -73,7 +73,7 @@ public class SkinGraph extends Application {
 		drawGrid(g);
 		drawMouseCross(g);
 
-		if(validateGraph){
+		if(validateGraph) {
 			drawValidation(g);
 		}
 		
@@ -89,7 +89,7 @@ public class SkinGraph extends Application {
 
 	}
 
-	private void drawValidation(Graphic g){
+	private void drawValidation(Graphic g) {
 
 		g.setAlpha(50);
 		
@@ -98,9 +98,9 @@ public class SkinGraph extends Application {
 		
 		g.setColor(Color.BLACK);
 		
-		for(int j=0;j<h;j++){
-			for(int i=0;i<w;i++){
-				if(validateGraph(i, j)){
+		for(int j=0;j<h;j++) {
+			for(int i=0;i<w;i++) {
+				if(validateGraph(i, j)) {
 					g.fillRect(i, j, 1, 1);
 				}
 				
@@ -108,7 +108,7 @@ public class SkinGraph extends Application {
 		}
 	}
 
-	private boolean validateGraph(int x, int y){
+	private boolean validateGraph(int x, int y) {
 		int maxTolerance = 20;
 		int minTolerance = maxTolerance;
 		
@@ -116,31 +116,31 @@ public class SkinGraph extends Application {
 		//my=(17*x)/18-155/9;
 		int my=(8*x)/9-40/9;
 		
-		if(x>105&&x<175){
+		if(x>105&&x<175) {
 			minTolerance = 50;
 		}
 
 		return x>40&&x<230&&(y>my-minTolerance&&y<my+maxTolerance);
 	}
 
-	private boolean validate(int r, int g, int b){
+	private boolean validate(int r, int g, int b) {
 		int minR = 56;
 
-		if(r<minR){
+		if(r<minR) {
 			return false;
 		}
 
 		return true;
 	}
 
-	private void drawGoodPoints(Graphic g){
+	private void drawGoodPoints(Graphic g) {
 
-		for(ColorPoint ponto: good){
+		for(ColorPoint ponto: good) {
 			ponto.draw(g);
 		}
 	}
 
-	private void addGoodPoints(){
+	private void addGoodPoints() {
 		addGoodPoint(85,78,62);
 		addGoodPoint(115,103,81);
 		addGoodPoint(108,100,81);
@@ -391,7 +391,7 @@ public class SkinGraph extends Application {
 		addGoodPoint(175,135,109);
 	}
 
-	private void addBadPoints(){
+	private void addBadPoints() {
 
 		addBadPoint(255,0,0);
 		addBadPoint(0,255,0);
@@ -594,10 +594,10 @@ public class SkinGraph extends Application {
 		addBadPoint(63,69,81);
 	}
 
-	private void drawBadPoints(Graphic g){
+	private void drawBadPoints(Graphic g) {
 
 		g.setColor(Color.RED);
-		for(Layer ponto: bad){
+		for(Layer ponto: bad) {
 			ponto.draw(g);
 		}
 	}
@@ -605,21 +605,21 @@ public class SkinGraph extends Application {
 	int mx = 0;
 	int my = 0;
 
-	private void drawGrid(Graphic g){
+	private void drawGrid(Graphic g) {
 
 		int spacing = 10;
 
-		for(int i=0;i<w/spacing;i++){
+		for(int i=0;i<w/spacing;i++) {
 			g.drawLine(i*spacing, 0, i*spacing, h);
 		}
 
-		for(int j=0;j<h/spacing;j++){
+		for(int j=0;j<h/spacing;j++) {
 			g.drawLine(0, j*spacing, w, j*spacing);
 		}
 
 	}
 
-	private void drawMouseCross(Graphic g){
+	private void drawMouseCross(Graphic g) {
 		g.drawLine(mx, 0, mx, h);
 		g.drawLine(0, my, w, my);
 	}
@@ -628,7 +628,7 @@ public class SkinGraph extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 		
-		if(event.isKeyDown(KeyEvent.TSK_ESPACO)){
+		if(event.isKeyDown(KeyEvent.TSK_ESPACO)) {
 			validateGraph = !validateGraph;
 		}
 		
@@ -642,9 +642,9 @@ public class SkinGraph extends Application {
 		mx = event.getX();
 		my = event.getY();
 
-		for(ColorPoint ponto: good){
+		for(ColorPoint ponto: good) {
 
-			if(ponto.colideCirclePoint(mx, my)){
+			if(ponto.colideCirclePoint(mx, my)) {
 				ponto.setOver(true);	
 			}else{
 				ponto.setOver(false);
@@ -652,15 +652,15 @@ public class SkinGraph extends Application {
 
 		}
 
-		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
+		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
 
 
 			System.out.println("MX = "+event.getX());
 			System.out.println("MY = "+event.getY());
 
-			for(ColorPoint ponto: good){
+			for(ColorPoint ponto: good) {
 
-				if(ponto.colideCirclePoint(mx, my)){
+				if(ponto.colideCirclePoint(mx, my)) {
 					ponto.setOver(true);
 					System.out.print("R = "+ponto.getR());
 					System.out.print(" G = "+ponto.getG());

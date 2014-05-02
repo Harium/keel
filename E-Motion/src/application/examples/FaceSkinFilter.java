@@ -8,19 +8,17 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.input.mouse.MouseButton;
-import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
 import br.com.etyllica.motion.filter.validation.CountComponentPoints;
-import br.com.etyllica.motion.filter.validation.MinDensityValidation;
-import br.com.etyllica.motion.filter.validation.MaxComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
+import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.util.SVGColor;
 
 public class FaceSkinFilter extends Application {

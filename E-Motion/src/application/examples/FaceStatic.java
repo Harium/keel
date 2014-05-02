@@ -3,15 +3,13 @@ package application.examples;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.video.Graphic;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
@@ -22,7 +20,7 @@ import br.com.etyllica.motion.modifier.EnvelopeModifier;
 import br.com.etyllica.motion.modifier.QuickHullModifier;
 import br.com.etyllica.util.SVGColor;
 
-public class FaceStatic extends Application{
+public class FaceStatic extends Application {
 
 	private FakeCamera cam = new FakeCamera();
 

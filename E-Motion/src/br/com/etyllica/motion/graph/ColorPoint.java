@@ -2,10 +2,10 @@ package br.com.etyllica.motion.graph;
 
 import java.awt.Color;
 
-import br.com.etyllica.core.video.Graphic;
+import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.Layer;
 
-public class ColorPoint extends Layer{
+public class ColorPoint extends Layer {
 	
 	private int r,g,b; 
 	

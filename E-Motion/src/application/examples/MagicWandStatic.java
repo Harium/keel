@@ -8,7 +8,7 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.video.Graphic;
+import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
@@ -16,7 +16,7 @@ import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 import br.com.etyllica.motion.modifier.EnvelopeModifier;
 
-public class MagicWandStatic extends Application{
+public class MagicWandStatic extends Application {
 
 	private FakeCamera cam;
 

@@ -2,7 +2,7 @@ package examples.hard.microscopy.cell;
 
 import java.awt.Color;
 
-import br.com.etyllica.core.video.Graphic;
+import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.Layer;
 
 public class Cell extends Layer {

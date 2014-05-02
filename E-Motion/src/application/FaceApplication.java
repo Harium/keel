@@ -9,13 +9,12 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.video.Graphic;
+import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 
 
 public class FaceApplication extends Application {

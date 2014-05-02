@@ -21,7 +21,7 @@ import application.examples.MagicWandStatic;
 import application.examples.SimpleCam;
 import br.com.etyllica.Etyllica;
 import br.com.etyllica.context.Application;
-import br.com.etyllica.motion.graph.SkinGraph;
+import br.com.etyllica.motion.graph.SkinGraphic;
 
 public class EtyllicMotion extends Etyllica {
 

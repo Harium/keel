@@ -9,15 +9,15 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.video.Graphic;
+import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.filter.TrackingByDarkerColorFilter;
-import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MaxComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
+import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.modifier.QuickHullModifier;
 
 public class MelanomaFinderApplication extends Application {
