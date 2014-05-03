@@ -16,7 +16,7 @@ public class MiddleLine extends Etyllica {
 	@Override
 	public Application startApplication() {
 		
-		return new MiddleLineExampleApplication(w,h);		
+		return new MiddleLineExampleApplication(w,h);
 		
 	}	
 

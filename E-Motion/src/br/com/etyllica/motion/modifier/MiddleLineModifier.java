@@ -7,7 +7,7 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.linear.graph.Edge;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
-import br.com.etyllica.motion.Direction;
+import br.com.etyllica.motion.filter.Direction;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
@@ -57,6 +57,8 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 		
 		List<Direction> directions = new ArrayList<Direction>();
 				
+		List<Point2D> mediumNodes = new ArrayList<Point2D>();
+		
 		for (int i=0; i<list.size()-1; i++) {
 				
 			Point2D fa = list.get(i);
@@ -89,14 +91,46 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 					
 					graph.addNode(mediumNode);
 					
+					mediumNodes.add(mediumNode);
+					
 				}
 				
 			}
 			
 		}
 		
+		addVisibleComponents(mediumNodes, list);
+				
 		return graph;
 				
+	}
+	
+	private void addVisibleComponents(List<Point2D> mediumNodes, List<Point2D> list) {
+		
+		Node centroid = new Node(getCentroid(list));
+		
+		graph.addNode(centroid);
+		
+		for(Point2D node: mediumNodes) {
+			graph.addEdge(new Edge(new Node(node), centroid));	
+		}
+		
+	}
+	
+	private Point2D getCentroid(List<Point2D> points) {
+				
+		int px = 0;
+		int py = 0;
+		
+		int n = points.size();
+		
+		for(Point2D point: points) {
+			px += point.getX();
+			py += point.getY();
+		}
+		
+		return new Point2D(px/n, py/n);
+		
 	}
 	
 	public static Direction rate(Point2D a, Point2D b) {
