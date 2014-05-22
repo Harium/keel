@@ -16,7 +16,6 @@ import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
 /**
  * MiddleLine modifier
- *
  */
 
 
@@ -52,27 +51,20 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 		//Clear List
 		graph.clear();
 
-		List<Direction> directions = new ArrayList<Direction>();
-
 		List<Point2D> mediumNodes = new ArrayList<Point2D>();
-
-		for (int i=1; i < list.size(); i++) {
-
-			Point2D fa = list.get(i-1);
-			Point2D fb = list.get(i);
-
-			directions.add(rate(fa,fb));
-			
-		}
+		
+		List<Direction> directions = processDirections(list);
 
 		for (int i=0; i < list.size(); i++) {
 
-			if(isRegion(directions.subList(0, 3))) {
+			List<Direction> subList = directions.subList(0, 3);
+			
+			if(isRegion(subList)) {
 
-				Node a = new Node(list.get((i+0)%list.size()));
-				Node b = new Node(list.get((i+1)%list.size()));
-				Node c = new Node(list.get((i+2)%list.size()));
-				Node d = new Node(list.get((i+3)%list.size()));
+				Node a = new Node(list.get(0));
+				Node b = new Node(list.get(1));
+				Node c = new Node(list.get(2));
+				Node d = new Node(list.get(3));
 
 				graph.addNode(a);
 				graph.addNode(b);
@@ -84,15 +76,21 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 				graph.addEdge(new Edge(c, d));
 				graph.addEdge(new Edge(d, a));
 
-				Node mediumNode = new Node((a.getX()+b.getX()+c.getX()+d.getX())/4, (a.getY()+b.getY()+c.getY()+d.getY())/4);
+				double nodeSumX = a.getX() + b.getX() + c.getX() + d.getX();
+				
+				double nodeSumY = a.getY() + b.getY() + c.getY() + d.getY();
+				
+				Node mediumNode = new Node((nodeSumX)/4, (nodeSumY)/4);
 
 				graph.addNode(mediumNode);
 
 				mediumNodes.add(mediumNode);
-
+				
 			}
 			
 			Collections.rotate(directions, -1);
+			
+			Collections.rotate(list, -1);
 
 		}
 
@@ -100,6 +98,22 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 
 		return graph;
 
+	}
+	
+	private List<Direction> processDirections(List<Point2D> list) {
+		
+		List<Direction> directions = new ArrayList<Direction>();
+
+		for (int i=1; i < list.size(); i++) {
+
+			Point2D fa = list.get(i-1);
+			Point2D fb = list.get(i);
+
+			directions.add(rate(fa,fb));
+			
+		}
+		
+		return directions;
 	}
 
 	private void addVisibleComponents(List<Point2D> mediumNodes, List<Point2D> list) {
