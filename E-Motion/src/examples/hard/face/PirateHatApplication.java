@@ -31,8 +31,12 @@ public class PirateHatApplication extends Application {
 
 	private int xOffset = 0;
 	private int yOffset = 0;
+	
+	private final int minDensity = 22;
+	private final int maxDensity = 50;
+	
 
-	private final int IMAGES_TO_LOAD = 51;	
+	private final int IMAGES_TO_LOAD = 52;	
 
 	private List<Component> skinFeatures;
 
@@ -89,22 +93,30 @@ public class PirateHatApplication extends Application {
 
 		skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance, tolerance, highTolerance);
 
+		skinFilter.addColor(new Color(0xEA, 0x90, 0x90), lowTolerance, lowTolerance, lowTolerance);
+		
 		skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance, lowTolerance, highTolerance);
 
 		skinFilter.addColor(new Color(0xE1, 0x79, 0x78), lowTolerance);
 
-		skinFilter.addColor(new Color(0xE0, 0xB0, 0xA6), tolerance, highTolerance, lowTolerance);
-
-		//skinFilter.addColor(new Color(0xD4, 0xA0, 0x93), tolerance/2);
+		skinFilter.addColor(new Color(0xE0, 0xB0, 0xB0), tolerance, tolerance, lowTolerance);
+		//skinFilter.addColor(new Color(0xE0, 0xB0, 0xA0), tolerance, tolerance, lowTolerance);
+		
+		skinFilter.addColor(new Color(0xd0, 0x9b, 0x8b), lowTolerance);
 
 		skinFilter.addColor(new Color(0xC6, 0x8D, 0x82), lowTolerance);
 
 		skinFilter.addColor(new Color(0xB6, 0x7C, 0x70), tolerance);
 
 		skinFilter.addColor(new Color(0xA3, 0x6A, 0x5F), tolerance);
-
+		
 		//skinFilter.addColor(new Color(0x90, 0x5C, 0x4F), tolerance);
 
+		//skinFilter.addColor(new Color(0xa4, 0x91, 0x95), tolerance), 
+		
+		skinFilter.addColor(new Color(0xA0, 0x88, 0x88), tolerance, lowTolerance, lowTolerance);
+		
+		
 		skinFilter.addColor(new Color(0x7B, 0x4B, 0x41), tolerance);
 
 		skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance, highTolerance, highTolerance);
@@ -114,18 +126,14 @@ public class PirateHatApplication extends Application {
 		//Shadow and Mouth
 		skinFilter.addColor(new Color(0x6B, 0x57, 0x60), tolerance);
 
-		skinFilter.addColor(new Color(0x70, 0x69, 0x60), lowTolerance);
-
-		//Bad illumination
-		//skinFilter.addColor(new Color(0xaa, 0x94, 0x97), lowTolerance);		
-
-		//skinFilter.addComponentStrategy(new MinDensityValidation(22));
+		//skinFilter.addComponentStrategy(new MinDensityValidation(minDensity));
+		//skinFilter.addComponentStrategy(new MaxDensityValidation(maxDensity));
 		//skinFilter.addComponentStrategy(new MinComponentDimension(40));//Avoid small noises
 		//skinFilter.addComponentStrategy(new CountComponentPoints(180));//Avoid small noises
 		//skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
 
 	}
-	
+
 	Component biggestComponent = null;
 
 	private void reset(BufferedImage b) {
@@ -136,12 +144,12 @@ public class PirateHatApplication extends Application {
 
 		//Sampled
 		skinFeatures = skinFilter.filter(b, screen);
-		
+
 
 		//TODO Merge components
 
 		biggestComponent = findBiggestComponent(skinFeatures);
-					
+
 		//biggestComponent = mergeComponents(biggestComponent, skinFeatures);		
 
 	}
@@ -290,7 +298,19 @@ public class PirateHatApplication extends Application {
 
 			if(component != overMouse) {
 
-				g.setColor(SVGColor.BLUE_VIOLET);
+				if(component.getDensity()<minDensity) {
+					
+					//g.setColor(SVGColor.HONEYDEW);
+					g.setColor(SVGColor.LEMON_CHIFFON);
+					
+				} else if(component.getDensity()>maxDensity) {
+					
+					g.setColor(SVGColor.DARK_GOLDENROD);
+					//g.setColor(SVGColor.LEMON_CHIFFON);
+					
+				} else {
+					g.setColor(SVGColor.BLUE_VIOLET);	
+				}
 
 			} else {
 
@@ -340,7 +360,7 @@ public class PirateHatApplication extends Application {
 	private Component mergeComponents(Component biggestComponent, List<Component> components) {
 
 		components.remove(biggestComponent);
-		
+
 		for(int i = components.size()-1; i > 0; i--) {
 
 			Component candidate = components.get(i);
@@ -354,7 +374,7 @@ public class PirateHatApplication extends Application {
 			}
 
 		}
-		
+
 		components.add(0, biggestComponent);
 
 		return biggestComponent;
@@ -366,7 +386,7 @@ public class PirateHatApplication extends Application {
 		if(components.isEmpty()) {
 			return null;
 		}
-		
+
 		Component biggestComponent = components.get(0);
 
 		double biggestArea = 0;
