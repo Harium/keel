@@ -151,4 +151,12 @@ public class FloodFillSearch extends BooleanMaskSearch {
 		return verified >= minNeighbors;
 	}
 
+	public int getMinNeighbors() {
+		return minNeighbors;
+	}
+
+	public void setMinNeighbors(int minNeighbors) {
+		this.minNeighbors = minNeighbors;
+	}
+	
 }

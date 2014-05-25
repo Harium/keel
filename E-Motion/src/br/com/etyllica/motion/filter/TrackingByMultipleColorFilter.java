@@ -18,6 +18,7 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
 		colorStrategy = new MultipleColorStrategy();
 		
 		this.searchStrategy.setPixelStrategy(colorStrategy);
+		
 	}
 	
 	public TrackingByMultipleColorFilter(int w, int h, Color color, int tolerance) {
