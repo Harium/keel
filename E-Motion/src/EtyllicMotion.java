@@ -3,6 +3,7 @@
 import examples.basic.MultipleTracking;
 import examples.basic.application.MultipleTrackingApplication;
 import examples.basic.application.QuickHullExampleApplication;
+import examples.hard.face.PirateHatApplication;
 import application.AugmentedReality;
 import application.CaptchaCleaner;
 import application.FaceApplication;
@@ -14,7 +15,6 @@ import application.examples.FaceSampledMultiFilterStatic;
 import application.examples.FaceSampledReal;
 import application.examples.FaceSkinFilter;
 import application.examples.FaceStatic;
-import application.examples.FaceSkinFilterStatic;
 import application.examples.HollowTest;
 import application.examples.MagicWand;
 import application.examples.MagicWandStatic;
@@ -56,7 +56,7 @@ public class EtyllicMotion extends Etyllica {
 		
 		//return new FaceStatic(w,h);
 		
-		return new FaceSkinFilterStatic(w,h);
+		return new PirateHatApplication(w,h);
 		//return new FaceSkinFilter(w,h);
 				
 		//return new HollowController(w,h);
