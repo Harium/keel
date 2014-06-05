@@ -103,6 +103,8 @@ public class PirateHatApplication extends Application {
 		//skinFilter.addColor(new Color(0xE0, 0xB0, 0xA0), tolerance, tolerance, lowTolerance);
 		
 		skinFilter.addColor(new Color(0xd0, 0x9b, 0x8b), lowTolerance);
+		//Secundary Hue Scale
+		skinFilter.addColor(new Color(0xd0, 0x7e, 0x5f), lowTolerance);
 
 		skinFilter.addColor(new Color(0xC6, 0x8D, 0x82), lowTolerance);
 
@@ -188,7 +190,11 @@ public class PirateHatApplication extends Application {
 
 				skinFilter.addColor(color, toleranceByClick);
 
-				System.out.println("Adds color 0x"+Integer.toString(color.getRed(), 16)+", 0x"+Integer.toString(color.getGreen(), 16)+", 0x"+Integer.toString(color.getBlue(), 16));
+				String redString = Integer.toString(color.getRed(), 16).toUpperCase();
+				String greenString = Integer.toString(color.getGreen(), 16).toUpperCase();
+				String blueString = Integer.toString(color.getBlue(), 16).toUpperCase();
+								
+				System.out.println("skinFilter.addColor(new Color(0x"+redString+", 0x"+greenString+", 0x"+blueString+"), 0x10);");
 
 				reset(buffer);
 			}
