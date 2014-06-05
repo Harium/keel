@@ -12,7 +12,7 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		super();
 	}
 
-	public Component modifyComponent(Component component){
+	public Component modifyComponent(Component component) {
 
 		Component box = envelope(component);
 
@@ -26,7 +26,7 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		return box;
 	}
 
-	protected Component envelope(Component component){
+	protected Component envelope(Component component) {
 
 		Point2D center = component.getCenter();
 
@@ -35,32 +35,30 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		Point2D c = center; //Higher Y
 		Point2D d = center; //Higher equal X
 
-		for(Point2D point: component.getPoints()){
+		for(Point2D point: component.getPoints()) {
 
 			//Verify A region
-			if(point.getY()<a.getY()){
+			if(point.getY()<a.getY()) {
+				
 				a = point;
 				continue;
-			}
+				
+			} else if(point.distance(a)>d.distance(a) || (point.distance(b)+point.distance(c)>d.distance(b)+d.distance(c))) {
 
-			if(point.distance(a)>d.distance(a)){
-
-				if(point.getY()>=d.getY()){
-					d = point;
-					continue;
-				}
+				d = point;
+				continue;
 
 			}
 
-			if(point.getX()>center.getX()){
+			if(point.getX()>center.getX()) {
 
-				if(point.getX()>=b.getX()&&point.distance(c)>b.distance(c)){
+				if(point.getX()>=b.getX()&&point.distance(c)>b.distance(c)) {
 					b = point;
 				}
 
 			}else{
 
-				if(point.getX()<=c.getX()){
+				if(point.getX()<=c.getX()) {
 					c = point;
 				}
 
