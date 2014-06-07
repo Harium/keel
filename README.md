@@ -17,6 +17,7 @@ The main goal is port widely known algorithms to Java and create a tool to help 
 - [Motion Slide](https://github.com/yuripourre/motion-slide/) - Some Experiments using Motion Tracking.
 - [LuvMotion](https://github.com/yuripourre/luvmotion/) - Some Augmented Reality experiments.
 - [Drone4](https://github.com/yuripourre/drone4) - An Virtual Environment to test robotic algorithms.
+- [Emerald Lab](https://github.com/yuripourre/emerald-lab) - A Microscope Simulator.
 
 ### Wiki:
 - For more details, see the [wiki](https://github.com/yuripourre/e-motion/wiki/) or some [examples](https://github.com/yuripourre/e-motion/wiki/Examples).
