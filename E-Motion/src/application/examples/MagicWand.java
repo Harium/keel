@@ -113,7 +113,7 @@ public class MagicWand extends Application {
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 
-		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			//When mouse clicks with LeftButton, the color filter tries to find
 			//the color we are clicking on
 			colorStrategy.setColor(mirror.getModifiedBuffer().getRGB((int)event.getX(), (int)event.getY()));

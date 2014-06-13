@@ -9,6 +9,7 @@ import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.SVGColor;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.linear.Point2D;
@@ -19,7 +20,6 @@ import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
 import br.com.etyllica.motion.filter.validation.CountComponentPoints;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
-import br.com.etyllica.util.SVGColor;
 
 public class FaceSkinFilter extends Application {
 
@@ -140,7 +140,7 @@ public class FaceSkinFilter extends Application {
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 
-		if(event.onButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 
 			int x = event.getX();
 

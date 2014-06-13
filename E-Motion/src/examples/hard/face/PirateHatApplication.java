@@ -9,6 +9,7 @@ import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.SVGColor;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.linear.Point2D;
@@ -16,7 +17,6 @@ import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
 import br.com.etyllica.motion.filter.image.ContrastQuickProcessor;
-import br.com.etyllica.util.SVGColor;
 
 public class PirateHatApplication extends Application {
 
@@ -176,7 +176,7 @@ public class PirateHatApplication extends Application {
 
 		}
 
-		if(event.onButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 
 			BufferedImage buffer = cam.getBufferedImage();
 
@@ -199,7 +199,7 @@ public class PirateHatApplication extends Application {
 				reset(buffer);
 			}
 
-		} else if (event.onButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)) {
+		} else if (event.isButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)) {
 
 			configureSkinFilter();
 

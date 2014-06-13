@@ -170,12 +170,12 @@ public class EmptyNeubauerApplication extends Application {
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 
-		if(event.onButtonDown(MouseButton.MOUSE_WHEEL_UP)) {
+		if(event.isButtonDown(MouseButton.MOUSE_WHEEL_UP)) {
 			zoom*=2;
 			changeZoom();			
 		}
 		
-		if(event.onButtonDown(MouseButton.MOUSE_WHEEL_DOWN)) {
+		if(event.isButtonDown(MouseButton.MOUSE_WHEEL_DOWN)) {
 			
 			if(zoom>1) {
 				zoom/=2;
@@ -184,7 +184,7 @@ public class EmptyNeubauerApplication extends Application {
 		
 		}		
 		
-		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
 
 			if(!mouseDrag) {
 
@@ -201,7 +201,7 @@ public class EmptyNeubauerApplication extends Application {
 			offsetY = -(dragY-event.getY());
 		}
 
-		if(event.onButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 			mouseDrag = false;
 		}
 

@@ -10,6 +10,7 @@ import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.SVGColor;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
@@ -18,7 +19,6 @@ import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 import br.com.etyllica.motion.filter.search.TriangularSearch;
 import br.com.etyllica.motion.modifier.EnvelopeModifier;
 import br.com.etyllica.motion.modifier.QuickHullModifier;
-import br.com.etyllica.util.SVGColor;
 
 public class FaceStatic extends Application {
 

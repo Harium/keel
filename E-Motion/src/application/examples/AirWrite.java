@@ -104,7 +104,7 @@ public class AirWrite extends Application {
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 		
-		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)){
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			colorStrategy.setColor(mirror.getRGB((int)event.getX(), (int)event.getY()));
 		}
 		

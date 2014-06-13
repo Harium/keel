@@ -51,7 +51,7 @@ public class EmptyWellPlateApplication extends Application {
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 
-		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
 			
 			if(!mouseDrag) {
 				
@@ -68,7 +68,7 @@ public class EmptyWellPlateApplication extends Application {
 			offsetY = -(dragY-event.getY());
 		}
 		
-		if(event.onButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 			mouseDrag = false;
 		}
 

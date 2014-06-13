@@ -652,7 +652,7 @@ public class SkinGraphic extends Application {
 
 		}
 
-		if(event.onButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 
 
 			System.out.println("MX = "+event.getX());

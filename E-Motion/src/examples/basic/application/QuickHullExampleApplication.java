@@ -83,12 +83,12 @@ public class QuickHullExampleApplication extends Application {
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 		
-		if(event.onButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			//Add a new Point to the list
 			listOfPoints.add(new Point2D(event.getX(), event.getY()));
 		}
 		
-		if(event.onButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)){
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)){
 			//Compute the Convex Hull
 			convexHull = quickHullModifier.quickHull(listOfPoints);
 		}
