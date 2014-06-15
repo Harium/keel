@@ -25,6 +25,14 @@ public class TrackingFilter {
 	public void setComponentModifierStrategy(
 			ComponentModifierStrategy componentModifierStrategy) {
 		searchStrategy.setComponentModifierStrategy(componentModifierStrategy);
+	}
+
+	public SearchFilter getSearchStrategy() {
+		return searchStrategy;
+	}
+
+	public void setSearchStrategy(SearchFilter searchStrategy) {
+		this.searchStrategy = searchStrategy;
 	}	
 
 }
