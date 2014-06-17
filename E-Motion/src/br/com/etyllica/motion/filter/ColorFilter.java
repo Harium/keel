@@ -14,6 +14,9 @@ public class ColorFilter extends TrackingFilter {
 		
 	public ColorFilter(int w, int h) {
 		super(new ColoredPointSearch(w, h));
+		
+		colorStrategy = new ColorStrategy(Color.BLACK);
+		
 	}
 		
 	public ColorFilter(int w, int h, Color color) {
@@ -39,7 +42,7 @@ public class ColorFilter extends TrackingFilter {
 	public void setTolerance(int tolerance) {
 		colorStrategy.setTolerance(tolerance);
 	}
-
+	
 	public int getColor() {
 		return colorStrategy.getColor();
 	}
