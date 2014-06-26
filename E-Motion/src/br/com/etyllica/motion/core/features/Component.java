@@ -159,6 +159,10 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	public double getDensity() {
 		int area = getArea();
 
+		if(area == 0) {
+			return 1;
+		}
+		
 		return (double)(points.size()*100/area);
 
 	}

@@ -2,7 +2,9 @@ package examples.hard.face;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -36,7 +38,7 @@ public class PirateHatApplication extends Application {
 	private final int maxDensity = 50;
 	
 
-	private final int IMAGES_TO_LOAD = 52;	
+	private final int IMAGES_TO_LOAD = 90;	
 
 	private List<Component> skinFeatures;
 
@@ -45,6 +47,12 @@ public class PirateHatApplication extends Application {
 	private ImageLayer pirateHat;
 
 	private Component overMouse = null;
+
+	private Component biggestComponent = null;
+
+	private BufferedImage image;
+	
+	private Map<Component, Double> map = new HashMap<Component, Double>();
 
 	public PirateHatApplication(int w, int h) {
 		super(w, h);
@@ -67,7 +75,7 @@ public class PirateHatApplication extends Application {
 		pirateHat = new ImageLayer("effects/piratehat.png");
 
 		loading = 60;
-		reset(cam.getBufferedImage());
+		reset();
 
 		loading = 100;
 	}
@@ -135,17 +143,20 @@ public class PirateHatApplication extends Application {
 		//skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
 
 	}
-
-	Component biggestComponent = null;
-
-	private void reset(BufferedImage b) {
-		int w = b.getWidth();
-		int h = b.getHeight();
+	
+	private void reset() {
+		
+		BufferedImage b = cam.getBufferedImage();
+				
+		image = new ContrastQuickProcessor(20).process(b);
+		
+		int w = image.getWidth();
+		int h = image.getHeight();
 
 		screen = new Component(0, 0, w, h);
 
 		//Sampled
-		skinFeatures = skinFilter.filter(b, screen);
+		skinFeatures = skinFilter.filter(image, screen);
 
 
 		//TODO Merge components
@@ -178,13 +189,11 @@ public class PirateHatApplication extends Application {
 
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 
-			BufferedImage buffer = cam.getBufferedImage();
-
-			if(mx<buffer.getWidth()&&my<buffer.getHeight()) {
+			if(mx<image.getWidth()&&my<image.getHeight()) {
 
 				final int toleranceByClick = 0x10;  
 
-				int rgb = buffer.getRGB(mx, my);
+				int rgb = image.getRGB(mx, my);
 
 				Color color = new Color(rgb);
 
@@ -196,16 +205,14 @@ public class PirateHatApplication extends Application {
 								
 				System.out.println("skinFilter.addColor(new Color(0x"+redString+", 0x"+greenString+", 0x"+blueString+"), 0x10);");
 
-				reset(buffer);
+				reset();
 			}
 
 		} else if (event.isButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)) {
 
 			configureSkinFilter();
 
-			BufferedImage buffer = cam.getBufferedImage();
-
-			reset(buffer);
+			reset();
 		}
 
 
@@ -217,12 +224,12 @@ public class PirateHatApplication extends Application {
 
 		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
 			cam.nextFrame();
-			reset(cam.getBufferedImage());
+			reset();
 		}
 
 		else if(event.isKeyDown(KeyEvent.TSK_SETA_ESQUERDA)){
 			cam.previousFrame();
-			reset(cam.getBufferedImage());
+			reset();
 		}
 
 		if(event.isKeyDown(KeyEvent.TSK_H)){
@@ -251,9 +258,7 @@ public class PirateHatApplication extends Application {
 		g.setColor(Color.BLACK);
 
 		if(!hide){
-
-			BufferedImage image = new ContrastQuickProcessor().process(cam.getBufferedImage());
-
+			
 			g.drawImage(image, xOffset, yOffset);
 			//g.fillRect(0, 0, 640, 480);
 
@@ -291,6 +296,9 @@ public class PirateHatApplication extends Application {
 			g.drawShadow(offsetX, 120, "area: "+overMouse.getArea());
 
 			g.drawShadow(offsetX, 140, "dens: "+(int)overMouse.getDensity()+"%");
+			
+			if(map.containsKey(overMouse))
+				g.drawShadow(offsetX, 160, "factor: "+(double)map.get(overMouse));
 
 		}
 
@@ -388,26 +396,37 @@ public class PirateHatApplication extends Application {
 	}
 
 	private Component findBiggestComponent(List<Component> components) {
-
+		
 		if(components.isEmpty()) {
 			return null;
 		}
 
+		map.clear();
+		
 		Component biggestComponent = components.get(0);
 
-		double biggestArea = 0;
+		double bestMatch = 0;
 
 		for(int i=0;i<components.size(); i++) {
 
 			Component candidate = components.get(i);
 
-			//double weight = candidate.getArea()*candidate.getDensity();
-			double weight = candidate.getArea()*candidate.getH();
-
-			if(weight > biggestArea) {
-				biggestComponent = candidate;
-				biggestArea = weight;
+			double area = candidate.getArea()/20;
+			
+			double density = candidate.getDensity(); 
+			
+			if(density>=50||density<=20) {
+				density = density*0.60;
 			}
+						
+			double weight = area*density;
+			
+			if(weight > bestMatch) {
+				biggestComponent = candidate;
+				bestMatch = weight;
+			}
+			
+			map.put(candidate, weight);
 
 		}
 

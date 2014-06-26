@@ -1,6 +1,7 @@
 package application.examples;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -40,11 +41,16 @@ public class SimpleCam extends Application {
 
 		cam = new CameraV4L4J(0);
 		
-		screen = new Component(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+		BufferedImage buffer = cam.getBufferedImage();
+		
+		int w = buffer.getWidth();
+		int h = buffer.getHeight();
+		
+		screen = new Component(0, 0, w, h);
 
 		loadingPhrase = "Setting Filter";
 
-		colorFilter = new TriangularSearch(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+		colorFilter = new TriangularSearch(w, h);
 		colorFilter.setBorder(20);
 		
 		colorStrategy = new ColorStrategy(Color.BLACK.getRGB()); 
