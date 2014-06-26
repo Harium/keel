@@ -33,10 +33,10 @@ public class PirateHatApplication extends Application {
 
 	private int xOffset = 0;
 	private int yOffset = 0;
-	
+
 	private final int minDensity = 22;
 	private final int maxDensity = 50;
-	
+
 
 	private final int IMAGES_TO_LOAD = 90;	
 
@@ -51,7 +51,7 @@ public class PirateHatApplication extends Application {
 	private Component biggestComponent = null;
 
 	private BufferedImage image;
-	
+
 	private Map<Component, Double> map = new HashMap<Component, Double>();
 
 	public PirateHatApplication(int w, int h) {
@@ -102,14 +102,14 @@ public class PirateHatApplication extends Application {
 		skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance, tolerance, highTolerance);
 
 		skinFilter.addColor(new Color(0xEA, 0x90, 0x90), lowTolerance, lowTolerance, lowTolerance);
-		
+
 		skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance, lowTolerance, highTolerance);
 
 		skinFilter.addColor(new Color(0xE1, 0x79, 0x78), lowTolerance);
 
 		skinFilter.addColor(new Color(0xE0, 0xB0, 0xB0), tolerance, tolerance, lowTolerance);
 		//skinFilter.addColor(new Color(0xE0, 0xB0, 0xA0), tolerance, tolerance, lowTolerance);
-		
+
 		skinFilter.addColor(new Color(0xd0, 0x9b, 0x8b), lowTolerance);
 		//Secundary Hue Scale
 		skinFilter.addColor(new Color(0xd0, 0x7e, 0x5f), lowTolerance);
@@ -119,14 +119,14 @@ public class PirateHatApplication extends Application {
 		skinFilter.addColor(new Color(0xB6, 0x7C, 0x70), tolerance);
 
 		skinFilter.addColor(new Color(0xA3, 0x6A, 0x5F), tolerance);
-		
+
 		//skinFilter.addColor(new Color(0x90, 0x5C, 0x4F), tolerance);
 
 		//skinFilter.addColor(new Color(0xa4, 0x91, 0x95), tolerance), 
-		
+
 		skinFilter.addColor(new Color(0xA0, 0x88, 0x88), tolerance, lowTolerance, lowTolerance);
-		
-		
+
+
 		skinFilter.addColor(new Color(0x7B, 0x4B, 0x41), tolerance);
 
 		skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance, highTolerance, highTolerance);
@@ -143,13 +143,13 @@ public class PirateHatApplication extends Application {
 		//skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
 
 	}
-	
+
 	private void reset() {
-		
+
 		BufferedImage b = cam.getBufferedImage();
-				
+
 		image = new ContrastQuickProcessor(20).process(b);
-		
+
 		int w = image.getWidth();
 		int h = image.getHeight();
 
@@ -202,7 +202,7 @@ public class PirateHatApplication extends Application {
 				String redString = Integer.toString(color.getRed(), 16).toUpperCase();
 				String greenString = Integer.toString(color.getGreen(), 16).toUpperCase();
 				String blueString = Integer.toString(color.getBlue(), 16).toUpperCase();
-								
+
 				System.out.println("skinFilter.addColor(new Color(0x"+redString+", 0x"+greenString+", 0x"+blueString+"), 0x10);");
 
 				reset();
@@ -258,7 +258,7 @@ public class PirateHatApplication extends Application {
 		g.setColor(Color.BLACK);
 
 		if(!hide){
-			
+
 			g.drawImage(image, xOffset, yOffset);
 			//g.fillRect(0, 0, 640, 480);
 
@@ -296,7 +296,7 @@ public class PirateHatApplication extends Application {
 			g.drawShadow(offsetX, 120, "area: "+overMouse.getArea());
 
 			g.drawShadow(offsetX, 140, "dens: "+(int)overMouse.getDensity()+"%");
-			
+
 			if(map.containsKey(overMouse))
 				g.drawShadow(offsetX, 160, "factor: "+(double)map.get(overMouse));
 
@@ -313,15 +313,15 @@ public class PirateHatApplication extends Application {
 			if(component != overMouse) {
 
 				if(component.getDensity()<minDensity) {
-					
+
 					//g.setColor(SVGColor.HONEYDEW);
 					g.setColor(SVGColor.LEMON_CHIFFON);
-					
+
 				} else if(component.getDensity()>maxDensity) {
-					
+
 					g.setColor(SVGColor.DARK_GOLDENROD);
 					//g.setColor(SVGColor.LEMON_CHIFFON);
-					
+
 				} else {
 					g.setColor(SVGColor.BLUE_VIOLET);	
 				}
@@ -344,30 +344,33 @@ public class PirateHatApplication extends Application {
 
 		}
 
-		drawPirateHat(features, g);
+		if(biggestComponent != null) {
+			
+			//g.drawRect(biggestComponent.getRectangle());
+
+			drawPirateHat(biggestComponent, g);
+			
+		}
 
 	}
 
-	private void drawPirateHat(List<Component> components, Graphic g) {
+	private void drawPirateHat(Component face, Graphic g) {
 
-		if(!components.isEmpty()) {
 
-			double angle = drawAndCalculateAngle(biggestComponent, g);
+		double angle = drawAndCalculateAngle(face, g);
 
-			double hatScale = 2;//The Pirate Hat has the double of the head width
+		double hatScale = 2;//The Pirate Hat has the double of the head width
 
-			double scale = ((double)biggestComponent.getW()*hatScale/(double)this.w);
+		double scale = ((double)face.getW()*hatScale/(double)this.w);
 
-			pirateHat.setScale(scale);
-			pirateHat.setAngle(angle-90);
+		pirateHat.setScale(scale);
+		pirateHat.setAngle(angle-90);
 
-			pirateHat.centralizeX(biggestComponent.getX(), biggestComponent.getX()+biggestComponent.getW());
+		pirateHat.centralizeX(face.getX(), face.getX()+face.getW());
 
-			pirateHat.setY(biggestComponent.getY()-(int)((pirateHat.getH())*scale));
+		pirateHat.setY(face.getY()-(int)((pirateHat.getH())*scale));
 
-			pirateHat.draw(g);
-
-		}
+		pirateHat.draw(g);
 
 	}
 
@@ -396,13 +399,13 @@ public class PirateHatApplication extends Application {
 	}
 
 	private Component findBiggestComponent(List<Component> components) {
-		
+
 		if(components.isEmpty()) {
 			return null;
 		}
 
 		map.clear();
-		
+
 		Component biggestComponent = components.get(0);
 
 		double bestMatch = 0;
@@ -412,20 +415,20 @@ public class PirateHatApplication extends Application {
 			Component candidate = components.get(i);
 
 			double area = candidate.getArea()/20;
-			
+
 			double density = candidate.getDensity(); 
-			
+
 			if(density>=50||density<=20) {
 				density = density*0.60;
 			}
-						
+
 			double weight = area*density;
-			
+
 			if(weight > bestMatch) {
 				biggestComponent = candidate;
 				bestMatch = weight;
 			}
-			
+
 			map.put(candidate, weight);
 
 		}
