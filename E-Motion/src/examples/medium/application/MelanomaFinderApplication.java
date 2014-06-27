@@ -52,9 +52,8 @@ public class MelanomaFinderApplication extends Application {
 
 		//Process image to calculate it's Average Color
 		AverageColorFilter avgColorFilter = new AverageColorFilter();
-		avgColorFilter.process(buffer);
 
-		averageSkinColor = avgColorFilter.getColor();
+		averageSkinColor = avgColorFilter.process(buffer);
 
 		int width = buffer.getWidth();
 		int height = buffer.getHeight();
@@ -87,10 +86,9 @@ public class MelanomaFinderApplication extends Application {
 		
 		//Creates a new avgColorFilter
 		avgColorFilter = new AverageColorFilter();
-		avgColorFilter.process(buffer, biggestComponent.getPoints());
 		
 		//Calculate melonama's average color
-		avgBiggestComponentColor = avgColorFilter.getColor();
+		avgBiggestComponentColor = avgColorFilter.process(buffer, biggestComponent.getPoints());
 		
 		loadingPhrase = "Filter Complete";
 

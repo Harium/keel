@@ -2,8 +2,8 @@ package br.com.etyllica.motion.core;
 
 import java.awt.image.BufferedImage;
 
-public interface ProcessFilter {
+public interface ProcessFilter<T> {
 
-	public void process(BufferedImage buffer);
+	public T process(BufferedImage buffer);
 		
 }

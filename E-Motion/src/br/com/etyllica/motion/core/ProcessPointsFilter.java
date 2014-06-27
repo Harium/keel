@@ -5,8 +5,8 @@ import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
 
-public interface ProcessPointsFilter {
+public interface ProcessPointsFilter<T> {
 
-	public void process(BufferedImage buffer, List<Point2D> points);
+	public T process(BufferedImage buffer, List<Point2D> points);
 
 }

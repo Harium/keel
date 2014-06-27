@@ -9,35 +9,20 @@ import br.com.etyllica.motion.core.ProcessFilter;
 import br.com.etyllica.motion.core.ProcessPointsFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 
-public class AverageColorFilter implements ProcessFilter, ProcessPointsFilter {
-
-	private int pixelCount;
-	
-	private int averageRed;
-	private int averageBlue;
-	private int averageGreen;
-	
-	private Color color;
+public class AverageColorFilter implements ProcessFilter<Color>, ProcessPointsFilter<Color> {
 	
 	public AverageColorFilter() {
 		super();
 		
-		reset();
 	}
 	
-	private void reset() {
+	public Color process(BufferedImage buffer) {
 		
-		pixelCount = 0;
+		int averageRed = 0;
+		int averageBlue = 0;
+		int averageGreen = 0;
 		
-		averageRed = 0;
-		averageBlue = 0;
-		averageGreen = 0;
-		
-	}
-
-	public void process(BufferedImage buffer) {
-
-		reset();
+		int pixelCount = 0;
 						
 		for(int j=0; j<buffer.getHeight(); j++) {
 
@@ -63,34 +48,18 @@ public class AverageColorFilter implements ProcessFilter, ProcessPointsFilter {
 		
 		averageGreen /= pixelCount;
 		
-		this.color = new Color(averageRed, averageGreen, averageBlue);
+		return new Color(averageRed, averageGreen, averageBlue);
 
 	}
-
-	public int getAverageRed() {
-		return averageRed;
-	}
-
-	public int getAverageBlue() {
-		return averageBlue;
-	}
-
-	public int getAverageGreen() {
-		return averageGreen;
-	}
-
-	public int getPixelCount() {
-		return pixelCount;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
+	
 	@Override
-	public void process(BufferedImage buffer, List<Point2D> points) {
+	public Color process(BufferedImage buffer, List<Point2D> points) {
 		
-		reset();
+		int averageRed = 0;
+		int averageBlue = 0;
+		int averageGreen = 0;
+		
+		int pixelCount = 0;
 		
 		for(Point2D point: points) {
 			
@@ -116,7 +85,7 @@ public class AverageColorFilter implements ProcessFilter, ProcessPointsFilter {
 		
 		averageGreen /= pixelCount;
 		
-		this.color = new Color(averageRed, averageGreen, averageBlue);
+		return new Color(averageRed, averageGreen, averageBlue);
 		
 	}
 		

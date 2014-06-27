@@ -35,8 +35,9 @@ public class PositCoplanarModifier implements ComponentModifierStrategy {
 		
 		imagePoints = new ArrayList<Point2D>();
 		
-		for(int i=0;i<4;i++)
+		for(int i=0;i<4;i++) {
 			imagePoints.add(new Point2D(0,0));
+		}
 	}
 
 	@Override
