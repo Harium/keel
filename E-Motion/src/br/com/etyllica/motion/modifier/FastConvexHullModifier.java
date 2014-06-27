@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
@@ -14,7 +15,7 @@ import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
  * Found at http://code.google.com/p/convex-hull/source/browse/Convex+Hull/src/algorithms/FastConvexHull.java?r=4
  *
  */
-public class FastConvexHullModifier implements ComponentModifierStrategy {
+public class FastConvexHullModifier implements ComponentModifierStrategy, ComponentModifier<List<Point2D>> {
 
 	public FastConvexHullModifier() {
 		super();
@@ -23,9 +24,9 @@ public class FastConvexHullModifier implements ComponentModifierStrategy {
 	@Override
 	public Component modifyComponent(Component component) {
 		
-		List<Point2D> convexPolygon = execute(component.getPoints());
+		List<Point2D> convexPolygon = modify(component);
 		
-		Component polygon = new Component(0, 0);
+		Component polygon = new Component();
 		
 		for(Point2D ponto: convexPolygon) {
 			polygon.add(ponto);
@@ -35,9 +36,9 @@ public class FastConvexHullModifier implements ComponentModifierStrategy {
 		
 	}
 
-	public ArrayList<Point2D> execute(List<Point2D> points) {
+	public ArrayList<Point2D> modify(Component component) {
 		
-		List<Point2D> list = PointListHelper.cloneList(points);
+		List<Point2D> list = PointListHelper.cloneList(component.getPoints());
 				
 		Collections.sort(list, new XCompare());
 

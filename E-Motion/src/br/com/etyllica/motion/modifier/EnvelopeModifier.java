@@ -1,10 +1,11 @@
 package br.com.etyllica.motion.modifier;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
-public class EnvelopeModifier implements ComponentModifierStrategy {
+public class EnvelopeModifier implements ComponentModifierStrategy, ComponentModifier<Component> {
 
 	protected double distance = 0;
 
@@ -16,9 +17,9 @@ public class EnvelopeModifier implements ComponentModifierStrategy {
 		super();
 	}
 
-	public Component modifyComponent(Component component){
+	public Component modifyComponent(Component component) {
 
-		Component box = envelope(component);
+		Component box = modify(component);
 
 		Point2D a = box.getPoints().get(0);
 		Point2D b = box.getPoints().get(1);
@@ -35,13 +36,13 @@ public class EnvelopeModifier implements ComponentModifierStrategy {
 
 		angle = Math.toDegrees(Math.asin(dac/hip));
 
-		if(a.distance(c)>a.distance(b)){
+		if(a.distance(c)>a.distance(b)) {
 			angle-=90;
 		}
 
 		points = component.getPoints().size();
 
-		if(a.distance(d)>a.distance(c)){
+		if(a.distance(d)>a.distance(c)) {
 			distance = a.distance(d);
 		}else{
 			distance = a.distance(c);
@@ -50,7 +51,7 @@ public class EnvelopeModifier implements ComponentModifierStrategy {
 		return box;
 	}
 
-	protected Component envelope(Component component){
+	public Component modify(Component component) {
 
 		//System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
 
@@ -59,21 +60,21 @@ public class EnvelopeModifier implements ComponentModifierStrategy {
 		Point2D c = component.getPoints().get(0); //Higher Y
 		Point2D d = component.getPoints().get(0); //Higher equal X
 
-		for(Point2D point: component.getPoints()){
+		for(Point2D point: component.getPoints()) {
 
-			if(point.getX()<a.getX()){
+			if(point.getX()<a.getX()) {
 				a = point;
-			}else if(point.getY()>=c.getY()){
+			}else if(point.getY()>=c.getY()) {
 
-				if(point.getY()>c.getY()||point.getX()<c.getX()){
+				if(point.getY()>c.getY()||point.getX()<c.getX()) {
 					c = point;
 				}
 
 			}
 
-			if(point.getY()<=b.getY()){
+			if(point.getY()<=b.getY()) {
 				b = point;
-			}else if(point.getX()>=d.getX()){
+			}else if(point.getX()>=d.getX()) {
 				d = point;
 			}
 

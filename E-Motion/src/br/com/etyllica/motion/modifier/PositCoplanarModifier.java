@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.RotationAxis;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
@@ -11,7 +12,7 @@ import br.com.etyllica.motion.modifier.posit.CoplanarPosit;
 import br.com.etyllica.motion.modifier.posit.Pose;
 
 
-public class PositCoplanarModifier implements ComponentModifierStrategy {
+public class PositCoplanarModifier implements ComponentModifierStrategy, ComponentModifier<RotationAxis> {
 
 	private RotationAxis axis;
 	
@@ -43,13 +44,15 @@ public class PositCoplanarModifier implements ComponentModifierStrategy {
 	@Override
 	public Component modifyComponent(Component component) {
 				
-		axis = coplanarPosit(component.getPoints());
+		axis = modify(component);
 		
 		return component;
 		
 	}
 	
-	public RotationAxis coplanarPosit(List<Point2D> points){
+	public RotationAxis modify(Component component) {
+		
+		List<Point2D> points = component.getPoints();
 		
 		ajustPoints(points);
 		

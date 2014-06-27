@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
@@ -19,12 +20,12 @@ import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
  * @author David Hägele
  *
  */
-public class JarvisMarchModifier implements ComponentModifierStrategy {
+public class JarvisMarchModifier implements ComponentModifierStrategy, ComponentModifier<List<Point2D>> {
 
 	@Override
 	public Component modifyComponent(Component component) {
 				
-		List<Point2D> convexPolygon = getConvexHull(component.getPoints());
+		List<Point2D> convexPolygon = modify(component);
 		
 		Component poly = new Component(0, 0);
 		
@@ -45,7 +46,9 @@ public class JarvisMarchModifier implements ComponentModifierStrategy {
 	 * @param points in double[][]
 	 * @return double[][] with points of the convex hull
 	 */
-	public static List<Point2D> getConvexHull(List<Point2D> points){
+	public List<Point2D> modify(Component component) {
+		
+		List<Point2D> points = component.getPoints();
 		
 		if(points.size() < 4){
 			return points;

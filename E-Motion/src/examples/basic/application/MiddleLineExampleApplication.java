@@ -1,8 +1,6 @@
 package examples.basic.application;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -13,11 +11,12 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.linear.graph.Edge;
 import br.com.etyllica.linear.graph.Graph;
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.modifier.MiddleLineModifier;
 
 public class MiddleLineExampleApplication extends Application {
 
-	private List<Point2D> listOfPoints;
+	private Component component;
 	
 	private Graph graph;
 	
@@ -30,30 +29,29 @@ public class MiddleLineExampleApplication extends Application {
 	@Override
 	public void load() {
 
-		listOfPoints = new ArrayList<Point2D>();
-		listOfPoints.add(new Point2D(203,252));
-		listOfPoints.add(new Point2D(255,226));
-		listOfPoints.add(new Point2D(313,309));
-		listOfPoints.add(new Point2D(351,211));
-		listOfPoints.add(new Point2D(409,224));
-		listOfPoints.add(new Point2D(364,313));
-		listOfPoints.add(new Point2D(473,240));
-		listOfPoints.add(new Point2D(512,277));
-		listOfPoints.add(new Point2D(359,361));
-		listOfPoints.add(new Point2D(424,449));
-		listOfPoints.add(new Point2D(360,457));
-		listOfPoints.add(new Point2D(314,367));
-		listOfPoints.add(new Point2D(256,443));
-		listOfPoints.add(new Point2D(196,412));
-		listOfPoints.add(new Point2D(268,339));
+		component = new Component();
+		
+		component.add(203,252);
+		component.add(255,226);
+		component.add(313,309);
+		component.add(351,211);
+		component.add(409,224);
+		component.add(364,313);
+		component.add(473,240);
+		component.add(512,277);
+		component.add(359,361);
+		component.add(424,449);
+		component.add(360,457);
+		component.add(314,367);
+		component.add(256,443);
+		component.add(196,412);
+		component.add(268,339);
 		//Repeat first Point
-		listOfPoints.add(new Point2D(203,252));
+		component.add(203,252);
 				
 		modifier = new MiddleLineModifier();
-		
-		modifier.middleLine(listOfPoints);
-		
-		graph = modifier.middleLine(listOfPoints);
+				
+		graph = modifier.modify(component);
 		
 		loading = 100;
 	}
@@ -104,15 +102,15 @@ public class MiddleLineExampleApplication extends Application {
 	
 	private void drawPolygon(Graphic g) {
 
-		if(listOfPoints.isEmpty())
+		if(component.getPoints().isEmpty())
 			return;
 		
-		Point2D firstPoint = listOfPoints.get(0);
+		Point2D firstPoint = component.getPoints().get(0);
 		
 		//Avoiding Null Pointer
 		Point2D lastPoint = firstPoint;
 		
-		for(Point2D point: listOfPoints) {
+		for(Point2D point: component.getPoints()) {
 			
 			g.drawLine(point, lastPoint);
 			
@@ -122,10 +120,10 @@ public class MiddleLineExampleApplication extends Application {
 			
 		}
 		
-		for(int i=0; i<listOfPoints.size()-1; i++) {
+		for(int i=0; i<component.getPoints().size()-1; i++) {
 			
-			Point2D a = listOfPoints.get(i);
-			Point2D b = listOfPoints.get(i+1);
+			Point2D a = component.getPoints().get(i);
+			Point2D b = component.getPoints().get(i+1);
 			
 			g.drawShadow((int)(a.getX()+b.getX())/2, (int)(a.getY()+b.getY())/2, MiddleLineModifier.rate(a, b).toString());
 						
@@ -140,7 +138,7 @@ public class MiddleLineExampleApplication extends Application {
 		
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			//Add a new Point to the list
-			listOfPoints.add(new Point2D(event.getX(), event.getY()));
+			component.add(event.getX(), event.getY());
 		}
 		
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)){

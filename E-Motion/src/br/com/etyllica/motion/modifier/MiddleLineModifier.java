@@ -9,6 +9,7 @@ import br.com.etyllica.linear.graph.Edge;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.motion.filter.Direction;
+import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
@@ -19,9 +20,7 @@ import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
  */
 
 
-public class MiddleLineModifier implements ComponentModifierStrategy {
-
-	private Graph graph = new Graph();
+public class MiddleLineModifier implements ComponentModifierStrategy, ComponentModifier<Graph> {
 
 	public MiddleLineModifier() {
 		super();
@@ -30,7 +29,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 	@Override
 	public Component modifyComponent(Component component) {
 
-		Graph g = middleLine(component.getPoints());
+		Graph g = modify(component);
 
 		Component polygon = new Component(0, 0);
 
@@ -42,10 +41,14 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 
 	}
 
-	public Graph middleLine(List<Point2D> points) {
+	public Graph modify(Component component) {
 
+		List<Point2D> points = component.getPoints();
+		
 		List<Point2D> list = PointListHelper.cloneList(points);
 
+		Graph graph = new Graph();
+		
 		if (points.size() < 3) return graph;
 
 		//Clear List
@@ -94,7 +97,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 
 		}
 
-		addVisibleComponents(mediumNodes, list);
+		addVisibleComponents(graph, mediumNodes, list);
 
 		return graph;
 
@@ -116,7 +119,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy {
 		return directions;
 	}
 
-	private void addVisibleComponents(List<Point2D> mediumNodes, List<Point2D> list) {
+	private void addVisibleComponents(Graph graph, List<Point2D> mediumNodes, List<Point2D> list) {
 
 		Node centroid = new Node(getCentroid(list));
 

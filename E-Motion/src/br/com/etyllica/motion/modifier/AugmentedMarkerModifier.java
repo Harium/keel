@@ -1,10 +1,11 @@
 package br.com.etyllica.motion.modifier;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
-public class AugmentedMarkerModifier implements ComponentModifierStrategy {
+public class AugmentedMarkerModifier implements ComponentModifierStrategy, ComponentModifier<Component> {
 
 	protected int points = 0;
 
@@ -14,7 +15,7 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 
 	public Component modifyComponent(Component component) {
 
-		Component box = envelope(component);
+		Component box = modify(component);
 
 		//Point2D a = box.getPoints().get(0);
 		//Point2D b = box.getPoints().get(1);
@@ -26,7 +27,7 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy {
 		return box;
 	}
 
-	protected Component envelope(Component component) {
+	public Component modify(Component component) {
 
 		Point2D center = component.getCenter();
 
