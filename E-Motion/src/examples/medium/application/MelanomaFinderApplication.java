@@ -88,7 +88,7 @@ public class MelanomaFinderApplication extends Application {
 		avgColorFilter = new AverageColorFilter();
 		
 		//Calculate melonama's average color
-		avgBiggestComponentColor = avgColorFilter.process(buffer, biggestComponent.getPoints());
+		avgBiggestComponentColor = avgColorFilter.process(buffer, biggestComponent);
 		
 		loadingPhrase = "Filter Complete";
 

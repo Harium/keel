@@ -5,11 +5,12 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.ProcessComponentFilter;
 import br.com.etyllica.motion.core.ProcessFilter;
-import br.com.etyllica.motion.core.ProcessPointsFilter;
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 
-public class AverageColorFilter implements ProcessFilter<Color>, ProcessPointsFilter<Color> {
+public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponentFilter<Color> {
 	
 	public AverageColorFilter() {
 		super();
@@ -53,13 +54,15 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessPointsFi
 	}
 	
 	@Override
-	public Color process(BufferedImage buffer, List<Point2D> points) {
+	public Color process(BufferedImage buffer, Component component) {
 		
 		int averageRed = 0;
 		int averageBlue = 0;
 		int averageGreen = 0;
 		
 		int pixelCount = 0;
+		
+		List<Point2D> points = component.getPoints();
 		
 		for(Point2D point: points) {
 			
