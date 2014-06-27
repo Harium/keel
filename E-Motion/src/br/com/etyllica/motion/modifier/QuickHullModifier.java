@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
@@ -18,10 +19,7 @@ import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
  *
  */
 
-
-public class QuickHullModifier implements ComponentModifierStrategy {
-
-	private List<Point2D> convexHull = new ArrayList<Point2D>();
+public class QuickHullModifier implements ComponentModifierStrategy, ComponentModifier<List<Point2D>> {
 	
 	public QuickHullModifier() {
 		super();
@@ -30,7 +28,7 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 	@Override
 	public Component modifyComponent(Component component) {
 		
-		List<Point2D> convexPolygon = quickHull(component.getPoints());
+		List<Point2D> convexPolygon = modify(component);
 		
 		Component polygon = new Component(0, 0);
 		
@@ -42,14 +40,15 @@ public class QuickHullModifier implements ComponentModifierStrategy {
 		
 	}
 
-	public List<Point2D> quickHull(List<Point2D> points) {
+	public List<Point2D> modify(Component component) {
 
+		List<Point2D> points = component.getPoints();
+		
 		List<Point2D> list = PointListHelper.cloneList(points);
 		
-		if (points.size() < 3) return list;
-
-		//Clear List
-		convexHull.clear();
+		if (list.size() < 3) return list;
+		
+		List<Point2D> convexHull = new ArrayList<Point2D>();
 
 		Point2D firstPoint = list.get(0);
 		

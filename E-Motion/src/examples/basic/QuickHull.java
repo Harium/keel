@@ -16,7 +16,7 @@ public class QuickHull extends Etyllica {
 	@Override
 	public Application startApplication() {
 		
-		return new QuickHullExampleApplication(w,h);		
+		return new QuickHullExampleApplication(w,h);
 		
 	}	
 

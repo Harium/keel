@@ -1,7 +1,6 @@
 package examples.basic.application;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.context.Application;
@@ -11,13 +10,14 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.modifier.QuickHullModifier;
 
 public class QuickHullExampleApplication extends Application {
 
 	private QuickHullModifier quickHullModifier;
 	
-	private List<Point2D> listOfPoints;
+	private Component component;
 	
 	private List<Point2D> convexHull = null;
 	
@@ -28,7 +28,8 @@ public class QuickHullExampleApplication extends Application {
 	@Override
 	public void load() {
 
-		listOfPoints = new ArrayList<Point2D>();
+		//listOfPoints = new ArrayList<Point2D>();
+		component = new Component();
 		
 		quickHullModifier = new QuickHullModifier();
 		
@@ -48,7 +49,7 @@ public class QuickHullExampleApplication extends Application {
 		
 		g.writeX(90, "Press Right Mouse Button to Compute the Convex Hull");
 		
-		for(Point2D point: listOfPoints){
+		for(Point2D point: component.getPoints()){
 			g.drawCircle(point, 5);
 		}
 		
@@ -85,12 +86,12 @@ public class QuickHullExampleApplication extends Application {
 		
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			//Add a new Point to the list
-			listOfPoints.add(new Point2D(event.getX(), event.getY()));
+			component.add(new Point2D(event.getX(), event.getY()));
 		}
 		
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)){
 			//Compute the Convex Hull
-			convexHull = quickHullModifier.quickHull(listOfPoints);
+			convexHull = quickHullModifier.modify(component);
 		}
 		
 		return null;

@@ -75,7 +75,7 @@ public class FaceSampledReal extends Application {
 		sampledPolygon.reset();
 
 		//TODO Separate polygons
-		List<Point2D> points = quickHull.quickHull(sampledFeature.getPoints());
+		List<Point2D> points = quickHull.modify(sampledFeature);
 		
 		for(Point2D point: points){
 			sampledPolygon.addPoint((int)point.getX(), (int)point.getY());	

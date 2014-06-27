@@ -82,7 +82,7 @@ public class MelanomaFinderApplication extends Application {
 		QuickHullModifier convexHullModifier = new QuickHullModifier();
 
 		//Apply QuickHull Modifier in the biggest component
-		convexHull = convexHullModifier.quickHull(biggestComponent.getPoints());
+		convexHull = convexHullModifier.modify(biggestComponent);
 		
 		//Creates a new avgColorFilter
 		avgColorFilter = new AverageColorFilter();
