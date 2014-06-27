@@ -8,6 +8,10 @@
 	<property name="src.dir"   value="src" />
 	<property name="build.dir" value="bin" />
 	<property name="lib.dir"   value="libs"/>
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
 	
 	<target name="dist" depends="clean, package"/>
 
@@ -25,7 +29,9 @@
 	</target>
    
 	<target name="compile">
-    		<javac srcdir="${src.dir}" destdir="${build.dir}" classpath="lib/etyllica-3.8.jar, lib/v4l4j.jar" source="1.6" target="1.6" debug="off" />
+    		<javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" source="1.6" target="1.6" debug="off">
+			<classpath refid="classpath" />
+		</javac>
 	</target>
 
 	<target name="package" depends="init, compile">
