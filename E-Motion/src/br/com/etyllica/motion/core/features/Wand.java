@@ -2,7 +2,7 @@ package br.com.etyllica.motion.core.features;
 
 import java.awt.Color;
 
-public class Wand extends Component{
+public class Wand extends Component {
 
 	public Wand(Component component) {
 		super(component.getW(), component.getH());
