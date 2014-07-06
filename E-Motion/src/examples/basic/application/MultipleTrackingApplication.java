@@ -16,7 +16,7 @@ import br.com.etyllica.motion.filter.TrackingByColorFilter;
 
 public class MultipleTrackingApplication extends Application {
 
-	private BufferedImage buffer;
+	private BufferedImage image;
 	
 	private TrackingByColorFilter blueFilter;
 	
@@ -37,9 +37,11 @@ public class MultipleTrackingApplication extends Application {
 		
 		//Define the area to search for elements
 		screen = new Component(0, 0, w, h);
-
+		
+		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		
 		//Create the image with elements
-		createElements(w, h);
+		drawImage(image);
 		
 		//Define blue and black filters
 		blackFilter = new TrackingByColorFilter(w, h, Color.BLACK);
@@ -47,17 +49,15 @@ public class MultipleTrackingApplication extends Application {
 		blueFilter = new TrackingByColorFilter(w, h, Color.BLUE);		
 		
 		//Filter the image 
-		blueComponents = blueFilter.filter(buffer, screen);
+		blueComponents = blueFilter.filter(image, screen);
 		
-		blackComponents = blackFilter.filter(buffer, screen);
+		blackComponents = blackFilter.filter(image, screen);
 		
 	}
 	
-	private void createElements(int w, int h) {
+	private void drawImage(BufferedImage image) {
 		
-		buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		
-		Graphics2D g = buffer.createGraphics();
+		Graphics2D g = image.createGraphics();
 				
 		g.setColor(Color.WHITE);
 		
@@ -84,7 +84,7 @@ public class MultipleTrackingApplication extends Application {
 	@Override
 	public void draw(Graphic g) {
 		g.setAlpha(100);
-		g.drawImage(buffer, 0, 0);
+		g.drawImage(image, 0, 0);
 		
 		g.setAlpha(90);
 		
