@@ -6,49 +6,40 @@ import java.util.List;
 
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.ColoredPointSearch;
+import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
-public class ColorFilter extends TrackingFilter {
-
-	protected ColorStrategy colorStrategy;
-		
+public class ColorFilter extends ColorPointFilter {
+	
 	public ColorFilter(int w, int h) {
-		super(new ColoredPointSearch(w, h));
-		
-		colorStrategy = new ColorStrategy(Color.BLACK);
-		
+		super(w, h);
+
+		this.searchStrategy = new FloodFillSearch(w, h);
 	}
-		
+	
 	public ColorFilter(int w, int h, Color color) {
-		this(w, h);
+		super(w, h);
+
+		this.searchStrategy = new FloodFillSearch(w, h);
 		
-		colorStrategy = new ColorStrategy(color);
-				
+		colorStrategy = new ColorStrategy(color, 0x40);
+		
 		searchStrategy.setPixelStrategy(colorStrategy);
 				
 	}
+	
+	public ColorFilter(int w, int h, Color color, int tolerance) {
+		this(w, h, color);
 
-	public Component filterFirst(BufferedImage bimg, Component component) {
-		
-		return searchStrategy.filterFirst(bimg, component);
+		colorStrategy.setTolerance(tolerance);
 		
 	}
 	
+	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
+		
+		((FloodFillSearch)searchStrategy).resetMask(bimg.getWidth(), bimg.getHeight());
 		
 		return searchStrategy.filter(bimg, component);
 	}
-
-	public void setTolerance(int tolerance) {
-		colorStrategy.setTolerance(tolerance);
-	}
-	
-	public int getColor() {
-		return colorStrategy.getColor();
-	}
-
-	public void setColor(Color color) {
-		colorStrategy.setColor(color);
-	}
-
+			
 }

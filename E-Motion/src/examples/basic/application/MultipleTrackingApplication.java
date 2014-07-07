@@ -12,15 +12,15 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.filter.TrackingByColorFilter;
+import br.com.etyllica.motion.filter.ColorFilter;
 
 public class MultipleTrackingApplication extends Application {
 
 	private BufferedImage image;
 	
-	private TrackingByColorFilter blueFilter;
+	private ColorFilter blueFilter;
 	
-	private TrackingByColorFilter blackFilter;
+	private ColorFilter blackFilter;
 	
 	private Component screen;
 	
@@ -44,9 +44,9 @@ public class MultipleTrackingApplication extends Application {
 		drawImage(image);
 		
 		//Define blue and black filters
-		blackFilter = new TrackingByColorFilter(w, h, Color.BLACK);
+		blackFilter = new ColorFilter(w, h, Color.BLACK);
 		
-		blueFilter = new TrackingByColorFilter(w, h, Color.BLUE);		
+		blueFilter = new ColorFilter(w, h, Color.BLUE);		
 		
 		//Filter the image 
 		blueComponents = blueFilter.filter(image, screen);

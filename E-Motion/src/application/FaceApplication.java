@@ -14,7 +14,7 @@ import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.filter.ColorFilter;
+import br.com.etyllica.motion.filter.ColorPointFilter;
 
 
 public class FaceApplication extends Application {
@@ -33,8 +33,8 @@ public class FaceApplication extends Application {
 
 	private BufferedImage buf;
 
-	private ColorFilter findFaceFilter;
-	private ColorFilter findEye;
+	private ColorPointFilter findFaceFilter;
+	private ColorPointFilter findEye;
 
 	private List<Component> faces;
 	private List<Component> eyes;
@@ -60,10 +60,10 @@ public class FaceApplication extends Application {
 		}
 		
 		//findFace = new FindSkinFilter(w,h);
-		findFaceFilter = new ColorFilter(w,h);
+		findFaceFilter = new ColorPointFilter(w,h);
 		//findFaceFilter.setPixelStrategy(new SkinColorStrategy());
 		
-		findEye = new ColorFilter(w,h, Color.BLACK);
+		findEye = new ColorPointFilter(w,h, Color.BLACK);
 		
 		lastFace = new ImageLayer(0,0,w,h);
 		

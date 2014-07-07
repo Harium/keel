@@ -12,7 +12,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.filter.ColorFilter;
+import br.com.etyllica.motion.filter.ColorPointFilter;
 import br.com.etyllica.motion.filter.RedLedFilter;
 
 
@@ -30,7 +30,7 @@ public class HollowController extends Application {
 
 	private RedLedFilter ledFilter;
 	
-	private ColorFilter activeFilter;
+	private ColorPointFilter activeFilter;
 
 	private List<Component> lastButtons;
 
@@ -48,7 +48,7 @@ public class HollowController extends Application {
 
 		//Loading Filters
 		ledFilter = new RedLedFilter(w, h);
-		activeFilter = new ColorFilter(w, h, Color.WHITE);
+		activeFilter = new ColorPointFilter(w, h, Color.WHITE);
 
 		lastButtons = new ArrayList<Component>(8);
 

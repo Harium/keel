@@ -6,7 +6,7 @@ import br.com.etyllica.motion.core.strategy.ComponentValidationStrategy;
 import br.com.etyllica.motion.filter.color.DarkerColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
-public class TrackingByDarkerColorFilter extends ColorFilter {
+public class TrackingByDarkerColorFilter extends ColorPointFilter {
 	
 	public TrackingByDarkerColorFilter(int w, int h) {
 		super(w, h);

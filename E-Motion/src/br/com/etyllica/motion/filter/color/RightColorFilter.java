@@ -2,10 +2,10 @@ package br.com.etyllica.motion.filter.color;
 
 import java.awt.Color;
 
-import br.com.etyllica.motion.filter.ColorFilter;
+import br.com.etyllica.motion.filter.ColorPointFilter;
 import br.com.etyllica.motion.filter.search.RightToLeftSearch;
 
-public class RightColorFilter extends ColorFilter {
+public class RightColorFilter extends ColorPointFilter {
 
 	public RightColorFilter(int w, int h, Color color) {
 		super(w, h);
