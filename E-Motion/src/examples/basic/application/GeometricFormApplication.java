@@ -3,6 +3,7 @@ package examples.basic.application;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.modifier.QuickHullModifier;
+import br.com.etyllica.motion.modifier.FastConvexHullModifier;
 
 public class GeometricFormApplication extends Application {
 
@@ -27,7 +28,7 @@ public class GeometricFormApplication extends Application {
 
 	private Component screen;
 
-	private QuickHullModifier quickHull;
+	private FastConvexHullModifier quickHull;
 
 	private List<String> geometryForm = new ArrayList<String>();
 
@@ -47,44 +48,49 @@ public class GeometricFormApplication extends Application {
 		drawImage(image);
 
 		//Define blue and black filters
-		blackFilter = new ColorFilter(w, h, Color.BLACK);		
+		blackFilter = new ColorFilter(w, h, Color.BLACK);	
 
 		//Filter the image		
 		blackComponents = blackFilter.filter(image, screen);
 
-		quickHull = new QuickHullModifier();
+		quickHull = new FastConvexHullModifier();
 		
 		loading = 21;
 		
 		for(Component component : blackComponents) {
-			
-			List<Point2D> list = quickHull.modify(component);
-			
-			int numberOfPoints = list.size();
-
-			String form = "undefined";
-
-			switch(numberOfPoints) {
-
-			case 3:
-				form = "Triangle"; 
-				break;
-
-			case 4:
-				form = "Rectangle"; 
-				break;
-
-			default:
-				form = "Circle"; 
-				break;
-
-			}
-			
-			geometryForm.add(form);
+			classifyRegion(component);
 		}
 		
 		loading = 50;
 
+	}
+	
+	private void classifyRegion(Component region) {
+		
+		List<Point2D> list = quickHull.modify(region);
+		
+		int numberOfPoints = list.size();
+
+		String form = "undefined";
+
+		switch(numberOfPoints) {
+
+		case 3:
+			form = "Triangle"; 
+			break;
+
+		case 4:
+			form = "Rectangle"; 
+			break;
+
+		default:
+			form = "Circle"; 
+			break;
+
+		}
+		
+		geometryForm.add(form);
+		
 	}
 
 	private void drawImage(BufferedImage image) {
@@ -99,7 +105,18 @@ public class GeometricFormApplication extends Application {
 
 		g.setStroke(new BasicStroke(6f));
 
-		g.drawRect(40, 40, 100, 80);		
+		//Draw Rectangle
+		g.drawRect(40, 40, 100, 80);
+		
+		//Draw triangle
+		Polygon triangle = new Polygon();
+		triangle.addPoint(300, 80);
+		triangle.addPoint(200, 180);
+		triangle.addPoint(400, 180);
+		
+		g.drawPolygon(triangle);
+				
+		g.drawOval(440, 80, 100, 100);
 
 	}
 
@@ -127,7 +144,7 @@ public class GeometricFormApplication extends Application {
 				g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
 			}
 			
-			//g.writeShadow(geometryForm.get(i), component.getRectangle());
+			g.writeShadow(geometryForm.get(i), component.getRectangle());
 			
 		}
 
