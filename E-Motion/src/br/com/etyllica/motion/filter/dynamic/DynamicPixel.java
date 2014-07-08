@@ -24,6 +24,11 @@ public class DynamicPixel {
 		return status == VALID || status == VALID_TOUCHED;
 	}
 	
+	public static boolean isUnknown(int status) {
+		
+		return status == UNKNOWN || status == UNKNOWN_TOUCHED;
+	}
+	
 	public static int setTouched(int status) {
 		
 		if(status == VALID) {
@@ -49,6 +54,16 @@ public class DynamicPixel {
 			return VALID_TOUCHED;
 		} else {
 			return VALID;
+		}
+				
+	}
+	
+	public static int setInvalid(int status) {
+		
+		if(isTouched(status)) {
+			return INVALID_TOUCHED;
+		} else {
+			return INVALID;
 		}
 				
 	}

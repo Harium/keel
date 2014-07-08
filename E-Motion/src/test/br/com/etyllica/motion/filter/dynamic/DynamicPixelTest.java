@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import br.com.etyllica.motion.filter.dynamic.DynamicPixel;
 
-public class DynamicFilterTest {
+public class DynamicPixelTest {
 
 	@Test
 	public void testIsValid() {
@@ -43,6 +43,23 @@ public class DynamicFilterTest {
 	}
 	
 	@Test
+	public void testIsUnknown() {
+		
+		Assert.assertTrue(DynamicPixel.isUnknown(DynamicPixel.UNKNOWN));
+		
+		Assert.assertTrue(DynamicPixel.isUnknown(DynamicPixel.UNKNOWN_TOUCHED));
+		
+		Assert.assertFalse(DynamicPixel.isUnknown(DynamicPixel.INVALID));
+		
+		Assert.assertFalse(DynamicPixel.isUnknown(DynamicPixel.INVALID_TOUCHED));
+		
+		Assert.assertFalse(DynamicPixel.isUnknown(DynamicPixel.VALID));
+		
+		Assert.assertFalse(DynamicPixel.isUnknown(DynamicPixel.VALID_TOUCHED));
+		
+	}
+	
+	@Test
 	public void testSetTouched() {
 		
 		Assert.assertEquals(DynamicPixel.UNKNOWN_TOUCHED, DynamicPixel.setTouched(DynamicPixel.UNKNOWN));
@@ -73,6 +90,23 @@ public class DynamicFilterTest {
 		Assert.assertEquals(DynamicPixel.VALID, DynamicPixel.setValid(DynamicPixel.INVALID));
 		
 		Assert.assertEquals(DynamicPixel.VALID_TOUCHED, DynamicPixel.setValid(DynamicPixel.INVALID_TOUCHED));
+		
+	}
+	
+	@Test
+	public void testSetInvalid() {
+		
+		Assert.assertEquals(DynamicPixel.INVALID, DynamicPixel.setInvalid(DynamicPixel.UNKNOWN));
+		
+		Assert.assertEquals(DynamicPixel.INVALID_TOUCHED, DynamicPixel.setInvalid(DynamicPixel.UNKNOWN_TOUCHED));
+		
+		Assert.assertEquals(DynamicPixel.INVALID, DynamicPixel.setInvalid(DynamicPixel.VALID));
+		
+		Assert.assertEquals(DynamicPixel.INVALID_TOUCHED, DynamicPixel.setInvalid(DynamicPixel.VALID_TOUCHED));
+		
+		Assert.assertEquals(DynamicPixel.INVALID, DynamicPixel.setInvalid(DynamicPixel.INVALID));
+		
+		Assert.assertEquals(DynamicPixel.INVALID_TOUCHED, DynamicPixel.setInvalid(DynamicPixel.INVALID_TOUCHED));
 		
 	}
 	
