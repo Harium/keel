@@ -125,7 +125,7 @@ public class MiddleLineExampleApplication extends Application {
 			Point2D a = component.getPoints().get(i);
 			Point2D b = component.getPoints().get(i+1);
 			
-			g.drawShadow((int)(a.getX()+b.getX())/2, (int)(a.getY()+b.getY())/2, MiddleLineModifier.rate(a, b).toString());
+			g.drawShadow((int)(a.getX()+b.getX())/2, (int)(a.getY()+b.getY())/2, MiddleLineModifier.classify(a, b).toString());
 						
 		}
 		

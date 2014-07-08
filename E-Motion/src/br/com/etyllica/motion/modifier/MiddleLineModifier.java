@@ -51,49 +51,27 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 		
 		if (points.size() < 3) return graph;
 
-		//Clear List
-		graph.clear();
-
 		List<Point2D> mediumNodes = new ArrayList<Point2D>();
 		
 		List<Direction> directions = processDirections(list);
 
 		for (int i=0; i < list.size(); i++) {
-
+			
 			List<Direction> subList = directions.subList(0, 3);
 			
 			if(isRegion(subList)) {
 
-				Node a = new Node(list.get(0));
-				Node b = new Node(list.get(1));
-				Node c = new Node(list.get(2));
-				Node d = new Node(list.get(3));
-
-				graph.addNode(a);
-				graph.addNode(b);
-				graph.addNode(c);
-				graph.addNode(d);
-
-				graph.addEdge(new Edge(a, b));
-				graph.addEdge(new Edge(b, c));
-				graph.addEdge(new Edge(c, d));
-				graph.addEdge(new Edge(d, a));
-
-				double nodeSumX = a.getX() + b.getX() + c.getX() + d.getX();
+				addNodes(list, mediumNodes, graph);
 				
-				double nodeSumY = a.getY() + b.getY() + c.getY() + d.getY();
+				rotateLists(3, directions, list);
 				
-				Node mediumNode = new Node((nodeSumX)/4, (nodeSumY)/4);
-
-				graph.addNode(mediumNode);
-
-				mediumNodes.add(mediumNode);
+				i+=2;
+				
+				continue;
 				
 			}
 			
-			Collections.rotate(directions, -1);
-			
-			Collections.rotate(list, -1);
+			rotateLists(1, directions, list);			
 
 		}
 
@@ -101,6 +79,49 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 
 		return graph;
 
+	}
+	
+	private void rotateLists(int times, List<?> ... lists) {
+		
+		for(int i = 0; i < times; i++) {
+		
+			for(List<?> list : lists) {
+			
+				Collections.rotate(list, -1);
+				
+			}
+			
+		}
+		
+	}
+	
+	private void addNodes(List<Point2D> list, List<Point2D> mediumNodes, Graph graph) {
+		
+		Node a = new Node(list.get(0));
+		Node b = new Node(list.get(1));
+		Node c = new Node(list.get(2));
+		Node d = new Node(list.get(3));
+
+		graph.addNode(a);
+		graph.addNode(b);
+		graph.addNode(c);
+		graph.addNode(d);
+
+		graph.addEdge(new Edge(a, b));
+		graph.addEdge(new Edge(b, c));
+		graph.addEdge(new Edge(c, d));
+		graph.addEdge(new Edge(d, a));
+
+		double nodeSumX = a.getX() + b.getX() + c.getX() + d.getX();
+		
+		double nodeSumY = a.getY() + b.getY() + c.getY() + d.getY();
+		
+		Node mediumNode = new Node((nodeSumX)/4, (nodeSumY)/4);
+
+		graph.addNode(mediumNode);
+
+		mediumNodes.add(mediumNode);
+		
 	}
 	
 	private List<Direction> processDirections(List<Point2D> list) {
@@ -112,7 +133,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 			Point2D fa = list.get(i-1);
 			Point2D fb = list.get(i);
 
-			directions.add(rate(fa,fb));
+			directions.add(classify(fa,fb));
 			
 		}
 		
@@ -147,7 +168,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 
 	}
 
-	public static Direction rate(Point2D a, Point2D b) {
+	public static Direction classify(Point2D a, Point2D b) {
 
 		double dx = b.getX()-a.getX();
 
@@ -248,7 +269,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 
 		Direction b = list.get(1);
 
-		Direction c = list.get(2);		
+		Direction c = list.get(2);
 
 		return isRegion(a, b, c);
 
@@ -258,7 +279,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 
 		if(isUpDirection(a)&&isRightDirection(b)&&isDownDirection(c)) {
 			return true;
-		}		
+		}
 
 		if(isRightDirection(a)&&isDownDirection(b)&&isLeftDirection(c)) {
 			return true;
