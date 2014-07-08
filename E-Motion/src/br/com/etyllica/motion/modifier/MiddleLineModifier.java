@@ -8,7 +8,7 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.linear.graph.Edge;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
-import br.com.etyllica.motion.filter.Direction;
+import br.com.etyllica.motion.filter.dynamic.Direction;
 import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
