@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.filter;
+package br.com.etyllica.motion.filter.dynamic;
 
 public enum Direction {
 
