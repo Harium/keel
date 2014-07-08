@@ -6,27 +6,35 @@ import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.BooleanMaskSearch;
+import br.com.etyllica.motion.core.DynamicMaskSearch;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
-import br.com.etyllica.motion.filter.validation.CountComponentPoints;
+import br.com.etyllica.motion.filter.dynamic.DynamicPixel;
 
-public class FloodFillSearch extends BooleanMaskSearch {
-
-	private Component lastComponent;
+public class FloodFillSearch extends DynamicMaskSearch {
 
 	private int minNeighbors = 1;
 
+	private int maxNeighbors = 9;
+	
+	private Component lastComponent;
+
 	public FloodFillSearch(int w, int h) {
 		super(w, h, new SkinColorStrategy());
-
-		this.validations.add(new CountComponentPoints(180));
 	}
-	
+
 	public FloodFillSearch(int w, int h, int minNeighbors) {
 		super(w, h, new SkinColorStrategy());
-		
+
 		this.minNeighbors = minNeighbors;
+	}
+
+	public FloodFillSearch(int w, int h, int minNeighbors, int maxNeighbors) {
+		super(w, h, new SkinColorStrategy());
+
+		this.minNeighbors = minNeighbors;
+
+		this.maxNeighbors = maxNeighbors;
 	}
 
 	@Override
@@ -61,7 +69,7 @@ public class FloodFillSearch extends BooleanMaskSearch {
 
 			for (int i = x; i < width; i+=step) {
 
-				if (!mask[i][j] && pixelStrategy.validateColor(bimg.getRGB(i,j))) {
+				if (!DynamicPixel.isTouched(mask[i][j]) && verifySinglePixel(i, j, bimg)) {
 
 					Queue<Point2D> queue = new LinkedList<Point2D>();
 
@@ -76,19 +84,21 @@ public class FloodFillSearch extends BooleanMaskSearch {
 						int px = (int)p.getX();
 						int py = (int)p.getY();
 
+						int status = mask[px][py];
+
 						if ((px >= x) && (px < width &&
 								(py >= y) && (py < height))) {
 
 							if (verifyPixel(px, py, bimg)) {
 
-								mask[(int)p.getX()][(int)p.getY()] = true;
+								mask[px][py] = DynamicPixel.setTouched(status);
 
 								found.add(p);
 
-								queue.add(new Point2D((int)p.getX() + step, (int)p.getY()));
-								queue.add(new Point2D((int)p.getX() - step, (int)p.getY()));
-								queue.add(new Point2D((int)p.getX(), (int)p.getY() + step));
-								queue.add(new Point2D((int)p.getX(), (int)p.getY() - step));
+								queue.add(new Point2D(px + step, py));
+								queue.add(new Point2D(px - step, py));
+								queue.add(new Point2D(px, py + step));
+								queue.add(new Point2D(px, py - step));
 
 							}
 
@@ -102,24 +112,24 @@ public class FloodFillSearch extends BooleanMaskSearch {
 
 					}
 
-				} else {
-
-					mask[i][j] = true;
-
 				}
+
+				mask[i][j] = DynamicPixel.setTouched(mask[i][j]);
 
 			}
 		}
 
 		return result;
 	}
-	
+
 	private boolean verifyPixel(int px, int py, BufferedImage bimg) {
 
 		if (verifySinglePixel(px, py, bimg)) {
 
-			return (minNeighbors<=1)||verifyNeighbors(px, py, bimg);
+			if(verifyNeighbors(px, py, bimg)) {
 
+				return true;
+			}			
 		}
 
 		return false;
@@ -128,27 +138,39 @@ public class FloodFillSearch extends BooleanMaskSearch {
 
 	private boolean verifySinglePixel(int px, int py, BufferedImage bimg) {
 
-		return (!mask[px][py] && pixelStrategy.validateColor(bimg.getRGB(px, py)));
+		int status = mask[px][py];
+
+		if(DynamicPixel.isUnknown(status)) {
+
+			if(pixelStrategy.validateColor(bimg.getRGB(px, py))) {
+
+				mask[px][py] = DynamicPixel.setValid(status);
+
+			} else {
+
+				mask[px][py] = DynamicPixel.setInvalid(status);
+			}
+		}
+
+		return !DynamicPixel.isTouched(mask[px][py]) && DynamicPixel.isValid(mask[px][py]);
 
 	}
 
 	private boolean verifyNeighbors(int px, int py, BufferedImage bimg) {
-		
+
 		int verified = 0;
-		
-		for(int j=py-1; j<py+1; j++) {
-				
-			for(int i=px-1; i<px+1; i++) {
-				
+
+		for(int j = py-step; j <= py+step; j += step) {
+
+			for(int i = px-step; i <= px+step; i += step) {
+
 				if(pixelStrategy.validateColor(bimg.getRGB(i, j))) {
 					verified++;
 				}
-				
 			}
-		
-		}		
-				
-		return verified >= minNeighbors;
+		}
+
+		return verified >= minNeighbors && verified <= maxNeighbors;
 	}
 
 	public int getMinNeighbors() {
@@ -158,5 +180,13 @@ public class FloodFillSearch extends BooleanMaskSearch {
 	public void setMinNeighbors(int minNeighbors) {
 		this.minNeighbors = minNeighbors;
 	}
-	
+
+	public int getMaxNeighbors() {
+		return maxNeighbors;
+	}
+
+	public void setMaxNeighbors(int maxNeighbors) {
+		this.maxNeighbors = maxNeighbors;
+	}	
+
 }
