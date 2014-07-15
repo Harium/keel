@@ -1,11 +1,12 @@
-package br.com.etyllica.motion.modifier;
+package br.com.etyllica.motion.modifier.hull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
-public class AugmentedMarkerModifier implements ComponentModifierStrategy, ComponentModifier<Component> {
+public class AugmentedMarkerModifier implements HullModifier {
 
 	protected int points = 0;
 
@@ -15,7 +16,11 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy, Compo
 
 	public Component modifyComponent(Component component) {
 
-		Component box = modify(component);
+		Component box = new Component();
+
+		for(Point2D point: modify(component)) {
+			box.add(point);
+		}
 
 		//Point2D a = box.getPoints().get(0);
 		//Point2D b = box.getPoints().get(1);
@@ -27,7 +32,7 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy, Compo
 		return box;
 	}
 
-	public Component modify(Component component) {
+	public List<Point2D> modify(Component component) {
 
 		Point2D center = component.getCenter();
 
@@ -40,10 +45,10 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy, Compo
 
 			//Verify A region
 			if(point.getY()<a.getY()) {
-				
+
 				a = point;
 				continue;
-				
+
 			} else if(point.distance(a)>d.distance(a) || (point.distance(b)+point.distance(c)>d.distance(b)+d.distance(c))) {
 
 				d = point;
@@ -67,14 +72,14 @@ public class AugmentedMarkerModifier implements ComponentModifierStrategy, Compo
 
 		}
 
-		Component box = new Component(component.getW(), component.getH());
+		List<Point2D> list = new ArrayList<Point2D>();
+		
+		list.add(a);
+		list.add(b);
+		list.add(c);
+		list.add(d);
 
-		box.add(a);
-		box.add(b);
-		box.add(c);
-		box.add(d);
-
-		return box;
+		return list;
 
 	}
 

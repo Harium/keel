@@ -1,13 +1,11 @@
-package br.com.etyllica.motion.modifier;
+package br.com.etyllica.motion.modifier.hull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
-import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
 
 /**
@@ -19,7 +17,7 @@ import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
  *
  */
 
-public class QuickHullModifier implements ComponentModifierStrategy, ComponentModifier<List<Point2D>> {
+public class QuickHullModifier implements HullModifier {
 	
 	public QuickHullModifier() {
 		super();

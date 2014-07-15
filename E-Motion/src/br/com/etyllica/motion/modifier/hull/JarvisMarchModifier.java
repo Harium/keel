@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.modifier;
+package br.com.etyllica.motion.modifier.hull;
 
 import static java.lang.Math.sqrt;
 
@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
 /**
  * This class provides a method to get the convex hull from a set of
@@ -20,7 +18,7 @@ import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
  * @author David Hägele
  *
  */
-public class JarvisMarchModifier implements ComponentModifierStrategy, ComponentModifier<List<Point2D>> {
+public class JarvisMarchModifier implements HullModifier {
 
 	@Override
 	public Component modifyComponent(Component component) {

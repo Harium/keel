@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.modifier;
+package br.com.etyllica.motion.modifier.hull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,16 +6,14 @@ import java.util.Comparator;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
-import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 
 /**
  * Found at http://code.google.com/p/convex-hull/source/browse/Convex+Hull/src/algorithms/FastConvexHull.java?r=4
  *
  */
-public class FastConvexHullModifier implements ComponentModifierStrategy, ComponentModifier<List<Point2D>> {
+public class FastConvexHullModifier implements HullModifier {
 
 	public FastConvexHullModifier() {
 		super();
