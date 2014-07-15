@@ -16,11 +16,11 @@ public class AnglesToRotationAxis extends RotationAxis {
 		
 		vector.normalize();
 		
-		this.axisX = vector.v[0];
+		this.rotationX = vector.v[0];
 		
-		this.axisY = vector.v[1];
+		this.rotationY = vector.v[1];
 		
-		this.axisZ = vector.v[2];
+		this.rotationZ = vector.v[2];
 		
 		//Usage: glRotatef(angle, axisX, axisY, axisZ);
 				

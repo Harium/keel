@@ -30,11 +30,11 @@ public class PositModiferTest {
 		
 		modifier.modifyComponent(imageComponent);
 
-		double axisX = modifier.getAxisX();
+		double axisX = modifier.getRotationX();
 
-		double axisY = modifier.getAxisY();
+		double axisY = modifier.getRotationY();
 
-		double axisZ = modifier.getAxisZ();
+		double axisZ = modifier.getRotationZ();
 
 		double length = Math.sqrt(OpenCv.cvSqr(axisX)+OpenCv.cvSqr(axisY)+OpenCv.cvSqr(axisZ));
 

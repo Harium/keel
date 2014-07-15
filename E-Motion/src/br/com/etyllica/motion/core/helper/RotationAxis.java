@@ -10,14 +10,18 @@ public class RotationAxis {
 	
 	protected double angle = 0;
 	
-	protected double axisX = 0;
+	protected double rotationX = 0;
 	
-	protected double axisY = 0;
+	protected double rotationY = 0;
 	
-	protected double axisZ = 0;
+	protected double rotationZ = 0;
 	
-	protected double[] translation;
+	protected double x = 0;
 	
+	protected double y = 0;
+	
+	protected double z = 0;
+		
 	public RotationAxis(){
 		super();
 	}
@@ -27,9 +31,19 @@ public class RotationAxis {
 				
 		this.error = pose.getBestError();
 		
-		this.translation = pose.getBestTranslation();
+		this.computeTranslationValues(pose.getBestTranslation());
 		
 		this.computeRotationValues(pose.getBestRotation());
+		
+	}
+	
+	protected void computeTranslationValues(double[] translation){
+		
+		this.x = translation[0];
+		
+		this.y = translation[1];
+		
+		this.z = translation[2];
 		
 	}
 	
@@ -39,12 +53,15 @@ public class RotationAxis {
 		
 		double norm = Math.sqrt(OpenCv.cvSqr(rotation[2+3*1] - rotation[1+3*2])+OpenCv.cvSqr(rotation[0+3*2] - rotation[2+3*0])+OpenCv.cvSqr(rotation[1+3*0] - rotation[0+3*1]));
 		
-		this.axisX = (rotation[2+3*1] - rotation[1+3*2])/norm;
+		this.rotationX = (rotation[2+3*1] - rotation[1+3*2])/norm;
+		this.rotationX = -this.rotationX;
 
-		this.axisY = (rotation[2+3*0] - rotation[0+3*2])/norm;
-
-		this.axisZ = (rotation[1+3*0] - rotation[0+3*1])/norm;
+		//Using Y as Normal
+		this.rotationY = (rotation[1+3*0] - rotation[0+3*1])/norm;
 		
+		this.rotationZ = (rotation[2+3*0] - rotation[0+3*2])/norm;
+		this.rotationZ = -this.rotationZ;
+				
 	}
 	
 	public void computeRotationValues(double[][] rotation){
@@ -53,11 +70,14 @@ public class RotationAxis {
 		
 		double norm = Math.sqrt(OpenCv.cvSqr(rotation[2][1] - rotation[1][2])+OpenCv.cvSqr(rotation[0][2] - rotation[2][0])+OpenCv.cvSqr(rotation[1][0] - rotation[0][1]));
 		
-		this.axisX = (rotation[2][1] - rotation[1][2])/norm;
+		this.rotationX = (rotation[2][1] - rotation[1][2])/norm;
+		this.rotationX = -this.rotationX;
 
-		this.axisY = (rotation[2][0] - rotation[0][2])/norm;
+		//Using Y as Normal
+		this.rotationY = (rotation[1][0] - rotation[0][1])/norm;
 
-		this.axisZ = (rotation[1][0] - rotation[0][1])/norm;
+		this.rotationZ = (rotation[2][0] - rotation[0][2])/norm;
+		this.rotationZ = -this.rotationZ;
 		
 	}
 	
@@ -65,32 +85,36 @@ public class RotationAxis {
 		return angle;
 	}
 
-	public double getAxisX() {
-		return axisX;
+	public double getRotationX() {
+		return rotationX;
 	}
 
-	public double getAxisY() {
-		return axisY;
+	public double getRotationY() {
+		return rotationY;
 	}
 
-	public double getAxisZ() {
-		return axisZ;
+	public double getRotationZ() {
+		return rotationZ;
 	}
-	
+		
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getZ() {
+		return z;
+	}
+
 	public double getError() {
 		return error;
 	}
 
 	public void setError(double error) {
 		this.error = error;
-	}
-
-	public double[] getTranslation() {
-		return translation;
-	}
-
-	public void setTranslation(double[] translation) {
-		this.translation = translation;
 	}
 	
 }

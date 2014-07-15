@@ -35,6 +35,10 @@ public class Pose {
 		return bestRotation;
 	}
 	
+	public double[][] getAlternativeRotation() {
+		return alternativeRotation;
+	}
+	
 	public double[] getBestTranslation() {
 		return bestTranslation;
 	}

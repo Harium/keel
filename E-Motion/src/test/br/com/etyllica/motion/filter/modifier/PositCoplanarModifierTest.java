@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.core.helper.RotationAxis;
 import br.com.etyllica.motion.modifier.PositCoplanarModifier;
 
 public class PositCoplanarModifierTest {
@@ -35,19 +36,29 @@ public class PositCoplanarModifierTest {
 		Component component = new Component(600, 600);
 		component.setPoints(imagePoints);
 		
-		posit.modifyComponent(component);
+		RotationAxis axis = posit.modify(component);
 
 		double tolerance = 0.5;
 		
-		Assert.assertEquals(1, posit.getAxis().getAxisX(), tolerance);
-		Assert.assertEquals(0, posit.getAxis().getAxisY(), tolerance);
-		Assert.assertEquals(0, posit.getAxis().getAxisZ(), tolerance);
+		/*Assert.assertEquals(0, axis.getRotationX(), tolerance);
+		Assert.assertEquals(1, axis.getRotationY(), tolerance);
+		Assert.assertEquals(0, axis.getRotationZ(), tolerance);
+		Assert.assertEquals(90+40.0, axis.getAngle(), 0.01);
 		
-		Assert.assertEquals(90+40.0, posit.getAxis().getAngle(), 0.01);
-		
-		double[] expectedTranslation = {3.6874, 1.94869, 6.29877};
-		
-		Assert.assertArrayEquals(expectedTranslation, posit.getAxis().getTranslation(), 0.01);
+		Assert.assertEquals(3.6874, axis.getX(), 0.01);
+		Assert.assertEquals(1.94869, axis.getY(), 0.01);
+		Assert.assertEquals(6.29877, axis.getZ(), 0.01);
+		*/
+
+		//After Rotation Axis adaptations
+		Assert.assertEquals(0, axis.getRotationX(), tolerance);
+		Assert.assertEquals(0, axis.getRotationY(), tolerance);
+		Assert.assertEquals(-1, axis.getRotationZ(), tolerance);
+		Assert.assertEquals(75.0, axis.getAngle(), 0.5);
+				
+		Assert.assertEquals(-0.2368, axis.getX(), 0.01);
+		Assert.assertEquals(-0.3194, axis.getY(), 0.01);
+		Assert.assertEquals(+9.0877, axis.getZ(), 0.01);
 		
 	}
 	
