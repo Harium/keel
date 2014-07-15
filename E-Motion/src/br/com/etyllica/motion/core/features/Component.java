@@ -12,9 +12,13 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 	protected List<Point2D> points = new ArrayList<Point2D>();
 
-	protected int lowestX = 640;
+	protected int maskW = 640;
 
-	protected int lowestY = 480;
+	protected int maskH = 480;
+
+	protected int lowestX = maskW;
+
+	protected int lowestY = maskH;
 
 	protected int highestX = 0;
 
@@ -31,19 +35,20 @@ public class Component extends ColorComponent implements Comparable<Component> {
 		highestY = 0;
 
 		lowestX = w;
-		lowestY = h;	
+		lowestY = h;
 	}
 
 	public Component(int x, int y, int w, int h) {
 		super();
 
 		lowestX = x;
-
 		lowestY = y;
 
 		highestX = w;
+		highestY = h;
 
-		highestY = h;	
+		maskW = w;
+		maskH = h;
 	}
 
 	public void add(int x, int y) {
@@ -296,6 +301,22 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 	public int getH() {
 		return highestY-lowestY;
+	}
+
+	public int getMaskW() {
+		return maskW;
+	}
+
+	public void setMaskW(int maskW) {
+		this.maskW = maskW;
+	}
+
+	public int getMaskH() {
+		return maskH;
+	}
+
+	public void setMaskH(int maskH) {
+		this.maskH = maskH;
 	}
 
 	public void reset() {
