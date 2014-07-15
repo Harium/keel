@@ -16,7 +16,8 @@ import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.modifier.FastConvexHullModifier;
+import br.com.etyllica.motion.filter.search.FloodFillSearch;
+import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 
 public class GeometricFormApplication extends Application {
 
@@ -31,6 +32,8 @@ public class GeometricFormApplication extends Application {
 	private FastConvexHullModifier quickHull;
 
 	private List<String> geometryForm = new ArrayList<String>();
+		
+	private List<List<Point2D>> convexHull = new ArrayList<List<Point2D>>();
 
 	public GeometricFormApplication(int w, int h) {
 		super(w, h);
@@ -48,7 +51,12 @@ public class GeometricFormApplication extends Application {
 		drawImage(image);
 
 		//Define blue and black filters
-		blackFilter = new ColorFilter(w, h, Color.BLACK);	
+		blackFilter = new ColorFilter(w, h, Color.BLACK);
+		
+		FloodFillSearch floodFill = (FloodFillSearch)blackFilter.getSearchStrategy();
+		floodFill.setStep(1);
+		//floodFill.setMinNeighbors(3);
+		//floodFill.setMaxNeighbors(8);
 
 		//Filter the image		
 		blackComponents = blackFilter.filter(image, screen);
@@ -70,7 +78,7 @@ public class GeometricFormApplication extends Application {
 		List<Point2D> list = quickHull.modify(region);
 		
 		int numberOfPoints = list.size();
-
+		
 		String form = "undefined";
 
 		switch(numberOfPoints) {
@@ -82,6 +90,14 @@ public class GeometricFormApplication extends Application {
 		case 4:
 			form = "Rectangle"; 
 			break;
+			
+		case 5:
+			form = "Pentagon"; 
+			break;
+			
+		case 6:
+			form = "Hexagon"; 
+			break;
 
 		default:
 			form = "Circle"; 
@@ -89,8 +105,12 @@ public class GeometricFormApplication extends Application {
 
 		}
 		
+		form += " "+numberOfPoints;
+		
 		geometryForm.add(form);
 		
+		convexHull.add(list);
+				
 	}
 
 	private void drawImage(BufferedImage image) {
@@ -117,7 +137,7 @@ public class GeometricFormApplication extends Application {
 		g.drawPolygon(triangle);
 				
 		g.drawOval(440, 80, 100, 100);
-
+				
 	}
 
 	@Override
@@ -145,6 +165,14 @@ public class GeometricFormApplication extends Application {
 			}
 			
 			g.writeShadow(geometryForm.get(i), component.getRectangle());
+			
+			g.setStroke(new BasicStroke(1f));
+			
+			for(Point2D point: convexHull.get(i)) {
+			
+				g.setColor(Color.BLACK);
+				g.drawCircle(point, 5);
+			}
 			
 		}
 

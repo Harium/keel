@@ -18,7 +18,7 @@ import br.com.etyllica.motion.filter.TrackingByDarkerColorFilter;
 import br.com.etyllica.motion.filter.validation.MaxComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
-import br.com.etyllica.motion.modifier.QuickHullModifier;
+import br.com.etyllica.motion.modifier.hull.QuickHullModifier;
 
 public class MelanomaFinderApplication extends Application {
 

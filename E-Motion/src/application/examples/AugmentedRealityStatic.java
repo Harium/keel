@@ -14,8 +14,8 @@ import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.CornerSearch;
-import br.com.etyllica.motion.modifier.AugmentedMarkerModifier;
 import br.com.etyllica.motion.modifier.PositCoplanarModifier;
+import br.com.etyllica.motion.modifier.hull.AugmentedMarkerModifier;
 
 public class AugmentedRealityStatic extends Application {
 
@@ -157,11 +157,11 @@ public class AugmentedRealityStatic extends Application {
 			
 			g.drawString("Angle = "+positModifier.getAxis().getAngle(), 50, textHeight+50);
 			
-			g.drawString("AxisX = "+positModifier.getAxis().getAxisX(), 50, textHeight+75);
+			g.drawString("AxisX = "+positModifier.getAxis().getRotationX(), 50, textHeight+75);
 			
-			g.drawString("AxisY = "+positModifier.getAxis().getAxisY(), 50, textHeight+100);
+			g.drawString("AxisY = "+positModifier.getAxis().getRotationY(), 50, textHeight+100);
 			
-			g.drawString("AxisZ = "+positModifier.getAxis().getAxisZ(), 50, textHeight+125);
+			g.drawString("AxisZ = "+positModifier.getAxis().getRotationZ(), 50, textHeight+125);
 			
 		}
 

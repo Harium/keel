@@ -11,7 +11,7 @@ import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.modifier.QuickHullModifier;
+import br.com.etyllica.motion.modifier.hull.QuickHullModifier;
 
 public class QuickHullExampleApplication extends Application {
 

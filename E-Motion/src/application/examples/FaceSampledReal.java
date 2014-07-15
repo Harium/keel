@@ -16,7 +16,7 @@ import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.CrossSearch;
-import br.com.etyllica.motion.modifier.QuickHullModifier;
+import br.com.etyllica.motion.modifier.hull.QuickHullModifier;
 
 public class FaceSampledReal extends Application {
 
