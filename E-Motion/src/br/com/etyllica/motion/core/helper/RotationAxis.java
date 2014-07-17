@@ -2,6 +2,7 @@ package br.com.etyllica.motion.core.helper;
 
 import org.opencv.OpenCv;
 
+import br.com.etyllica.linear.Point3D;
 import br.com.etyllica.motion.modifier.posit.Pose;
 
 public class RotationAxis {
@@ -41,9 +42,10 @@ public class RotationAxis {
 		
 		this.x = translation[0];
 		
-		this.y = translation[1];
+		//Y as Normal
+		this.y = translation[2];
 		
-		this.z = translation[2];
+		this.z = translation[1];
 		
 	}
 	
@@ -78,6 +80,58 @@ public class RotationAxis {
 
 		this.rotationZ = (rotation[2][0] - rotation[0][2])/norm;
 		this.rotationZ = -this.rotationZ;
+		
+	}
+	
+	public Point3D transformPoint(Point3D point) {
+		
+		double m[] = rotationMatrix();
+		
+		double px = m[0]*point.getX()+m[1]*point.getY()+m[2]*point.getZ();//+m[3]*0;
+		
+		double py = m[4]*point.getX()+m[5]*point.getY()+m[6]*point.getZ();//+m[7]*0;
+		
+		double pz = m[8]*point.getX()+m[9]*point.getY()+m[10]*point.getZ();//+m[11]*0;
+		
+		//double pw = m[12]*point.getX()+m[13]*point.getY()+m[14]*point.getZ()+m[15]*0;
+		
+		return new Point3D(px, py, pz);
+	}
+	
+	private double[] rotationMatrix() {
+		
+		double m[] = new double[16];
+		
+		double s = Math.sin(Math.toRadians(angle));
+		double c = Math.cos(Math.toRadians(angle));
+		double d = 1-c;
+		
+		double x = -rotationX;
+		double y = rotationZ;
+		double z = -rotationY;
+		
+		//First line
+		m[0] = x*x*d+c;
+		m[1] = x*y*d-z*s;
+		m[2] = x*z*d+y*s;
+		m[3] = 0;
+		
+		m[4] = y*x*d+z*s;
+		m[5] = y*y*d+c;
+		m[6] = y*z*d-x*s;
+		m[7] = 0;
+		
+		m[8] = z*x*d-y*s;
+		m[9] = z*y*d+x*s;
+		m[10] = z*z*d+c;
+		m[11] = 0;
+		
+		m[12] = 0;
+		m[13] = 0;
+		m[14] = 0;
+		m[15] = 1;
+		
+		return m;
 		
 	}
 	
