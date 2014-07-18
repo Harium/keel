@@ -12,27 +12,27 @@ public class RectangularOGR implements OGR {
 
 	@Override
 	public Graph findGraph(boolean[][] mask) {
-
-		int w = 10;
-		int h = 0;
+		
+		int h = mask.length;
+		int w = mask[0].length;
 
 		final int sizeLimiar = w/3;
 
 		Graph graph = new Graph();
-
+		
 		List<LineInterval> intervals = new ArrayList<LineInterval>();
 
 		int lastIntervalCount = 0;
-
-		int startInterval = 0;
-
-		boolean foundInterval = false;
-
+		
 		boolean foundFirstInterval = false;
 
-		for (int j=0;j<h; j++) {
+		for (int j = 0; j < h; j++) {
 
-			for (int i=0; i<w; i++) {
+			int startInterval = 0;
+
+			boolean foundInterval = false;
+			
+			for (int i=0; i < w; i++) {
 
 				if(isValid(mask[j][i])) {
 
@@ -42,33 +42,45 @@ public class RectangularOGR implements OGR {
 
 						startInterval = i;
 					}
+					
+					if(i == w-1) {
+						//Close interval
+						intervals.add(new LineInterval(startInterval, i-startInterval, j));
+
+						foundInterval = false;						
+					}
 
 				} else if(foundInterval) {
 
+					//Close interval					
 					intervals.add(new LineInterval(startInterval, i-startInterval, j));
 
 					foundInterval = false;
 				}
 
-				if(!foundFirstInterval && intervals.size() == 1) {
-
-					foundFirstInterval = true;
-
-					lastIntervalCount = processFirstInterval(graph, intervals, sizeLimiar);
-
-				} else if(intervals.size() != lastIntervalCount) {
-
-					//Do
-
-				}
-
 			}
 			
-		}
+			if(!foundFirstInterval && intervals.size() == 1) {
 
-		for(LineInterval interval: intervals) {
+				foundFirstInterval = true;
 
-			System.out.println(interval.getStart()+" "+interval.getLength()+" "+interval.getCenter());
+				lastIntervalCount = processFirstInterval(graph, intervals, sizeLimiar);
+
+			} else if(intervals.size() == 2) {
+				
+				if(lastIntervalCount == 1) {
+					
+					lastIntervalCount = processOpenGraph(graph, intervals);
+				}
+				
+				if(lastIntervalCount == 2) {
+					//expand
+				}
+									
+			}
+			
+			intervals.clear();
+			
 		}
 
 		return graph;
@@ -94,9 +106,9 @@ public class RectangularOGR implements OGR {
 
 			Point2D firstPoint = new Point2D(firstInterval.getStart(), height);
 
-			Point2D lastPoint = new Point2D(firstInterval.getStart()+firstInterval.getLength(), height);
-
 			Node firstNode = graph.addNode(firstPoint);
+			
+			Point2D lastPoint = new Point2D(firstInterval.getStart()+firstInterval.getLength(), height);
 
 			Node secondNode = graph.addNode(lastPoint);
 
@@ -108,6 +120,30 @@ public class RectangularOGR implements OGR {
 
 		return intervalCount;
 
+	}
+	
+	private int processOpenGraph(Graph graph, List<LineInterval> intervals) {
+		
+		LineInterval firstInterval = intervals.get(0);
+		
+		Point2D firstPoint = new Point2D(firstInterval.getCenter(), firstInterval.getHeight());
+		
+		Node firstNode = graph.addNode(firstPoint);
+		
+		LineInterval secondInterval = intervals.get(1);
+		
+		Point2D secondPoint = new Point2D(secondInterval.getCenter(), secondInterval.getHeight());
+		
+		Node secondNode = graph.addNode(secondPoint);
+		
+		Node root = graph.getNodes().get(0);
+		
+		graph.addEdge(new Edge(root, firstNode));
+		
+		graph.addEdge(new Edge(root, secondNode));
+		
+		return intervals.size();
+		
 	}
 
 	private boolean isValid(boolean value) {
