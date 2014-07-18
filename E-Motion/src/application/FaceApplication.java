@@ -1,7 +1,6 @@
 package application;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.ColorPointFilter;

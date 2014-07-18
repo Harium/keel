@@ -18,6 +18,7 @@ import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
+import br.com.etyllica.motion.modifier.hull.HullModifier;
 
 public class GeometricFormApplication extends Application {
 
@@ -29,7 +30,7 @@ public class GeometricFormApplication extends Application {
 
 	private Component screen;
 
-	private FastConvexHullModifier quickHull;
+	private HullModifier quickHull;
 
 	private List<String> geometryForm = new ArrayList<String>();
 		
@@ -42,11 +43,13 @@ public class GeometricFormApplication extends Application {
 	@Override
 	public void load() {
 
+		loading = 0;
 		//Define the area to search for elements
 		screen = new Component(0, 0, w, h);
 
 		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 
+		loading = 10;
 		//Create the image with elements
 		drawImage(image);
 
@@ -57,13 +60,14 @@ public class GeometricFormApplication extends Application {
 		floodFill.setStep(1);
 		//floodFill.setMinNeighbors(3);
 		//floodFill.setMaxNeighbors(8);
-
-		//Filter the image		
+		loading = 20;
+		//Filter the image
 		blackComponents = blackFilter.filter(image, screen);
 
+		loading = 25;
 		quickHull = new FastConvexHullModifier();
 		
-		loading = 21;
+		loading = 31;
 		
 		for(Component component : blackComponents) {
 			classifyRegion(component);
