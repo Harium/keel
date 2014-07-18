@@ -89,13 +89,14 @@ public class RotationAxis {
 		
 		double px = m[0]*point.getX()+m[1]*point.getY()+m[2]*point.getZ();//+m[3]*0;
 		
-		double py = m[4]*point.getX()+m[5]*point.getY()+m[6]*point.getZ();//+m[7]*0;
+		//Swap py and pz to reflect rotations
+		double pz = m[4]*point.getX()+m[5]*point.getY()+m[6]*point.getZ();//+m[7]*0;
 		
-		double pz = m[8]*point.getX()+m[9]*point.getY()+m[10]*point.getZ();//+m[11]*0;
+		double py = m[8]*point.getX()+m[9]*point.getY()+m[10]*point.getZ();//+m[11]*0;
 		
 		//double pw = m[12]*point.getX()+m[13]*point.getY()+m[14]*point.getZ()+m[15]*0;
 		
-		return new Point3D(px, py, pz);
+		return new Point3D(px, py, -pz);
 	}
 	
 	private double[] rotationMatrix() {
@@ -107,8 +108,8 @@ public class RotationAxis {
 		double d = 1-c;
 		
 		double x = -rotationX;
-		double y = rotationZ;
-		double z = -rotationY;
+		double y = rotationY;
+		double z = -rotationZ;
 		
 		//First line
 		m[0] = x*x*d+c;
