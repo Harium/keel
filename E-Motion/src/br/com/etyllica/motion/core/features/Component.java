@@ -47,17 +47,28 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 	public boolean[][] generateMask() {
 
-		int w = getW()+1;
-		int h = getH()+1;
+		int w = getW();
+		int h = getH();
 		
-		boolean[][] mask = new boolean[w][h];
+		if(w<0) {
+			w = -w;
+		}
+		
+		if(h<0) {
+			h = -h;
+		}
+		
+		boolean[][] mask = new boolean[h][w];
 
 		for(Point2D point: points) {
 						
 			int x = (int)point.getX()-this.getLowestX();
 			int y = (int)point.getY()-this.getLowestY();
-						
-			mask[x][y] = true;
+			
+			if(x<0 || y<0 || x>=w || y>=h)
+				continue;
+			
+			mask[y][x] = true;
 		}
 		
 		return mask;
