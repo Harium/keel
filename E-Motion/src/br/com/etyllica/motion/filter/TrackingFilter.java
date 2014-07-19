@@ -15,7 +15,7 @@ public class TrackingFilter {
 	}
 	
 	public void addComponentStrategy(ComponentValidationStrategy validation) {
-		searchStrategy.addComponentStrategy(validation);
+		searchStrategy.addValidation(validation);
 	}
 
 	public ComponentModifierStrategy getComponentModifierStrategy() {

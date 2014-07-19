@@ -33,7 +33,7 @@ public class TrackingByNegativeColorFilter extends ColorPointFilter {
 	}
 	
 	public void addValidation(ComponentValidationStrategy validation) {
-		searchStrategy.addComponentStrategy(validation);
+		searchStrategy.addValidation(validation);
 	}
 			
 }

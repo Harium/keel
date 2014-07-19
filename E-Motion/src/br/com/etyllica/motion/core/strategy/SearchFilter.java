@@ -63,11 +63,11 @@ public abstract class SearchFilter implements SearchStrategy {
 		this.pixelStrategy = colorStrategy;
 	}
 
-	public List<ComponentValidationStrategy> getComponentStrategies() {
+	public List<ComponentValidationStrategy> getValidations() {
 		return validations;
 	}
 
-	public void addComponentStrategy(ComponentValidationStrategy validation) {
+	public void addValidation(ComponentValidationStrategy validation) {
 		this.validations.add(validation);
 	}
 	
