@@ -132,6 +132,31 @@ public class RectangleOGRTest {
 	}
 	
 	@Test
+	public void expandClosedCornerGraphTest() {
+		
+		final boolean[][] matrix = new boolean[5][10];
+		
+		matrix[0] = new boolean[] {false, false, false, false, false,  true, false, false, false, false};
+		matrix[1] = new boolean[] {false, false, false, false,  true,  true, false, false, false, false};
+		matrix[2] = new boolean[] { true,  true, false, false, false, false, false, false,  true,  true};
+		matrix[3] = new boolean[] {false, false, false, false,  true,  true, false, false, false, false};
+		matrix[4] = new boolean[] {false, false, false, false, false,  true, false, false, false, false};
+				
+		Graph result = ogr.findGraph(matrix);
+		
+		Assert.assertEquals(4, result.getNodes().size());
+		
+		Node root = result.getNodes().get(0);
+		Assert.assertEquals(0, root.getY(), 0);
+		Assert.assertEquals(5, root.getX(), 0);
+		
+		Node lastNode = result.getNodes().get(3);
+		Assert.assertEquals(4, lastNode.getY(), 0);
+		Assert.assertEquals(5, lastNode.getX(), 0);
+				
+	}
+	
+	@Test
 	public void closeQuadGraphTest() {
 		
 		final boolean[][] matrix = new boolean[4][10];

@@ -24,17 +24,23 @@ public class RectangularOGR implements OGR {
 
 		int lastIntervalCount = 0;
 		
+		int startInterval = 0;
+		
+		boolean foundInterval = false;
+		
 		boolean foundFirstInterval = false;
 		
 		boolean isQuad = false;
+		
+		boolean isClosed = false;
 
 		for (int j = 0; j < h; j++) {
 
 			intervals.clear();
 			
-			int startInterval = 0;
+			startInterval = 0;
 
-			boolean foundInterval = false;
+			foundInterval = false;
 						
 			for (int i=0; i < w; i++) {
 
@@ -85,15 +91,25 @@ public class RectangularOGR implements OGR {
 				}
 
 			} else if(intervals.size() == 1 && !isQuad) {
-				
-				processCloseCornerGraph(graph, intervals);
-			}
-			
+	
+				if(lastIntervalCount == 2) {
+					
+					lastIntervalCount = processCloseCornerGraph(graph, intervals);
+					
+					isClosed = true;
+					
+				} else if(isClosed) {
+					
+					processExpandClosedCornerGraph(graph, intervals);
+				}
+			}			
 		}
 		
 		if(isQuad) {
 			
 			processCloseQuadGraph(graph, intervals);
+			
+			isClosed = true;
 		}
 
 		return graph;
@@ -193,7 +209,7 @@ public class RectangularOGR implements OGR {
 	private int processCloseCornerGraph(Graph graph, List<LineInterval> intervals) {
 		
 		LineInterval interval = intervals.get(0);
-		
+				
 		Node lastNode = graph.addNode(new Point2D(interval.getCenter(), interval.getHeight()));
 		
 		Node leftNode = graph.getNodes().get(1);
@@ -222,6 +238,17 @@ public class RectangularOGR implements OGR {
 		graph.addEdge(new Edge(lastLeftNode, leftNode));		
 				
 		return intervals.size();
+	}
+	
+	private int processExpandClosedCornerGraph(Graph graph, List<LineInterval> intervals) {
+		
+		LineInterval interval = intervals.get(0);
+		
+		Node lastNode = graph.getNodes().get(3);
+		
+		lastNode.setLocation(interval.getCenter(), interval.getHeight());		
+				
+		return intervals.size();		
 	}
 
 	private boolean isValid(boolean value) {
