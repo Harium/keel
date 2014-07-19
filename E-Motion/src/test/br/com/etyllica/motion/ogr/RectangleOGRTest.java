@@ -98,4 +98,45 @@ public class RectangleOGRTest {
 		
 	}
 	
+	@Test
+	public void closeCornerGraphTest() {
+		
+		final boolean[][] matrix = new boolean[5][10];
+		
+		matrix[0] = new boolean[] {false, false, false, false, false,  true, false, false, false, false};
+		matrix[1] = new boolean[] {false,  true,  true, false, false, false, false,  true,  true, false};
+		matrix[2] = new boolean[] { true,  true,  true, false, false, false, false,  true,  true,  true};
+		matrix[3] = new boolean[] {false,  true,  true, false, false, false, false,  true,  true, false};
+		matrix[4] = new boolean[] {false, false, false, false, false,  true, false, false, false, false};
+				
+		Graph result = ogr.findGraph(matrix);
+		
+		Assert.assertEquals(4, result.getNodes().size());
+		
+		Node root = result.getNodes().get(0);
+		Assert.assertEquals(0, root.getY(), 0);
+		Assert.assertEquals(5, root.getX(), 0);
+				
+	}
+	
+	@Test
+	public void closeQuadGraphTest() {
+		
+		final boolean[][] matrix = new boolean[4][10];
+		
+		matrix[0] = new boolean[] {false, false,  true,  true,  true,  true,  true,  true, false, false};
+		matrix[1] = new boolean[] {false, false,  true, false, false, false, false,  true, false, false};
+		matrix[2] = new boolean[] {false,  true, false, false, false, false, false, false,  true, false};
+		matrix[3] = new boolean[] { true,  true,  true,  true,  true,  true,  true,  true,  true,  true};
+				
+		Graph result = ogr.findGraph(matrix);
+		
+		Assert.assertEquals(4, result.getNodes().size());
+		
+		Node root = result.getNodes().get(0);
+		Assert.assertEquals(0, root.getY(), 0);
+		Assert.assertEquals(5, root.getX(), 0);		
+		
+	}
+	
 }
