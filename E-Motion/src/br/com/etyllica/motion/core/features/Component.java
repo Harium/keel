@@ -12,13 +12,9 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 	protected List<Point2D> points = new ArrayList<Point2D>();
 
-	protected int maskW = 640;
+	protected int lowestX = Integer.MAX_VALUE;
 
-	protected int maskH = 480;
-
-	protected int lowestX = maskW;
-
-	protected int lowestY = maskH;
+	protected int lowestY = Integer.MAX_VALUE;
 
 	protected int highestX = 0;
 
@@ -36,6 +32,7 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 		lowestX = w;
 		lowestY = h;
+
 	}
 
 	public Component(int x, int y, int w, int h) {
@@ -47,8 +44,25 @@ public class Component extends ColorComponent implements Comparable<Component> {
 		highestX = w;
 		highestY = h;
 
-		maskW = w;
-		maskH = h;
+	}
+
+	public boolean[][] generateMask() {
+
+		int w = getW();
+		int h = getH();
+		
+		boolean[][] mask = new boolean[w][h];
+
+		for(Point2D point: points) {
+			
+			int x = (int)point.getX()-this.getLowestX();
+			int y = (int)point.getY()-this.getLowestY();
+			
+			mask[x][y] = true;
+		}
+		
+		return mask;
+
 	}
 
 	public void add(int x, int y) {
@@ -80,6 +94,7 @@ public class Component extends ColorComponent implements Comparable<Component> {
 		}
 
 		points.add(p);
+
 		addLogic(p);
 	}
 
@@ -211,7 +226,6 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	@Override
 	public int compareTo(Component component) {
 
-		// TODO Auto-generated method stub
 		//return component.getPoints().size()*getW()-points.size()*getH();
 
 		double dif = component.getDensity()*component.getH()-this.getDensity()*getW();
@@ -301,22 +315,6 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 	public int getH() {
 		return highestY-lowestY;
-	}
-
-	public int getMaskW() {
-		return maskW;
-	}
-
-	public void setMaskW(int maskW) {
-		this.maskW = maskW;
-	}
-
-	public int getMaskH() {
-		return maskH;
-	}
-
-	public void setMaskH(int maskH) {
-		this.maskH = maskH;
 	}
 
 	public void reset() {
