@@ -198,7 +198,7 @@ public class RectangularOGR implements OGR {
 		
 		Node secondNode = graph.getNodes().get(2);
 		
-		if(x >= secondNode.getX()) {
+		if(x > secondNode.getX()) {
 						
 			secondNode.setLocation(x, secondInterval.getHeight());
 		}
@@ -244,12 +244,38 @@ public class RectangularOGR implements OGR {
 	private int processExpandClosedCornerGraph(Graph graph, List<LineInterval> intervals) {
 		
 		LineInterval interval = intervals.get(0);
-		
+				
 		Node lastNode = graph.getNodes().get(3);
 		
-		lastNode.setLocation(interval.getCenter(), interval.getHeight());		
+		Point2D center = getCenter(graph);
+				
+		if(lastNode.getX()>center.getX()) {
+			
+			lastNode.setLocation(interval.getStart(), interval.getHeight());
+			
+		} else {
+			
+			lastNode.setLocation(interval.getEnd(), interval.getHeight());
+		}
+		
+				
 				
 		return intervals.size();		
+	}
+	
+	private Point2D getCenter(Graph graph) {
+		
+		int px = 0;
+		int py = 0;
+		int pn = graph.getNodes().size();
+		
+		for(Node node : graph.getNodes()) {
+			px += node.getX();
+			py += node.getY();
+		}
+		
+		return new Point2D(px/pn, py/pn);
+		
 	}
 
 	private boolean isValid(boolean value) {
