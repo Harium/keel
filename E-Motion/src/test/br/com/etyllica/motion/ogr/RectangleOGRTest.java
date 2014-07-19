@@ -180,4 +180,37 @@ public class RectangleOGRTest {
 		
 	}
 	
+	@Test
+	public void expandClosedQuadGraphTest() {
+		
+		final boolean[][] matrix = new boolean[4][10];
+		
+		matrix[0] = new boolean[] {false, false,  true,  true,  true,  true,  true,  true, false, false};
+		matrix[1] = new boolean[] {false, false,  true, false, false, false, false,  true, false, false};
+		matrix[2] = new boolean[] {false,  true,  true,  true,  true,  true,  true,  true,  true, false};
+		matrix[3] = new boolean[] { true,  true,  true,  true,  true,  true,  true,  true,  true,  true};
+				
+		Graph result = ogr.findGraph(matrix);
+		
+		Assert.assertEquals(4, result.getNodes().size());
+		
+		Node leftNode = result.getNodes().get(0);
+		Assert.assertEquals(0, leftNode.getY(), 0);
+		Assert.assertEquals(2, leftNode.getX(), 0);
+		
+		Node rightNode = result.getNodes().get(1);
+		Assert.assertEquals(0, rightNode.getY(), 0);
+		Assert.assertEquals(7, rightNode.getX(), 0);
+		
+		Node lastRightNode = result.getNodes().get(2);
+		Node lastLeftNode = result.getNodes().get(3);
+		
+		Assert.assertEquals(0, lastLeftNode.getX(), 0);
+		Assert.assertEquals(3, lastLeftNode.getY(), 0);
+		
+		Assert.assertEquals(9, lastRightNode.getX(), 0);
+		Assert.assertEquals(3, lastRightNode.getY(), 0);
+		
+	}
+	
 }
