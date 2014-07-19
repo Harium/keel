@@ -1,10 +1,11 @@
-package br.com.etyllica.motion.core;
+package br.com.etyllica.motion.core.dynamic;
 
+import br.com.etyllica.motion.core.ComponentFilter;
 import br.com.etyllica.motion.core.strategy.PixelStrategy;
 import br.com.etyllica.motion.filter.dynamic.DynamicPixel;
 
 
-public abstract class DynamicMaskSearch extends ComponentFilter {
+public abstract class DynamicMaskSearch extends ComponentFilter implements DynamicSearch {
 
 	protected int[][] mask;
 		
@@ -75,6 +76,54 @@ public abstract class DynamicMaskSearch extends ComponentFilter {
 		
 		resetAllMask();
 		
+	}
+
+	@Override
+	public boolean isUnknown(int px, int py) {
+		
+		int status = mask[px][py];
+		
+		return DynamicPixel.isUnknown(status);		
+	}
+
+	@Override
+	public boolean isValid(int px, int py) {
+		
+		int status = mask[px][py];
+		
+		return DynamicPixel.isValid(status);
+	}
+
+	@Override
+	public boolean isTouched(int px, int py) {
+		
+		int status = mask[px][py];
+		
+		return DynamicPixel.isTouched(status);		
+	}
+
+	@Override
+	public void setValid(int px, int py) {
+		
+		int status = mask[px][py];
+		
+		mask[px][py] = DynamicPixel.setValid(status);
+	}
+
+	@Override
+	public void setInvalid(int px, int py) {
+		
+		int status = mask[px][py];
+		
+		mask[px][py] = DynamicPixel.setInvalid(status);
+	}
+
+	@Override
+	public void setTouched(int px, int py) {
+		
+		int status = mask[px][py];
+		
+		mask[px][py] = DynamicPixel.setTouched(status);
 	}
 	
 }

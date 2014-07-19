@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.DynamicMaskSearch;
+import br.com.etyllica.motion.core.dynamic.DynamicMaskSearch;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
-import br.com.etyllica.motion.filter.dynamic.DynamicPixel;
 
 public class FloodFillSearch extends DynamicMaskSearch {
 
@@ -49,7 +48,6 @@ public class FloodFillSearch extends DynamicMaskSearch {
 		}
 
 		return lastComponent;
-
 	}
 
 	@Override
@@ -69,7 +67,7 @@ public class FloodFillSearch extends DynamicMaskSearch {
 
 			for (int i = x; i < width; i+=step) {
 
-				if (!DynamicPixel.isTouched(mask[i][j]) && verifySinglePixel(i, j, bimg)) {
+				if (!isTouched(i, j) && verifySinglePixel(i, j, bimg)) {
 
 					Queue<Point2D> queue = new LinkedList<Point2D>();
 
@@ -84,14 +82,12 @@ public class FloodFillSearch extends DynamicMaskSearch {
 						int px = (int)p.getX();
 						int py = (int)p.getY();
 
-						int status = mask[px][py];
-
 						if ((px >= x) && (px < width &&
 								(py >= y) && (py < height))) {
 
 							if (verifyPixel(px, py, bimg)) {
 
-								mask[px][py] = DynamicPixel.setTouched(status);
+								setTouched(px, py);
 
 								found.add(p);
 
@@ -114,7 +110,7 @@ public class FloodFillSearch extends DynamicMaskSearch {
 
 				}
 
-				mask[i][j] = DynamicPixel.setTouched(mask[i][j]);
+				setTouched(i, j);
 
 			}
 		}
@@ -138,21 +134,19 @@ public class FloodFillSearch extends DynamicMaskSearch {
 
 	private boolean verifySinglePixel(int px, int py, BufferedImage bimg) {
 
-		int status = mask[px][py];
-
-		if(DynamicPixel.isUnknown(status)) {
+		if(isUnknown(px, py)) {
 
 			if(pixelStrategy.validateColor(bimg.getRGB(px, py))) {
 
-				mask[px][py] = DynamicPixel.setValid(status);
+				setValid(px, py);
 
 			} else {
 
-				mask[px][py] = DynamicPixel.setInvalid(status);
+				setInvalid(px, py);
 			}
 		}
 
-		return !DynamicPixel.isTouched(mask[px][py]) && DynamicPixel.isValid(mask[px][py]);
+		return (!isTouched(px, py) && isValid(px, py));
 
 	}
 
