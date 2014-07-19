@@ -12,9 +12,7 @@ public class DynamicPixelTest {
 	public void testIsValid() {
 		
 		Assert.assertFalse(DynamicPixel.isValid(DynamicPixel.UNKNOWN));
-		
-		Assert.assertFalse(DynamicPixel.isValid(DynamicPixel.UNKNOWN_TOUCHED));
-		
+				
 		Assert.assertFalse(DynamicPixel.isValid(DynamicPixel.INVALID));
 		
 		Assert.assertFalse(DynamicPixel.isValid(DynamicPixel.INVALID_TOUCHED));
@@ -29,9 +27,7 @@ public class DynamicPixelTest {
 	public void testIsTouched() {
 		
 		Assert.assertFalse(DynamicPixel.isTouched(DynamicPixel.UNKNOWN));
-		
-		Assert.assertTrue(DynamicPixel.isTouched(DynamicPixel.UNKNOWN_TOUCHED));
-		
+				
 		Assert.assertFalse(DynamicPixel.isTouched(DynamicPixel.INVALID));
 		
 		Assert.assertTrue(DynamicPixel.isTouched(DynamicPixel.INVALID_TOUCHED));
@@ -46,9 +42,7 @@ public class DynamicPixelTest {
 	public void testIsUnknown() {
 		
 		Assert.assertTrue(DynamicPixel.isUnknown(DynamicPixel.UNKNOWN));
-		
-		Assert.assertTrue(DynamicPixel.isUnknown(DynamicPixel.UNKNOWN_TOUCHED));
-		
+				
 		Assert.assertFalse(DynamicPixel.isUnknown(DynamicPixel.INVALID));
 		
 		Assert.assertFalse(DynamicPixel.isUnknown(DynamicPixel.INVALID_TOUCHED));
@@ -62,10 +56,9 @@ public class DynamicPixelTest {
 	@Test
 	public void testSetTouched() {
 		
-		Assert.assertEquals(DynamicPixel.UNKNOWN_TOUCHED, DynamicPixel.setTouched(DynamicPixel.UNKNOWN));
-		
-		Assert.assertEquals(DynamicPixel.UNKNOWN_TOUCHED, DynamicPixel.setTouched(DynamicPixel.UNKNOWN_TOUCHED));
-		
+		//If touch and unknown pixel, it turns invalid
+		Assert.assertEquals(DynamicPixel.INVALID_TOUCHED, DynamicPixel.setTouched(DynamicPixel.UNKNOWN));
+				
 		Assert.assertEquals(DynamicPixel.VALID_TOUCHED, DynamicPixel.setTouched(DynamicPixel.VALID));
 		
 		Assert.assertEquals(DynamicPixel.VALID_TOUCHED, DynamicPixel.setTouched(DynamicPixel.VALID_TOUCHED));
@@ -80,9 +73,7 @@ public class DynamicPixelTest {
 	public void testSetValid() {
 		
 		Assert.assertEquals(DynamicPixel.VALID, DynamicPixel.setValid(DynamicPixel.UNKNOWN));
-		
-		Assert.assertEquals(DynamicPixel.VALID_TOUCHED, DynamicPixel.setValid(DynamicPixel.UNKNOWN_TOUCHED));
-		
+				
 		Assert.assertEquals(DynamicPixel.VALID, DynamicPixel.setValid(DynamicPixel.VALID));
 		
 		Assert.assertEquals(DynamicPixel.VALID_TOUCHED, DynamicPixel.setValid(DynamicPixel.VALID_TOUCHED));
@@ -97,9 +88,7 @@ public class DynamicPixelTest {
 	public void testSetInvalid() {
 		
 		Assert.assertEquals(DynamicPixel.INVALID, DynamicPixel.setInvalid(DynamicPixel.UNKNOWN));
-		
-		Assert.assertEquals(DynamicPixel.INVALID_TOUCHED, DynamicPixel.setInvalid(DynamicPixel.UNKNOWN_TOUCHED));
-		
+				
 		Assert.assertEquals(DynamicPixel.INVALID, DynamicPixel.setInvalid(DynamicPixel.VALID));
 		
 		Assert.assertEquals(DynamicPixel.INVALID_TOUCHED, DynamicPixel.setInvalid(DynamicPixel.VALID_TOUCHED));

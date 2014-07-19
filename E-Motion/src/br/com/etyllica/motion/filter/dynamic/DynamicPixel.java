@@ -3,9 +3,7 @@ package br.com.etyllica.motion.filter.dynamic;
 public class DynamicPixel {
 
 	public static final int UNKNOWN = 0;
-	
-	public static final int UNKNOWN_TOUCHED = 1;
-	
+		
 	public static final int VALID = 2;
 		
 	public static final int VALID_TOUCHED = 3;
@@ -16,7 +14,7 @@ public class DynamicPixel {
 		
 	public static boolean isTouched(int status) {
 		
-		return status == UNKNOWN_TOUCHED || status == VALID_TOUCHED || status == INVALID_TOUCHED;
+		return status == VALID_TOUCHED || status == INVALID_TOUCHED;
 	}
 	
 	public static boolean isValid(int status) {
@@ -26,7 +24,7 @@ public class DynamicPixel {
 	
 	public static boolean isUnknown(int status) {
 		
-		return status == UNKNOWN || status == UNKNOWN_TOUCHED;
+		return status == UNKNOWN;
 	}
 	
 	public static int setTouched(int status) {
@@ -41,7 +39,7 @@ public class DynamicPixel {
 			
 		} else if(status == UNKNOWN) {
 			
-			return UNKNOWN_TOUCHED;
+			return INVALID_TOUCHED;
 		}
 		
 		return status;
