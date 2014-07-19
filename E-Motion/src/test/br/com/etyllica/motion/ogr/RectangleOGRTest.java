@@ -26,7 +26,19 @@ public class RectangleOGRTest {
 		
 		Graph result = ogr.findGraph(matrix);
 		
-		Assert.assertEquals(2, result.getNodes().size());
+		Assert.assertEquals(4, result.getNodes().size());
+		
+		Node leftNode = result.getNodes().get(0);
+		Node rightNode = result.getNodes().get(1);
+		
+		Node lastRightNode = result.getNodes().get(2);
+		Node lastLeftNode = result.getNodes().get(3);
+		
+		Assert.assertEquals(leftNode.getX(), lastLeftNode.getX(), 0);
+		Assert.assertEquals(leftNode.getY(), lastLeftNode.getY(), 0);
+		
+		Assert.assertEquals(rightNode.getX(), lastRightNode.getX(), 0);
+		Assert.assertEquals(rightNode.getY(), lastRightNode.getY(), 0);
 		
 	}
 	
@@ -133,9 +145,13 @@ public class RectangleOGRTest {
 		
 		Assert.assertEquals(4, result.getNodes().size());
 		
-		Node root = result.getNodes().get(0);
-		Assert.assertEquals(0, root.getY(), 0);
-		Assert.assertEquals(5, root.getX(), 0);		
+		Node leftNode = result.getNodes().get(0);
+		Assert.assertEquals(0, leftNode.getY(), 0);
+		Assert.assertEquals(2, leftNode.getX(), 0);
+		
+		Node rightNode = result.getNodes().get(1);
+		Assert.assertEquals(0, rightNode.getY(), 0);
+		Assert.assertEquals(7, rightNode.getX(), 0);
 		
 	}
 	

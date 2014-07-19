@@ -72,7 +72,7 @@ public class RectangularOGR implements OGR {
 				lastIntervalCount = processFirstInterval(graph, intervals, sizeLimiar);
 				
 				isQuad = lastIntervalCount == 2;
-
+				
 			} else if(intervals.size() == 2) {
 				
 				if(lastIntervalCount == 1) {
@@ -117,13 +117,13 @@ public class RectangularOGR implements OGR {
 
 		} else {
 
-			Point2D firstPoint = new Point2D(firstInterval.getStart(), height);
+			Point2D leftPoint = new Point2D(firstInterval.getStart(), height);
 
-			Node firstNode = graph.addNode(firstPoint);
+			Node firstNode = graph.addNode(leftPoint);
 			
-			Point2D lastPoint = new Point2D(firstInterval.getStart()+firstInterval.getLength(), height);
+			Point2D rightPoint = new Point2D(firstInterval.getEnd(), height);
 
-			Node secondNode = graph.addNode(lastPoint);
+			Node secondNode = graph.addNode(rightPoint);
 
 			graph.addEdge(new Edge(firstNode, secondNode));
 
@@ -208,8 +208,19 @@ public class RectangularOGR implements OGR {
 	
 	private int processCloseQuadGraph(Graph graph, List<LineInterval> intervals) {
 		
+		LineInterval interval = intervals.get(0);
 		
+		Node lastRightNode = graph.addNode(new Point2D(interval.getEnd(), interval.getHeight()));
+		Node lastLeftNode = graph.addNode(new Point2D(interval.getStart(), interval.getHeight()));
 		
+		Node leftNode = graph.getNodes().get(1);
+		Node rightNode = graph.getNodes().get(2);
+		
+		//Make a circular graph
+		graph.addEdge(new Edge(rightNode, lastRightNode));
+		graph.addEdge(new Edge(lastRightNode, lastLeftNode));
+		graph.addEdge(new Edge(lastLeftNode, leftNode));		
+				
 		return intervals.size();
 	}
 
