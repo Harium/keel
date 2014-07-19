@@ -21,6 +21,10 @@ public class LineInterval {
 	public int getStart() {
 		return start;
 	}
+	
+	public int getEnd() {
+		return start+length-1;
+	}
 
 	public int getLength() {
 		return length;
