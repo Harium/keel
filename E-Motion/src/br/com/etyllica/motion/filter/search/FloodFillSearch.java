@@ -6,25 +6,33 @@ import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.dynamic.DynamicMaskSearch;
+import br.com.etyllica.motion.core.ComponentFilter;
+import br.com.etyllica.motion.core.dynamic.DynamicArrayMask;
+import br.com.etyllica.motion.core.dynamic.DynamicMask;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 
-public class FloodFillSearch extends DynamicMaskSearch {
+public class FloodFillSearch extends ComponentFilter {
 
 	private int minNeighbors = 1;
 
 	private int maxNeighbors = 9;
 	
 	private Component lastComponent;
+	
+	private DynamicMask mask;
 
 	public FloodFillSearch(int w, int h) {
 		super(w, h, new SkinColorStrategy());
+		
+		mask = new DynamicArrayMask(w, h);
 	}
 
 	public FloodFillSearch(int w, int h, int minNeighbors) {
 		super(w, h, new SkinColorStrategy());
 
+		mask = new DynamicArrayMask(w, h);
+		
 		this.minNeighbors = minNeighbors;
 	}
 
@@ -54,6 +62,7 @@ public class FloodFillSearch extends DynamicMaskSearch {
 	public List<Component> filter(BufferedImage bimg, Component component) {
 
 		super.setup();
+		mask.reset();
 
 		int x = border;
 
@@ -67,7 +76,7 @@ public class FloodFillSearch extends DynamicMaskSearch {
 
 			for (int i = x; i < width; i+=step) {
 
-				if (!isTouched(i, j) && verifySinglePixel(i, j, bimg)) {
+				if (!mask.isTouched(i, j) && verifySinglePixel(i, j, bimg)) {
 
 					Queue<Point2D> queue = new LinkedList<Point2D>();
 
@@ -87,7 +96,7 @@ public class FloodFillSearch extends DynamicMaskSearch {
 
 							if (verifyPixel(px, py, bimg)) {
 
-								setTouched(px, py);
+								mask.setTouched(px, py);
 
 								found.add(p);
 
@@ -110,7 +119,7 @@ public class FloodFillSearch extends DynamicMaskSearch {
 
 				}
 
-				setTouched(i, j);
+				mask.setTouched(i, j);
 
 			}
 		}
@@ -134,19 +143,19 @@ public class FloodFillSearch extends DynamicMaskSearch {
 
 	private boolean verifySinglePixel(int px, int py, BufferedImage bimg) {
 
-		if(isUnknown(px, py)) {
+		if(mask.isUnknown(px, py)) {
 
 			if(pixelStrategy.validateColor(bimg.getRGB(px, py))) {
 
-				setValid(px, py);
+				mask.setValid(px, py);
 
 			} else {
 
-				setInvalid(px, py);
+				mask.setInvalid(px, py);
 			}
 		}
 
-		return (!isTouched(px, py) && isValid(px, py));
+		return (!mask.isTouched(px, py) && mask.isValid(px, py));
 
 	}
 
