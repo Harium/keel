@@ -32,7 +32,6 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 		lowestX = w;
 		lowestY = h;
-
 	}
 
 	public Component(int x, int y, int w, int h) {
@@ -48,16 +47,16 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 	public boolean[][] generateMask() {
 
-		int w = getW();
-		int h = getH();
+		int w = getW()+1;
+		int h = getH()+1;
 		
 		boolean[][] mask = new boolean[w][h];
 
 		for(Point2D point: points) {
-			
+						
 			int x = (int)point.getX()-this.getLowestX();
 			int y = (int)point.getY()-this.getLowestY();
-			
+						
 			mask[x][y] = true;
 		}
 		
