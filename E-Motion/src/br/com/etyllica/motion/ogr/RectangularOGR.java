@@ -19,7 +19,7 @@ public class RectangularOGR implements OGR {
 		final int sizeLimiar = w/3;
 
 		Graph graph = new Graph();
-		
+				
 		List<LineInterval> intervals = new ArrayList<LineInterval>();
 
 		int lastIntervalCount = 0;
@@ -104,11 +104,10 @@ public class RectangularOGR implements OGR {
 				}
 			}			
 		}
-		
-		if(isQuad) {
+				
+		if(isQuad && intervals.size() == 1) {
 			
 			processCloseQuadGraph(graph, intervals);
-			
 			isClosed = true;
 		}
 
@@ -158,7 +157,8 @@ public class RectangularOGR implements OGR {
 		//Start of First Interval
 		Point2D firstPoint = new Point2D(firstInterval.getStart(), firstInterval.getHeight());
 		
-		Node firstNode = graph.addNode(firstPoint);
+		//Put the firstPoint as firstNode 
+		Node firstNode = graph.addNode(0, firstPoint);
 		
 		LineInterval secondInterval = intervals.get(1);
 		
@@ -167,7 +167,8 @@ public class RectangularOGR implements OGR {
 		
 		Node secondNode = graph.addNode(secondPoint);
 		
-		Node root = graph.getNodes().get(0);
+		//Root is now the secondPoint
+		Node root = graph.getNodes().get(1);
 		
 		graph.addEdge(new Edge(root, firstNode));
 		
@@ -184,7 +185,7 @@ public class RectangularOGR implements OGR {
 		//Expand leftNode
 		int x = firstInterval.getStart();
 		
-		Node firstNode = graph.getNodes().get(1);
+		Node firstNode = graph.getNodes().get(0);
 		
 		if(x <= firstNode.getX()) {
 			firstNode.setLocation(x, firstInterval.getHeight());
@@ -212,7 +213,7 @@ public class RectangularOGR implements OGR {
 				
 		Node lastNode = graph.addNode(new Point2D(interval.getCenter(), interval.getHeight()));
 		
-		Node leftNode = graph.getNodes().get(1);
+		Node leftNode = graph.getNodes().get(0);
 		Node rightNode = graph.getNodes().get(2);
 		
 		//Make a circular graph

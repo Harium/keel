@@ -67,11 +67,11 @@ public class RectangleOGRTest {
 		
 		Assert.assertEquals(3, result.getNodes().size());
 		
-		Node root = result.getNodes().get(0);
+		Node root = result.getNodes().get(1);
 		Assert.assertEquals(0, root.getY(), 0);
 		Assert.assertEquals(5, root.getX(), 0);
 		
-		Node leftNode = result.getNodes().get(1);
+		Node leftNode = result.getNodes().get(0);
 		Assert.assertEquals(1, leftNode.getY(), 0);
 		Assert.assertEquals(0, leftNode.getX(), 0);
 		
@@ -96,11 +96,11 @@ public class RectangleOGRTest {
 		
 		Assert.assertEquals(3, result.getNodes().size());
 		
-		Node root = result.getNodes().get(0);
+		Node root = result.getNodes().get(1);
 		Assert.assertEquals(0, root.getY(), 0);
 		Assert.assertEquals(5, root.getX(), 0);
 		
-		Node leftNode = result.getNodes().get(1);
+		Node leftNode = result.getNodes().get(0);
 		Assert.assertEquals(2, leftNode.getY(), 0);
 		Assert.assertEquals(0, leftNode.getX(), 0);
 		
@@ -125,7 +125,7 @@ public class RectangleOGRTest {
 		
 		Assert.assertEquals(4, result.getNodes().size());
 		
-		Node root = result.getNodes().get(0);
+		Node root = result.getNodes().get(1);
 		Assert.assertEquals(0, root.getY(), 0);
 		Assert.assertEquals(5, root.getX(), 0);
 				
@@ -146,7 +146,7 @@ public class RectangleOGRTest {
 		
 		Assert.assertEquals(4, result.getNodes().size());
 		
-		Node root = result.getNodes().get(0);
+		Node root = result.getNodes().get(1);
 		Assert.assertEquals(0, root.getY(), 0);
 		Assert.assertEquals(5, root.getX(), 0);
 		

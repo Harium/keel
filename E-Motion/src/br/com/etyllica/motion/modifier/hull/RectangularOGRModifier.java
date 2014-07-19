@@ -36,6 +36,14 @@ public class RectangularOGRModifier implements HullModifier {
 		
 		Graph graph = ogr.findGraph(mask);
 		
+		if(graph.getNodes().size() != 4) {
+			
+			for(int i=graph.getNodes().size(); i<4;i++) {
+				graph.addNode(graph.getNodes().get(0));
+			}
+			
+		}
+		
 		Point2D a = graph.getNodes().get(0);
 		Point2D b = graph.getNodes().get(1);
 		Point2D c = graph.getNodes().get(3);
