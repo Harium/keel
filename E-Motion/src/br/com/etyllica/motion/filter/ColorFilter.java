@@ -37,7 +37,7 @@ public class ColorFilter extends ColorPointFilter {
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
 		
-		((FloodFillSearch)searchStrategy).resetMask(bimg.getWidth(), bimg.getHeight());
+		((FloodFillSearch)searchStrategy).setup();
 		
 		return searchStrategy.filter(bimg, component);
 	}
