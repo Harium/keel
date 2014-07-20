@@ -43,11 +43,21 @@ public class RectangularOGRModifier implements HullModifier {
 			}
 			
 		}
+				
+		Point2D a = graph.getNodes().get(1);
+		Point2D b = graph.getNodes().get(2);
+		Point2D c = graph.getNodes().get(0);
+		Point2D d = graph.getNodes().get(3);
 		
-		Point2D a = graph.getNodes().get(0);
-		Point2D b = graph.getNodes().get(1);
-		Point2D c = graph.getNodes().get(3);
-		Point2D d = graph.getNodes().get(2);
+		//isQuadGraph
+		if(a.getY() == c.getY()) {
+			
+			a = graph.getNodes().get(0);
+			b = graph.getNodes().get(1);
+			c = graph.getNodes().get(3);
+			d = graph.getNodes().get(2);
+			
+		}
 						
 		List<Point2D> list = new ArrayList<Point2D>();
 				
