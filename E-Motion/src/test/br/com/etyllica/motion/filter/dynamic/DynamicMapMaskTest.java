@@ -14,15 +14,33 @@ public class DynamicMapMaskTest {
 	public void setUp() {
 		
 		mask = new DynamicMapMask();
-		
 	}
 	
 	@Test
-	public void testIsKnown() {
+	public void testIsValid() {
 		
 		mask.setValid(20, 21);
 		
-		Assert.assertTrue(mask.isTouched(20, 21));
+		Assert.assertTrue(mask.isValid(20, 21));
+	}
+	
+	@Test
+	public void testIsInvalid() {
+		
+		mask.setInvalid(20, 21);
+		
+		Assert.assertTrue(mask.isInvalid(20, 21));
+	
+	}
+	
+	@Test
+	public void testIsTouchedMap() {
+		
+		mask.setValid(200, 21);
+		mask.setTouched(200, 21);
+		
+		Assert.assertTrue(mask.isTouched(200, 21));
+	
 	}
 	
 	

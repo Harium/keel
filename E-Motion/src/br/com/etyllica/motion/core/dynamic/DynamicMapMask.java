@@ -7,16 +7,20 @@ import java.util.Set;
 
 public class DynamicMapMask implements DynamicMask {
 
-	Map<Integer, Set<Integer>> isInvalid = new HashMap<Integer, Set<Integer>>();
+	private Map<Integer, Set<Integer>> isInvalid = new HashMap<Integer, Set<Integer>>();
 	
-	Map<Integer, Set<Integer>> isValid = new HashMap<Integer, Set<Integer>>();
+	private Map<Integer, Set<Integer>> isValid = new HashMap<Integer, Set<Integer>>();
+	
+	private Map<Integer, Set<Integer>> isTouchedMap = new HashMap<Integer, Set<Integer>>();
+	
+	private Set<Integer> isLineTouched = new HashSet<Integer>();
 
 	@Override
 	public boolean isUnknown(int px, int py) {
 	
 		boolean isValidPoint = isValid(px, py);
 		
-		boolean isInvalidPoint = isValid(px, py);
+		boolean isInvalidPoint = isInvalid(px, py);
 		
 		return !isValidPoint&&!isInvalidPoint;
 	}
@@ -24,7 +28,21 @@ public class DynamicMapMask implements DynamicMask {
 	@Override
 	public boolean isTouched(int px, int py) {
 
-		return !isUnknown(px, py);
+		if(isLineTouched.contains(px)) {
+			
+			return true;
+			
+		} else {
+		
+			Set<Integer> ySet = isTouchedMap.get(px);
+			
+			if(ySet != null) {
+				return ySet.contains(py);
+			}
+			
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -49,7 +67,7 @@ public class DynamicMapMask implements DynamicMask {
 			return ySet.contains(py);			
 		}
 		
-		return false;		
+		return false;
 	}
 
 	@Override
@@ -70,8 +88,17 @@ public class DynamicMapMask implements DynamicMask {
 
 	@Override
 	public void setInvalid(int px, int py) {
-		// TODO Auto-generated method stub
+
+		Set<Integer> ySet = isInvalid.get(px);
 		
+		if(ySet == null) {
+			
+			ySet = new HashSet<Integer>();
+			
+			isInvalid.put(px, ySet);			
+		}
+		
+		ySet.add(py);
 	}
 
 	@Override
@@ -84,8 +111,20 @@ public class DynamicMapMask implements DynamicMask {
 
 	@Override
 	public void setTouched(int px, int py) {
-		// TODO Auto-generated method stub
+
+		Set<Integer> ySet = isTouchedMap.get(px);
 		
+		if(ySet == null) {
+			
+			ySet = new HashSet<Integer>();
+			
+			isTouchedMap.put(px, ySet);			
+		}
+		
+		/*if(ySet.size() == w-1) {
+			//Add to line touched
+		}*/
+		ySet.add(py);
 	}	
 	
 }
