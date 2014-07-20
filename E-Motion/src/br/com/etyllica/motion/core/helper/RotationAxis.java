@@ -63,7 +63,7 @@ public class RotationAxis {
 		
 		this.rotationZ = (rotation[2+3*0] - rotation[0+3*2])/norm;
 		this.rotationZ = -this.rotationZ;
-				
+	
 	}
 	
 	public void computeRotationValues(double[][] rotation){
@@ -87,16 +87,45 @@ public class RotationAxis {
 		
 		double m[] = rotationMatrix();
 		
-		double px = m[0]*point.getX()+m[1]*point.getY()+m[2]*point.getZ();//+m[3]*0;
+		double rx = m[0]*point.getX()+m[1]*point.getY()+m[2]*point.getZ();//+m[3]*0;
 		
 		//Swap py and pz to reflect rotations
-		double pz = m[4]*point.getX()+m[5]*point.getY()+m[6]*point.getZ();//+m[7]*0;
+		double rz = m[4]*point.getX()+m[5]*point.getY()+m[6]*point.getZ();//+m[7]*0;
 		
-		double py = m[8]*point.getX()+m[9]*point.getY()+m[10]*point.getZ();//+m[11]*0;
+		double ry = m[8]*point.getX()+m[9]*point.getY()+m[10]*point.getZ();//+m[11]*0;
 		
 		//double pw = m[12]*point.getX()+m[13]*point.getY()+m[14]*point.getZ()+m[15]*0;
+
+		double tx = getTranslationX();
 		
-		return new Point3D(px, py, -pz);
+		double ty = getTranslationY();
+		
+		double tz = getTranslationZ();
+				
+		return new Point3D(tx+rx, ty+ry, tz-rz);
+						
+	}
+	
+	public double getTranslationX() {
+		
+		double translationXFactor = 5;
+		
+		return x*translationXFactor;		
+	}
+	
+	//Using Y as Normal
+	public double getTranslationY() {
+		
+		double translationZFactor = 5;
+		
+		return -z*translationZFactor;		
+	}
+	
+	public double getTranslationZ() {
+		
+		double translationYFactor = 0.5;
+		
+		return y*translationYFactor;
 	}
 	
 	private double[] rotationMatrix() {
