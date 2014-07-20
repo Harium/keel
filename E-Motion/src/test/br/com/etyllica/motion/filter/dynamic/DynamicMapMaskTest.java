@@ -13,7 +13,7 @@ public class DynamicMapMaskTest {
 	@Before
 	public void setUp() {
 		
-		mask = new DynamicMapMask();
+		mask = new DynamicMapMask(250, 20);
 	}
 	
 	@Test

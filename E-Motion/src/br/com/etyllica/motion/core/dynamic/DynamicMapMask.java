@@ -15,6 +15,18 @@ public class DynamicMapMask implements DynamicMask {
 	
 	private Set<Integer> isLineTouched = new HashSet<Integer>();
 
+	private int w;
+	
+	private int h;
+	
+	public DynamicMapMask(int w, int h) {
+		super();
+		
+		this.w = w;
+		
+		this.h = h;
+	}
+	
 	@Override
 	public boolean isUnknown(int px, int py) {
 	
@@ -69,6 +81,31 @@ public class DynamicMapMask implements DynamicMask {
 		
 		return false;
 	}
+	
+	@Override
+	public void setTouched(int px, int py) {
+
+		Set<Integer> ySet = isTouchedMap.get(px);
+		
+		if(ySet == null) {
+			
+			ySet = new HashSet<Integer>();
+			
+			isTouchedMap.put(px, ySet);			
+		}
+		
+		//If line is not complete
+		if(ySet.size() != w-1) {
+			
+			ySet.add(py);
+			
+		} else {
+			
+			isLineTouched.add(px);
+			isTouchedMap.remove(px);
+		}		
+		
+	}
 
 	@Override
 	public void setValid(int px, int py) {
@@ -107,24 +144,10 @@ public class DynamicMapMask implements DynamicMask {
 		isValid.clear();
 		
 		isInvalid.clear();
+		
+		isTouchedMap.clear();
+		
+		isLineTouched.clear();		
 	}
-
-	@Override
-	public void setTouched(int px, int py) {
-
-		Set<Integer> ySet = isTouchedMap.get(px);
-		
-		if(ySet == null) {
-			
-			ySet = new HashSet<Integer>();
-			
-			isTouchedMap.put(px, ySet);			
-		}
-		
-		/*if(ySet.size() == w-1) {
-			//Add to line touched
-		}*/
-		ySet.add(py);
-	}	
 	
 }
