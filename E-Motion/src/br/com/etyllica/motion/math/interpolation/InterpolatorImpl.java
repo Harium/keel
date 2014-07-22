@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.math;
+package br.com.etyllica.motion.math.interpolation;
 
 import java.util.ArrayList;
 import java.util.List;

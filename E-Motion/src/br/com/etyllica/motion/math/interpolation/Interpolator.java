@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.math;
+package br.com.etyllica.motion.math.interpolation;
 
 public interface Interpolator {
 	
