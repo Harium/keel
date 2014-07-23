@@ -13,6 +13,10 @@ public class RectangularOGR implements OGR {
 	@Override
 	public Graph findGraph(boolean[][] mask) {
 		
+		if(mask == null || mask.length == 0) {
+			return null;
+		}
+		
 		int h = mask.length;
 		int w = mask[0].length;
 

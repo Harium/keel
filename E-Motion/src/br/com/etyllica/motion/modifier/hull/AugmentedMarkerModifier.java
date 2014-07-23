@@ -64,25 +64,26 @@ public class AugmentedMarkerModifier implements HullModifier {
 
 			}else{
 
-				if(point.getX()<=c.getX()) {
+				if(point.getX() <= c.getX()) {
+
 					c = point;
 				}
 
 			}
 
 		}
-
-		List<Point2D> list = new ArrayList<Point2D>();
 		
+		List<Point2D> list = new ArrayList<Point2D>();
+				
 		list.add(a);
 		list.add(b);
 		list.add(c);
 		list.add(d);
-
+		
 		return list;
 
 	}
-
+	
 	public int getPoints() {
 		return points;
 	}
