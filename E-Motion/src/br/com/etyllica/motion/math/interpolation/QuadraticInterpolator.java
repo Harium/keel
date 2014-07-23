@@ -7,7 +7,17 @@ public class QuadraticInterpolator extends InterpolatorImpl {
 	
 	@Override
 	public double interpolate(double x) {
+				
+		double[] coeficients = getCoefficients(x);
 		
+		double a = coeficients[0];
+		double b = coeficients[1];
+		double c = coeficients[2];
+			
+		return a*x*x + b*x + c;
+	}
+	
+	public double[] getCoefficients(double x) {
 		
 		double b = points.get(0).getX();
 		double a = b*b;
@@ -38,7 +48,13 @@ public class QuadraticInterpolator extends InterpolatorImpl {
 		
 		double cCoef = cNumerator/delta;
 		
-		return aCoef*x*x+bCoef*x+cCoef;
-	}	
+		double[] coeficients = new double[3];
+		
+		coeficients[0] = aCoef;
+		coeficients[1] = bCoef;
+		coeficients[2] = cCoef;
+		
+		return coeficients;
+	}
 	
 }
