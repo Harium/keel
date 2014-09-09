@@ -156,7 +156,7 @@ public class CoplanarPosit {
 				points.get(0).getX() / scale - temp.v[0],
 				points.get(0).getY() / scale - temp.v[1],
 				this.focalLength / scale);
-	};
+	}
 
 	private double iterate (List<Point2D> points, Mat3D rotation, Vec3D translation) {
 
@@ -168,13 +168,13 @@ public class CoplanarPosit {
 		Vec3D translation1 = new Vec3D();
 		Vec3D translation2 = new Vec3D();
 
-		int i = 0;
-
 		Vec3D eps;
 		
 		double error = 0, error1, error2;
+		
+		final int iterations = 100;
 
-		for (; i < 100; ++ i){
+		for (int i = 0; i < iterations; ++ i){
 			eps = Vec3D.addScalar( Vec3D.multScalar( 
 					Mat3D.multVector( this.modelVectors, rotation.row(2) ), 1.0 / translation.v[2]), 1.0);
 

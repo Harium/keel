@@ -4,7 +4,6 @@ package examples.hard;
 import br.com.etyllica.Etyllica;
 import br.com.etyllica.context.Application;
 import examples.hard.microscopy.BloodSampleNeubauerApplication;
-import examples.hard.microscopy.EmptyNeubauerApplication;
 
 public class MicroscopyNeubauer extends Etyllica {
 

@@ -92,7 +92,7 @@ public class MagicWand extends Application {
 		//So we flip the image
 		mirror.flipHorizontal();
 		
-		reset(mirror.getModifiedBuffer());
+		reset(mirror.getBuffer());
 	}
 
 	private void reset(BufferedImage b){
@@ -116,7 +116,7 @@ public class MagicWand extends Application {
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			//When mouse clicks with LeftButton, the color filter tries to find
 			//the color we are clicking on
-			colorStrategy.setColor(mirror.getModifiedBuffer().getRGB((int)event.getX(), (int)event.getY()));
+			colorStrategy.setColor(mirror.getBuffer().getRGB((int)event.getX(), (int)event.getY()));
 
 		}
 

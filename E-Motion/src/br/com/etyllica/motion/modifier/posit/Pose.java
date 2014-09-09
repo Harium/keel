@@ -42,5 +42,9 @@ public class Pose {
 	public double[] getBestTranslation() {
 		return bestTranslation;
 	}
+	
+	public double[] getAlternativeTranslation() {
+		return alternativeTranslation;
+	}
 
 }

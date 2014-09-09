@@ -72,7 +72,7 @@ public class SimpleCam extends Application {
 		mirror.flipHorizontal();
 
 		//Now we search for the first pixel with the desired color in the whole screen
-		point = colorFilter.filterFirst(mirror.getModifiedBuffer(), screen);
+		point = colorFilter.filterFirst(mirror.getBuffer(), screen);
 
 	}
 
@@ -96,7 +96,7 @@ public class SimpleCam extends Application {
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			//When mouse clicks with LeftButton, the color filter tries to find
 			//the color we are clicking on
-			colorStrategy.setColor(mirror.getModifiedBuffer().getRGB((int)event.getX(), (int)event.getY()));
+			colorStrategy.setColor(mirror.getBuffer().getRGB((int)event.getX(), (int)event.getY()));
 						
 		}
 

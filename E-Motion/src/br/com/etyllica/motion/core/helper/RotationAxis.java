@@ -63,7 +63,12 @@ public class RotationAxis {
 		
 		this.rotationZ = (rotation[2+3*0] - rotation[0+3*2])/norm;
 		this.rotationZ = -this.rotationZ;
-	
+		
+		
+		//this.rotationX = -Math.asin(-rotation[1+3*2]);
+	    //this.rotationY = -Math.atan2(rotation[0+3*2], rotation[2+3*2]);
+	    //this.rotationZ = Math.atan2(rotation[1+3*0], rotation[1+3*1]);
+	    	
 	}
 	
 	public void computeRotationValues(double[][] rotation){
@@ -81,6 +86,10 @@ public class RotationAxis {
 		this.rotationZ = (rotation[2][0] - rotation[0][2])/norm;
 		this.rotationZ = -this.rotationZ;
 		
+		//this.rotationX = -Math.asin(-rotation[1][2]);
+	    //this.rotationY = -Math.atan2(rotation[0][2], rotation[2][2]);
+	    //this.rotationZ = Math.atan2(rotation[1][0], rotation[1][1]);
+		
 	}
 	
 	public Point3D transformPoint(Point3D point) {
@@ -90,42 +99,14 @@ public class RotationAxis {
 		double rx = m[0]*point.getX()+m[1]*point.getY()+m[2]*point.getZ();//+m[3]*0;
 		
 		//Swap py and pz to reflect rotations
-		double rz = m[4]*point.getX()+m[5]*point.getY()+m[6]*point.getZ();//+m[7]*0;
+		double ry = m[4]*point.getX()+m[5]*point.getY()+m[6]*point.getZ();//+m[7]*0;
 		
-		double ry = m[8]*point.getX()+m[9]*point.getY()+m[10]*point.getZ();//+m[11]*0;
+		double rz = m[8]*point.getX()+m[9]*point.getY()+m[10]*point.getZ();//+m[11]*0;
 		
 		//double pw = m[12]*point.getX()+m[13]*point.getY()+m[14]*point.getZ()+m[15]*0;
 
-		double tx = getTranslationX();
-		
-		double ty = getTranslationY();
-		
-		double tz = getTranslationZ();
-				
-		return new Point3D(tx+rx, ty+ry, tz-rz);
+		return new Point3D(rx, -ry, rz);
 						
-	}
-	
-	public double getTranslationX() {
-		
-		double translationXFactor = 5;
-		
-		return x*translationXFactor;		
-	}
-	
-	//Using Y as Normal
-	public double getTranslationY() {
-		
-		double translationZFactor = 5;
-		
-		return -z*translationZFactor;		
-	}
-	
-	public double getTranslationZ() {
-		
-		double translationYFactor = 0.5;
-		
-		return y*translationYFactor;
 	}
 	
 	private double[] rotationMatrix() {

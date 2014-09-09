@@ -65,7 +65,7 @@ public class PositCoplanarModifier implements ComponentModifierStrategy, Compone
 	}
 	
 	private void ajustPoints(List<Point2D> points){
-		
+				
 		Point2D a = points.get(0);
 		imagePoints.get(0).setLocation(a.getX()-w/2, h/2-a.getY());
 		
@@ -77,7 +77,7 @@ public class PositCoplanarModifier implements ComponentModifierStrategy, Compone
 		
 		Point2D c = points.get(2);
 		imagePoints.get(3).setLocation(c.getX()-w/2, h/2-c.getY());
-		
+				
 	}
 
 	public RotationAxis getAxis() {

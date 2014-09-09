@@ -34,11 +34,11 @@ public class RectangleOGRTest {
 		Node lastRightNode = result.getNodes().get(2);
 		Node lastLeftNode = result.getNodes().get(3);
 		
-		Assert.assertEquals(leftNode.getX(), lastLeftNode.getX(), 0);
-		Assert.assertEquals(leftNode.getY(), lastLeftNode.getY(), 0);
+		Assert.assertEquals(leftNode.getPoint().getX(), lastLeftNode.getPoint().getX(), 0);
+		Assert.assertEquals(leftNode.getPoint().getY(), lastLeftNode.getPoint().getY(), 0);
 		
-		Assert.assertEquals(rightNode.getX(), lastRightNode.getX(), 0);
-		Assert.assertEquals(rightNode.getY(), lastRightNode.getY(), 0);
+		Assert.assertEquals(rightNode.getPoint().getX(), lastRightNode.getPoint().getX(), 0);
+		Assert.assertEquals(rightNode.getPoint().getY(), lastRightNode.getPoint().getY(), 0);
 		
 	}
 	
@@ -68,16 +68,16 @@ public class RectangleOGRTest {
 		Assert.assertEquals(3, result.getNodes().size());
 		
 		Node root = result.getNodes().get(1);
-		Assert.assertEquals(0, root.getY(), 0);
-		Assert.assertEquals(5, root.getX(), 0);
+		Assert.assertEquals(0, root.getPoint().getY(), 0);
+		Assert.assertEquals(5, root.getPoint().getX(), 0);
 		
 		Node leftNode = result.getNodes().get(0);
-		Assert.assertEquals(1, leftNode.getY(), 0);
-		Assert.assertEquals(0, leftNode.getX(), 0);
+		Assert.assertEquals(1, leftNode.getPoint().getY(), 0);
+		Assert.assertEquals(0, leftNode.getPoint().getX(), 0);
 		
 		Node rightNode = result.getNodes().get(2);
-		Assert.assertEquals(1, rightNode.getY(), 0);
-		Assert.assertEquals(9, rightNode.getX(), 0);
+		Assert.assertEquals(1, rightNode.getPoint().getY(), 0);
+		Assert.assertEquals(9, rightNode.getPoint().getX(), 0);
 		
 	}
 	
@@ -97,16 +97,16 @@ public class RectangleOGRTest {
 		Assert.assertEquals(3, result.getNodes().size());
 		
 		Node root = result.getNodes().get(1);
-		Assert.assertEquals(0, root.getY(), 0);
-		Assert.assertEquals(5, root.getX(), 0);
+		Assert.assertEquals(0, root.getPoint().getY(), 0);
+		Assert.assertEquals(5, root.getPoint().getX(), 0);
 		
 		Node leftNode = result.getNodes().get(0);
-		Assert.assertEquals(2, leftNode.getY(), 0);
-		Assert.assertEquals(0, leftNode.getX(), 0);
+		Assert.assertEquals(2, leftNode.getPoint().getY(), 0);
+		Assert.assertEquals(0, leftNode.getPoint().getX(), 0);
 		
 		Node rightNode = result.getNodes().get(2);
-		Assert.assertEquals(2, rightNode.getY(), 0);
-		Assert.assertEquals(9, rightNode.getX(), 0);
+		Assert.assertEquals(2, rightNode.getPoint().getY(), 0);
+		Assert.assertEquals(9, rightNode.getPoint().getX(), 0);
 		
 	}
 	
@@ -126,8 +126,8 @@ public class RectangleOGRTest {
 		Assert.assertEquals(4, result.getNodes().size());
 		
 		Node root = result.getNodes().get(1);
-		Assert.assertEquals(0, root.getY(), 0);
-		Assert.assertEquals(5, root.getX(), 0);
+		Assert.assertEquals(0, root.getPoint().getY(), 0);
+		Assert.assertEquals(5, root.getPoint().getX(), 0);
 				
 	}
 	
@@ -147,12 +147,12 @@ public class RectangleOGRTest {
 		Assert.assertEquals(4, result.getNodes().size());
 		
 		Node root = result.getNodes().get(1);
-		Assert.assertEquals(0, root.getY(), 0);
-		Assert.assertEquals(5, root.getX(), 0);
+		Assert.assertEquals(0, root.getPoint().getY(), 0);
+		Assert.assertEquals(5, root.getPoint().getX(), 0);
 		
 		Node lastNode = result.getNodes().get(3);
-		Assert.assertEquals(4, lastNode.getY(), 0);
-		Assert.assertEquals(5, lastNode.getX(), 0);
+		Assert.assertEquals(4, lastNode.getPoint().getY(), 0);
+		Assert.assertEquals(5, lastNode.getPoint().getX(), 0);
 				
 	}
 	
@@ -171,12 +171,12 @@ public class RectangleOGRTest {
 		Assert.assertEquals(4, result.getNodes().size());
 		
 		Node leftNode = result.getNodes().get(0);
-		Assert.assertEquals(0, leftNode.getY(), 0);
-		Assert.assertEquals(2, leftNode.getX(), 0);
+		Assert.assertEquals(0, leftNode.getPoint().getY(), 0);
+		Assert.assertEquals(2, leftNode.getPoint().getX(), 0);
 		
 		Node rightNode = result.getNodes().get(1);
-		Assert.assertEquals(0, rightNode.getY(), 0);
-		Assert.assertEquals(7, rightNode.getX(), 0);
+		Assert.assertEquals(0, rightNode.getPoint().getY(), 0);
+		Assert.assertEquals(7, rightNode.getPoint().getX(), 0);
 		
 	}
 	
@@ -195,21 +195,21 @@ public class RectangleOGRTest {
 		Assert.assertEquals(4, result.getNodes().size());
 		
 		Node leftNode = result.getNodes().get(0);
-		Assert.assertEquals(0, leftNode.getY(), 0);
-		Assert.assertEquals(2, leftNode.getX(), 0);
+		Assert.assertEquals(0, leftNode.getPoint().getY(), 0);
+		Assert.assertEquals(2, leftNode.getPoint().getX(), 0);
 		
 		Node rightNode = result.getNodes().get(1);
-		Assert.assertEquals(0, rightNode.getY(), 0);
-		Assert.assertEquals(7, rightNode.getX(), 0);
+		Assert.assertEquals(0, rightNode.getPoint().getY(), 0);
+		Assert.assertEquals(7, rightNode.getPoint().getX(), 0);
 		
 		Node lastRightNode = result.getNodes().get(2);
 		Node lastLeftNode = result.getNodes().get(3);
 		
-		Assert.assertEquals(0, lastLeftNode.getX(), 0);
-		Assert.assertEquals(3, lastLeftNode.getY(), 0);
+		Assert.assertEquals(0, lastLeftNode.getPoint().getX(), 0);
+		Assert.assertEquals(3, lastLeftNode.getPoint().getY(), 0);
 		
-		Assert.assertEquals(9, lastRightNode.getX(), 0);
-		Assert.assertEquals(3, lastRightNode.getY(), 0);
+		Assert.assertEquals(9, lastRightNode.getPoint().getX(), 0);
+		Assert.assertEquals(3, lastRightNode.getPoint().getY(), 0);
 		
 	}
 	

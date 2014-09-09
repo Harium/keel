@@ -4,13 +4,13 @@ import java.awt.Color;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.linear.graph.Edge;
 import br.com.etyllica.linear.graph.Graph;
+import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.modifier.MiddleLineModifier;
 
@@ -81,22 +81,20 @@ public class MiddleLineExampleApplication extends Application {
 		
 		for(Edge edge: graph.getEdges()) {
 			
-			g.drawLine(edge.getOrigin(), edge.getDestination());
+			g.drawLine(edge.getOrigin().getPoint(), edge.getDestination().getPoint());
 			
 		}
 		
-		for(Point2D point: graph.getNodes()) {
+		for(Node node: graph.getNodes()) {
 						
 			g.setColor(Color.WHITE);
 			
-			g.fillCircle(point, 5);
+			g.fillCircle(node.getPoint(), 5);
 
 			g.setColor(Color.BLACK);
 			
-			g.drawCircle(point, 5);
-			
-		}
-		
+			g.drawCircle(node.getPoint(), 5);
+		}		
 		
 	}
 	
@@ -147,12 +145,5 @@ public class MiddleLineExampleApplication extends Application {
 		
 		return null;
 	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-				
-		// TODO Auto-generated method stub
-		return null;
-	}	
 	
 }

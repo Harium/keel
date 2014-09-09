@@ -33,8 +33,8 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 
 		Component polygon = new Component(0, 0);
 
-		for(Point2D ponto: g.getNodes()) {
-			polygon.add(ponto);
+		for(Node node: g.getNodes()) {
+			polygon.add(node.getPoint());
 		}
 
 		return polygon;
@@ -112,15 +112,22 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 		graph.addEdge(new Edge(c, d));
 		graph.addEdge(new Edge(d, a));
 
-		double nodeSumX = a.getX() + b.getX() + c.getX() + d.getX();
+		double nodeSumX = 0;
+		double nodeSumY = 0;
 		
-		double nodeSumY = a.getY() + b.getY() + c.getY() + d.getY();
+		for(Node node: graph.getNodes()) {
+			
+			Point2D point = node.getPoint();
+			
+			nodeSumX += point.getX();
+			nodeSumY += point.getY();
+		}
 		
 		Node mediumNode = new Node((nodeSumX)/4, (nodeSumY)/4);
 
 		graph.addNode(mediumNode);
 
-		mediumNodes.add(mediumNode);
+		mediumNodes.add(mediumNode.getPoint());
 		
 	}
 	

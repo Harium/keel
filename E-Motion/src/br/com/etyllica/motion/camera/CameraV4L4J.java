@@ -58,13 +58,23 @@ public class CameraV4L4J implements CaptureCallback, Camera {
 	}
 	
 	public void startCapture(){
+		
+		if(frameGrabber == null) {
+			showError();
+			return;
+		}
+		
 		try {
 			frameGrabber.startCapture();
 		} catch (V4L4JException e){
-			System.err.println("Error starting the capture");
-			cleanupCapture();
+			showError();
 			e.printStackTrace();
 		}
+	}
+	
+	private void showError() {
+		System.err.println("Error starting the capture");
+		cleanupCapture();
 	}
 
 	private void cleanupCapture() {

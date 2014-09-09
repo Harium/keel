@@ -191,7 +191,7 @@ public class RectangularOGR implements OGR {
 		
 		Node firstNode = graph.getNodes().get(0);
 		
-		if(x <= firstNode.getX()) {
+		if(x <= firstNode.getPoint().getX()) {
 			firstNode.setLocation(x, firstInterval.getHeight());
 		}
 		
@@ -202,7 +202,7 @@ public class RectangularOGR implements OGR {
 		
 		Node secondNode = graph.getNodes().get(2);
 		
-		if(x > secondNode.getX()) {
+		if(x > secondNode.getPoint().getX()) {
 						
 			secondNode.setLocation(x, secondInterval.getHeight());
 		}
@@ -253,7 +253,7 @@ public class RectangularOGR implements OGR {
 		
 		Point2D center = getCenter(graph);
 				
-		if(lastNode.getX()>center.getX()) {
+		if(lastNode.getPoint().getX()>center.getX()) {
 			
 			lastNode.setLocation(interval.getStart(), interval.getHeight());
 			
@@ -274,8 +274,8 @@ public class RectangularOGR implements OGR {
 		int pn = graph.getNodes().size();
 		
 		for(Node node : graph.getNodes()) {
-			px += node.getX();
-			py += node.getY();
+			px += node.getPoint().getX();
+			py += node.getPoint().getY();
 		}
 		
 		return new Point2D(px/pn, py/pn);

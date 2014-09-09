@@ -48,7 +48,7 @@ public class MelanomaFinderApplication extends Application {
 	public void load() {
 
 		//Load the image with elements
-		buffer = new BufferedLayer("melanoma/melanoma1.png").getModifiedBuffer();
+		buffer = new BufferedLayer("melanoma/melanoma1.png").getBuffer();
 
 		//Process image to calculate it's Average Color
 		AverageColorFilter avgColorFilter = new AverageColorFilter();
