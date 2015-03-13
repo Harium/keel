@@ -1,4 +1,4 @@
-package test.br.com.etyllica.motion.filter;
+package br.com.etyllica.motion.filter;
 
 import org.junit.Assert;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package test.br.com.etyllica.motion.filter.color;
+package br.com.etyllica.motion.filter.color;
 
 import java.awt.Color;
 import java.awt.Graphics;

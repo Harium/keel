@@ -1,5 +1,7 @@
 # Pre-Compiled Files #
 *.class
+.classpath
+.project
 
 # Automatic generated Files#
 *.applet

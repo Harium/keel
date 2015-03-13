@@ -1,4 +1,4 @@
-package test.br.com.etyllica.motion;
+package br.com.etyllica.motion;
 
 import java.util.HashSet;
 import java.util.Set;

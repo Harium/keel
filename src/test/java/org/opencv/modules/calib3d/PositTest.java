@@ -1,4 +1,4 @@
-package test.org.opencv.modules.calib3d;
+package org.opencv.modules.calib3d;
 
 import java.util.ArrayList;
 import java.util.List;
