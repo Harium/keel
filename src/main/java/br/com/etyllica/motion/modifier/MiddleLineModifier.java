@@ -20,7 +20,7 @@ import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
  */
 
 
-public class MiddleLineModifier implements ComponentModifierStrategy, ComponentModifier<Graph> {
+public class MiddleLineModifier implements ComponentModifierStrategy, ComponentModifier<Graph<Integer>> {
 
 	public MiddleLineModifier() {
 		super();
@@ -29,11 +29,11 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 	@Override
 	public Component modifyComponent(Component component) {
 
-		Graph g = modify(component);
+		Graph<Integer> g = modify(component);
 
 		Component polygon = new Component(0, 0);
 
-		for(Node node: g.getNodes()) {
+		for(Node<Integer> node: g.getNodes()) {
 			polygon.add(node.getPoint());
 		}
 
@@ -41,13 +41,13 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 
 	}
 
-	public Graph modify(Component component) {
+	public Graph<Integer> modify(Component component) {
 
 		List<Point2D> points = component.getPoints();
 		
 		List<Point2D> list = PointListHelper.cloneList(points);
 
-		Graph graph = new Graph();
+		Graph<Integer> graph = new Graph<Integer>();
 		
 		if (points.size() < 3) return graph;
 
@@ -95,12 +95,12 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 		
 	}
 	
-	private void addNodes(List<Point2D> list, List<Point2D> mediumNodes, Graph graph) {
+	private void addNodes(List<Point2D> list, List<Point2D> mediumNodes, Graph<Integer> graph) {
 		
-		Node a = new Node(list.get(0));
-		Node b = new Node(list.get(1));
-		Node c = new Node(list.get(2));
-		Node d = new Node(list.get(3));
+		Node<Integer> a = new Node<Integer>(list.get(0));
+		Node<Integer> b = new Node<Integer>(list.get(1));
+		Node<Integer> c = new Node<Integer>(list.get(2));
+		Node<Integer> d = new Node<Integer>(list.get(3));
 
 		graph.addNode(a);
 		graph.addNode(b);
@@ -115,7 +115,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 		double nodeSumX = 0;
 		double nodeSumY = 0;
 		
-		for(Node node: graph.getNodes()) {
+		for(Node<Integer> node: graph.getNodes()) {
 			
 			Point2D point = node.getPoint();
 			
@@ -123,7 +123,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 			nodeSumY += point.getY();
 		}
 		
-		Node mediumNode = new Node((nodeSumX)/4, (nodeSumY)/4);
+		Node<Integer> mediumNode = new Node<Integer>((nodeSumX)/4, (nodeSumY)/4);
 
 		graph.addNode(mediumNode);
 
@@ -147,14 +147,14 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 		return directions;
 	}
 
-	private void addVisibleComponents(Graph graph, List<Point2D> mediumNodes, List<Point2D> list) {
+	private void addVisibleComponents(Graph<Integer> graph, List<Point2D> mediumNodes, List<Point2D> list) {
 
-		Node centroid = new Node(getCentroid(list));
+		Node<Integer> centroid = new Node<Integer>(getCentroid(list));
 
 		graph.addNode(centroid);
 
 		for(Point2D node: mediumNodes) {
-			graph.addEdge(new IntegerEdge(new Node(node), centroid));	
+			graph.addEdge(new IntegerEdge(new Node<Integer>(node), centroid));	
 		}
 
 	}

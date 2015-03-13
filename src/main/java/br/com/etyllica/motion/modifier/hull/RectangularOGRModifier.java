@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
+import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.ogr.OGR;
 import br.com.etyllica.motion.ogr.RectangularOGR;
@@ -34,10 +35,10 @@ public class RectangularOGRModifier implements HullModifier {
 
 		boolean[][] mask = component.generateMask();
 		
-		Graph graph = ogr.findGraph(mask);
+		Graph<Integer> graph = ogr.findGraph(mask);
 		
 		if(graph == null) {
-			graph = new Graph();
+			graph = new Graph<>();
 		}
 		
 		if(graph.getNodes().size() != 4) {

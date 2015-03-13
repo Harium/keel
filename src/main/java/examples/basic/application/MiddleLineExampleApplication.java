@@ -18,7 +18,7 @@ public class MiddleLineExampleApplication extends Application {
 
 	private Component component;
 	
-	private Graph graph;
+	private Graph<Integer> graph;
 	
 	private MiddleLineModifier modifier;
 		
@@ -85,7 +85,7 @@ public class MiddleLineExampleApplication extends Application {
 			
 		}
 		
-		for(Node node: graph.getNodes()) {
+		for(Node<Integer> node: graph.getNodes()) {
 						
 			g.setColor(Color.WHITE);
 			
