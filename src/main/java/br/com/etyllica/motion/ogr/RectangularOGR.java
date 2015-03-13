@@ -3,12 +3,12 @@ package br.com.etyllica.motion.ogr;
 import java.util.ArrayList;
 import java.util.List;
 
-import examples.etyllica.graph.model.IntegerEdge;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
+import br.com.etyllica.linear.graph.common.IntegerEdge;
 
-public class RectangularOGR implements OGR {
+public class RectangularOGR implements OGR<Integer> {
 
 	@Override
 	public Graph<Integer> findGraph(boolean[][] mask) {

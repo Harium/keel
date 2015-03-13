@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import examples.etyllica.graph.model.IntegerEdge;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
-import br.com.etyllica.motion.filter.dynamic.Direction;
+import br.com.etyllica.linear.graph.common.IntegerEdge;
 import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
+import br.com.etyllica.motion.filter.dynamic.Direction;
 
 
 /**

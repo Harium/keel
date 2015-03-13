@@ -33,6 +33,8 @@ public class EtyllicMotion extends Etyllica {
 	@Override
 	public Application startApplication() {
 		
+		initialSetup("../../");
+		
 		//Basic Examples		
 		
 		//return new QuickHullExampleApplication(w,h);

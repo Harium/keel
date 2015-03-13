@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="Etyllica" default="dist" basedir=".">
 
-	<property name="version"  value="0.8" />
+	<property name="version"  value="0.9" />
 
 	<property name="libcore"  value="e-motion-${version}" />
 

@@ -12,7 +12,7 @@ import br.com.etyllica.motion.ogr.RectangularOGR;
 
 public class RectangularOGRModifier implements HullModifier {
 
-	private OGR ogr;
+	private OGR<Integer> ogr;
 	
 	public RectangularOGRModifier() {
 		super();
@@ -38,7 +38,7 @@ public class RectangularOGRModifier implements HullModifier {
 		Graph<Integer> graph = ogr.findGraph(mask);
 		
 		if(graph == null) {
-			graph = new Graph<>();
+			graph = new Graph<Integer>();
 		}
 		
 		if(graph.getNodes().size() != 4) {
