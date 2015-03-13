@@ -44,7 +44,7 @@ public class AugmentedRealityStatic extends Application {
 	@Override
 	public void load() {
 		
-		loadingPhrase = "Loading Images";
+		loadingInfo = "Loading Images";
 
 		cam = new FakeCamera();
 		
@@ -56,7 +56,7 @@ public class AugmentedRealityStatic extends Application {
 				
 		loading = 25;
 		
-		loadingPhrase = "Configuring Filter";
+		loadingInfo = "Configuring Filter";
 
 		int width = cam.getBufferedImage().getWidth();
 		
@@ -93,17 +93,17 @@ public class AugmentedRealityStatic extends Application {
 				
 		loading = 60;
 
-		loadingPhrase = "Start Filter";
+		loadingInfo = "Start Filter";
 				
 		feature = cornerFilter.filterFirst(b, new Component(0, 0, w, h));
 		
 		positModifier.modifyComponent(feature);
 
 		loading = 65;
-		loadingPhrase = "Show Result";
+		loadingInfo = "Show Result";
 		
 		loading = 70;
-		loadingPhrase = "Show Angle";
+		loadingInfo = "Show Angle";
 	}
 
 	@Override

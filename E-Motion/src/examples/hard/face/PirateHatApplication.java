@@ -61,7 +61,7 @@ public class PirateHatApplication extends Application {
 	@Override
 	public void load() {
 
-		loadingPhrase = "Loading Images";
+		loadingInfo = "Loading Images";
 
 		for(int i=1;i<=IMAGES_TO_LOAD;i++) {
 			loading = i;
@@ -69,7 +69,7 @@ public class PirateHatApplication extends Application {
 			cam.addImage("skin/skin"+Integer.toString(i)+".jpg");
 		}
 
-		loadingPhrase = "Configuring Filter";
+		loadingInfo = "Configuring Filter";
 
 		configureSkinFilter();
 		pirateHat = new ImageLayer("effects/piratehat.png");

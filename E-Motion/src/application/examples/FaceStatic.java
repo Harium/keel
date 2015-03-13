@@ -61,7 +61,7 @@ public class FaceStatic extends Application {
 	@Override
 	public void load() {
 
-		loadingPhrase = "Loading Images";
+		loadingInfo = "Loading Images";
 
 		for(int i=1;i<=IMAGES_TO_LOAD;i++){
 			loading = i;
@@ -72,7 +72,7 @@ public class FaceStatic extends Application {
 		int width = cam.getBufferedImage().getWidth();
 		int height = cam.getBufferedImage().getHeight();
 		
-		loadingPhrase = "Configuring Filter";
+		loadingInfo = "Configuring Filter";
 		
 		modifier = new QuickHullModifier();
 		

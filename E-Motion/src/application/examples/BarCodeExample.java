@@ -41,12 +41,12 @@ public class BarCodeExample extends Application {
 		
 		filter.setBorder(2);
 
-		loadingPhrase = "Loading Images";
+		loadingInfo = "Loading Images";
 
 		cam.addImage("wand/wand6.png");
 
 		loading = 25;
-		loadingPhrase = "Configuring Filter";
+		loadingInfo = "Configuring Filter";
 		
 		filter = new BarCodeFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 
@@ -58,12 +58,12 @@ public class BarCodeExample extends Application {
 	private void reset(BufferedImage b){
 		
 		loading = 65;
-		loadingPhrase = "Show Result";
+		loadingInfo = "Show Result";
 
 		result = filter.filter(b, screen);
 
 		loading = 70;
-		loadingPhrase = "Show Angle";
+		loadingInfo = "Show Angle";
 		
 	}
 

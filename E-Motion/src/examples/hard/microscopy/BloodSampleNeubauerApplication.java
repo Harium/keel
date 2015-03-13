@@ -23,7 +23,7 @@ public class BloodSampleNeubauerApplication extends EmptyNeubauerApplication {
 		
 		Random rand = new Random();
 		
-		loadingPhrase = "Creating cells";
+		loadingInfo = "Creating cells";
 		
 		final int COUNT_CELLS = 700;
 		
@@ -31,7 +31,7 @@ public class BloodSampleNeubauerApplication extends EmptyNeubauerApplication {
 		
 			loading = i/COUNT_CELLS;
 			
-			loadingPhrase = "Creating "+i+"/"+COUNT_CELLS+" cells.";
+			loadingInfo = "Creating "+i+"/"+COUNT_CELLS+" cells.";
 			
 			int cx = rand.nextInt(60*zoom);
 			int cy = rand.nextInt(60*zoom);

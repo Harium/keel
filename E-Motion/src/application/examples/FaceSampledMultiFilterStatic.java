@@ -86,7 +86,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 	@Override
 	public void load() {
 
-		loadingPhrase = "Loading Images";
+		loadingInfo = "Loading Images";
 
 		for(int i=1;i<=IMAGES_TO_LOAD;i++){
 			loading = i;
@@ -99,7 +99,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 		
 		screen = new Component(0, 0, w, h);
 
-		loadingPhrase = "Configuring Filter";
+		loadingInfo = "Configuring Filter";
 		
 		//border: 4 and step: 4
 		blackFilter.setBorder(DEFAULT_BORDER);

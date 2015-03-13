@@ -71,7 +71,7 @@ public class MelanomaFinderApplication extends Application {
 
 		loading = 80;
 
-		loadingPhrase = "Start Filter";
+		loadingInfo = "Start Filter";
 
 		//Search for melanoma candidates
 		candidates = skinFilter.filter(buffer, screen);
@@ -90,7 +90,7 @@ public class MelanomaFinderApplication extends Application {
 		//Calculate melonama's average color
 		avgBiggestComponentColor = avgColorFilter.process(buffer, biggestComponent);
 		
-		loadingPhrase = "Filter Complete";
+		loadingInfo = "Filter Complete";
 
 	}
 

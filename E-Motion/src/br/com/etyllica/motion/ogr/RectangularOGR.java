@@ -3,8 +3,8 @@ package br.com.etyllica.motion.ogr;
 import java.util.ArrayList;
 import java.util.List;
 
+import examples.etyllica.graph.model.IntegerEdge;
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.linear.graph.Edge;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 
@@ -144,7 +144,7 @@ public class RectangularOGR implements OGR {
 
 			Node secondNode = graph.addNode(rightPoint);
 
-			graph.addEdge(new Edge(firstNode, secondNode));
+			graph.addEdge(new IntegerEdge(firstNode, secondNode));
 
 			intervalCount = 2;
 
@@ -174,9 +174,9 @@ public class RectangularOGR implements OGR {
 		//Root is now the secondPoint
 		Node root = graph.getNodes().get(1);
 		
-		graph.addEdge(new Edge(root, firstNode));
+		graph.addEdge(new IntegerEdge(root, firstNode));
 		
-		graph.addEdge(new Edge(root, secondNode));
+		graph.addEdge(new IntegerEdge(root, secondNode));
 		
 		return intervals.size();
 		
@@ -221,8 +221,8 @@ public class RectangularOGR implements OGR {
 		Node rightNode = graph.getNodes().get(2);
 		
 		//Make a circular graph
-		graph.addEdge(new Edge(rightNode, lastNode));		
-		graph.addEdge(new Edge(lastNode, leftNode));
+		graph.addEdge(new IntegerEdge(rightNode, lastNode));		
+		graph.addEdge(new IntegerEdge(lastNode, leftNode));
 		
 		return intervals.size();
 	}
@@ -238,9 +238,9 @@ public class RectangularOGR implements OGR {
 		Node rightNode = graph.getNodes().get(2);
 		
 		//Make a circular graph
-		graph.addEdge(new Edge(rightNode, lastRightNode));
-		graph.addEdge(new Edge(lastRightNode, lastLeftNode));
-		graph.addEdge(new Edge(lastLeftNode, leftNode));		
+		graph.addEdge(new IntegerEdge(rightNode, lastRightNode));
+		graph.addEdge(new IntegerEdge(lastRightNode, lastLeftNode));
+		graph.addEdge(new IntegerEdge(lastLeftNode, leftNode));		
 				
 		return intervals.size();
 	}

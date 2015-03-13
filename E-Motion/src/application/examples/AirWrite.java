@@ -57,16 +57,16 @@ public class AirWrite extends Application {
 	@Override
 	public void load() {
 
-		loadingPhrase = "Open Camera";
+		loadingInfo = "Open Camera";
 
 		cam = new CameraV4L4J(0);
 		
 		screen = new Component(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 		
-		loadingPhrase = "Setting PolygonMatcher";
+		loadingInfo = "Setting PolygonMatcher";
 		matcher.setMinDistance(8);		
 		
-		loadingPhrase = "Setting Filter";
+		loadingInfo = "Setting Filter";
 
 		colorStrategy = new ColorStrategy(Color.BLACK);
 		

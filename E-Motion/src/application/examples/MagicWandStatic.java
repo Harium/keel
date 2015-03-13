@@ -43,7 +43,7 @@ public class MagicWandStatic extends Application {
 	@Override
 	public void load() {
 
-		loadingPhrase = "Loading Images";
+		loadingInfo = "Loading Images";
 
 		cam = new FakeCamera();
 
@@ -53,7 +53,7 @@ public class MagicWandStatic extends Application {
 
 		loading = 25;
 
-		loadingPhrase = "Configuring Filter";
+		loadingInfo = "Configuring Filter";
 
 		int width = cam.getBufferedImage().getWidth();
 
@@ -82,15 +82,15 @@ public class MagicWandStatic extends Application {
 
 		loading = 60;
 
-		loadingPhrase = "Start Filter";
+		loadingInfo = "Start Filter";
 
 		features = cornerFilter.filter(b, new Component(0, 0, w, h));
 
 		loading = 65;
-		loadingPhrase = "Show Result";
+		loadingInfo = "Show Result";
 
 		loading = 70;
-		loadingPhrase = "Show Angle";
+		loadingInfo = "Show Angle";
 	}
 
 	@Override

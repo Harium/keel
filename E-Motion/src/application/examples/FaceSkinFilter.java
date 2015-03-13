@@ -52,9 +52,9 @@ public class FaceSkinFilter extends Application {
 
 		cam = new CameraV4L4J();
 		
-		loadingPhrase = "Loading Images";
+		loadingInfo = "Loading Images";
 
-		loadingPhrase = "Configuring Filter";
+		loadingInfo = "Configuring Filter";
 
 		configureSkinFilter();
 		pirateHat = new ImageLayer("effects/piratehat.png");

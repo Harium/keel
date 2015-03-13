@@ -45,7 +45,7 @@ public class FaceSampledReal extends Application {
 	@Override
 	public void load() {
 
-		loadingPhrase = "Loading Images";
+		loadingInfo = "Loading Images";
 
 		cam = new CameraV4L4J(0);
 		
@@ -59,7 +59,7 @@ public class FaceSampledReal extends Application {
 		colorFilter.setBorder(MAGIC_NUMBER);
 		colorFilter.setStep(MAGIC_NUMBER);
 
-		loadingPhrase = "Configuring Filter";
+		loadingInfo = "Configuring Filter";
 		
 		loading = 60;
 		reset(cam.getBufferedImage());

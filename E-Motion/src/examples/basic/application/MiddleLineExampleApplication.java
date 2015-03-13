@@ -2,13 +2,13 @@ package examples.basic.application;
 
 import java.awt.Color;
 
+import examples.etyllica.graph.model.IntegerEdge;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.linear.graph.Edge;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.motion.core.features.Component;
@@ -79,7 +79,7 @@ public class MiddleLineExampleApplication extends Application {
 		
 		g.setColor(Color.BLUE);
 		
-		for(Edge edge: graph.getEdges()) {
+		for(IntegerEdge edge: graph.getEdges()) {
 			
 			g.drawLine(edge.getOrigin().getPoint(), edge.getDestination().getPoint());
 			

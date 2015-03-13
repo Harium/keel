@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import examples.etyllica.graph.model.IntegerEdge;
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.linear.graph.Edge;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.motion.filter.dynamic.Direction;
@@ -107,10 +107,10 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 		graph.addNode(c);
 		graph.addNode(d);
 
-		graph.addEdge(new Edge(a, b));
-		graph.addEdge(new Edge(b, c));
-		graph.addEdge(new Edge(c, d));
-		graph.addEdge(new Edge(d, a));
+		graph.addEdge(new IntegerEdge(a, b));
+		graph.addEdge(new IntegerEdge(b, c));
+		graph.addEdge(new IntegerEdge(c, d));
+		graph.addEdge(new IntegerEdge(d, a));
 
 		double nodeSumX = 0;
 		double nodeSumY = 0;
@@ -154,7 +154,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, ComponentM
 		graph.addNode(centroid);
 
 		for(Point2D node: mediumNodes) {
-			graph.addEdge(new Edge(new Node(node), centroid));	
+			graph.addEdge(new IntegerEdge(new Node(node), centroid));	
 		}
 
 	}

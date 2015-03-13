@@ -37,7 +37,7 @@ public class SimpleCam extends Application {
 	@Override
 	public void load() {
 		
-		loadingPhrase = "Opening Camera";
+		loadingInfo = "Opening Camera";
 
 		cam = new CameraV4L4J(0);
 		
@@ -48,7 +48,7 @@ public class SimpleCam extends Application {
 		
 		screen = new Component(0, 0, w, h);
 
-		loadingPhrase = "Setting Filter";
+		loadingInfo = "Setting Filter";
 
 		colorFilter = new TriangularSearch(w, h);
 		colorFilter.setBorder(20);
