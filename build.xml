@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<project name="Etyllica" default="dist" basedir=".">
+
+	<property name="version"  value="0.9" />
+
+	<property name="libcore"  value="e-motion-${version}" />
+
+	<property name="src.dir"   value="src/main/java" />
+	<property name="test.dir"    value="src/test/java" />
+	<property name="build.dir" value="src/bin" />
+	<property name="lib.dir"   value="libs"/>
+	<property name="reports.dir" value="tests"/>
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+	
+	<target name="dist" depends="clean, package"/>
+
+	<target name="clean">
+		<delete includeemptydirs="true" >
+			<fileset dir="${build.dir}">
+				<exclude name="**/assets/*"/>
+				<exclude name="**/assets/**"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+	</target>
+   
+	<target name="compile">
+    		<javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" source="1.6" target="1.6" debug="off">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="compile-tests">
+		<javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="false" source="1.6" target="1.6" debug="off">
+			<classpath>
+				<fileset dir="${reports.dir}">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="package" depends="init, compile">
+		<jar destfile="${lib.dir}/${libcore}.jar">
+			<fileset dir="${build.dir}">
+				<include name="**/br/com/etyllica/motion/*"/>
+				<include name="**/br/com/etyllica/motion/**"/>
+				<include name="**/org/opencv/*"/>
+				<include name="**/org/opencv/**"/>
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="test" depends="init, compile, compile-tests">
+		<junit printsummary="yes" haltonfailure="yes" showoutput="true">
+			<classpath>
+				<pathelement location="${build.dir}"/>
+				<fileset dir="${reports.dir}">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+			<batchtest>
+				<fileset dir="${test.dir}">
+					<include name="**/*Test*.java"/>
+				</fileset>
+      			</batchtest>
+			<formatter type="brief" usefile="false"/>
+		</junit>
+	</target>
+</project>
