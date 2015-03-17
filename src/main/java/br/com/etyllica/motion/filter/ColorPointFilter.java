@@ -16,16 +16,13 @@ public class ColorPointFilter extends TrackingFilter {
 		super(new ColoredPointSearch(w, h));
 		
 		colorStrategy = new ColorStrategy(Color.BLACK);
-		
+		searchStrategy.setPixelStrategy(colorStrategy);
 	}
 		
 	public ColorPointFilter(int w, int h, Color color) {
 		this(w, h);
 		
-		colorStrategy = new ColorStrategy(color);
-				
-		searchStrategy.setPixelStrategy(colorStrategy);
-				
+		colorStrategy.setColor(color);
 	}
 
 	public Component filterFirst(BufferedImage bimg, Component component) {

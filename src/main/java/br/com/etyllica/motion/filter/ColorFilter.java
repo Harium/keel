@@ -9,11 +9,9 @@ import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class ColorFilter extends ColorPointFilter {
-	
+		
 	public ColorFilter(int w, int h) {
-		super(w, h);
-
-		this.searchStrategy = new FloodFillSearch(w, h);
+		this(w, h, Color.BLACK);
 	}
 	
 	public ColorFilter(int w, int h, Color color) {
@@ -31,7 +29,6 @@ public class ColorFilter extends ColorPointFilter {
 		this(w, h, color);
 
 		colorStrategy.setTolerance(tolerance);
-		
 	}
 	
 	@Override

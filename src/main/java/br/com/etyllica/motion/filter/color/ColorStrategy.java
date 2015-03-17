@@ -34,7 +34,7 @@ public class ColorStrategy extends ToleranceStrategy {
 	
 	public ColorStrategy(int color) {
 		super();
-		this.color = color;
+		setColor(color);
 	}
 	
 	@Override
