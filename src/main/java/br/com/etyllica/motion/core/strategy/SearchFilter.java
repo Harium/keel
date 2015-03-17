@@ -105,11 +105,32 @@ public abstract class SearchFilter implements SearchStrategy {
 		
 			if(!validation.validate(component)) {
 				return false;
-			}
-			
+			}			
 		}
 		
 		return true;
+	}
+	
+	protected int getComponentWidth(Component component) {
+		int width = component.getW();
+		
+		if(width < 0) {
+			width = -width;			
+		}
+		
+		width -= border*2;
+		return width;
+	}
+
+	protected int getComponentHeight(Component component) {
+		int height = component.getH();
+		
+		if(height < 0) {
+			height = -height;
+		}
+		
+		height -= border*2;
+		return height;
 	}
 	
 }

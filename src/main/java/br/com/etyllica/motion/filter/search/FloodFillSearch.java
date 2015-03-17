@@ -49,7 +49,7 @@ public class FloodFillSearch extends ComponentFilter {
 
 		List<Component> list = filter(bimg, component);
 
-		if(!list.isEmpty()){
+		if(!list.isEmpty()) {
 
 			lastComponent = list.get(0);
 
@@ -65,12 +65,11 @@ public class FloodFillSearch extends ComponentFilter {
 		mask.reset();
 
 		int x = border;
-
 		int y = border;
-
-		int width = component.getW()-border*2;
-
-		int height = component.getH()-border*2;
+		
+		int width = getComponentWidth(component);
+		
+		int height = getComponentHeight(component);
 
 		for (int j = y; j < height; j+=step) {
 
@@ -126,6 +125,8 @@ public class FloodFillSearch extends ComponentFilter {
 
 		return result;
 	}
+
+	
 
 	private boolean verifyPixel(int px, int py, BufferedImage bimg) {
 
