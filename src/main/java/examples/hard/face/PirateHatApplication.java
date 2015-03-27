@@ -18,7 +18,7 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
-import br.com.etyllica.motion.filter.image.ContrastQuickProcessor;
+import br.com.etyllica.motion.filter.image.ContrastQuickFilter;
 
 public class PirateHatApplication extends Application {
 
@@ -148,7 +148,7 @@ public class PirateHatApplication extends Application {
 
 		BufferedImage b = cam.getBufferedImage();
 
-		image = new ContrastQuickProcessor(20).process(b);
+		image = new ContrastQuickFilter(20).process(b);
 
 		int w = image.getWidth();
 		int h = image.getHeight();

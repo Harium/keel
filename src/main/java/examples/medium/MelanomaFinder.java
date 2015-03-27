@@ -23,9 +23,7 @@ public class MelanomaFinder extends EtyllicaFrame {
 	@Override
 	public Application startApplication() {
 				
-		String s = getClass().getResource("").toString();
-				
-		setPath(s+"../../");
+		initialSetup("../../../../");
 		
 		return new MelanomaFinderApplication(w,h);
 		
