@@ -20,6 +20,11 @@ The main goal is port widely known algorithms to Java and create a tool to help 
 - [Drone4](https://github.com/yuripourre/drone4) - A Virtual Environment to test robotic algorithms.
 - [Emerald Lab](https://github.com/yuripourre/emerald-lab) - A Microscope Simulator.
 
+### Filters
+
+#### FishEye
+![Image Distorted with FishEye Lens](https://raw.githubusercontent.com/yuripourre/e-motion/master/screenshots/fish_eye.jpg)
+
 ### Wiki:
 - For more details, see the [wiki](https://github.com/yuripourre/e-motion/wiki/) or some [examples](https://github.com/yuripourre/e-motion/wiki/Examples).
 
