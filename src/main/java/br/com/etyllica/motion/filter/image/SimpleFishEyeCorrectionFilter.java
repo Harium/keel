@@ -22,6 +22,12 @@ public class SimpleFishEyeCorrectionFilter implements ImageProcessor {
 		this.strength = strength;
 	}
 	
+	public SimpleFishEyeCorrectionFilter(double strength, double zoom) {
+		super();
+		this.strength = strength;
+		this.zoom = zoom;
+	}
+	
 	@Override
 	public BufferedImage process(BufferedImage image) {
 
@@ -57,6 +63,10 @@ public class SimpleFishEyeCorrectionFilter implements ImageProcessor {
 				double sourceY = halfHeight + theta * newY * zoom;
 
 				int rgb = image.getRGB(i, j);
+				
+				if(sourceX>=w||sourceY>=h) {
+					System.out.println("Problem here!");
+				}
 				
 				output.setRGB((int)sourceX, (int)sourceY, rgb);
 			}

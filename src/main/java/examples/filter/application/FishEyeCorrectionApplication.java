@@ -39,7 +39,7 @@ public class FishEyeCorrectionApplication extends Application {
 		loading = 0;
 				
 		BufferedImage image = ImageLoader.getInstance().getImage("fisheye/398.jpg");
-		BufferedImage corrected = new SimpleFishEyeCorrectionFilter(-0.90).process(image);
+		BufferedImage corrected = new SimpleFishEyeCorrectionFilter(0.90).process(image);
 		//BufferedImage corrected = new LensCorrectionFilter().process(image);
 		
 		
