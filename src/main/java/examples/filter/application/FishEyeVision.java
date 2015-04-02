@@ -22,7 +22,8 @@ public class FishEyeVision extends Application {
 		loading = 0;
 				
 		BufferedImage image = ImageLoader.getInstance().getImage("public_domain/nice-hotel-in-bohol.jpg");
-		BufferedImage afterFx = new SimpleFishEyeCorrectionFilter(7.90, 0.55).process(image);
+		BufferedImage afterFx = new SimpleFishEyeCorrectionFilter(4.90, 0.55).process(image);
+		//BufferedImage afterFx = new SimpleFishEyeCorrectionFilter(7.90, 0.55).process(image);
 		
 		layer = new BufferedLayer(afterFx);
 		layer.centralize(this);

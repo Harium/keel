@@ -1,4 +1,5 @@
 # Pre-Compiled Files #
+/bin
 *.class
 .classpath
 .project
@@ -6,3 +7,4 @@
 # Automatic generated Files#
 *.applet
 *.html
+
