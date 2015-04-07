@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.context.Application;
+import br.com.etyllica.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
@@ -16,7 +17,7 @@ import br.com.etyllica.motion.filter.ColorPointFilter;
 import br.com.etyllica.motion.filter.RedLedFilter;
 
 
-public class HollowController extends Application {
+public class HollowController extends Application implements UpdateIntervalListener {
 
 	private Component screen;
 

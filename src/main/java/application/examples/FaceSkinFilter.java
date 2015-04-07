@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.context.Application;
+import br.com.etyllica.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
@@ -21,7 +22,7 @@ import br.com.etyllica.motion.filter.validation.CountComponentPoints;
 import br.com.etyllica.motion.filter.validation.MinComponentDimension;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 
-public class FaceSkinFilter extends Application {
+public class FaceSkinFilter extends Application implements UpdateIntervalListener {
 
 	private Camera cam;
 
@@ -59,7 +60,7 @@ public class FaceSkinFilter extends Application {
 		configureSkinFilter();
 		pirateHat = new ImageLayer("effects/piratehat.png");
 
-		updateAtFixedRate(100);
+		updateAtFixedRate(100, this);
 		
 		loading = 100;
 	}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import br.com.etyllica.context.Application;
+import br.com.etyllica.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
@@ -18,7 +19,7 @@ import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
 import br.com.etyllica.motion.modifier.EnvelopeModifier;
 
-public class MagicWand extends Application {
+public class MagicWand extends Application implements UpdateIntervalListener {
 
 	private Camera cam;
 
@@ -77,13 +78,13 @@ public class MagicWand extends Application {
 
 		reset(cam.getBufferedImage());
 
-		updateAtFixedRate(20);
+		updateAtFixedRate(20, this);
 
 		loading = 100;
 	}
 
 	@Override
-	public void timeUpdate(long now){
+	public void timeUpdate(long now) {
 
 		//Get the Camera image
 		mirror.setBuffer(cam.getBufferedImage());
