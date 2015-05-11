@@ -53,6 +53,8 @@
 				<include name="**/br/com/etyllica/motion/**"/>
 				<include name="**/org/opencv/*"/>
 				<include name="**/org/opencv/**"/>
+				<include name="**/jama/*"/>
+				<include name="**/jama/**"/>
 			</fileset>
 		</jar>
 	</target>
