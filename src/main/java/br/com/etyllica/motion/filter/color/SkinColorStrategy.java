@@ -1,8 +1,8 @@
 package br.com.etyllica.motion.filter.color;
 
-import br.com.etyllica.motion.core.strategy.PixelStrategy;
+import br.com.etyllica.motion.filter.SoftPixelStrategy;
 
-public class SkinColorStrategy extends SimpleToleranceStrategy implements PixelStrategy {
+public class SkinColorStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
 		
 	public SkinColorStrategy() {
 		super();
@@ -40,7 +40,11 @@ public class SkinColorStrategy extends SimpleToleranceStrategy implements PixelS
 		}
 
 		return x>40&&x<230&&(y>my-minTolerance&&y<my+maxTolerance);
+	}
 
+	@Override
+	public boolean weakValidateColor(int baseColor, int rgb) {
+		return validateColor(rgb);
 	}
 	
 }
