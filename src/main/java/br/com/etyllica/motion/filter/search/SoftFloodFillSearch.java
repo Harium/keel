@@ -131,9 +131,15 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 	private boolean verifyPixel(int px, int py, int rgb, BufferedImage bimg) {
 		
 		if (verifySinglePixel(px, py, rgb)) {
-			if(verifyNeighbors(px, py, rgb, bimg)) {
-				return true;
-			}			
+			
+			if(minNeighbors > 0 && maxNeighbors > 0) {
+			
+				if(!verifyNeighbors(px, py, rgb, bimg)) {
+					return false;
+				}
+			}
+			
+			return true;			
 		}
 
 		return false;

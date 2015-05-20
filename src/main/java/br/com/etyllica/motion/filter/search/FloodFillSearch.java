@@ -131,11 +131,13 @@ public class FloodFillSearch extends ComponentFilter {
 	private boolean verifyPixel(int px, int py, BufferedImage bimg) {
 
 		if (verifySinglePixel(px, py, bimg)) {
+			if(minNeighbors > 0 && maxNeighbors > 0) {
+				if(!verifyNeighbors(px, py, bimg)) {
+					return false;
+				}
+			}
 
-			if(verifyNeighbors(px, py, bimg)) {
-
-				return true;
-			}			
+			return true;
 		}
 
 		return false;
