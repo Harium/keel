@@ -38,5 +38,9 @@ public class ColorFilter extends ColorPointFilter {
 		
 		return searchStrategy.filter(bimg, component);
 	}
+
+	public ColorStrategy getColorStrategy() {
+		return colorStrategy;
+	}
 			
 }
