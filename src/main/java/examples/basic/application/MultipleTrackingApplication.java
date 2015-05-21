@@ -46,7 +46,7 @@ public class MultipleTrackingApplication extends Application {
 		//Define blue and black filters
 		blackFilter = new ColorFilter(w, h, Color.BLACK);
 		
-		blueFilter = new ColorFilter(w, h, Color.BLUE);		
+		blueFilter = new ColorFilter(w, h, Color.BLUE);
 		
 		//Filter the image 
 		blueComponents = blueFilter.filter(image, screen);
@@ -67,7 +67,7 @@ public class MultipleTrackingApplication extends Application {
 		
 		g.fillRect(40, 40, 100, 80);
 		
-		g.fillRect(160, 40, 100, 80);
+		g.fillOval(160, 40, 100, 80);
 		
 		g.fillRect(300, 200, 80, 80);
 		

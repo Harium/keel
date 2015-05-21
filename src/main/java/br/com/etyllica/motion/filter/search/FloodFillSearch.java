@@ -59,29 +59,33 @@ public class FloodFillSearch extends ComponentFilter {
 	}
 
 	@Override
-	public List<Component> filter(BufferedImage bimg, Component component) {
-
+	public void setup() {
 		super.setup();
 		mask.reset();
+	}
+	
+	@Override
+	public List<Component> filter(BufferedImage bimg, Component component) {
+		setup();
 
 		int x = border;
 		int y = border;
 		
 		int width = getComponentWidth(component);
-		
 		int height = getComponentHeight(component);
 
 		for (int j = y; j < height; j+=step) {
-
 			for (int i = x; i < width; i+=step) {
 
-				if (!mask.isTouched(i, j) && verifySinglePixel(i, j, bimg)) {
+				if (verifySinglePixel(i, j, bimg)) {
 
 					Queue<Point2D> queue = new LinkedList<Point2D>();
-
-					queue.add(new Point2D(i, j));
-
 					Component found = new Component();
+					
+					Point2D firstPoint = new Point2D(i, j);
+										
+					addPoint(found, firstPoint);
+					addNeighbors(queue, firstPoint);
 
 					while (!queue.isEmpty()) {
 
@@ -94,39 +98,35 @@ public class FloodFillSearch extends ComponentFilter {
 								(py >= y) && (py < height))) {
 
 							if (verifyPixel(px, py, bimg)) {
-
-								mask.setTouched(px, py);
-
-								found.add(p);
-
-								queue.add(new Point2D(px + step, py));
-								queue.add(new Point2D(px - step, py));
-								queue.add(new Point2D(px, py + step));
-								queue.add(new Point2D(px, py - step));
-
+								addPoint(found, p);
+								addNeighbors(queue, p);
 							}
-
 						}
-
 					}
 
 					if(this.validate(found)) {
-
 						result.add(componentModifierStrategy.modifyComponent(found));
-
 					}
-
+				} else {
+					mask.setTouched(i, j);	
 				}
-
-				mask.setTouched(i, j);
-
 			}
 		}
 
 		return result;
 	}
 
+	private void addPoint(Component component, Point2D p) {
+		mask.setTouched((int)p.getX(), (int)p.getY());
+		component.add(p);
+	}
 	
+	private void addNeighbors(Queue<Point2D> queue, Point2D p) {
+		queue.add(new Point2D(p.getX() + step, p.getY()));
+		queue.add(new Point2D(p.getX() - step, p.getY()));
+		queue.add(new Point2D(p.getX(), p.getY() + step));
+		queue.add(new Point2D(p.getX(), p.getY() - step));
+	}
 
 	private boolean verifyPixel(int px, int py, BufferedImage bimg) {
 
@@ -146,9 +146,11 @@ public class FloodFillSearch extends ComponentFilter {
 
 	private boolean verifySinglePixel(int px, int py, BufferedImage bimg) {
 
+		int rgb = bimg.getRGB(px, py);
+		
 		if(mask.isUnknown(px, py)) {
 
-			if(pixelStrategy.validateColor(bimg.getRGB(px, py))) {
+			if(pixelStrategy.validateColor(rgb)) {
 
 				mask.setValid(px, py);
 

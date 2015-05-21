@@ -115,7 +115,7 @@ public abstract class SearchFilter implements SearchStrategy {
 		int width = component.getW();
 		
 		if(width < 0) {
-			width = -width;			
+			width = -width;
 		}
 		
 		width -= border*2;

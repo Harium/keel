@@ -21,7 +21,9 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 	private Component lastComponent;
 	
 	private DynamicMask mask;
-
+	
+	private int UNDEFINED_COLOR = -1;
+	
 	public SoftFloodFillSearch(int w, int h) {
 		super(w, h, new SkinColorStrategy());
 		
@@ -60,56 +62,52 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
-
-		super.setup();
-		mask.reset();
+		setup();
 
 		int x = border;
 		int y = border;
 		
 		int width = getComponentWidth(component);
-		
 		int height = getComponentHeight(component);
 
-		for (int j = y; j < height; j+=step) {
-
-			for (int i = x; i < width; i+=step) {
+		for (int j = y; j < height; j += step) {
+			for (int i = x; i < width; i += step) {
 				
-				if (!mask.isTouched(i, j)) {
-					
-					int rgb = bimg.getRGB(i, j);
-					
-					if (!verifySinglePixel(i, j, rgb)) {
-						continue;
-					}
+				//Found some valid pixel
+				int rgb = bimg.getRGB(i, j);
+				
+				if (verifySinglePixel(i, j, rgb, UNDEFINED_COLOR)) {
 
+					//Clear Queue
 					Queue<Point2D> queue = new LinkedList<Point2D>();
-
-					queue.add(new Point2D(i, j));
-
 					Component found = new Component();
+					
+					Point2D firstPoint = new Point2D(i, j);
+					
+					addPoint(found, firstPoint);
+					addNeighbors(queue, firstPoint, rgb);//Add reference to its color
 
+					//For each validated neighbor
 					while (!queue.isEmpty()) {
 
+						//Queue.pop(); 
 						Point2D p = queue.remove();
-
+						
 						int px = (int)p.getX();
 						int py = (int)p.getY();
+												
+						//Update rgb
+						rgb = bimg.getRGB(i, j);
+						
+						//Get color from previous pixel
+						int lastColor = p.getColor();
 
 						if ((px >= x) && (px < width &&
 								(py >= y) && (py < height))) {
-
-							if (verifyPixel(px, py, rgb, bimg)) {
-
-								mask.setTouched(px, py);
-
-								found.add(p);
-
-								queue.add(new Point2D(px + step, py));
-								queue.add(new Point2D(px - step, py));
-								queue.add(new Point2D(px, py + step));
-								queue.add(new Point2D(px, py - step));
-
+							
+							if (verifyPixel(px, py, rgb, lastColor, bimg)) {
+								addPoint(found, p);
+								addNeighbors(queue, p, rgb);
 							}
 						}
 					}
@@ -125,15 +123,23 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 
 		return result;
 	}
-
 	
-
-	private boolean verifyPixel(int px, int py, int rgb, BufferedImage bimg) {
+	private void addPoint(Component component, Point2D p) {
+		mask.setTouched((int)p.getX(), (int)p.getY());
+		component.add(p);
+	}
+	
+	private void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor) {
+		queue.add(new Point2D(p.getX() + step, p.getY(), lastColor));
+		queue.add(new Point2D(p.getX() - step, p.getY(), lastColor));
+		queue.add(new Point2D(p.getX(), p.getY() + step, lastColor));
+		queue.add(new Point2D(p.getX(), p.getY() - step, lastColor));
+	}
+	
+	private boolean verifyPixel(int px, int py, int rgb, int lastRGB, BufferedImage bimg) {
 		
-		if (verifySinglePixel(px, py, rgb)) {
-			
+		if (verifySinglePixel(px, py, rgb, lastRGB)) {
 			if(minNeighbors > 0 && maxNeighbors > 0) {
-			
 				if(!verifyNeighbors(px, py, rgb, bimg)) {
 					return false;
 				}
@@ -146,13 +152,16 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 
 	}
 
-	private boolean verifySinglePixel(int px, int py, int rgb) {
+	private boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {
 
 		if(mask.isUnknown(px, py)) {
-
 			if(pixelStrategy.validateColor(rgb)) {
 				mask.setValid(px, py);
-			} else {
+			} else if(lastRGB != UNDEFINED_COLOR) {
+				if(pixelStrategy.weakValidateColor(lastRGB, rgb)) {
+					mask.setValid(px, py);
+				}
+			} else {			
 				mask.setInvalid(px, py);
 			}
 		}
