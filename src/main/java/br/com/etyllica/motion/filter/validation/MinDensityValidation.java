@@ -19,9 +19,15 @@ public class MinDensityValidation implements ComponentValidationStrategy {
 	
 	@Override
 	public boolean validate(Component component) {
-
 		return component.getDensity() >= density;
-		
+	}
+
+	public int getDensity() {
+		return density;
+	}
+
+	public void setDensity(int density) {
+		this.density = density;
 	}
 	
 }

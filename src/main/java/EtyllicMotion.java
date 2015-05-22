@@ -1,6 +1,6 @@
 
 
-import examples.basic.MultipleTracking;
+import examples.basic.MultipleColorTracking;
 import examples.basic.application.MultipleTrackingApplication;
 import examples.basic.application.QuickHullExampleApplication;
 import examples.hard.face.PirateHatApplication;

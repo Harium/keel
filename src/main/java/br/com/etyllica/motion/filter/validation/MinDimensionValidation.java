@@ -3,15 +3,15 @@ package br.com.etyllica.motion.filter.validation;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.ComponentValidationStrategy;
 
-public class MinComponentDimension implements ComponentValidationStrategy {
+public class MinDimensionValidation implements ComponentValidationStrategy {
 
 	private int dimension = 180;
 	
-	public MinComponentDimension() {
+	public MinDimensionValidation() {
 		super();
 	}
 	
-	public MinComponentDimension(int dimension) {
+	public MinDimensionValidation(int dimension) {
 		super();
 		
 		this.dimension = dimension;
@@ -19,9 +19,15 @@ public class MinComponentDimension implements ComponentValidationStrategy {
 	
 	@Override
 	public boolean validate(Component component) {
-
 		return component.getW()>=dimension&&component.getH()>=dimension;
-		
+	}
+
+	public int getDimension() {
+		return dimension;
+	}
+
+	public void setDimension(int dimension) {
+		this.dimension = dimension;
 	}
 	
 }

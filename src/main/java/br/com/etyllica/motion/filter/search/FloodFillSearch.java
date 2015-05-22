@@ -14,17 +14,17 @@ import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 
 public class FloodFillSearch extends ComponentFilter {
 
-	private int minNeighbors = 1;
+	protected int minNeighbors = 1;
 
-	private int maxNeighbors = 9;
-	
+	protected int maxNeighbors = 9;
+
 	private Component lastComponent;
-	
-	private DynamicMask mask;
+
+	protected DynamicMask mask;
 
 	public FloodFillSearch(int w, int h) {
 		super(w, h, new SkinColorStrategy());
-		
+
 		mask = new DynamicArrayMask(w, h);
 	}
 
@@ -32,7 +32,7 @@ public class FloodFillSearch extends ComponentFilter {
 		super(w, h, new SkinColorStrategy());
 
 		mask = new DynamicArrayMask(w, h);
-		
+
 		this.minNeighbors = minNeighbors;
 	}
 
@@ -63,44 +63,45 @@ public class FloodFillSearch extends ComponentFilter {
 		super.setup();
 		mask.reset();
 	}
-	
+
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
 		setup();
 
 		int x = border;
 		int y = border;
-		
+
 		int width = getComponentWidth(component);
 		int height = getComponentHeight(component);
 
 		for (int j = y; j < height; j+=step) {
 			for (int i = x; i < width; i+=step) {
 
-				if (verifySinglePixel(i, j, bimg)) {
+				int rgb = bimg.getRGB(i, j);
+				
+				if (verifySinglePixel(i, j, rgb)) {
 
+					//Clear Queue
 					Queue<Point2D> queue = new LinkedList<Point2D>();
 					Component found = new Component();
-					
+
 					Point2D firstPoint = new Point2D(i, j);
-										
+
+					//Mark as touched
 					addPoint(found, firstPoint);
 					addNeighbors(queue, firstPoint);
 
+					//For each neighbor
 					while (!queue.isEmpty()) {
-
+						
+						//Queue.pop(); 
 						Point2D p = queue.remove();
-
-						int px = (int)p.getX();
-						int py = (int)p.getY();
-
-						if ((px >= x) && (px < width &&
-								(py >= y) && (py < height))) {
-
-							if (verifyPixel(px, py, bimg)) {
-								addPoint(found, p);
-								addNeighbors(queue, p);
-							}
+												
+						if (verifyNext(p, x, y, width, height, bimg)) {
+							addPoint(found, p);
+							addNeighbors(queue, p);
+						} else {
+							mask.setTouched(i, j);		
 						}
 					}
 
@@ -108,7 +109,7 @@ public class FloodFillSearch extends ComponentFilter {
 						result.add(componentModifierStrategy.modifyComponent(found));
 					}
 				} else {
-					mask.setTouched(i, j);	
+					mask.setTouched(i, j);
 				}
 			}
 		}
@@ -116,27 +117,42 @@ public class FloodFillSearch extends ComponentFilter {
 		return result;
 	}
 
-	private void addPoint(Component component, Point2D p) {
+	private boolean verifyNext(Point2D p, int x, int y, int width,
+			int height, BufferedImage bimg) {
+		
+		int px = (int)p.getX();
+		int py = (int)p.getY();
+		
+		int rgb = bimg.getRGB(px, py);
+
+		if ((px >= x) && (px < width &&
+				(py >= y) && (py < height))) {
+
+			if (verifyPixel(px, py, rgb, bimg)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected void addPoint(Component component, Point2D p) {
 		mask.setTouched((int)p.getX(), (int)p.getY());
 		component.add(p);
 	}
-	
-	private void addNeighbors(Queue<Point2D> queue, Point2D p) {
-		queue.add(new Point2D(p.getX() + step, p.getY()));
-		queue.add(new Point2D(p.getX() - step, p.getY()));
-		queue.add(new Point2D(p.getX(), p.getY() + step));
-		queue.add(new Point2D(p.getX(), p.getY() - step));
+
+	protected void addNeighbors(Queue<Point2D> queue, Point2D p) {
+		queue.add(new Point2D(p.getX() + step, p.getY(), p.getColor()));
+		queue.add(new Point2D(p.getX() - step, p.getY(), p.getColor()));
+		queue.add(new Point2D(p.getX(), p.getY() + step, p.getColor()));
+		queue.add(new Point2D(p.getX(), p.getY() - step, p.getColor()));
 	}
 
-	private boolean verifyPixel(int px, int py, BufferedImage bimg) {
+	protected boolean verifyPixel(int px, int py, int rgb, BufferedImage bimg) {
 
-		if (verifySinglePixel(px, py, bimg)) {
-			if(minNeighbors > 0 && maxNeighbors > 0) {
-				if(!verifyNeighbors(px, py, bimg)) {
-					return false;
-				}
+		if (verifySinglePixel(px, py, rgb)) {
+			if(!verifyNeighbors(px, py, bimg)) {
+				return false;
 			}
-
 			return true;
 		}
 
@@ -144,18 +160,12 @@ public class FloodFillSearch extends ComponentFilter {
 
 	}
 
-	private boolean verifySinglePixel(int px, int py, BufferedImage bimg) {
+	private boolean verifySinglePixel(int px, int py, int rgb) {
 
-		int rgb = bimg.getRGB(px, py);
-		
 		if(mask.isUnknown(px, py)) {
-
 			if(pixelStrategy.validateColor(rgb)) {
-
 				mask.setValid(px, py);
-
 			} else {
-
 				mask.setInvalid(px, py);
 			}
 		}
@@ -169,7 +179,6 @@ public class FloodFillSearch extends ComponentFilter {
 		int verified = 0;
 
 		for(int j = py-step; j <= py+step; j += step) {
-
 			for(int i = px-step; i <= px+step; i += step) {
 
 				if(pixelStrategy.validateColor(bimg.getRGB(i, j))) {

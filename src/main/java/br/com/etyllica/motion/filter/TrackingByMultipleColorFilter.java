@@ -10,6 +10,7 @@ import br.com.etyllica.motion.filter.search.FloodFillSearch;
 
 public class TrackingByMultipleColorFilter extends TrackingFilter {
 	
+	private static int DEFAULT_TOLERANCE = 0x40;
 	private MultipleColorStrategy colorStrategy;
 	
 	public TrackingByMultipleColorFilter(int w, int h) {
@@ -29,12 +30,12 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
 	}
 	
 	public TrackingByMultipleColorFilter(int w, int h, Color color) {
-		this(w, h, color, 0x40);
+		this(w, h, color, DEFAULT_TOLERANCE);
 	}
 	
 	public List<Component> filter(BufferedImage bimg, Component component) {
 		
-		((FloodFillSearch)searchStrategy).setup();
+		searchStrategy.setup();
 		
 		return searchStrategy.filter(bimg, component);
 	}

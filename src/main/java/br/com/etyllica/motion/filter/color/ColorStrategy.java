@@ -44,7 +44,8 @@ public class ColorStrategy extends ToleranceStrategy {
 	
 	@Override
 	public boolean weakValidateColor(int rgb, int reference) {
-		return isColor(rgb, reference, minToleranceRed, maxToleranceRed, minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
+		int weakFactor = 2;
+		return isColor(rgb, reference, minToleranceRed/weakFactor, maxToleranceRed/weakFactor, minToleranceGreen/weakFactor, maxToleranceGreen/weakFactor, minToleranceBlue/weakFactor, maxToleranceBlue/weakFactor);
 	}
 	
 	public static boolean isColor(int rgb, int color) {

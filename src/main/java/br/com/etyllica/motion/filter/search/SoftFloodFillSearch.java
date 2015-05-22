@@ -6,56 +6,22 @@ import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.ComponentFilter;
-import br.com.etyllica.motion.core.dynamic.DynamicArrayMask;
-import br.com.etyllica.motion.core.dynamic.DynamicMask;
 import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 
-public class SoftFloodFillSearch extends ComponentFilter {
-
-	private int minNeighbors = 1;
-
-	private int maxNeighbors = 9;
-	
-	private Component lastComponent;
-	
-	private DynamicMask mask;
-	
+public class SoftFloodFillSearch extends FloodFillSearch {
+			
 	private int UNDEFINED_COLOR = -1;
 	
 	public SoftFloodFillSearch(int w, int h) {
-		super(w, h, new SkinColorStrategy());
-		
-		mask = new DynamicArrayMask(w, h);
+		super(w, h);
 	}
 
 	public SoftFloodFillSearch(int w, int h, int minNeighbors) {
-		super(w, h, new SkinColorStrategy());
-
-		mask = new DynamicArrayMask(w, h);
-		
-		this.minNeighbors = minNeighbors;
+		super(w, h, minNeighbors);
 	}
 
 	public SoftFloodFillSearch(int w, int h, int minNeighbors, int maxNeighbors) {
-		super(w, h, new SkinColorStrategy());
-
-		this.minNeighbors = minNeighbors;
-
-		this.maxNeighbors = maxNeighbors;
-	}
-
-	@Override
-	public Component filterFirst(BufferedImage bimg, Component component) {
-
-		List<Component> list = filter(bimg, component);
-
-		if(!list.isEmpty()) {
-			lastComponent = list.get(0);
-		}
-
-		return lastComponent;
+		super(w, h, minNeighbors, maxNeighbors);
 	}
 
 	@Override
@@ -82,33 +48,21 @@ public class SoftFloodFillSearch extends ComponentFilter {
 					
 					Point2D firstPoint = new Point2D(i, j);
 					
+					//Mark as touched
 					addPoint(found, firstPoint);
 					addNeighbors(queue, firstPoint, rgb);//Add reference to its color
 
-					//For each validated neighbor
+					//For each neighbor
 					while (!queue.isEmpty()) {
 
 						//Queue.pop(); 
 						Point2D p = queue.remove();
 						
-						int px = (int)p.getX();
-						int py = (int)p.getY();
-						
-						//Get color from previous pixel
-						int lastColor = p.getColor();
-
-						if ((px >= x) && (px < width &&
-								(py >= y) && (py < height))) {
-							
-							//Update rgb
-							rgb = bimg.getRGB(px, py);
-							
-							if (verifyPixel(px, py, rgb, lastColor, bimg)) {
-								addPoint(found, p);
-								addNeighbors(queue, p, rgb);
-							}
-							
-							mask.setTouched(px, py);
+						if (verifyNext(p, x, y, width, height, bimg)) {
+							addPoint(found, p);
+							addNeighbors(queue, p);
+						} else {
+							mask.setTouched(i, j);
 						}
 					}
 
@@ -124,11 +78,27 @@ public class SoftFloodFillSearch extends ComponentFilter {
 		return result;
 	}
 	
-	private void addPoint(Component component, Point2D p) {
-		mask.setTouched((int)p.getX(), (int)p.getY());
-		component.add(p);
+	private boolean verifyNext(Point2D p, int x, int y, int width,
+			int height, BufferedImage bimg) {
+		
+		int px = (int)p.getX();
+		int py = (int)p.getY();
+		int rgb = bimg.getRGB(px, py);
+		
+		//Get color from previous pixel
+		int lastColor = p.getColor();
+
+		if ((px >= x) && (px < width &&
+				(py >= y) && (py < height))) {
+			
+			if (verifyPixel(px, py, rgb, lastColor, bimg)) {
+				p.setColor(rgb);
+				return true;
+			}
+		}
+		return false;
 	}
-	
+		
 	private void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor) {
 		queue.add(new Point2D(p.getX() + step, p.getY(), lastColor));
 		queue.add(new Point2D(p.getX() - step, p.getY(), lastColor));
@@ -188,21 +158,5 @@ public class SoftFloodFillSearch extends ComponentFilter {
 
 		return verified >= minNeighbors && verified <= maxNeighbors;
 	}
-
-	public int getMinNeighbors() {
-		return minNeighbors;
-	}
-
-	public void setMinNeighbors(int minNeighbors) {
-		this.minNeighbors = minNeighbors;
-	}
-
-	public int getMaxNeighbors() {
-		return maxNeighbors;
-	}
-
-	public void setMaxNeighbors(int maxNeighbors) {
-		this.maxNeighbors = maxNeighbors;
-	}	
-
+	
 }
