@@ -6,7 +6,7 @@ import java.util.List;
 
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
+import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
 
 public class ColorFilter extends ColorPointFilter {
 		
@@ -17,12 +17,11 @@ public class ColorFilter extends ColorPointFilter {
 	public ColorFilter(int w, int h, Color color) {
 		super(w, h);
 
-		this.searchStrategy = new FloodFillSearch(w, h);
+		this.searchStrategy = new SoftFloodFillSearch(w, h);
 		
 		colorStrategy = new ColorStrategy(color, 0x40);
 		
 		searchStrategy.setPixelStrategy(colorStrategy);
-				
 	}
 	
 	public ColorFilter(int w, int h, Color color, int tolerance) {
@@ -33,9 +32,7 @@ public class ColorFilter extends ColorPointFilter {
 	
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
-		
-		((FloodFillSearch)searchStrategy).setup();
-		
+		searchStrategy.setup();
 		return searchStrategy.filter(bimg, component);
 	}
 

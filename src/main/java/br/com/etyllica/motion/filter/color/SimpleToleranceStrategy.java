@@ -23,5 +23,10 @@ public abstract class SimpleToleranceStrategy implements PixelStrategy {
 	public void setTolerance(int tolerance) {
 		this.tolerance = tolerance;
 	}
+	
+	@Override
+	public boolean weakValidateColor(int rgb, int reference) {
+		return validateColor(rgb);
+	}
 		
 }

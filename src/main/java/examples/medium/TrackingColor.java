@@ -22,7 +22,7 @@ public class TrackingColor extends EtyllicaFrame {
 
 	@Override
 	public Application startApplication() {
-				
+		
 		initialSetup("../../../../");
 		
 		return new TrackingColorApplication(w,h);

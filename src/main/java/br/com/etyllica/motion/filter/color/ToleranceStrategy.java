@@ -120,4 +120,8 @@ public abstract class ToleranceStrategy implements PixelStrategy {
 		this.minToleranceBlue = minToleranceBlue;
 	}
 	
+	@Override
+	public boolean weakValidateColor(int rgb, int reference) {
+		return validateColor(rgb);
+	}
 }

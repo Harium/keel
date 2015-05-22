@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.SoftComponentFilter;
+import br.com.etyllica.motion.core.ComponentFilter;
 import br.com.etyllica.motion.core.dynamic.DynamicArrayMask;
 import br.com.etyllica.motion.core.dynamic.DynamicMask;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 
-public class SoftFloodFillSearch extends SoftComponentFilter {
+public class SoftFloodFillSearch extends ComponentFilter {
 
 	private int minNeighbors = 1;
 
@@ -52,9 +52,7 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 		List<Component> list = filter(bimg, component);
 
 		if(!list.isEmpty()) {
-
 			lastComponent = list.get(0);
-
 		}
 
 		return lastComponent;
@@ -95,9 +93,6 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 						
 						int px = (int)p.getX();
 						int py = (int)p.getY();
-												
-						//Update rgb
-						rgb = bimg.getRGB(i, j);
 						
 						//Get color from previous pixel
 						int lastColor = p.getColor();
@@ -105,10 +100,15 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 						if ((px >= x) && (px < width &&
 								(py >= y) && (py < height))) {
 							
+							//Update rgb
+							rgb = bimg.getRGB(px, py);
+							
 							if (verifyPixel(px, py, rgb, lastColor, bimg)) {
 								addPoint(found, p);
 								addNeighbors(queue, p, rgb);
 							}
+							
+							mask.setTouched(px, py);
 						}
 					}
 
@@ -144,8 +144,7 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 					return false;
 				}
 			}
-			
-			return true;			
+			return true;
 		}
 
 		return false;
@@ -161,7 +160,7 @@ public class SoftFloodFillSearch extends SoftComponentFilter {
 				if(pixelStrategy.weakValidateColor(lastRGB, rgb)) {
 					mask.setValid(px, py);
 				}
-			} else {			
+			} else {
 				mask.setInvalid(px, py);
 			}
 		}

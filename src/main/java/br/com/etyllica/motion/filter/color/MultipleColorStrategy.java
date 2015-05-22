@@ -30,6 +30,11 @@ public class MultipleColorStrategy implements PixelStrategy {
 		
 		return result;
 	}
+	
+	@Override
+	public boolean weakValidateColor(int rgb, int reference) {
+		return validateColor(rgb);
+	}
 
 	public void addColor(Color color, int tolerance) {
 		colors.add(new ColorStrategy(color, tolerance));

@@ -27,16 +27,16 @@ public class ComplexPixelStrategy implements PixelStrategy {
 	public boolean validateColor(int rgb) {
 		
 		for(PixelStrategy strategy: strategies) {
-			
 			if (!strategy.validateColor(rgb)){
-			
 				return false;
-				
 			}
-			
-		}
-		
+		}	
 		return true;
+	}
+	
+	@Override
+	public boolean weakValidateColor(int rgb, int reference) {
+		return validateColor(rgb);
 	}
 	
 }
