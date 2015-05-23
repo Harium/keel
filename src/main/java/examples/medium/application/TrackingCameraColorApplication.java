@@ -4,38 +4,41 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import examples.medium.application.area.AreaDrawer;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.input.mouse.MouseButton;
+import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.camera.Camera;
+import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
+import br.com.etyllica.motion.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 
-public class TrackingShadingColorApplication extends Application {
+public class TrackingCameraColorApplication extends Application {
 
-	private FakeCamera cam;
+	private Camera cam;
 
 	private ColorFilter blueFilter;
 
-	//Blue Marker
-	private Color darkColor = new Color(34,40,52);	
-	private Color color = new Color(54, 71, 79);
+	//Blue Marker	
+	private Color color = new Color(171, 112, 100);
 
 	private int tolerance = 10;
 	private int minDensity = 12;
 	private int minDimension = 10;
+	private int maxDimension = 100;
 
 	private MinDensityValidation densityValidation;
 	private MinDimensionValidation dimensionValidation;
 
 	private boolean hide = false;
-	private boolean markers = true;
 	private boolean pixels = true;
 
 	private int xOffset = 0;
@@ -45,7 +48,9 @@ public class TrackingShadingColorApplication extends Application {
 
 	private List<Component> blueComponents;
 
-	public TrackingShadingColorApplication(int w, int h) {
+	private BufferedLayer layer;
+
+	public TrackingCameraColorApplication(int w, int h) {
 		super(w, h);
 	}
 
@@ -61,6 +66,8 @@ public class TrackingShadingColorApplication extends Application {
 
 		blueFilter = new ColorFilter(screen.getW(), screen.getH(), color, tolerance);
 		blueFilter.getSearchStrategy().addValidation(dimensionValidation);
+		blueFilter.getSearchStrategy().addValidation(new MaxDimensionValidation(maxDimension));
+
 		blueFilter.getSearchStrategy().addValidation(densityValidation);
 
 		final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
@@ -77,16 +84,13 @@ public class TrackingShadingColorApplication extends Application {
 	}
 
 	protected Component setupCamera() {
-		cam = new FakeCamera();
-
-		for(int i=1;i<=3;i++) {
-			cam.addImage("dumbbells/dumbbells"+Integer.toString(i)+".png");	
-		}
+		cam = new CameraV4L4J(0);
 
 		int w = cam.getBufferedImage().getWidth();
 		int h = cam.getBufferedImage().getHeight();
 
 		screen = new Component(0, 0, w, h);
+		layer = new BufferedLayer(w, h);
 
 		return screen;
 	}
@@ -95,8 +99,11 @@ public class TrackingShadingColorApplication extends Application {
 	int by = 0;
 	int bRadius = 0;
 
-	private void reset(BufferedImage b){
-		blueComponents = blueFilter.filter(b, screen);
+	private void reset(BufferedImage b) {
+		layer.setBuffer(b);
+		layer.flipHorizontal();
+
+		blueComponents = blueFilter.filter(layer.getBuffer(), screen);
 
 		if(!blueComponents.isEmpty()) {
 
@@ -140,7 +147,7 @@ public class TrackingShadingColorApplication extends Application {
 	}
 
 	private Color pickColor(int px, int py) {
-		return new Color(cam.getBufferedImage().getRGB(px, py));
+		return new Color(layer.getBuffer().getRGB(px, py));
 	}
 
 	@Override
@@ -150,8 +157,8 @@ public class TrackingShadingColorApplication extends Application {
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_P)){
-			markers = !markers;
+		if(event.isKeyDown(KeyEvent.TSK_J)){
+			pixels = !pixels;
 		}
 
 		//Change Tolerance
@@ -181,12 +188,6 @@ public class TrackingShadingColorApplication extends Application {
 			dimensionValidation.setDimension(minDimension);
 		}
 
-		if(event.isKeyUp(KeyEvent.TSK_RIGHT_ARROW)) {
-			cam.nextFrame();
-		} else if(event.isKeyUp(KeyEvent.TSK_LEFT_ARROW)) {
-			cam.previousFrame();
-		}
-
 		return GUIEvent.NONE;
 	}
 
@@ -194,17 +195,17 @@ public class TrackingShadingColorApplication extends Application {
 	public void draw(Graphic g) {
 
 		if(!hide){
-			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
+			g.drawImage(layer.getBuffer(), xOffset, yOffset);
 		}
 
-		g.setColor(color);
-		g.fillRect(0, 0, 60, 80);
+		reset(cam.getBufferedImage());
+		
+		if(pixels) {
 
-		g.setColor(Color.BLACK);
+			g.setColor(color);
+			g.fillRect(0, 0, 60, 80);
 
-		if(markers) {
-
-			reset(cam.getBufferedImage());
+			g.setColor(Color.BLACK);
 
 			g.drawString("Tol: "+Integer.toString(tolerance), 10, 80);
 			g.drawString("Den: "+Integer.toString(minDensity), 10, 100);
@@ -216,21 +217,28 @@ public class TrackingShadingColorApplication extends Application {
 
 			g.setColor(Color.GREEN);
 
+			Component c1 = null, c2 = null;
 			if(blueComponents != null) {
 				for(Component component:blueComponents) {
 					g.drawPolygon(component.getBoundingBox());
 					g.drawString(component.getX(), component.getY(), component.getW(), component.getH(), Double.toString(component.getDensity()));
 
-					/*for(Point2D point: component.getPoints()) {
-						g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);	
-					}*/
+					if(c1==null) {
+						c1 = component;
+					} else if(c2 == null) {
+						c2 = component;
+					}
 				}
+			}
+
+			if(c1!=null&&c2!=null) {
+				AreaDrawer.drawMultiArea(g, c1.getCenter(), c2.getCenter());
 			}
 
 			g.setAlpha(50);
 			g.fillCircle(bx, by, bRadius);
 			g.resetOpacity();
-
 		}
 	}
+
 }

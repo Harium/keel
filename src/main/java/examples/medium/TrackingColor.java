@@ -3,7 +3,7 @@ package examples.medium;
 
 import br.com.etyllica.EtyllicaFrame;
 import br.com.etyllica.context.Application;
-import examples.medium.application.TrackingColorApplication;
+import examples.medium.application.TrackingCameraColorApplication;
 
 public class TrackingColor extends EtyllicaFrame {
 
@@ -25,7 +25,7 @@ public class TrackingColor extends EtyllicaFrame {
 		
 		initialSetup("../../../../");
 		
-		return new TrackingColorApplication(w,h);
+		return new TrackingCameraColorApplication(w,h);
 		
 	}	
 

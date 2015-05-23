@@ -1,6 +1,7 @@
-package examples.medium.application;
+package examples.medium.application.area;
 
 import java.awt.Color;
+import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.core.event.PointerState;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
@@ -17,15 +19,19 @@ import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 
-public class TrackingShadingColorApplication extends Application {
+public class TrackingMultiAreaApplication extends Application {
 
-	private FakeCamera cam;
+	private FakeCamera cam;	
 
-	private ColorFilter blueFilter;
-
+	//Orange Marker
+	private ColorFilter orangeFilter;
+	private Color orangeColor = new Color(165, 94, 74);
+	
 	//Blue Marker
-	private Color darkColor = new Color(34,40,52);	
-	private Color color = new Color(54, 71, 79);
+	private ColorFilter blueFilter;
+	private Color blueColor = new Color(54, 71, 79);
+
+	private MultiArea area = new MultiArea(5);
 
 	private int tolerance = 10;
 	private int minDensity = 12;
@@ -42,10 +48,14 @@ public class TrackingShadingColorApplication extends Application {
 	private int yOffset = 0;
 
 	private Component screen;
+	
+	//Area Stuff
+	private int areaOver = -1;
 
+	private List<Component> orangeComponents;
 	private List<Component> blueComponents;
 
-	public TrackingShadingColorApplication(int w, int h) {
+	public TrackingMultiAreaApplication(int w, int h) {
 		super(w, h);
 	}
 
@@ -59,12 +69,17 @@ public class TrackingShadingColorApplication extends Application {
 		densityValidation = new MinDensityValidation(minDensity);
 		dimensionValidation = new MinDimensionValidation(minDimension);
 
-		blueFilter = new ColorFilter(screen.getW(), screen.getH(), color, tolerance);
+		orangeFilter = new ColorFilter(screen.getW(), screen.getH(), orangeColor, tolerance);
+		orangeFilter.getSearchStrategy().addValidation(dimensionValidation);
+		orangeFilter.getSearchStrategy().addValidation(densityValidation);
+		
+		blueFilter = new ColorFilter(screen.getW(), screen.getH(), blueColor, tolerance);
 		blueFilter.getSearchStrategy().addValidation(dimensionValidation);
-		blueFilter.getSearchStrategy().addValidation(densityValidation);
 
 		final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
 
+		orangeFilter.getSearchStrategy().setBorder(MAGIC_NUMBER);
+		orangeFilter.getSearchStrategy().setStep(2);
 		blueFilter.getSearchStrategy().setBorder(MAGIC_NUMBER);
 		blueFilter.getSearchStrategy().setStep(2);
 
@@ -79,10 +94,8 @@ public class TrackingShadingColorApplication extends Application {
 	protected Component setupCamera() {
 		cam = new FakeCamera();
 
-		for(int i=1;i<=3;i++) {
-			cam.addImage("dumbbells/dumbbells"+Integer.toString(i)+".png");	
-		}
-
+		cam.addImage("dumbbells/dumbbells3.png");
+		
 		int w = cam.getBufferedImage().getWidth();
 		int h = cam.getBufferedImage().getHeight();
 
@@ -96,44 +109,37 @@ public class TrackingShadingColorApplication extends Application {
 	int bRadius = 0;
 
 	private void reset(BufferedImage b){
+		orangeComponents = orangeFilter.filter(b, screen);
 		blueComponents = blueFilter.filter(b, screen);
-
-		if(!blueComponents.isEmpty()) {
-
-			bx = 0;
-			by = 0;
-
-			bRadius = 0;
-
-			for(Component component: blueComponents) {
-				Point2D p = component.getCenter();
-				bx += p.getX();
-				by += p.getY();
-
-				bRadius += (component.getW()+component.getH())/4;
-			}
-
-			bx /= blueComponents.size();
-			by /= blueComponents.size();
-
-			bRadius /= blueComponents.size();
-
-			return;
-		}
 	}
 
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 
 		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
-			color = pickColor(event.getX(), event.getY());
-			blueFilter.setColor(color);
+			orangeColor = pickColor(event.getX(), event.getY());
+			orangeFilter.setColor(orangeColor);
 
-			System.out.println(color.getRed());
-			System.out.println(color.getGreen());
-			System.out.println(color.getBlue());
+			System.out.println(orangeColor.getRed());
+			System.out.println(orangeColor.getGreen());
+			System.out.println(orangeColor.getBlue());
 			System.out.println("---------");
 		}
+
+		if(event.getState() == PointerState.MOVE) {
+			if(area.getPolygons()!=null) {
+				int i=1;
+				areaOver = -1;
+				for(Polygon polygon: area.getPolygons()) {
+					if(polygon.contains(event.getX(), event.getY())) {
+						//System.out.println("Mouse over "+i);
+						areaOver = i;
+					}
+					i++;
+				}
+			}
+		}
+
 
 		// TODO Auto-generated method stub
 		return GUIEvent.NONE;
@@ -150,17 +156,17 @@ public class TrackingShadingColorApplication extends Application {
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_P)){
+		if(event.isKeyDown(KeyEvent.TSK_J)){
 			markers = !markers;
 		}
 
 		//Change Tolerance
 		if(event.isKeyUp(KeyEvent.TSK_EQUALS)) {
 			tolerance++;
-			blueFilter.setTolerance(tolerance);
+			orangeFilter.setTolerance(tolerance);
 		} else if(event.isKeyUp(KeyEvent.TSK_MINUS)) {
 			tolerance--;
-			blueFilter.setTolerance(tolerance);
+			orangeFilter.setTolerance(tolerance);
 		}
 
 		//Change Density
@@ -197,14 +203,14 @@ public class TrackingShadingColorApplication extends Application {
 			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
 		}
 
-		g.setColor(color);
+		g.setColor(orangeColor);
 		g.fillRect(0, 0, 60, 80);
 
 		g.setColor(Color.BLACK);
 
-		if(markers) {
+		reset(cam.getBufferedImage());
 
-			reset(cam.getBufferedImage());
+		if(markers) {
 
 			g.drawString("Tol: "+Integer.toString(tolerance), 10, 80);
 			g.drawString("Den: "+Integer.toString(minDensity), 10, 100);
@@ -216,20 +222,44 @@ public class TrackingShadingColorApplication extends Application {
 
 			g.setColor(Color.GREEN);
 
-			if(blueComponents != null) {
-				for(Component component:blueComponents) {
+			Component c1 = null, c2 = null;
+			if(orangeComponents != null) {
+				for(Component component:orangeComponents) {
 					g.drawPolygon(component.getBoundingBox());
 					g.drawString(component.getX(), component.getY(), component.getW(), component.getH(), Double.toString(component.getDensity()));
 
-					/*for(Point2D point: component.getPoints()) {
-						g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);	
-					}*/
+					if(c1==null) {
+						c1 = component;
+					} else if(c2 == null) {
+						c2 = component;
+					}
 				}
 			}
 
-			g.setAlpha(50);
-			g.fillCircle(bx, by, bRadius);
-			g.resetOpacity();
+			if(c1!=null&&c2!=null) {
+
+				Point2D p = c1.getCenter();
+				Point2D q = c2.getCenter();
+
+				area.generateArea(p, q);
+				//Draw Areas
+				g.setAlpha(50);
+				g.setColor(Color.BLUE);
+				
+				int i = 1;
+				for(Polygon polygon: area.getPolygons()) {
+					if(areaOver != i) {
+						g.drawPolygon(polygon);
+					} else {
+						g.fillPolygon(polygon);
+					}
+					i++;
+				}
+				
+				g.resetOpacity();
+			}
+
+			
 
 		}
 	}

@@ -3,15 +3,15 @@ package br.com.etyllica.motion.filter.validation;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.ComponentValidationStrategy;
 
-public class MaxComponentDimension implements ComponentValidationStrategy {
+public class MaxDimensionValidation implements ComponentValidationStrategy {
 
 	private int dimension = 180;
 	
-	public MaxComponentDimension() {
+	public MaxDimensionValidation() {
 		super();
 	}
 	
-	public MaxComponentDimension(int dimension) {
+	public MaxDimensionValidation(int dimension) {
 		super();
 		
 		this.dimension = dimension;

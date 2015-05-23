@@ -15,9 +15,9 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.filter.TrackingByDarkerColorFilter;
-import br.com.etyllica.motion.filter.validation.MaxComponentDimension;
-import br.com.etyllica.motion.filter.validation.MinComponentDimension;
+import br.com.etyllica.motion.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
+import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 import br.com.etyllica.motion.modifier.hull.QuickHullModifier;
 
 public class MelanomaFinderApplication extends Application {
@@ -66,8 +66,8 @@ public class MelanomaFinderApplication extends Application {
 
 		//Define validations
 		skinFilter.addValidation(new MinDensityValidation(50)); //Components must have at least 50% of pixel density  
-		skinFilter.addValidation(new MinComponentDimension(20)); //Components should be bigger than 20x20px 
-		skinFilter.addValidation(new MaxComponentDimension(width/2)); //Components should be smaller than (width/2)x(width/2)px
+		skinFilter.addValidation(new MinDimensionValidation(20)); //Components should be bigger than 20x20px 
+		skinFilter.addValidation(new MaxDimensionValidation(width/2)); //Components should be smaller than (width/2)x(width/2)px
 
 		loading = 80;
 

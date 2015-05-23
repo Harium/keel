@@ -4,24 +4,26 @@ package examples.medium;
 import br.com.etyllica.EtyllicaFrame;
 import br.com.etyllica.context.Application;
 import examples.medium.application.TrackingShadingColorApplication;
+import examples.medium.application.area.TrackingMultiAreaApplication;
 
-public class TrackingShadingColor extends EtyllicaFrame {
+public class TrackingStaticColor extends EtyllicaFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	public TrackingShadingColor() {
+	public TrackingStaticColor() {
 		super(640, 480);
 	}
 	
 	public static void main(String[] args) {
-		TrackingShadingColor finder = new TrackingShadingColor();
+		TrackingStaticColor finder = new TrackingStaticColor();
 		finder.init();
 	}
 
 	@Override
 	public Application startApplication() {
 		initialSetup("../../../../");
-		return new TrackingShadingColorApplication(w,h);
+		//return new TrackingShadingColorApplication(w,h);
+		return new TrackingMultiAreaApplication(w,h);
 	}	
 
 }
