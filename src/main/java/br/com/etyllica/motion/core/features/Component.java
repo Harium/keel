@@ -82,24 +82,22 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	public void add(Point2D p) {
 
 		int px = (int)p.getX();
-
 		int py = (int)p.getY();
 
 		if(px > highestX) {
-
 			highestX = px;
-
-		} else if(px < lowestX) {
-
+		} 
+		
+		if(px < lowestX) {
 			lowestX = px;
 		}
 
 		if(py > highestY) {
-
 			highestY = py;
 
-		} else if(py < lowestY) {
-
+		}
+		
+		if(py < lowestY) {
 			lowestY = py;
 		}
 
@@ -160,10 +158,10 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 		Polygon p = new Polygon();
 
-		p.addPoint(lowestX,lowestY);
+		p.addPoint(lowestX, lowestY);
 		p.addPoint(highestX,lowestY);
-		p.addPoint(highestX,highestY);
-		p.addPoint(lowestX,highestY);
+		p.addPoint(highestX, highestY);
+		p.addPoint(lowestX, highestY);
 
 		return p;
 	}
@@ -180,21 +178,18 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	}
 
 	public GeometricLayer getRectangle() {
-
 		GeometricLayer rect = new GeometricLayer(lowestX, lowestY, highestX-lowestX, highestY-lowestY);
-
 		return rect;
 	}
 
 	public double getDensity() {
-		int area = getArea();
+		double area = getArea();
 
 		if(area == 0) {
 			return 1;
 		}
 
-		return (double)(points.size()*100/area);
-
+		return ((double)points.size()*100/area);
 	}
 
 	public int getArea() {
@@ -204,15 +199,11 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	public Point2D getCenter() {
 
 		double countX = 0;
-
 		double countY = 0;
 
 		for(Point2D point: points) {
-
 			countX+=point.getX();
-
 			countY+=point.getY();
-
 		}
 
 		Point2D center = new Point2D(countX/points.size(), countY/points.size());
@@ -221,7 +212,6 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	}
 
 	public Layer getLayer() {
-
 		return new Layer(lowestX,lowestY,getW(),getH());
 	}
 

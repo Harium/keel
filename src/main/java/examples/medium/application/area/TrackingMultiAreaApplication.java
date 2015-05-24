@@ -9,48 +9,59 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.event.PointerState;
 import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.SVGColor;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
+import br.com.etyllica.motion.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 
 public class TrackingMultiAreaApplication extends Application {
 
-	private FakeCamera cam;	
+	protected Camera cam;
+	
+	protected BufferedImage buffer;
 
 	//Orange Marker
 	private ColorFilter orangeFilter;
 	private Color orangeColor = new Color(165, 94, 74);
-	
+
 	//Blue Marker
 	private ColorFilter blueFilter;
-	private Color blueColor = new Color(54, 71, 79);
+	private Color blueColor = new Color(0, 153, 255);
 
 	private MultiArea area = new MultiArea(5);
 
 	private int tolerance = 10;
 	private int minDensity = 12;
 	private int minDimension = 10;
+	private int maxDimension = 260;
 
 	private MinDensityValidation densityValidation;
-	private MinDimensionValidation dimensionValidation;
+	private MinDimensionValidation minDimensionValidation;
+	private MaxDimensionValidation maxDimensionValidation;
 
 	private boolean hide = false;
 	private boolean markers = true;
-	private boolean pixels = true;
 
 	private int xOffset = 0;
 	private int yOffset = 0;
 
-	private Component screen;
-	
+	protected Component screen;
+
 	//Area Stuff
+	private boolean foundTwoComponents = false;
 	private int areaOver = -1;
+
+	private Component c1 = null, c2 = null;
+	private double densityC1 = 0;
+	private double densityC2 = 0;
+	private static final int minCollisionCount = 80;
 
 	private List<Component> orangeComponents;
 	private List<Component> blueComponents;
@@ -67,21 +78,15 @@ public class TrackingMultiAreaApplication extends Application {
 		screen = setupCamera();
 
 		densityValidation = new MinDensityValidation(minDensity);
-		dimensionValidation = new MinDimensionValidation(minDimension);
+		minDimensionValidation = new MinDimensionValidation(minDimension);
+		maxDimensionValidation = new MaxDimensionValidation(maxDimension);
 
-		orangeFilter = new ColorFilter(screen.getW(), screen.getH(), orangeColor, tolerance);
-		orangeFilter.getSearchStrategy().addValidation(dimensionValidation);
+		orangeFilter = setupFilter(orangeColor);
+		orangeFilter.getSearchStrategy().addValidation(minDimensionValidation);
 		orangeFilter.getSearchStrategy().addValidation(densityValidation);
-		
-		blueFilter = new ColorFilter(screen.getW(), screen.getH(), blueColor, tolerance);
-		blueFilter.getSearchStrategy().addValidation(dimensionValidation);
 
-		final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
-
-		orangeFilter.getSearchStrategy().setBorder(MAGIC_NUMBER);
-		orangeFilter.getSearchStrategy().setStep(2);
-		blueFilter.getSearchStrategy().setBorder(MAGIC_NUMBER);
-		blueFilter.getSearchStrategy().setStep(2);
+		blueFilter = setupFilter(blueColor);
+		blueFilter.getSearchStrategy().addValidation(minDimensionValidation);
 
 		loadingInfo = "Configuring Filter";
 
@@ -94,8 +99,10 @@ public class TrackingMultiAreaApplication extends Application {
 	protected Component setupCamera() {
 		cam = new FakeCamera();
 
-		cam.addImage("dumbbells/dumbbells3.png");
-		
+		/*cam.addImage("dumbbells/dumbbells1.png");
+		cam.addImage("dumbbells/dumbbells2.png");*/
+		((FakeCamera)cam).addImage("dumbbells/dumbbells5.png");
+
 		int w = cam.getBufferedImage().getWidth();
 		int h = cam.getBufferedImage().getHeight();
 
@@ -103,14 +110,76 @@ public class TrackingMultiAreaApplication extends Application {
 
 		return screen;
 	}
+	
+	private ColorFilter setupFilter(Color color) {
+		final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
+		
+		ColorFilter filter = new ColorFilter(screen.getW(), screen.getH(), color, tolerance);
+		filter.getSearchStrategy().setBorder(MAGIC_NUMBER);
+		filter.getSearchStrategy().setStep(2);
+		filter.getSearchStrategy().addValidation(maxDimensionValidation);
+		
+		return filter;
+	}
 
-	int bx = 0;
-	int by = 0;
-	int bRadius = 0;
-
-	private void reset(BufferedImage b){
+	protected void reset(BufferedImage b) {
 		orangeComponents = orangeFilter.filter(b, screen);
 		blueComponents = blueFilter.filter(b, screen);
+
+		if(!orangeComponents.isEmpty()) {
+
+			densityC1 = 0;
+			densityC2 = 0;
+			
+			int found = 0;
+
+			for(Component component : orangeComponents) {
+
+				double dens = component.getDensity();
+
+				if(dens > densityC1) {
+					c2 = c1;
+					densityC2 = densityC1;
+					c1 = component;
+					densityC1 = dens;
+					found++;
+				} else if(dens > densityC2) {
+					c2 = component;
+					densityC2 = dens;
+					found++;
+				}
+			}
+			
+			foundTwoComponents = found >= 2;
+		}
+
+		if(foundTwoComponents) {
+			
+			area.generateArea(c1.getCenter(), c2.getCenter());
+			areaOver = -1;
+
+			//Verify Collisions
+			for(Component component: blueComponents) {
+				for(int i = 0; i < area.getAreas(); i++) {
+
+					int count = 0;
+
+					for(Point2D p: component.getPoints()) {
+						Polygon polygon = area.getPolygons()[i];
+						if(polygon.contains(p.getX(),p.getY())) {
+							count++;
+						}
+					}
+
+					if(count >= minCollisionCount) {
+						areaOver = i;
+						break;
+					}
+				}
+			}
+		}
+		
+		buffer = b;
 	}
 
 	@Override
@@ -126,37 +195,31 @@ public class TrackingMultiAreaApplication extends Application {
 			System.out.println("---------");
 		}
 
-		if(event.getState() == PointerState.MOVE) {
-			if(area.getPolygons()!=null) {
-				int i=1;
-				areaOver = -1;
-				for(Polygon polygon: area.getPolygons()) {
-					if(polygon.contains(event.getX(), event.getY())) {
-						//System.out.println("Mouse over "+i);
-						areaOver = i;
-					}
-					i++;
-				}
-			}
+		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_RIGHT)) {
+			blueColor = pickColor(event.getX(), event.getY());
+			blueFilter.setColor(blueColor);
+
+			System.out.println(blueColor.getRed());
+			System.out.println(blueColor.getGreen());
+			System.out.println(blueColor.getBlue());
+			System.out.println("---------");
 		}
 
-
-		// TODO Auto-generated method stub
 		return GUIEvent.NONE;
 	}
 
 	private Color pickColor(int px, int py) {
-		return new Color(cam.getBufferedImage().getRGB(px, py));
+		return new Color(buffer.getRGB(px, py));
 	}
 
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.TSK_H)){
+		if(event.isKeyDown(KeyEvent.TSK_H)) {
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_J)){
+		if(event.isKeyDown(KeyEvent.TSK_J)) {
 			markers = !markers;
 		}
 
@@ -181,86 +244,92 @@ public class TrackingMultiAreaApplication extends Application {
 		//Change Dimension
 		if(event.isKeyUp(KeyEvent.TSK_L)) {
 			minDimension++;
-			dimensionValidation.setDimension(minDimension);
+			minDimensionValidation.setDimension(minDimension);
 		} else if(event.isKeyUp(KeyEvent.TSK_K)) {
 			minDimension--;
-			dimensionValidation.setDimension(minDimension);
+			minDimensionValidation.setDimension(minDimension);
 		}
 
-		if(event.isKeyUp(KeyEvent.TSK_RIGHT_ARROW)) {
-			cam.nextFrame();
-		} else if(event.isKeyUp(KeyEvent.TSK_LEFT_ARROW)) {
-			cam.previousFrame();
-		}
+		updateCameraInput(event);
 
 		return GUIEvent.NONE;
+	}
+	
+	protected void updateCameraInput(KeyEvent event) {
+		if(event.isKeyUp(KeyEvent.TSK_RIGHT_ARROW)) {
+			((FakeCamera)cam).nextFrame();
+		} else if(event.isKeyUp(KeyEvent.TSK_LEFT_ARROW)) {
+			((FakeCamera)cam).previousFrame();
+		}
 	}
 
 	@Override
 	public void draw(Graphic g) {
 
-		if(!hide){
-			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
+		reset(cam.getBufferedImage());
+		
+		if(!hide) {
+			g.drawImage(buffer, xOffset, yOffset);
 		}
 
 		g.setColor(orangeColor);
 		g.fillRect(0, 0, 60, 80);
-
-		g.setColor(Color.BLACK);
-
-		reset(cam.getBufferedImage());
-
+		
+		g.setColor(blueColor);
+		g.fillRect(w-60, 0, 60, 80);		
+		
+		g.setColor(Color.WHITE);
+		
 		if(markers) {
 
-			g.drawString("Tol: "+Integer.toString(tolerance), 10, 80);
-			g.drawString("Den: "+Integer.toString(minDensity), 10, 100);
-			g.drawString("Dim: "+Integer.toString(minDimension), 10, 120);
+			g.drawShadow(10, 80, "Tol: "+Integer.toString(tolerance));
+			g.drawShadow(10, 100, "Den: "+Integer.toString(minDensity));
+			g.drawShadow(10, 120, "Dim: "+Integer.toString(minDimension));
 
-			g.setAlpha(60);
-			//drawFeaturedPoints(g, sampledFeature, Color.GREEN);
-			g.setAlpha(100);
+			g.setColor(SVGColor.ORANGE);
 
-			g.setColor(Color.GREEN);
-
-			Component c1 = null, c2 = null;
+			//Draw OrangeComponents
 			if(orangeComponents != null) {
 				for(Component component:orangeComponents) {
 					g.drawPolygon(component.getBoundingBox());
 					g.drawString(component.getX(), component.getY(), component.getW(), component.getH(), Double.toString(component.getDensity()));
-
-					if(c1==null) {
-						c1 = component;
-					} else if(c2 == null) {
-						c2 = component;
-					}
 				}
 			}
 
-			if(c1!=null&&c2!=null) {
+			if(foundTwoComponents) {
 
-				Point2D p = c1.getCenter();
-				Point2D q = c2.getCenter();
-
-				area.generateArea(p, q);
 				//Draw Areas
 				g.setAlpha(50);
 				g.setColor(Color.BLUE);
-				
-				int i = 1;
-				for(Polygon polygon: area.getPolygons()) {
+
+				for(int i=0;i<area.getAreas(); i++) {
+					Polygon polygon = area.getPolygons()[i];
+
 					if(areaOver != i) {
+						/*g.setColor(Color.GREEN);
+						g.drawRect(area.getLayers()[i]);*/
+
+						g.setColor(SVGColor.BLUE);
 						g.drawPolygon(polygon);
 					} else {
 						g.fillPolygon(polygon);
 					}
-					i++;
+
 				}
-				
+
 				g.resetOpacity();
 			}
-
 			
+			if(areaOver >= 0)
+				g.drawStringShadowX(300, Integer.toString(areaOver+1));
+
+			if(blueComponents != null) {
+				for(Component component:blueComponents) {
+					g.drawPolygon(component.getBoundingBox());
+				}
+			}
 
 		}
 	}
+
 }
