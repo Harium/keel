@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.ogr;
+package br.com.etyllica.motion.features.ogr;
 
 import br.com.etyllica.linear.graph.Graph;
 

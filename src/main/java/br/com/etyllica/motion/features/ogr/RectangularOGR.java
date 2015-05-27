@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.ogr;
+package br.com.etyllica.motion.features.ogr;
 
 import java.util.ArrayList;
 import java.util.List;

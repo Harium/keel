@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.camera;
+package br.com.etyllica.motion.lens;
 
 public class LensHelper {
 

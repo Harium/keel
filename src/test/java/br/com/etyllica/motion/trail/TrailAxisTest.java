@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.etyllica.motion.features.trail.TrailAxis;
+
 public class TrailAxisTest {
 
 	private TrailAxis axis;
