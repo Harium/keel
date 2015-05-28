@@ -4,19 +4,17 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
+import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
 import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 import br.com.etyllica.motion.modifier.hull.HullModifier;
 
@@ -25,7 +23,7 @@ public class GeometricFormApplication extends Application {
 	private BufferedImage image;
 
 	private ColorFilter blackFilter;
-
+	
 	private List<Component> blackComponents;
 
 	private Component screen;
@@ -55,11 +53,10 @@ public class GeometricFormApplication extends Application {
 
 		//Define blue and black filters
 		blackFilter = new ColorFilter(w, h, Color.BLACK);
-		
-		FloodFillSearch floodFill = (FloodFillSearch)blackFilter.getSearchStrategy();
+				
+		SoftFloodFillSearch floodFill = (SoftFloodFillSearch)blackFilter.getSearchStrategy();
 		floodFill.setStep(1);
-		//floodFill.setMinNeighbors(3);
-		//floodFill.setMaxNeighbors(8);
+		
 		loading = 20;
 		//Filter the image
 		blackComponents = blackFilter.filter(image, screen);
@@ -120,7 +117,7 @@ public class GeometricFormApplication extends Application {
 	private void drawImage(BufferedImage image) {
 
 		Graphics2D g = image.createGraphics();
-
+		
 		g.setColor(Color.WHITE);
 
 		g.fillRect(0, 0, w, h);
@@ -128,9 +125,6 @@ public class GeometricFormApplication extends Application {
 		g.setColor(Color.BLACK);
 
 		g.setStroke(new BasicStroke(6f));
-
-		//Draw Rectangle
-		g.drawRect(40, 40, 100, 80);
 		
 		//Draw triangle
 		Polygon triangle = new Polygon();
@@ -141,7 +135,17 @@ public class GeometricFormApplication extends Application {
 		g.drawPolygon(triangle);
 				
 		g.drawOval(440, 80, 100, 100);
-				
+
+		//Draw Rectangle
+		g.drawRect(40, 140, 100, 180);
+		
+		
+		AffineTransform transform = new AffineTransform();
+		transform.rotate(Math.toRadians(10), x + w/2, y+h/2);
+		g.transform(transform);
+		//Draw Rotated Rectangle
+		g.drawRect(340, 260, 100, 180);
+		
 	}
 
 	@Override
@@ -180,18 +184,6 @@ public class GeometricFormApplication extends Application {
 			
 		}
 
-	}
-
-	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

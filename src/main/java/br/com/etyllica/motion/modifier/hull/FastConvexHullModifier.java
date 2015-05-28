@@ -35,8 +35,11 @@ public class FastConvexHullModifier implements HullModifier {
 	}
 
 	public List<Point2D> modify(Component component) {
-		
 		List<Point2D> list = PointListHelper.cloneList(component.getPoints());
+		
+		if(component.getPoints().size()<3) {
+			return list;
+		}
 				
 		Collections.sort(list, new XCompare());
 
