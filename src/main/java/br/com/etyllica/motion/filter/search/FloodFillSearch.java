@@ -141,10 +141,18 @@ public class FloodFillSearch extends ComponentFilter {
 	}
 
 	protected void addNeighbors(Queue<Point2D> queue, Point2D p) {
-		queue.add(new Point2D(p.getX() + step, p.getY(), p.getColor()));
-		queue.add(new Point2D(p.getX() - step, p.getY(), p.getColor()));
-		queue.add(new Point2D(p.getX(), p.getY() + step, p.getColor()));
-		queue.add(new Point2D(p.getX(), p.getY() - step, p.getColor()));
+		addNeighbor(queue, (int)p.getX() + step, (int)p.getY(), p.getColor());
+		addNeighbor(queue, (int)p.getX() - step, (int)p.getY(), p.getColor());
+		addNeighbor(queue, (int)p.getX(), (int)p.getY() + step, p.getColor());
+		addNeighbor(queue, (int)p.getX(), (int)p.getY() - step, p.getColor());
+	}
+	
+	//It also prevents same pixel be included in a better list of neighbors
+	//May have to be changed to let multiple touch
+	protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color) {
+		if(!mask.isTouched(px, py)) {
+			queue.add(new Point2D(px, py, color));	
+		}
 	}
 
 	protected boolean verifyPixel(int px, int py, int rgb, BufferedImage bimg) {
@@ -180,8 +188,9 @@ public class FloodFillSearch extends ComponentFilter {
 
 		for(int j = py-step; j <= py+step; j += step) {
 			for(int i = px-step; i <= px+step; i += step) {
-
-				if(pixelStrategy.validateColor(bimg.getRGB(i, j))) {
+				if(mask.isValid(i, j)) {
+					verified++;
+				} else if(pixelStrategy.validateColor(bimg.getRGB(i, j))) {
 					verified++;
 				}
 			}

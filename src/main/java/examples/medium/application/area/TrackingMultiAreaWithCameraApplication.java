@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.motion.camera.CameraSarxosWebcam;
+import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
 
 
@@ -18,7 +19,8 @@ public class TrackingMultiAreaWithCameraApplication extends TrackingMultiAreaApp
 
 	@Override
 	protected Component setupCamera() {
-		cam = new CameraSarxosWebcam(0);
+		//cam = new CameraSarxosWebcam(0);
+		cam = new CameraV4L4J(0);
 
 		int w = cam.getBufferedImage().getWidth();
 		int h = cam.getBufferedImage().getHeight();

@@ -100,12 +100,12 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 	}
 		
 	private void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor) {
-		queue.add(new Point2D(p.getX() + step, p.getY(), lastColor));
-		queue.add(new Point2D(p.getX() - step, p.getY(), lastColor));
-		queue.add(new Point2D(p.getX(), p.getY() + step, lastColor));
-		queue.add(new Point2D(p.getX(), p.getY() - step, lastColor));
+		addNeighbor(queue, (int)p.getX() + step, (int)p.getY(), lastColor);
+		addNeighbor(queue, (int)p.getX() - step, (int)p.getY(), lastColor);
+		addNeighbor(queue, (int)p.getX(), (int)p.getY() + step, lastColor);
+		addNeighbor(queue, (int)p.getX(), (int)p.getY() - step, lastColor);
 	}
-	
+		
 	private boolean verifyPixel(int px, int py, int rgb, int lastRGB, BufferedImage bimg) {
 		
 		if (verifySinglePixel(px, py, rgb, lastRGB)) {
@@ -149,7 +149,9 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 			for(int i = px-step; i <= px+step; i += step) {
 
 				int currentColor = bimg.getRGB(i, j);
-				if(pixelStrategy.weakValidateColor(baseColor, currentColor)) {
+				if(mask.isValid(i, j)) {
+					verified++;
+				} else if(pixelStrategy.weakValidateColor(baseColor, currentColor)) {
 					verified++;
 				}
 				baseColor = currentColor;
