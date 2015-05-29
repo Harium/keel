@@ -16,7 +16,7 @@ import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.CrossSearch;
-import br.com.etyllica.motion.modifier.hull.QuickHullModifier;
+import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 
 public class FaceSampledReal extends Application {
 
@@ -24,7 +24,7 @@ public class FaceSampledReal extends Application {
 
 	private CrossSearch colorFilter = new CrossSearch();
 
-	private QuickHullModifier quickHull = new QuickHullModifier();
+	private FastConvexHullModifier quickHull = new FastConvexHullModifier();
 		
 	private boolean hide = false;
 	private boolean pixels = true;
@@ -67,7 +67,7 @@ public class FaceSampledReal extends Application {
 		loading = 100;
 	}
 
-	private void reset(BufferedImage b){
+	private void reset(BufferedImage b) {
 				
 		//Sampled
 		sampledFeature = colorFilter.filter(b, screen).get(0);
@@ -75,12 +75,11 @@ public class FaceSampledReal extends Application {
 		sampledPolygon.reset();
 
 		//TODO Separate polygons
-		List<Point2D> points = quickHull.modify(sampledFeature);
+		List<Point2D> points = quickHull.modify(sampledFeature).getPoints();
 		
 		for(Point2D point: points){
 			sampledPolygon.addPoint((int)point.getX(), (int)point.getY());	
 		}
-		
 	}
 
 	private List<Component> separateComponents(Component feature){

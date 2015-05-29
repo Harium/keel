@@ -8,17 +8,18 @@ import java.util.List;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.SVGColor;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.feature.Component;
+import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.TrackingByDarkerColorFilter;
 import br.com.etyllica.motion.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
-import br.com.etyllica.motion.modifier.hull.QuickHullModifier;
+import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 
 public class MelanomaFinderApplication extends Application {
 
@@ -31,10 +32,11 @@ public class MelanomaFinderApplication extends Application {
 	private Component biggestComponent;
 
 	private List<Component> candidates;
+	private List<Point2D> list;
 
 	private Color averageSkinColor;
 
-	private List<Point2D> convexHull;
+	private HullComponent convexHull;
 
 	private boolean hide = false;
 		
@@ -79,10 +81,11 @@ public class MelanomaFinderApplication extends Application {
 		//Find the biggest component/candidate
 		biggestComponent = findBiggestComponent(candidates);
 
-		QuickHullModifier convexHullModifier = new QuickHullModifier();
+		FastConvexHullModifier convexHullModifier = new FastConvexHullModifier();
 
 		//Apply QuickHull Modifier in the biggest component
 		convexHull = convexHullModifier.modify(biggestComponent);
+		list = convexHull.asList();
 		
 		//Creates a new avgColorFilter
 		avgColorFilter = new AverageColorFilter();
@@ -91,7 +94,6 @@ public class MelanomaFinderApplication extends Application {
 		avgBiggestComponentColor = avgColorFilter.process(buffer, biggestComponent);
 		
 		loadingInfo = "Filter Complete";
-
 	}
 
 	private Component findBiggestComponent(List<Component> components) {
@@ -108,11 +110,9 @@ public class MelanomaFinderApplication extends Application {
 				biggestComponent = candidate;
 				biggestArea = candidate.getArea();
 			}
-
 		}
 
 		return biggestComponent;
-
 	}
 
 	@Override
@@ -124,7 +124,6 @@ public class MelanomaFinderApplication extends Application {
 
 		//Draw a black rectangle around the skin components
 		for(Component candidate : candidates) {
-
 			g.setStroke(new BasicStroke(3f));
 			g.setColor(Color.BLACK);
 			g.drawPolygon(candidate.getBoundingBox());
@@ -132,7 +131,6 @@ public class MelanomaFinderApplication extends Application {
 			if(!hide){
 				drawComponentPixels(g, candidate);	
 			}
-
 		}
 		
 		//Draw Biggest Component
@@ -140,12 +138,10 @@ public class MelanomaFinderApplication extends Application {
 		g.drawPolygon(biggestComponent.getBoundingBox());
 
 		if(!hide) {
-			
 			g.setAlpha(50);
 
 			drawComponentPixels(g, biggestComponent);
-			drawConvexHullMask(g, biggestComponent);			
-			
+			drawConvexHullMask(g, biggestComponent);
 		}
 		
 		g.setAlpha(100);
@@ -176,15 +172,13 @@ public class MelanomaFinderApplication extends Application {
 		for(Point2D point: component.getPoints()) {
 			g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
 		}
-
 	}
 
 	private void drawConvexHullMask(Graphic g, Component component) {
 
 		Point2D centroid = component.getCenter();
 
-		for(Point2D point: convexHull) {
-
+		for(Point2D point: list) {
 			g.drawLine(point, centroid);
 
 			g.setColor(Color.RED);
@@ -192,22 +186,16 @@ public class MelanomaFinderApplication extends Application {
 			g.setColor(Color.BLACK);
 			g.drawCircle(point, 5);
 		}
-
-	}
-
-	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		g.setColor(SVGColor.GHOST_WHITE);
+		g.drawPolygon(convexHull.getPolygon());
 	}
 
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
 		if(event.isKeyDown(KeyEvent.TSK_H)) {
-
 			hide = !hide;
-
 		}
 
 		return null;
