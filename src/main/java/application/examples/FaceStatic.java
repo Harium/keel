@@ -18,7 +18,7 @@ import br.com.etyllica.motion.filter.color.CrossSearch;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 import br.com.etyllica.motion.filter.search.TriangularSearch;
 import br.com.etyllica.motion.modifier.EnvelopeModifier;
-import br.com.etyllica.motion.modifier.hull.QuickHullModifier;
+import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 
 public class FaceStatic extends Application {
 
@@ -52,7 +52,7 @@ public class FaceStatic extends Application {
 	
 	private Component screen;
 	
-	private QuickHullModifier modifier;
+	private FastConvexHullModifier modifier;
 
 	public FaceStatic(int w, int h) {
 		super(w, h);
@@ -74,7 +74,7 @@ public class FaceStatic extends Application {
 		
 		loadingInfo = "Configuring Filter";
 		
-		modifier = new QuickHullModifier();
+		modifier = new FastConvexHullModifier();
 		
 		ColorStrategy blackColorFilter = new ColorStrategy(Color.BLACK.getRGB());
 		blackColorFilter.setTolerance(0x50);

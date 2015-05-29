@@ -13,6 +13,7 @@ import br.com.etyllica.context.Application;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
+import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
 import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
@@ -28,7 +29,7 @@ public class GeometricFormApplication extends Application {
 
 	private Component screen;
 
-	private HullModifier quickHull;
+	private HullModifier<HullComponent> quickHull;
 
 	private List<String> geometryForm = new ArrayList<String>();
 		
@@ -76,7 +77,7 @@ public class GeometricFormApplication extends Application {
 	
 	private void classifyRegion(Component region) {
 		
-		List<Point2D> list = quickHull.modify(region);
+		List<Point2D> list = quickHull.modifyComponent(region).getPoints();
 		
 		int numberOfPoints = list.size();
 		

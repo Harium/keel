@@ -19,7 +19,7 @@ import br.com.etyllica.motion.filter.color.CrossSearch;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 import br.com.etyllica.motion.filter.search.CornerSearch;
 import br.com.etyllica.motion.filter.search.NoiseSearch;
-import br.com.etyllica.motion.modifier.hull.QuickHullModifier;
+import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 
 public class FaceSampledMultiFilterStatic extends Application {
 
@@ -120,7 +120,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 		quickFilter = new NoiseSearch(w, h);
 		
 		quickMergeFilter = new NoiseSearch(w, h);
-		quickMergeFilter.setComponentModifierStrategy(new QuickHullModifier());
+		quickMergeFilter.setComponentModifierStrategy(new FastConvexHullModifier());
 		
 		loading = 60;
 		reset(cam.getBufferedImage());

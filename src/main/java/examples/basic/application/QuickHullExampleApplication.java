@@ -1,25 +1,27 @@
 package examples.basic.application;
 
 import java.awt.Color;
-import java.util.List;
+import java.awt.Polygon;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.SVGColor;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.modifier.hull.QuickHullModifier;
+import br.com.etyllica.motion.feature.hull.HullComponent;
+import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 
 public class QuickHullExampleApplication extends Application {
 
-	private QuickHullModifier quickHullModifier;
+	private FastConvexHullModifier quickHullModifier;
 	
 	private Component component;
 	
-	private List<Point2D> convexHull = null;
+	private HullComponent convexHull = null;
 	
 	public QuickHullExampleApplication(int w, int h) {
 		super(w, h);//Size of our application
@@ -31,7 +33,7 @@ public class QuickHullExampleApplication extends Application {
 		//listOfPoints = new ArrayList<Point2D>();
 		component = new Component();
 		
-		quickHullModifier = new QuickHullModifier();
+		quickHullModifier = new FastConvexHullModifier();
 		
 		loading = 100;
 	}
@@ -49,7 +51,7 @@ public class QuickHullExampleApplication extends Application {
 		
 		g.writeX(90, "Press Right Mouse Button to Compute the Convex Hull");
 		
-		for(Point2D point: component.getPoints()){
+		for(Point2D point: component.getPoints()) {
 			g.drawCircle(point, 5);
 		}
 		
@@ -62,23 +64,18 @@ public class QuickHullExampleApplication extends Application {
 		if(convexHull==null)
 			return;
 		
-		Point2D firstPoint = convexHull.get(0);
+		Polygon polygon = convexHull.getPolygon();
 		
-		//Avoiding Null Pointer
-		Point2D lastPoint = firstPoint;
+		g.setColor(SVGColor.BLACK);
 		
-		for(Point2D point: convexHull){
-			
-			g.drawLine(point, lastPoint);
-			
+		for(Point2D point: convexHull.asList()) {
 			g.drawCircle(point, 5);
-						
-			lastPoint = point;
-			
 		}
 		
-		g.drawLine(lastPoint, firstPoint);
-		
+		g.setColor(SVGColor.KHAKI);
+		g.drawPolygon(polygon);
+		g.setColor(SVGColor.BLACK);
+		g.drawPolygon(polygon);
 	}
 
 	@Override

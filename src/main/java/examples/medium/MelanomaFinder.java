@@ -14,10 +14,8 @@ public class MelanomaFinder extends EtyllicaFrame {
 	}
 	
 	public static void main(String[] args) {
-		
 		MelanomaFinder finder = new MelanomaFinder();
-		finder.init();	
-		
+		finder.init();
 	}
 
 	@Override

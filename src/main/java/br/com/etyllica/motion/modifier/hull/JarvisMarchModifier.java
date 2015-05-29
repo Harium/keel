@@ -18,7 +18,7 @@ import br.com.etyllica.motion.feature.Component;
  * @author David Hägele
  *
  */
-public class JarvisMarchModifier implements HullModifier {
+public class JarvisMarchModifier implements HullModifier<List<Point2D>> {
 
 	@Override
 	public Component modifyComponent(Component component) {

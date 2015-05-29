@@ -8,16 +8,16 @@ import br.com.etyllica.layer.GeometricLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Point2D;
 
-public class Component extends ColorComponent implements Comparable<Component> {
+public class Component extends ColorComponent implements Feature, Comparable<Component> {
 
+	private Point2D center = null;
+	
 	protected List<Point2D> points = new ArrayList<Point2D>();
 
 	protected int lowestX = Integer.MAX_VALUE;
-
 	protected int lowestY = Integer.MAX_VALUE;
 
 	protected int highestX = 0;
-
 	protected int highestY = 0;
 
 	public Component() {
@@ -101,13 +101,19 @@ public class Component extends ColorComponent implements Comparable<Component> {
 			lowestY = py;
 		}
 
-		points.add(p);
-
+		center = null;
 		addLogic(p);
+	}
+	
+
+	public void addAll(List<Point2D> list) {
+		for(Point2D point: list) {
+			add(point);
+		}
 	}
 
 	protected void addLogic(Point2D p) {
-
+		points.add(p);
 	}
 
 	public int getPointCount() {
@@ -197,6 +203,9 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	}
 
 	public Point2D getCenter() {
+		if(center!=null) {
+			return center;
+		}
 
 		double countX = 0;
 		double countY = 0;
@@ -206,7 +215,7 @@ public class Component extends ColorComponent implements Comparable<Component> {
 			countY+=point.getY();
 		}
 
-		Point2D center = new Point2D(countX/points.size(), countY/points.size());
+		center = new Point2D(countX/points.size(), countY/points.size());
 
 		return center;
 	}
@@ -327,6 +336,11 @@ public class Component extends ColorComponent implements Comparable<Component> {
 		lowestX = Integer.MAX_VALUE;
 		lowestY = Integer.MAX_VALUE;
 
+	}
+
+	@Override
+	public boolean isInside(int x, int y) {
+		return true;
 	}
 
 }

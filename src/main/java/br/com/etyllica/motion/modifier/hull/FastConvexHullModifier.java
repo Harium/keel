@@ -8,12 +8,13 @@ import java.util.List;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.helper.PointListHelper;
 import br.com.etyllica.motion.feature.Component;
+import br.com.etyllica.motion.feature.hull.HullComponent;
 
 /**
  * Found at http://code.google.com/p/convex-hull/source/browse/Convex+Hull/src/algorithms/FastConvexHull.java?r=4
  *
  */
-public class FastConvexHullModifier implements HullModifier {
+public class FastConvexHullModifier implements HullModifier<HullComponent> {
 
 	public FastConvexHullModifier() {
 		super();
@@ -22,7 +23,11 @@ public class FastConvexHullModifier implements HullModifier {
 	@Override
 	public Component modifyComponent(Component component) {
 		
-		List<Point2D> convexPolygon = modify(component);
+		if(component.getPointCount() < 3) {
+			return component;
+		}
+		
+		List<Point2D> convexPolygon = quickHullList(component.getPoints());
 		
 		Component polygon = new Component();
 		
@@ -31,16 +36,26 @@ public class FastConvexHullModifier implements HullModifier {
 		}
 		
 		return polygon;
-		
 	}
 
-	public List<Point2D> modify(Component component) {
+	public HullComponent modify(Component component) {
+		HullComponent result = new HullComponent();
+		
+		if(component.getPointCount() < 3) {
+			result.addAll(component.getPoints());
+			return result;
+		}
+		
 		List<Point2D> list = PointListHelper.cloneList(component.getPoints());
 		
-		if(component.getPoints().size()<3) {
-			return list;
-		}
-				
+		ArrayList<Point2D> orderedList = quickHullList(list);
+		
+		result.addAll(orderedList);
+
+		return result;
+	}
+
+	protected ArrayList<Point2D> quickHullList(List<Point2D> list) {
 		Collections.sort(list, new XCompare());
 
 		int n = list.size();
@@ -83,17 +98,16 @@ public class FastConvexHullModifier implements HullModifier {
 			}
 		}
 
-		ArrayList<Point2D> result = new ArrayList<Point2D>();
+		ArrayList<Point2D> orderedList = new ArrayList<Point2D>();
 
 		for (int i = 0; i < lUpperSize; i++) {
-			result.add(lUpper[i]);
+			orderedList.add(lUpper[i]);
 		}
 
 		for (int i = 1; i < lLowerSize - 1; i++) {
-			result.add(lLower[i]);
+			orderedList.add(lLower[i]);
 		}
-
-		return result;
+		return orderedList;
 	}
 
 	private class XCompare implements Comparator<Point2D> {

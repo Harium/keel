@@ -9,7 +9,7 @@ import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.ogr.OGR;
 import br.com.etyllica.motion.feature.ogr.RectangularOGR;
 
-public class RectangularOGRModifier implements HullModifier {
+public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
 
 	private OGR<Integer> ogr;
 	
