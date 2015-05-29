@@ -15,9 +15,9 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.gesture.GestureRegex;
 import br.com.etyllica.motion.core.gesture.PolygonMatcher;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;
 

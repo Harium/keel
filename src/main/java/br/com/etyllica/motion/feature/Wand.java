@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.core.features;
+package br.com.etyllica.motion.feature;
 
 import java.awt.Color;
 

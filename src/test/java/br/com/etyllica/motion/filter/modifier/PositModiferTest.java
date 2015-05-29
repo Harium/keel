@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.opencv.OpenCv;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.modifier.PositModifier;
 
 public class PositModiferTest {

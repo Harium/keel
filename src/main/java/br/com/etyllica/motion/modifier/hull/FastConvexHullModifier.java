@@ -6,8 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.PointListHelper;
+import br.com.etyllica.motion.feature.Component;
 
 /**
  * Found at http://code.google.com/p/convex-hull/source/browse/Convex+Hull/src/algorithms/FastConvexHull.java?r=4

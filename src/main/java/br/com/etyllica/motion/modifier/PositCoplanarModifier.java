@@ -5,9 +5,9 @@ import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.ComponentModifier;
-import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.RotationAxis;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.modifier.posit.CoplanarPosit;
 import br.com.etyllica.motion.modifier.posit.Pose;
 

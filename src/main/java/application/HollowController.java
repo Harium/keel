@@ -12,7 +12,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorPointFilter;
 import br.com.etyllica.motion.filter.RedLedFilter;
 

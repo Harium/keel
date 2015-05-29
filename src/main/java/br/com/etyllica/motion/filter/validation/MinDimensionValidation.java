@@ -1,6 +1,6 @@
 package br.com.etyllica.motion.filter.validation;
 
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.core.strategy.ComponentValidationStrategy;
 
 public class MinDimensionValidation implements ComponentValidationStrategy {

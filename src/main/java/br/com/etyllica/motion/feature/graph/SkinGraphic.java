@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.features.graph;
+package br.com.etyllica.motion.feature.graph;
 
 import java.awt.Color;
 import java.util.ArrayList;

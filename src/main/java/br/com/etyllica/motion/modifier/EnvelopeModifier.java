@@ -2,8 +2,8 @@ package br.com.etyllica.motion.modifier;
 
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.ComponentModifier;
-import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
+import br.com.etyllica.motion.feature.Component;
 
 public class EnvelopeModifier implements ComponentModifierStrategy, ComponentModifier<Component> {
 

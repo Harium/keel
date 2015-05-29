@@ -12,7 +12,7 @@ import java.util.List;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
 import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;

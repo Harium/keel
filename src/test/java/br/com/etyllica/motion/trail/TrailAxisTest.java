@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.etyllica.motion.features.trail.TrailAxis;
+import br.com.etyllica.motion.feature.trail.TrailAxis;
 
 public class TrailAxisTest {
 

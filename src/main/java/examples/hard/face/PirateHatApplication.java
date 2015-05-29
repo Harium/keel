@@ -16,7 +16,7 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
 import br.com.etyllica.motion.filter.image.ContrastQuickFilter;
 

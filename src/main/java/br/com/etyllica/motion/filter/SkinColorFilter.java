@@ -3,7 +3,7 @@ package br.com.etyllica.motion.filter;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.SimpleToleranceStrategy;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;

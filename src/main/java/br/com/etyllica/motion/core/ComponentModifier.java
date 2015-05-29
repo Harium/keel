@@ -1,6 +1,6 @@
 package br.com.etyllica.motion.core;
 
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 
 public interface ComponentModifier<T> {
 	

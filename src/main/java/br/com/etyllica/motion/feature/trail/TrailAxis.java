@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.features.trail;
+package br.com.etyllica.motion.feature.trail;
 
 import java.util.ArrayList;
 import java.util.List;

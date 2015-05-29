@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import examples.medium.application.area.AreaDrawer;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
@@ -15,11 +14,12 @@ import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
+import examples.medium.application.area.AreaDrawer;
 
 public class TrackingCameraColorApplication extends Application {
 

@@ -16,7 +16,7 @@ import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.loader.image.ImageLoader;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.image.LensCorrectionFilter;
 import br.com.etyllica.motion.filter.image.SimpleFishEyeCorrectionFilter;

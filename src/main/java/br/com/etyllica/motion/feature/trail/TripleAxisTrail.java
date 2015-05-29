@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.features.trail;
+package br.com.etyllica.motion.feature.trail;
 
 import br.com.abby.linear.Point3D;
 import br.com.etyllica.motion.model.RangeFlag;

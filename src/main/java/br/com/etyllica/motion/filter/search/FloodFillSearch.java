@@ -9,7 +9,7 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.core.ComponentFilter;
 import br.com.etyllica.motion.core.dynamic.DynamicArrayMask;
 import br.com.etyllica.motion.core.dynamic.DynamicMask;
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 
 public class FloodFillSearch extends ComponentFilter {

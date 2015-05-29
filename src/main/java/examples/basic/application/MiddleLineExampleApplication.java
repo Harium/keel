@@ -11,7 +11,7 @@ import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.linear.graph.common.IntegerEdge;
-import br.com.etyllica.motion.core.features.Component;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.modifier.MiddleLineModifier;
 
 public class MiddleLineExampleApplication extends Application {

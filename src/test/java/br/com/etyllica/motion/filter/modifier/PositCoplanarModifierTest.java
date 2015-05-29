@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.core.features.Component;
 import br.com.etyllica.motion.core.helper.RotationAxis;
+import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.modifier.PositCoplanarModifier;
 
 public class PositCoplanarModifierTest {

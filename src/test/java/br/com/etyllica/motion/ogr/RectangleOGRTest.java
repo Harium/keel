@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
-import br.com.etyllica.motion.features.ogr.RectangularOGR;
+import br.com.etyllica.motion.feature.ogr.RectangularOGR;
 
 public class RectangleOGRTest {
 	

@@ -1,109 +1,85 @@
-package br.com.etyllica.motion.core.features;
+package br.com.etyllica.motion.feature;
 
 import java.awt.Polygon;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.etyllica.layer.GeometricLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Point2D;
 
-public class Component extends ColorComponent implements Comparable<Component> {
+public class MaskComponent implements Comparable<MaskComponent> {
 
-	protected List<Point2D> points = new ArrayList<Point2D>();
+	protected boolean[][] mask;
 
-	protected int lowestX = Integer.MAX_VALUE;
+	protected int maskWidth = 640;
 
-	protected int lowestY = Integer.MAX_VALUE;
+	protected int maskHeight = 480;
+
+	protected int lowestX = maskWidth-1;
+
+	protected int lowestY = maskHeight-1;
 
 	protected int highestX = 0;
 
 	protected int highestY = 0;
 
-	public Component() {
-		this(Integer.MAX_VALUE, Integer.MAX_VALUE);
+	private int count = 0;
+
+	public MaskComponent() {
+		super();
 	}
 
-	public Component(int w, int h) {
+	public MaskComponent(int w, int h) {
 		super();
+		
+		this.maskWidth = w;
+		this.maskHeight = h;
 
-		highestX = 0;
-		highestY = 0;
-
-		lowestX = w;
-		lowestY = h;
+		reset();
 	}
 
-	public Component(int x, int y, int w, int h) {
+	public MaskComponent(int x, int y, int w, int h) {
 		super();
 
+		this.maskWidth = w;
+		this.maskHeight = h;
+		
 		lowestX = x;
 		lowestY = y;
 
 		highestX = w;
 		highestY = h;
 
+		mask = new boolean[w][h];
 	}
 
-	public boolean[][] generateMask() {
-
-		int w = getW();
-		int h = getH();
-		
-		if(w<0) {
-			w = -w;
-		}
-		
-		if(h<0) {
-			h = -h;
-		}
-		
-		boolean[][] mask = new boolean[h][w];
-
-		for(Point2D point: points) {
-						
-			int x = (int)point.getX()-this.getLowestX();
-			int y = (int)point.getY()-this.getLowestY();
-			
-			if(x<0 || y<0 || x>=w || y>=h)
-				continue;
-			
-			mask[y][x] = true;
-		}
-		
-		return mask;
-
+	public void add(Point2D point) {
+		add((int)point.getX(), (int)point.getY());
 	}
 
-	public void add(int x, int y) {
-		add(new Point2D(x, y));
-	}
-
-	public void add(Point2D p) {
-
-		int px = (int)p.getX();
-		int py = (int)p.getY();
+	public void add(int px, int py) {
 
 		if(px > highestX) {
+
 			highestX = px;
-		} 
-		
-		if(px < lowestX) {
+
+		} else if(px < lowestX) {
+
 			lowestX = px;
 		}
 
 		if(py > highestY) {
+
 			highestY = py;
 
-		}
-		
-		if(py < lowestY) {
+		} else if(py < lowestY) {
+
 			lowestY = py;
 		}
 
-		points.add(p);
+		mask[px][py] = true;
 
-		addLogic(p);
+		count++;
+
 	}
 
 	protected void addLogic(Point2D p) {
@@ -111,7 +87,7 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	}
 
 	public int getPointCount() {
-		return points.size();
+		return count;
 	}
 
 	public void setBounds(int lowestX, int lowestY, int width, int height) {
@@ -158,38 +134,30 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 		Polygon p = new Polygon();
 
-		p.addPoint(lowestX, lowestY);
+		p.addPoint(lowestX,lowestY);
 		p.addPoint(highestX,lowestY);
-		p.addPoint(highestX, highestY);
-		p.addPoint(lowestX, highestY);
-
-		return p;
-	}
-
-	public Polygon getPolygon() {
-
-		Polygon p = new Polygon();
-
-		for(Point2D point: points) {
-			p.addPoint((int)point.getX(), (int)point.getY());
-		}
+		p.addPoint(highestX,highestY);
+		p.addPoint(lowestX,highestY);
 
 		return p;
 	}
 
 	public GeometricLayer getRectangle() {
+
 		GeometricLayer rect = new GeometricLayer(lowestX, lowestY, highestX-lowestX, highestY-lowestY);
+
 		return rect;
 	}
 
 	public double getDensity() {
-		double area = getArea();
+		int area = getArea();
 
 		if(area == 0) {
 			return 1;
 		}
 
-		return ((double)points.size()*100/area);
+		return (double)(count*100/area);
+
 	}
 
 	public int getArea() {
@@ -199,33 +167,38 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	public Point2D getCenter() {
 
 		double countX = 0;
+
 		double countY = 0;
 
-		for(Point2D point: points) {
-			countX+=point.getX();
-			countY+=point.getY();
+		for(int j = 0; j < maskHeight; j++) {
+
+			for(int i = 0; i < maskWidth; i++) {
+
+				if(mask[i][j]) {
+
+					countX+=i;
+
+					countY+=j;
+
+				}
+
+			}
 		}
 
-		Point2D center = new Point2D(countX/points.size(), countY/points.size());
+		Point2D center = new Point2D(countX/count, countY/count);
 
 		return center;
 	}
 
 	public Layer getLayer() {
+
 		return new Layer(lowestX,lowestY,getW(),getH());
 	}
 
-	public List<Point2D> getPoints() {
-		return points;
-	}
-
-	public void setPoints(List<Point2D> points) {
-		this.points = points;
-	}
-
 	@Override
-	public int compareTo(Component component) {
+	public int compareTo(MaskComponent component) {
 
+		// TODO Auto-generated method stub
 		//return component.getPoints().size()*getW()-points.size()*getH();
 
 		double dif = component.getDensity()*component.getH()-this.getDensity()*getW();
@@ -240,10 +213,22 @@ public class Component extends ColorComponent implements Comparable<Component> {
 
 	}
 
-	public void merge(Component component) {
+	public void merge(MaskComponent component) {
 
-		for(Point2D point:component.points) {
-			add(point);
+		if((component.getW() != this.getW()) || (component.getW() != this.getW()))
+			return;
+
+
+		for(int j = 0; j < component.maskHeight; j++) {
+
+			for(int i = 0; i < component.maskWidth; i++) {
+
+				if(component.hasPoint(i,j)){
+					add(i, j);		
+				}
+
+			}
+
 		}
 
 	}
@@ -261,7 +246,7 @@ public class Component extends ColorComponent implements Comparable<Component> {
 		return true;
 	}
 
-	public boolean colide(Component component) {
+	public boolean colide(MaskComponent component) {
 
 		int bx = component.getX();
 		int bw = component.getW();
@@ -270,10 +255,10 @@ public class Component extends ColorComponent implements Comparable<Component> {
 		int bh = component.getH();
 
 		if(bx + bw < getX())	return false;
-		if(bx > getX() + getW())	return false;
+		if(bx > getX() + getW())		return false;
 
 		if(by + bh < getY())	return false;
-		if(by > getY() + getH())	return false;
+		if(by > getY() + getH())		return false;
 
 		return true;
 
@@ -316,17 +301,30 @@ public class Component extends ColorComponent implements Comparable<Component> {
 	public int getH() {
 		return highestY-lowestY;
 	}
+		
+	public int getMaskWidth() {
+		return maskWidth;
+	}
+
+	public int getMaskHeight() {
+		return maskHeight;
+	}
+
+	public boolean hasPoint(int px, int py) {
+		return mask[px][py];
+	}
 
 	public void reset() {
 
-		points.clear();
+		mask = new boolean[maskWidth][maskHeight];
 
 		highestX = 0;
 		highestY = 0;
 
-		lowestX = Integer.MAX_VALUE;
-		lowestY = Integer.MAX_VALUE;
+		lowestX = maskWidth-1;
+		lowestY = maskHeight-1;
 
 	}
 
 }
+

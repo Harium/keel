@@ -5,9 +5,9 @@ import java.util.List;
 
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
-import br.com.etyllica.motion.core.features.Component;
-import br.com.etyllica.motion.features.ogr.OGR;
-import br.com.etyllica.motion.features.ogr.RectangularOGR;
+import br.com.etyllica.motion.feature.Component;
+import br.com.etyllica.motion.feature.ogr.OGR;
+import br.com.etyllica.motion.feature.ogr.RectangularOGR;
 
 public class RectangularOGRModifier implements HullModifier {
 
