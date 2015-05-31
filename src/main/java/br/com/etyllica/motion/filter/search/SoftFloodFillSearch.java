@@ -28,14 +28,17 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 	public List<Component> filter(BufferedImage bimg, Component component) {
 		setup();
 
-		int x = border;
-		int y = border;
+		int x = component.getX()+border;
+		int y = component.getY()+border;
 		
 		int width = getComponentWidth(component);
 		int height = getComponentHeight(component);
 
-		for (int j = y; j < height; j += step) {
-			for (int i = x; i < width; i += step) {
+		for (int j = y; j < y+height; j += step) {
+			for (int i = x; i < x+width; i += step) {
+				if(!component.isInside(i, j)) {
+					continue;
+				}
 				
 				//Found some valid pixel
 				int rgb = bimg.getRGB(i, j);
@@ -88,8 +91,8 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 		//Get color from previous pixel
 		int lastColor = p.getColor();
 
-		if ((px >= x) && (px < width &&
-				(py >= y) && (py < height))) {
+		if ((px >= x) && (px < x+width &&
+				(py >= y) && (py < y+height))) {
 			
 			if (verifyPixel(px, py, rgb, lastColor, bimg)) {
 				p.setColor(rgb);
@@ -121,8 +124,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 
 	}
 
-	private boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {
-
+	private boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {		
 		if(mask.isUnknown(px, py)) {
 			if(pixelStrategy.validateColor(rgb)) {
 				mask.setValid(px, py);

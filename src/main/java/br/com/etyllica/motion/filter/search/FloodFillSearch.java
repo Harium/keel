@@ -68,14 +68,14 @@ public class FloodFillSearch extends ComponentFilter {
 	public List<Component> filter(BufferedImage bimg, Component component) {
 		setup();
 
-		int x = border;
-		int y = border;
+		int x = component.getX()+border;
+		int y = component.getY()+border;
 
 		int width = getComponentWidth(component);
 		int height = getComponentHeight(component);
 
-		for (int j = y; j < height; j+=step) {
-			for (int i = x; i < width; i+=step) {
+		for (int j = y; j < y+height; j+=step) {
+			for (int i = x; i < x+width; i+=step) {
 
 				int rgb = bimg.getRGB(i, j);
 				
@@ -97,7 +97,7 @@ public class FloodFillSearch extends ComponentFilter {
 						//Queue.pop(); 
 						Point2D p = queue.remove();
 												
-						if (verifyNext(p, x, y, width, height, bimg)) {
+						if (verifyNext(p, i, j, width, height, bimg)) {
 							addPoint(found, p);
 							addNeighbors(queue, p);
 						} else {
@@ -125,8 +125,8 @@ public class FloodFillSearch extends ComponentFilter {
 		
 		int rgb = bimg.getRGB(px, py);
 
-		if ((px >= x) && (px < width &&
-				(py >= y) && (py < height))) {
+		if ((px >= x) && (px < x+width &&
+				(py >= y) && (py < y+height))) {
 
 			if (verifyPixel(px, py, rgb, bimg)) {
 				return true;
