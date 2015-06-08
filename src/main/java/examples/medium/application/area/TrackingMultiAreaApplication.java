@@ -15,8 +15,11 @@ import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
 import br.com.etyllica.motion.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
@@ -29,7 +32,8 @@ public class TrackingMultiAreaApplication extends Application {
 
 	//Orange Marker
 	private ColorFilter orangeFilter;
-	private Color orangeColor = new Color(165, 94, 74);
+	//private Color orangeColor = new Color(165, 94, 74);
+	private Color orangeColor = new Color(67, 81, 107);
 
 	//Blue Marker
 	private ColorFilter blueFilter;
@@ -39,8 +43,8 @@ public class TrackingMultiAreaApplication extends Application {
 
 	private int tolerance = 10;
 	private int minDensity = 12;
-	private int minDimension = 10;
-	private int maxDimension = 260;
+	private int minDimension = 37;
+	private int maxDimension = 270;
 
 	private MinDensityValidation densityValidation;
 	private MinDimensionValidation minDimensionValidation;
@@ -84,7 +88,9 @@ public class TrackingMultiAreaApplication extends Application {
 		orangeFilter = setupFilter(orangeColor);
 		orangeFilter.getSearchStrategy().addValidation(minDimensionValidation);
 		orangeFilter.getSearchStrategy().addValidation(densityValidation);
-
+		SoftFloodFillSearch search = (SoftFloodFillSearch)(orangeFilter.getSearchStrategy());
+		search.setMinNeighbors(7);
+		
 		blueFilter = setupFilter(blueColor);
 		blueFilter.getSearchStrategy().addValidation(minDimensionValidation);
 
@@ -127,30 +133,7 @@ public class TrackingMultiAreaApplication extends Application {
 		blueComponents = blueFilter.filter(b, screen);
 
 		if(!orangeComponents.isEmpty()) {
-
-			densityC1 = 0;
-			densityC2 = 0;
-			
-			int found = 0;
-
-			for(Component component : orangeComponents) {
-
-				double dens = component.getDensity();
-
-				if(dens > densityC1) {
-					c2 = c1;
-					densityC2 = densityC1;
-					c1 = component;
-					densityC1 = dens;
-					found++;
-				} else if(dens > densityC2) {
-					c2 = component;
-					densityC2 = dens;
-					found++;
-				}
-			}
-			
-			foundTwoComponents = found >= 2;
+			evaluateDensity(b);
 		}
 
 		if(foundTwoComponents) {
@@ -180,6 +163,46 @@ public class TrackingMultiAreaApplication extends Application {
 		}
 		
 		buffer = b;
+	}
+
+	private void evaluateDensity(BufferedImage b) {
+		densityC1 = 0;
+		densityC2 = 0;
+		
+		int found = 0;
+
+		for(Component component : orangeComponents) {
+
+			if(nonSquared(component) || !hasCenterColor(component, b)) {
+				continue;
+			}
+			
+			double dens = component.getDensity();
+
+			if(dens > densityC1) {
+				c2 = c1;
+				densityC2 = densityC1;
+				c1 = component;
+				densityC1 = dens;
+				found++;
+			} else if(dens > densityC2) {
+				c2 = component;
+				densityC2 = dens;
+				found++;
+			}
+		}
+		
+		foundTwoComponents = found >= 2;
+	}
+	
+	private boolean nonSquared(Component component) {
+		return component.getW()>component.getH()*1.5;
+	}
+	
+	private boolean hasCenterColor(Component component, BufferedImage b) {
+		Point2D center = component.getCenter();
+		int rgb = b.getRGB((int)center.getX(), (int)center.getY());
+		return ColorStrategy.isColor(orangeFilter.getColor(), rgb, 8);
 	}
 
 	@Override
@@ -292,7 +315,9 @@ public class TrackingMultiAreaApplication extends Application {
 			if(orangeComponents != null) {
 				for(Component component:orangeComponents) {
 					g.drawPolygon(component.getBoundingBox());
-					g.drawString(component.getX(), component.getY(), component.getW(), component.getH(), Double.toString(component.getDensity()));
+					g.drawString(component.getX(), component.getY(), component.getW(), component.getH(), component.getW()+"x"+component.getH());
+					g.drawString(component.getX(), component.getY()+25, component.getW(), component.getH(), Double.toString(component.getDensity()));
+					
 				}
 			}
 
