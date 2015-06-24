@@ -1,4 +1,4 @@
-package br.com.etyllica.triangulation;
+package jdt.triangulation;
 
 import java.util.ArrayList;
 import java.util.HashSet;

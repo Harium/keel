@@ -1,4 +1,4 @@
-package br.com.etyllica.triangulation;
+package jdt.triangulation;
 
 import br.com.etyllica.linear.Point3D;
 
