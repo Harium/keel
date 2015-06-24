@@ -10,20 +10,22 @@ import br.com.etyllica.linear.Point3D;
  */
 
 public class Triangle {
-	Point3D a;
-	Point3D b;
-	Point3D c;
+	
+	protected Point3D a;
+	protected Point3D b;
+	protected Point3D c;
 
-	Triangle abnext,bcnext,canext;
-	Circle circum;
-	int _mc=0; // modcounter for triangulation fast update.
+	protected Triangle abnext,bcnext,canext;
+	protected Circle circum;
+	
+	int modCounter = 0; // modcounter for triangulation fast update.
 
 	boolean halfplane=false; // true iff it is an infinite face.
 
 	//	public boolean visitflag;
-	boolean _mark = false;   // tag - for bfs algorithms
+	boolean mark = false;   // tag - for bfs algorithms
 	//	private static boolean visitValue=false;
-	public static int _counter = 0, _c2=0;
+	public static int counter = 0, counter2=0;
 	//public int _id;
 	/** constructs a triangle form 3 point - store it in counterclockwised order.*/
 	public Triangle( Point3D A, Point3D B, Point3D C ) {
@@ -240,7 +242,7 @@ public class Triangle {
 	 * @param p the query point
 	 *  @return true iff p is not null and is inside this triangle (Note: on boundary is considered outside!!).
 	 */
-	public boolean contains_BoundaryIsOutside(Point3D p) {
+	public boolean containsBoundaryIsOutside(Point3D p) {
 		boolean ans = false;
 		if(this.halfplane || p == null) return false;
 
@@ -392,16 +394,7 @@ public class Triangle {
 		double z = z_value(q);
 		return new Point3D(q.getX(),q.getY(), z);
 	}
-
-	//checks if the triangle is not re-entrant
-	public static double calcDet(Point3D a ,Point3D b, Point3D c) {
-		return (a.getX()*(b.getY()-c.getY())) - (a.getY()*(b.getX()-c.getX())) + (b.getX()*c.getY()-b.getY()*c.getX());  
-	}
-
-	public double calcDet() {
-		return Triangle.calcDet(a, b, c);
-	}
-
+	
 	public Point3D getA() {
 		return a;
 	}
@@ -412,6 +405,58 @@ public class Triangle {
 
 	public Point3D getC() {
 		return c;
+	}
+
+	//checks if the triangle is not re-entrant
+	public static double calcDet(Point3D a ,Point3D b, Point3D c) {
+		return (a.getX()*(b.getY()-c.getY())) - (a.getY()*(b.getX()-c.getX())) + (b.getX()*c.getY()-b.getY()*c.getX());  
+	}
+
+	public double calcDet() {
+		return Triangle.calcDet(a, b, c);
+	}
+	
+	/**
+	 * checks if the 2 triangles shares a segment
+	 * @author Doron Ganel & Eyal Roth(2009)
+	 * @param t2 - a second triangle
+	 * @return boolean
+	 */
+	public boolean shareSegment(Triangle t2) {
+		int counter = 0;
+
+		if(a.equals(t2.a)) {
+			counter++;
+		}
+		if(a.equals(t2.b)) {
+			counter++;
+		}
+		if(a.equals(t2.c)) {
+			counter++;
+		}
+		if(b.equals(t2.a)) {
+			counter++;
+		}
+		if(b.equals(t2.b)) {
+			counter++;
+		}
+		if(b.equals(t2.c)) {
+			counter++;
+		}
+		if(c.equals(t2.a)) {
+			counter++;
+		}
+		if(c.equals(t2.b)) {
+			counter++;
+		}
+		if(c.equals(t2.c)) {
+			counter++;
+		}
+		if(counter>=2) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
