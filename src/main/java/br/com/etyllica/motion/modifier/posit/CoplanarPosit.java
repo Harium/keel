@@ -19,7 +19,7 @@ public class CoplanarPosit {
 
 	private double focalLength;
 
-	public CoplanarPosit(double modelSize, double focalLength){
+	public CoplanarPosit(double modelSize, double focalLength) {
 		this.model = this.buildModel(modelSize);
 		this.focalLength = focalLength;
 
@@ -65,7 +65,7 @@ public class CoplanarPosit {
 
 	}
 
-	public Pose pose (List<Point2D> points) {
+	public Pose pose(List<Point2D> points) {
 
 		Vec3D eps = new Vec3D(1.0, 1.0, 1.0);
 
@@ -91,23 +91,22 @@ public class CoplanarPosit {
 		Vec3D yi = new Vec3D(points.get(1).getY(), points.get(3).getY(), points.get(2).getY());
 
 		Vec3D xs = Vec3D.addScalar( Vec3D.mult(xi, eps), -points.get(0).getX());
-
 		Vec3D ys = Vec3D.addScalar( Vec3D.mult(yi, eps), -points.get(0).getY());
 
 		Vec3D i0 = Mat3D.multVector(this.modelPseudoInverse, xs);
-
 		Vec3D j0 = Mat3D.multVector(this.modelPseudoInverse, ys);
+		
 		double s = j0.square() - i0.square();
 
-		double ij = Vec3D.dot(i0, j0);				
+		double ij = Vec3D.dot(i0, j0);
 		double r = 0.0, theta = 0.0;
 
-		if (0.0 == s){
+		if (0.0 == s) {
 
 			r = Math.sqrt( Math.abs(2.0 * ij) );
 			theta = (-Math.PI / 2.0) * (ij < 0.0? -1: (ij > 0.0? 1.0: 0.0) );
 
-		}else{
+		} else {
 
 			r = Math.sqrt( Math.sqrt(s * s + 4.0 * ij * ij) );
 			theta = Math.atan(-2.0 * ij / s);
@@ -123,8 +122,8 @@ public class CoplanarPosit {
 		double mu = r * Math.sin(theta);
 
 		//First possible rotation/translation
-		Vec3D i = Vec3D.add(i0, Vec3D.multScalar(this.modelNormal, lambda) );
-		Vec3D j = Vec3D.add(j0, Vec3D.multScalar(this.modelNormal, mu) );
+		Vec3D i = Vec3D.add(i0, Vec3D.multScalar(this.modelNormal, lambda));
+		Vec3D j = Vec3D.add(j0, Vec3D.multScalar(this.modelNormal, mu));
 
 		double inorm = i.normalize();
 		double jnorm = j.normalize();
@@ -147,7 +146,7 @@ public class CoplanarPosit {
 		inorm = i.normalize();
 		jnorm = j.normalize();
 		k = Vec3D.cross(i, j);
-		rotation2.copy( Mat3D.fromRows(i, j, k) );
+		rotation2.copy(Mat3D.fromRows(i, j, k));
 
 		scale = (inorm + jnorm) / 2.0;
 		temp = Mat3D.multVector(rotation2, this.model.get(0));

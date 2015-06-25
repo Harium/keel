@@ -28,17 +28,18 @@ public class PositCoplanarModifierTest {
 				
 		List<Point2D> imagePoints = new ArrayList<Point2D>();
 
-		imagePoints.add(new Point2D( 447, 223));//A
-		imagePoints.add(new Point2D( 575, 223));//B
-		imagePoints.add(new Point2D( 590, 324));//D
-		imagePoints.add(new Point2D( 432, 324));//C
+		//A,B,C,D in clockwise order
+		imagePoints.add(new Point2D(447, 223));//A
+		imagePoints.add(new Point2D(575, 223));//B
+		imagePoints.add(new Point2D(432, 324));//C
+		imagePoints.add(new Point2D(590, 324));//D
 		
 		Component component = new Component(600, 600);
 		component.setPoints(imagePoints);
 		
 		RotationAxis axis = posit.modify(component);
 
-		double tolerance = 0.5;
+		double tolerance = 0.59;
 		
 		/*Assert.assertEquals(0, axis.getRotationX(), tolerance);
 		Assert.assertEquals(1, axis.getRotationY(), tolerance);
@@ -51,14 +52,14 @@ public class PositCoplanarModifierTest {
 		*/
 
 		//After Rotation Axis adaptations
-		Assert.assertEquals(0, axis.getRotationX(), tolerance);
+		Assert.assertEquals(-0.9, axis.getRotationX(), tolerance);
 		Assert.assertEquals(0, axis.getRotationY(), tolerance);
-		Assert.assertEquals(-1, axis.getRotationZ(), tolerance);
-		Assert.assertEquals(75.0, axis.getAngle(), 0.5);
+		Assert.assertEquals(0.03, axis.getRotationZ(), tolerance);
+		Assert.assertEquals(48.0, axis.getAngle(), tolerance);
 				
-		Assert.assertEquals(-0.2368, axis.getX(), 0.01);
-		Assert.assertEquals(-0.3194, axis.getY(), 0.01);
-		Assert.assertEquals(+9.0877, axis.getZ(), 0.01);
+		Assert.assertEquals(0, axis.getX(), 0.011);
+		Assert.assertEquals(4.02, axis.getY(), 0.011);
+		Assert.assertEquals(-0.2, axis.getZ(), 0.011);
 		
 	}
 	
