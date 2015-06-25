@@ -27,6 +27,8 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
 		setup();
+		
+		this.boundary = component;
 
 		int x = component.getX()+border;
 		int y = component.getY()+border;

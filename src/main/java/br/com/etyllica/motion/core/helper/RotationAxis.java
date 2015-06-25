@@ -49,7 +49,7 @@ public class RotationAxis {
 		
 	}
 	
-	protected void computeRotationValues(double[] rotation){
+	protected void computeRotationValues(double[] rotation) {
 		
 		this.angle = Math.toDegrees(Math.acos(( rotation[0+3*0] + rotation[1+3*1] + rotation[2+3*2] - 1)/2));
 		
