@@ -87,8 +87,8 @@ public class CoplanarPosit {
 
 	private void pos(List<Point2D> points, Vec3D eps, Mat3D rotation1, Vec3D translation1, Mat3D rotation2, Vec3D translation2) {
 
-		Vec3D xi = new Vec3D(points.get(1).getX(), points.get(2).getX(), points.get(3).getX());
-		Vec3D yi = new Vec3D(points.get(1).getY(), points.get(2).getY(), points.get(3).getY());
+		Vec3D xi = new Vec3D(points.get(1).getX(), points.get(3).getX(), points.get(2).getX());
+		Vec3D yi = new Vec3D(points.get(1).getY(), points.get(3).getY(), points.get(2).getY());
 
 		Vec3D xs = Vec3D.addScalar( Vec3D.mult(xi, eps), -points.get(0).getX());
 
@@ -228,10 +228,10 @@ public class CoplanarPosit {
 		modeled.add(new Point2D(v3.v[0], v3.v[1]));
 		modeled.add(new Point2D(v4.v[0], v4.v[1]));
 		
-		ia1 = this.angle( points.get(0), points.get(1), points.get(3) );
-		ia2 = this.angle( points.get(1), points.get(2), points.get(0) );
-		ia3 = this.angle( points.get(2), points.get(3), points.get(1) );
-		ia4 = this.angle( points.get(3), points.get(0), points.get(2) );
+		ia1 = this.angle( points.get(0), points.get(1), points.get(2) );
+		ia2 = this.angle( points.get(1), points.get(3), points.get(0) );
+		ia3 = this.angle( points.get(3), points.get(2), points.get(1) );
+		ia4 = this.angle( points.get(2), points.get(0), points.get(3) );
 
 		ma1 = this.angle( modeled.get(0), modeled.get(1), modeled.get(3) );
 		ma2 = this.angle( modeled.get(1), modeled.get(2), modeled.get(0) );

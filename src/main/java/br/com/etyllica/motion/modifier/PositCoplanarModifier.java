@@ -71,12 +71,12 @@ public class PositCoplanarModifier implements ComponentModifierStrategy, Compone
 		
 		Point2D b = points.get(1);
 		imagePoints.get(1).setLocation(b.getX()-w/2, h/2-b.getY());
+				
+		Point2D c = points.get(2);
+		imagePoints.get(2).setLocation(c.getX()-w/2, h/2-c.getY());
 		
 		Point2D d = points.get(3);
-		imagePoints.get(2).setLocation(d.getX()-w/2, h/2-d.getY());
-		
-		Point2D c = points.get(2);
-		imagePoints.get(3).setLocation(c.getX()-w/2, h/2-c.getY());
+		imagePoints.get(3).setLocation(d.getX()-w/2, h/2-d.getY());
 				
 	}
 
