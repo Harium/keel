@@ -8,9 +8,9 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.linear.graph.GenericEdge;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
-import br.com.etyllica.linear.graph.common.IntegerEdge;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.modifier.MiddleLineModifier;
 
@@ -79,10 +79,8 @@ public class MiddleLineExampleApplication extends Application {
 		
 		g.setColor(Color.BLUE);
 		
-		for(IntegerEdge edge: graph.getEdges()) {
-			
+		for(GenericEdge<Integer> edge: graph.getEdges()) {
 			g.drawLine(edge.getOrigin().getPoint(), edge.getDestination().getPoint());
-			
 		}
 		
 		for(Node<Integer> node: graph.getNodes()) {
