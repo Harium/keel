@@ -343,4 +343,8 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 		return true;
 	}
 
+	public boolean intersects(int x, int y) {
+		return (x>=getX()&&x<getW()&&y>=getY()&&y<getH());
+	}
+
 }

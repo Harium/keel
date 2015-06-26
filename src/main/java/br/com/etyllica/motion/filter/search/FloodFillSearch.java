@@ -19,6 +19,8 @@ public class FloodFillSearch extends ComponentFilter {
 	protected int maxNeighbors = 9;
 
 	private Component lastComponent;
+	
+	protected Component boundary;
 
 	protected DynamicMask mask;
 
@@ -50,9 +52,7 @@ public class FloodFillSearch extends ComponentFilter {
 		List<Component> list = filter(bimg, component);
 
 		if(!list.isEmpty()) {
-
 			lastComponent = list.get(0);
-
 		}
 
 		return lastComponent;
@@ -67,6 +67,8 @@ public class FloodFillSearch extends ComponentFilter {
 	@Override
 	public List<Component> filter(BufferedImage bimg, Component component) {
 		setup();
+		
+		boundary = component;
 
 		int x = component.getX()+border;
 		int y = component.getY()+border;
@@ -150,6 +152,10 @@ public class FloodFillSearch extends ComponentFilter {
 	//It also prevents same pixel be included in a better list of neighbors
 	//May have to be changed to let multiple touch
 	protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color) {
+		if(!boundary.intersects(px, py)) {
+			return;
+		}
+		
 		if(!mask.isTouched(px, py)) {
 			queue.add(new Point2D(px, py, color));	
 		}
@@ -188,6 +194,10 @@ public class FloodFillSearch extends ComponentFilter {
 
 		for(int j = py-step; j <= py+step; j += step) {
 			for(int i = px-step; i <= px+step; i += step) {
+				if(!boundary.intersects(i,j)) {
+					continue;
+				}
+				
 				if(mask.isValid(i, j)) {
 					verified++;
 				} else if(pixelStrategy.validateColor(bimg.getRGB(i, j))) {
