@@ -52,7 +52,7 @@ public abstract class SearchFilter implements SearchStrategy {
 	}
 	
 	public void setup(){
-		result.clear();	
+		result = new ArrayList<Component>();
 	}
 
 	public PixelStrategy getPixelStrategy() {

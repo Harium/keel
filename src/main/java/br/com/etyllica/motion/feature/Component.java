@@ -250,11 +250,9 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 	}
 
 	public void merge(Component component) {
-
-		for(Point2D point:component.points) {
+		for(Point2D point:component.getPoints()) {
 			add(point);
 		}
-
 	}
 
 	public boolean colidePoint(int px, int py) {

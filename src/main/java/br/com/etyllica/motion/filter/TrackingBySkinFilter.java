@@ -2,7 +2,7 @@ package br.com.etyllica.motion.filter;
 
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 import br.com.etyllica.motion.filter.search.FloodFillSearch;
-import br.com.etyllica.motion.filter.validation.CountComponentPoints;
+import br.com.etyllica.motion.filter.validation.MinCountPoints;
 
 public class TrackingBySkinFilter extends SkinColorFilter {
 	
@@ -18,7 +18,7 @@ public class TrackingBySkinFilter extends SkinColorFilter {
 		searchStrategy.setPixelStrategy(colorStrategy);
 		
 		//Reduce Noise
-		searchStrategy.addValidation(new CountComponentPoints(10));
+		searchStrategy.addValidation(new MinCountPoints(10));
 		
 	}
 			

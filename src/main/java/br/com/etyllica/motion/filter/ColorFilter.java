@@ -26,7 +26,6 @@ public class ColorFilter extends ColorPointFilter {
 	
 	public ColorFilter(int w, int h, Color color, int tolerance) {
 		this(w, h, color);
-
 		colorStrategy.setTolerance(tolerance);
 	}
 	

@@ -3,17 +3,16 @@ package br.com.etyllica.motion.filter.validation;
 import br.com.etyllica.motion.core.strategy.ComponentValidationStrategy;
 import br.com.etyllica.motion.feature.Component;
 
-public class CountComponentPoints implements ComponentValidationStrategy {
+public class MinCountPoints implements ComponentValidationStrategy {
 
 	private int points = 180;
 	
-	public CountComponentPoints() {
+	public MinCountPoints() {
 		super();
 	}
 	
-	public CountComponentPoints(int points) {
+	public MinCountPoints(int points) {
 		super();
-		
 		this.points = points;
 	}
 	

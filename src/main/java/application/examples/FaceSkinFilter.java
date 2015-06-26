@@ -18,7 +18,7 @@ import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
-import br.com.etyllica.motion.filter.validation.CountComponentPoints;
+import br.com.etyllica.motion.filter.validation.MinCountPoints;
 import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
 import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
@@ -122,9 +122,9 @@ public class FaceSkinFilter extends Application implements UpdateIntervalListene
 		//Medium Color
 		//skinFilter.addColor(new Color(0xC1, 0xAE, 0xb0), lowTolerance);
 		
-		skinFilter.addComponentStrategy(new MinDensityValidation(22));
-		skinFilter.addComponentStrategy(new MinDimensionValidation(40));//Avoid small noises
-		skinFilter.addComponentStrategy(new CountComponentPoints(220));//Avoid small noises
+		skinFilter.addValidation(new MinDensityValidation(22));
+		skinFilter.addValidation(new MinDimensionValidation(40));//Avoid small noises
+		skinFilter.addValidation(new MinCountPoints(220));//Avoid small noises
 		
 	}
 
