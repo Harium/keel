@@ -20,12 +20,12 @@ public class Triangle {
 	
 	int modCounter = 0; // modcounter for triangulation fast update.
 
-	boolean halfplane=false; // true iff it is an infinite face.
+	boolean halfplane = false; // true iff it is an infinite face.
 
 	//	public boolean visitflag;
 	boolean mark = false;   // tag - for bfs algorithms
 	//	private static boolean visitValue=false;
-	public static int counter = 0, counter2=0;
+	public static int counter = 0, counter2 = 0;
 	//public int _id;
 	/** constructs a triangle form 3 point - store it in counterclockwised order.*/
 	public Triangle( Point3D A, Point3D B, Point3D C ) {
@@ -199,7 +199,7 @@ public class Triangle {
 		return circum;
 	}
 
-	boolean circumcircle_contains( Point3D p ) {
+	boolean circumcircleContains( Point3D p ) {
 		return circum.getRadius() > circum.getCenter().distanceXY(p);
 	}
 
@@ -269,7 +269,7 @@ public class Triangle {
 	 * By Eyal Roth & Doron Ganel.
 	 */
 	public boolean isCorner(Point3D p) {
-		return (p.getX() == a.getX() & p.getY() == a.getY()) | (p.getX() == b.getX() & p.getY() == b.getY())| (p.getX() == c.getX() & p.getY() == c.getY());
+		return (p == a || p == b || p == c);
 	}
 
 	//Doron
@@ -284,7 +284,7 @@ public class Triangle {
 			Point3D p = arrayPoints[i];
 			if(!p.equals(p1)&& !p.equals(p2) && !p.equals(p3))
 			{
-				isInside = this.circumcircle_contains(p);
+				isInside = this.circumcircleContains(p);
 			}
 			i++;
 		}
@@ -423,6 +423,16 @@ public class Triangle {
 	 * @return boolean
 	 */
 	public boolean shareSegment(Triangle t2) {
+		return sharedSegments(t2)>=2;
+	}
+	
+	/**
+	 * checks if the 2 triangles shares a segment
+	 * @author Doron Ganel & Eyal Roth(2009)
+	 * @param t2 - a second triangle
+	 * @return boolean
+	 */
+	public int sharedSegments(Triangle t2) {
 		int counter = 0;
 
 		if(a.equals(t2.a)) {
@@ -452,11 +462,45 @@ public class Triangle {
 		if(c.equals(t2.c)) {
 			counter++;
 		}
-		if(counter>=2) {
-			return true;
-		} else {
-			return false;
-		}
+		
+		return counter;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((a == null) ? 0 : a.hashCode());
+		result = prime * result + ((b == null) ? 0 : b.hashCode());
+		result = prime * result + ((c == null) ? 0 : c.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Triangle other = (Triangle) obj;
+		if (a == null) {
+			if (other.a != null)
+				return false;
+		} else if (!a.equals(other.a)||!a.equals(other.b)||!a.equals(other.c))
+			return false;
+		if (b == null) {
+			if (other.b != null)
+				return false;
+		} else if (!b.equals(other.b)||!b.equals(other.c))
+			return false;
+		if (c == null) {
+			if (other.c != null)
+				return false;
+		} else if (!c.equals(other.c))
+			return false;
+		return true;
+	}
+	
 }

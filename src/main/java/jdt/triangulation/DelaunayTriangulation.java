@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Vector;
 
 import br.com.etyllica.linear.BoundingBox;
 import br.com.etyllica.linear.Point3D;
@@ -60,13 +59,13 @@ public class DelaunayTriangulation {
 	public Triangle startTriangleHull;
 
 	// additional data 4/8/05 used by the iterators
-	private Set<Point3D> vertices;
-	private Vector<Triangle> triangles;
+	//private Set<Point3D> vertices;
+	private List<Triangle> triangles;
 
 	// The triangles that were deleted in the last deletePoint iteration.
-	private Vector<Triangle> deletedTriangles;
+	//private List<Triangle> deletedTriangles;
 	// The triangles that were added in the last deletePoint iteration.
-	private Vector<Triangle> addedTriangles;
+	private List<Triangle> addedTriangles;
 
 	private int modCount = 0, modCount2 = 0;
 
@@ -79,29 +78,19 @@ public class DelaunayTriangulation {
 	private GridIndex gridIndex = null;
 
 	/**
-	 * creates an empty Delaunay Triangulation.
+	 * Constructor: creates a Delaunay Triangulation.
 	 */
 	public DelaunayTriangulation() {
-		this(new ArrayList<Point3D>());
+		init();
 	}
 
-	/**
-	 * creates a Delaunay Triangulation from all the points. Note: duplicated
-	 * points are ignored.
-	 */
-	public DelaunayTriangulation(List<Point3D> points) {
+	private void init() {
 		modCount = 0;
 		modCount2 = 0;
-		bbMin = null;
-		bbMax = null;
-		this.vertices = new TreeSet<Point3D>(new PointComparator());
-		triangles = new Vector<Triangle>();
-		deletedTriangles = null;
-		addedTriangles = new Vector<Triangle>();
+		
+		triangles = new ArrayList<Triangle>();
+		addedTriangles = new ArrayList<Triangle>();
 		allCollinear = true;
-		for (Point3D point:points) {
-			this.insertPoint(point);
-		}
 	}
 
 	/**
@@ -110,20 +99,16 @@ public class DelaunayTriangulation {
 	 * @return the number of vertices in the triangulation (duplicates are
 	 *         ignore - set size).
 	 */
-	public int size() {
-		if (vertices == null)
-		{
-			return 0;
-		}
+	/*public int size() {
 		return vertices.size();
-	}
+	}*/
 
 	/**
 	 * @return the number of triangles in the triangulation. <br />
 	 * Note: includes infinife faces!!.
 	 */
 	public int trianglesSize() {
-		this.initTriangles();
+		this.generateTriangles();
 		return triangles.size();
 	}
 
@@ -137,20 +122,19 @@ public class DelaunayTriangulation {
 	/**
 	 * insert the point to this Delaunay Triangulation. Note: if p is null or
 	 * already exist in this triangulation p is ignored.
-	 *
-	 * @param p
-	 *            new vertex to be inserted the triangulation.
+	 * @param vertices 
+	 * @param p new vertex to be inserted the triangulation.
 	 */
-	public void insertPoint(Point3D p) {
-		if (this.vertices.contains(p))
-			return;
-
+	public void insertPoint(Set<Point3D> vertices, Point3D p) {
+		
 		modCount++;
 		updateBoundingBox(p);
-		this.vertices.add(p);
-		Triangle t = insertPointSimple(p);
+		vertices.add(p);
+		Triangle t = insertPointSimple(vertices, p);
+		
 		if (t == null) //
 			return;
+		
 		Triangle tt = t;
 		currT = t; // recall the last point for - fast (last) update iterator.
 		do {
@@ -159,8 +143,9 @@ public class DelaunayTriangulation {
 		} while (tt != t && !tt.halfplane);
 
 		// Update index with changed triangles
-		if(gridIndex != null)
+		if(gridIndex != null) {
 			gridIndex.updateIndex(getLastUpdatedTriangles());
+		}
 	}
 
 	/**
@@ -171,11 +156,18 @@ public class DelaunayTriangulation {
 	 * 
 	 * By Eyal Roth & Doron Ganel (2009).
 	 */
-	public void deletePoint(Point3D pointToDelete) {
+	/*public void deletePoint(Point3D pointToDelete) {
 
 		// Finding the triangles to delete.
-		Vector<Point3D> pointsVec = findConnectedVertices(pointToDelete, true);
-		if (pointsVec == null) {
+		List<Triangle> deletedTriangles = findConnectedTriangles(pointToDelete);
+
+		Set<Point3D> pointsSet = new HashSet<Point3D>();
+		List<Point3D> pointsVec = new ArrayList<Point3D>();
+
+		if (deletedTriangles != null) {
+			connectTriangles(pointToDelete, pointsSet, pointsVec, triangles);
+		} else {
+			System.err.println("Error: can't delete a point on the perimeter");
 			return;
 		}
 
@@ -189,16 +181,18 @@ public class DelaunayTriangulation {
 
 			for(Point3D tmpP : pointsVec) {
 				if(tmpP.equals(p)) {
-					pointsVec.removeElement(tmpP);
+					pointsVec.remove(tmpP);
 					break;
 				}
 			}
 		}
+
 		//updating the trangulation
-		deleteUpdate(pointToDelete);
+		deleteUpdate(pointToDelete, deletedTriangles);
+
 		for(Triangle t:deletedTriangles) {
-			if(t == startTriangle) {
-				startTriangle = addedTriangles.elementAt(0);
+			if(t.equals(startTriangle)) {
+				startTriangle = addedTriangles.get(0);
 				break;
 			}
 		}
@@ -207,9 +201,8 @@ public class DelaunayTriangulation {
 		triangles.addAll(addedTriangles);
 		vertices.remove(pointToDelete);
 
-		addedTriangles.removeAllElements();
-		deletedTriangles.removeAllElements();             
-	}
+		addedTriangles.clear();
+	}*/
 
 	/** return a point from the trangulation that is close to pointToDelete
 	 * @param pointToDelete the point that the user wants to delete
@@ -249,7 +242,7 @@ public class DelaunayTriangulation {
 	//updates the trangulation after the triangles to be deleted and
 	//the triangles to be added were found
 	//by Doron Ganel & Eyal Roth(2009)
-	private void deleteUpdate(Point3D pointToDelete) {
+	private void deleteUpdate(Point3D pointToDelete, List<Triangle> deletedTriangles) {
 
 		for(int j = 0; j < addedTriangles.size(); j++) {
 
@@ -261,10 +254,13 @@ public class DelaunayTriangulation {
 				}
 			}
 
-			for(int i = j; i < addedTriangles.size(); i++) {
+			for(int i = 0; i < addedTriangles.size(); i++) {
 				Triangle addedTriangle2 = addedTriangles.get(i);
+				if(addedTriangle1.equals(addedTriangle2)) {
+					continue;
+				}
 
-				if((addedTriangle1!=addedTriangle2)&&(addedTriangle1.shareSegment(addedTriangle2))) {
+				if(addedTriangle1.shareSegment(addedTriangle2)) {
 					updateNeighbor(addedTriangle1,addedTriangle2);
 				}
 			}
@@ -574,7 +570,7 @@ public class DelaunayTriangulation {
 		if((PointLineTest.pointLineTest(point, p1, p2) == PointLineTest.LEFT)&&
 				(PointLineTest.pointLineTest(point, p1, p3) == PointLineTest.RIGHT))
 			return p1;
-		return null;		
+		return null;
 	}
 
 	/**
@@ -588,13 +584,12 @@ public class DelaunayTriangulation {
 	 * @param p corner point whose surrounding neighbors will be checked
 	 * @return set of Points representing the cell polygon
 	 */
-	public Point3D[] calcVoronoiCell(Triangle triangle, Point3D p)
-	{	
-		// handle any full triangle		 
+	public Point3D[] calcVoronoiCell(Triangle triangle, Point3D p) {
+		// handle any full triangle 
 		if (!triangle.isHalfplane()) {
 
 			// get all neighbors of given corner point
-			Vector<Triangle> neighbors = findTriangleNeighborhood(triangle, p);
+			List<Triangle> neighbors = findTriangleNeighborhood(triangle, p);
 
 			Iterator<Triangle> itn = neighbors.iterator();
 			Point3D[] vertices = new Point3D[neighbors.size()];
@@ -686,7 +681,7 @@ public class DelaunayTriangulation {
 	 *         only a half plane - returns an empty iterator
 	 */
 	public Iterator<Triangle> getLastUpdatedTriangles() {
-		Vector<Triangle> tmp = new Vector<Triangle>();
+		List<Triangle> tmp = new ArrayList<Triangle>();
 		if (this.trianglesSize() > 1) {
 			Triangle t = currT;
 			allTriangles(t, tmp, this.modCount);
@@ -694,7 +689,7 @@ public class DelaunayTriangulation {
 		return tmp.iterator();
 	}
 
-	private void allTriangles(Triangle curr, Vector<Triangle> front, int mc) {
+	private void allTriangles(Triangle curr, List<Triangle> front, int mc) {
 		if (curr != null && curr.modCounter == mc && !front.contains(curr)) {
 			front.add(curr);
 			allTriangles(curr.abnext, front, mc);
@@ -703,27 +698,35 @@ public class DelaunayTriangulation {
 		}
 	}
 
-	private Triangle insertPointSimple(Point3D p) {
-
+	private Triangle insertPointSimple(Set<Point3D> vertices, Point3D p) {
 		if (!allCollinear) {
-			Triangle t = find(startTriangle, p);
-			if (t.halfplane)
-				startTriangle = extendOutside(t, p);
-			else
-				startTriangle = extendInside(t, p);
-			return startTriangle;
+			return insertNonColinear(p);
+		} else {
+			return insertColinear(vertices, p);
 		}
+	}
 
+	private Triangle insertColinear(Set<Point3D> vertices, Point3D p) {
 		if (vertices.size() == 1) {
 			firstP = p;
-			return null;
-		}
-
-		if (vertices.size() == 2) {
+		} else if (vertices.size() == 2) {
 			startTriangulation(firstP, p);
-			return null;
+		} else {
+			testPoint(p);
 		}
+		return null;
+	}
 
+	private Triangle insertNonColinear(Point3D p) {
+		Triangle t = find(startTriangle, p);
+		if (t.halfplane)
+			startTriangle = extendOutside(t, p);
+		else
+			startTriangle = extendInside(t, p);
+		return startTriangle;
+	}
+
+	private void testPoint(Point3D p) {
 		switch (PointLineTest.pointLineTest(firstP, lastP, p)) {
 		case PointLineTest.LEFT:
 			startTriangle = extendOutside(firstT.abnext, p);
@@ -743,7 +746,6 @@ public class DelaunayTriangulation {
 			insertCollinear(p, PointLineTest.BEHINDB);
 			break;
 		}
-		return null;
 	}
 
 	private void insertCollinear(Point3D p, int res) {
@@ -796,7 +798,8 @@ public class DelaunayTriangulation {
 			u.abnext.canext.bcnext = tp;
 			tp.bcnext = u.abnext;
 			u.abnext.canext = tp;
-			if (firstT == u) {
+			if (firstT.equals(u)) {
+				System.out.println("is equal triangle");
 				firstT = t;
 			}
 			break;
@@ -814,6 +817,7 @@ public class DelaunayTriangulation {
 		}
 		firstT = new Triangle(pb, ps);
 		lastT = firstT;
+
 		Triangle t = new Triangle(ps, pb);
 		firstT.abnext = t;
 		t.abnext = firstT;
@@ -821,6 +825,7 @@ public class DelaunayTriangulation {
 		t.canext = firstT;
 		firstT.canext = t;
 		t.bcnext = firstT;
+
 		firstP = firstT.b;
 		lastP = lastT.a;
 		startTriangleHull = firstT;
@@ -864,9 +869,8 @@ public class DelaunayTriangulation {
 		return null;
 	}
 
-	private Triangle extendOutside(Triangle t, Point3D p) {
-
-		if (PointLineTest.pointLineTest(t.a, t.b, p) == PointLineTest.ONSEGMENT) {
+	private Triangle extendOutside(Triangle t, Point3D p, int test) {
+		if (PointLineTest.ONSEGMENT == test) {
 			Triangle dg = new Triangle(t.a, t.b, p);
 			Triangle hp = new Triangle(p, t.b);
 			t.b = p;
@@ -882,12 +886,17 @@ public class DelaunayTriangulation {
 			t.bcnext = hp;
 			return dg;
 		}
+
 		Triangle ccT = extendcounterclock(t, p);
 		Triangle cT = extendclock(t, p);
 		ccT.bcnext = cT;
 		cT.canext = ccT;
 		startTriangleHull = cT;
 		return cT.abnext;
+	}
+
+	private Triangle extendOutside(Triangle t, Point3D p) {
+		return extendOutside(t, p, PointLineTest.pointLineTest(t.a, t.b, p));
 	}
 
 	private Triangle extendcounterclock(Triangle t, Point3D p) {
@@ -932,8 +941,9 @@ public class DelaunayTriangulation {
 
 		Triangle u = t.abnext, v;
 		t.modCounter = mc;
-		if (u.halfplane || !u.circumcircle_contains(t.c))
+		if (u.halfplane || !u.circumcircleContains(t.c)) {
 			return;
+		}
 
 		if (t.a == u.a) {
 			v = new Triangle(u.b, t.b, t.c);
@@ -1030,6 +1040,7 @@ public class DelaunayTriangulation {
 	private static Triangle find(Triangle curr, Point3D p) {
 		if (p == null)
 			return null;
+
 		Triangle next_t;
 		if (curr.halfplane) {
 			next_t = findnext2(p, curr);
@@ -1052,11 +1063,11 @@ public class DelaunayTriangulation {
 	 * returns the next triangle for find.
 	 */
 	private static Triangle findnext1(Point3D p, Triangle v) {
-		if (PointLineTest.pointLineTest(v.a, v.b, p) == PointLineTest.RIGHT && !v.abnext.halfplane)
+		if (!v.abnext.halfplane && PointLineTest.pointLineTest(v.a, v.b, p) == PointLineTest.RIGHT)
 			return v.abnext;
-		if (PointLineTest.pointLineTest(v.b, v.c, p) == PointLineTest.RIGHT && !v.bcnext.halfplane)
+		if (!v.bcnext.halfplane && PointLineTest.pointLineTest(v.b, v.c, p) == PointLineTest.RIGHT)
 			return v.bcnext;
-		if (PointLineTest.pointLineTest(v.c, v.a, p) == PointLineTest.RIGHT && !v.canext.halfplane)
+		if (!v.canext.halfplane && PointLineTest.pointLineTest(v.c, v.a, p) == PointLineTest.RIGHT)
 			return v.canext;
 		if (PointLineTest.pointLineTest(v.a, v.b, p) == PointLineTest.RIGHT)
 			return v.abnext;
@@ -1078,47 +1089,46 @@ public class DelaunayTriangulation {
 		return null;
 	}
 
-	/* 
-	 * Receives a point and returns all the points of the triangles that
-	 * shares point as a corner (Connected vertices to this point).
-	 * 
-	 * By Doron Ganel & Eyal Roth
-	 */
-	private Vector<Point3D> findConnectedVertices(Point3D point) {
-		return findConnectedVertices(point, false);
+	public List<Point3D> findConnectedVertices(Point3D point) {
+		// Finding the triangles to delete.
+		List<Triangle> deletedTriangles = findConnectedTriangles(point);
+
+		Set<Point3D> pointsSet = new HashSet<Point3D>();
+		List<Point3D> pointsVec = new ArrayList<Point3D>();
+
+		if (deletedTriangles != null) {
+			connectTriangles(point, pointsSet, pointsVec, triangles);
+			return pointsVec;
+		} else {
+			System.err.println("findConnectedVertices: Could not find connected vertices since the first found triangle doesn't" +
+					" share the given point.");
+			return null;
+		}
 	}
 
-	/* 
+	/*
 	 * Receives a point and returns all the points of the triangles that
 	 * shares point as a corner (Connected vertices to this point).
 	 * 
-	 * Set saveTriangles to true if you wish to save the triangles that were found.
-	 * 
 	 * By Doron Ganel & Eyal Roth
 	 */
-	private Vector<Point3D> findConnectedVertices(Point3D point, boolean saveTriangles) {
-		Set<Point3D> pointsSet = new HashSet<Point3D>();
-		Vector<Point3D> pointsVec = new Vector<Point3D>();
-		Vector<Triangle> triangles = null;
+	private List<Triangle> findConnectedTriangles(Point3D point) {
+
 		// Getting one of the neigh
 		Triangle triangle = find(point);
 
 		// Validating find result.
 		if (!triangle.isCorner(point)) {
-			System.err.println("findConnectedVertices: Could not find connected vertices since the first found triangle doesn't" +
+			System.err.println("findConnectedTriangles: Could not find connected vertices since the first found triangle doesn't" +
 					" share the given point.");
 			return null;
 		}
 
-		triangles = findTriangleNeighborhood(triangle, point);
-		if(triangles == null) {
-			System.err.println("Error: can't delete a point on the perimeter");
-			return null;
-		}
-		if (saveTriangles) {
-			deletedTriangles = triangles;
-		}
+		return findTriangleNeighborhood(triangle, point);
+	}
 
+	private void connectTriangles(Point3D point, Set<Point3D> pointsSet,
+			List<Point3D> pointsVec, List<Triangle> triangles) {
 		for (Triangle tmpTriangle : triangles) {
 			Point3D point1 = tmpTriangle.p1();
 			Point3D point2 = tmpTriangle.p2();
@@ -1139,34 +1149,33 @@ public class DelaunayTriangulation {
 				pointsVec.add(point1);
 			}
 		}
-
-		return pointsVec;
 	}
 
-	private boolean onPerimeter(Vector<Triangle> triangles) {
+	/*private boolean onPerimeter(List<Triangle> triangles) {
 		for(Triangle t : triangles) {
 			if(t.isHalfplane())
 				return true;
 		}
 		return false;
-	}
+	}*/
 
 	// Walks on a consistent side of triangles until a cycle is achieved.
 	//By Doron Ganel & Eyal Roth
 	// changed to public by Udi
-	public Vector<Triangle> findTriangleNeighborhood(Triangle firstTriangle, Point3D point) {
-		Vector<Triangle> triangles = new Vector<Triangle>(30);
+	public List<Triangle> findTriangleNeighborhood(Triangle firstTriangle, Point3D point) {
+		List<Triangle> triangles = new ArrayList<Triangle>(30);
 		triangles.add(firstTriangle);
 
 		Triangle prevTriangle = null;
 		Triangle currentTriangle = firstTriangle;
 		Triangle nextTriangle = currentTriangle.nextNeighbor(point, prevTriangle);
 
-		while (nextTriangle != firstTriangle) {
+		while (!nextTriangle.equals(firstTriangle)) {
 			//the point is on the perimeter
-			if(nextTriangle.isHalfplane()) {                            
+			if(nextTriangle.isHalfplane()) {
 				return null;
 			}
+			
 			triangles.add(nextTriangle);
 			prevTriangle = currentTriangle;
 			currentTriangle = nextTriangle;
@@ -1182,7 +1191,7 @@ public class DelaunayTriangulation {
 	 * By: Doron Ganel & Eyal Roth
 	 * 
 	 */
-	private Triangle findTriangle(Vector<Point3D> pointsVec, Point3D p) {
+	private Triangle findTriangle(List<Point3D> pointsVec, Point3D p) {
 		Point3D[] arrayPoints = new Point3D[pointsVec.size()];
 		pointsVec.toArray(arrayPoints);
 
@@ -1197,7 +1206,7 @@ public class DelaunayTriangulation {
 		else {
 			for(int i=0;i<=size-1;i++) {
 				Point3D p1 = arrayPoints[i];
-				int j = i+1;                            
+				int j = i+1;
 				int k = i+2;
 				if(j >= size) {
 					j = 0;
@@ -1207,10 +1216,10 @@ public class DelaunayTriangulation {
 				else if(k >= size) {
 					k = 0;
 				}
-				
+
 				Point3D p2 = arrayPoints[j];
 				Point3D p3 = arrayPoints[k];
-				
+
 				//check if the triangle is not re-entrant and not encloses p
 				Triangle t = new Triangle(p1,p2,p3);
 				if (t.calcDet() >= 0) {
@@ -1222,7 +1231,7 @@ public class DelaunayTriangulation {
 				}
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -1280,22 +1289,21 @@ public class DelaunayTriangulation {
 
 	private void updateBoundingBox(Point3D p) {
 		double x = p.getX(), y = p.getY(), z = p.getZ();
-		if (bbMin == null) {
-			bbMin = new Point3D(p);
-			bbMax = new Point3D(p);
-		} else {
-			if (x < bbMin.getX())
-				bbMin.setX(x);
-			else if (x > bbMax.getX())
-				bbMax.setX(x);
-			if (y < bbMin.getY())
-				bbMin.setY(y);
-			else if (y > bbMax.getY())
-				bbMax.setY(y);
-			if (z < bbMin.getZ())
-				bbMin.setZ(z);
-			else if (z > bbMax.getZ())
-				bbMax.setZ(z);
+
+		if (x < bbMin.getX()) {
+			bbMin.setX(x);
+		} else if (x > bbMax.getX()) {
+			bbMax.setX(x);
+		}
+		if (y < bbMin.getY()) {
+			bbMin.setY(y);
+		} else if (y > bbMax.getY()) {
+			bbMax.setY(y);
+		}
+		if (z < bbMin.getZ()) {
+			bbMin.setZ(z);
+		} else if (z > bbMax.getZ()) {
+			bbMax.setZ(z);
 		}
 	}
 	/**
@@ -1327,19 +1335,19 @@ public class DelaunayTriangulation {
 	 *
 	 * @return an iterator to the current set of all triangles.
 	 */
-	public Iterator<Triangle> trianglesIterator() {
+	/*public Iterator<Triangle> trianglesIterator() {
 		if (this.size() <= 2)
-			triangles = new Vector<Triangle>();
+			triangles = new ArrayList<Triangle>();
 		initTriangles();
 		return triangles.iterator();
-	}
+	}*/
 
 	/**
 	 * returns an iterator to the set of all the points on the XY-convex hull
 	 * @return iterator to the set of all the points on the XY-convex hull.
 	 */
-	public Iterator<Point3D> getConvexHullVerticesIterator() {
-		Vector<Point3D> ans = new Vector<Point3D>();
+	private Iterator<Point3D> getConvexHullVerticesIterator() {
+		List<Point3D> ans = new ArrayList<Point3D>();
 		Triangle curr = this.startTriangleHull;
 		boolean cont = true;
 		double x0 = bbMin.getX(), x1 = bbMax.getX();
@@ -1359,42 +1367,43 @@ public class DelaunayTriangulation {
 		return ans.iterator();
 	}
 
-	/**
-	 * returns an iterator to the set of points compusing this triangulation.
-	 * @return iterator to the set of points compusing this triangulation.
-	 */
-	public Iterator<Point3D> verticesIterator() {
-		return this.vertices.iterator();
-	}
+	private void generateTriangles() {
+		
+		modCount2 = modCount;
+		List<Triangle> front = new ArrayList<Triangle>();
 
-	private void initTriangles() {
-		if (modCount == modCount2)
-			return;
-		if (this.size() > 2) {
-			modCount2 = modCount;
-			Vector<Triangle> front = new Vector<Triangle>();
-			triangles = new Vector<Triangle>();
-			front.add(this.startTriangle);
-			while (front.size() > 0) {
-				Triangle t = front.remove(0);
-				if (t.mark == false) {
-					t.mark = true;
-					triangles.add(t);
-					if (t.abnext != null && !t.abnext.mark) {
-						front.add(t.abnext);
-					}
-					if (t.bcnext != null && !t.bcnext.mark) {
-						front.add(t.bcnext);
-					}
-					if (t.canext != null && !t.canext.mark) {
-						front.add(t.canext);
-					}
-				}
+		triangles = new ArrayList<Triangle>();
+		front.add(this.startTriangle);
+		
+		while (front.size() > 0) {
+			Triangle t = front.remove(0);
+			if (t.mark == false) {
+				t.mark = true;
+						
+				triangles.add(t);
+				
+				/*System.out.println("Tri: ");
+				System.out.println(t.getA());
+				System.out.println(t.getB());
+				System.out.println(t.getC());*/
+				
+				checkToInclude(t, t.abnext, front);
+				checkToInclude(t, t.bcnext, front);
+				checkToInclude(t, t.canext, front);
 			}
-			// _triNum = _triangles.size();
-			for (int i = 0; i < triangles.size(); i++) {
-				triangles.elementAt(i).mark = false;
-			}
+		}
+		
+		System.out.println(triangles.size());
+		
+		// _triNum = _triangles.size();
+		/*for (int i = 0; i < triangles.size(); i++) {
+			triangles.get(i).mark = false;
+		}*/
+	}
+	
+	private void checkToInclude(Triangle t, Triangle nextTriangle, List<Triangle> front) {
+		if (nextTriangle != null && !nextTriangle.mark) {
+			front.add(nextTriangle);
 		}
 	}
 
@@ -1414,11 +1423,29 @@ public class DelaunayTriangulation {
 		gridIndex = null;
 	}
 
-	public List<Triangle> getTriangulation() {
-		if (this.size() <= 2)
-			triangles = new Vector<Triangle>();
-		initTriangles();
-		List<Triangle> triangulation = new ArrayList<Triangle>(triangles);
-		return triangulation;
+	/**
+	 * Triangulate given points. 
+	 * Note: duplicated points are ignored.
+	 * @param points
+	 * @return list of triangles
+	 */
+	public List<Triangle> triangulate(List<Point3D> points) {
+		init();
+		
+		Set<Point3D> vertices = new TreeSet<Point3D>(new PointComparator());
+		
+		bbMin = new Point3D(points.get(0));
+		bbMax = new Point3D(points.get(0));
+
+		//Insert Points
+		for (Point3D point:points) {
+			this.insertPoint(vertices, point);
+		}
+
+		if (modCount != modCount2 && vertices.size() > 2) {
+			generateTriangles();
+		}
+				
+		return triangles;	
 	}
 }
