@@ -78,6 +78,9 @@ public class FloodFillSearch extends ComponentFilter {
 
 		for (int j = y; j < y+height; j+=step) {
 			for (int i = x; i < x+width; i+=step) {
+				if(!component.isInside(i, j)) {
+					continue;
+				}
 
 				int rgb = bimg.getRGB(i, j);
 				
