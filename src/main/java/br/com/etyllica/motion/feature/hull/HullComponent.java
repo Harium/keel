@@ -28,6 +28,11 @@ public class HullComponent extends Component {
 	}
 	
 	@Override
+	public boolean intersects(int x, int y) {
+		return isInside(x, y);
+	}
+	
+	@Override
 	public Polygon getPolygon() {
 		return polygon;
 	}
