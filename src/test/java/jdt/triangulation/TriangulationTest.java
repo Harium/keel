@@ -73,10 +73,11 @@ public class TriangulationTest {
 		
 		List<Triangle> triangles = triangulation.triangulate(pointCloud);
 		
-		Assert.assertEquals(4, triangles.size());
+		Assert.assertEquals(1, triangles.size());
 
-		List<Point3D> connected = triangulation.findConnectedVertices(pointA);
+		List<Point3D> connected = triangulation.findConnectedVertices(pointA, triangles);
 		
+		Assert.assertNotNull(connected);
 		Assert.assertEquals(2, connected.size());
 	}
 

@@ -60,12 +60,12 @@ public class DelaunayTriangulation {
 
 	// additional data 4/8/05 used by the iterators
 	//private Set<Point3D> vertices;
-	private List<Triangle> triangles;
+	//private List<Triangle> triangles;
 
 	// The triangles that were deleted in the last deletePoint iteration.
 	//private List<Triangle> deletedTriangles;
 	// The triangles that were added in the last deletePoint iteration.
-	private List<Triangle> addedTriangles;
+	//private List<Triangle> addedTriangles;
 
 	private int modCount = 0, modCount2 = 0;
 
@@ -75,21 +75,18 @@ public class DelaunayTriangulation {
 	/**
 	 * Index for faster point location searches
 	 */
-	private GridIndex gridIndex = null;
+	//private GridIndex gridIndex = null;
 
 	/**
 	 * Constructor: creates a Delaunay Triangulation.
 	 */
 	public DelaunayTriangulation() {
-		init();
+		init(64);
 	}
 
-	private void init() {
+	private void init(int size) {
 		modCount = 0;
 		modCount2 = 0;
-		
-		triangles = new ArrayList<Triangle>();
-		addedTriangles = new ArrayList<Triangle>();
 		allCollinear = true;
 	}
 
@@ -107,10 +104,10 @@ public class DelaunayTriangulation {
 	 * @return the number of triangles in the triangulation. <br />
 	 * Note: includes infinife faces!!.
 	 */
-	public int trianglesSize() {
+	/*public int trianglesSize() {
 		this.generateTriangles();
 		return triangles.size();
-	}
+	}*/
 
 	/**
 	 * returns the changes counter for this triangulation
@@ -126,15 +123,15 @@ public class DelaunayTriangulation {
 	 * @param p new vertex to be inserted the triangulation.
 	 */
 	public void insertPoint(Set<Point3D> vertices, Point3D p) {
-		
+
 		modCount++;
 		updateBoundingBox(p);
 		vertices.add(p);
 		Triangle t = insertPointSimple(vertices, p);
-		
+
 		if (t == null) //
 			return;
-		
+
 		Triangle tt = t;
 		currT = t; // recall the last point for - fast (last) update iterator.
 		do {
@@ -143,9 +140,9 @@ public class DelaunayTriangulation {
 		} while (tt != t && !tt.halfplane);
 
 		// Update index with changed triangles
-		if(gridIndex != null) {
+		/*if(gridIndex != null) {
 			gridIndex.updateIndex(getLastUpdatedTriangles());
-		}
+		}*/
 	}
 
 	/**
@@ -242,7 +239,7 @@ public class DelaunayTriangulation {
 	//updates the trangulation after the triangles to be deleted and
 	//the triangles to be added were found
 	//by Doron Ganel & Eyal Roth(2009)
-	private void deleteUpdate(Point3D pointToDelete, List<Triangle> deletedTriangles) {
+	/*private void deleteUpdate(Point3D pointToDelete, List<Triangle> deletedTriangles) {
 
 		for(int j = 0; j < addedTriangles.size(); j++) {
 
@@ -270,7 +267,7 @@ public class DelaunayTriangulation {
 		if(gridIndex != null) {
 			gridIndex.updateIndex(addedTriangles.iterator());
 		}
-	}
+	}*/
 
 	//update the neighbors of the addedTriangle and deletedTriangle
 	//we assume the 2 triangles share a segment
@@ -680,14 +677,14 @@ public class DelaunayTriangulation {
 	 *         triangulation NOTE: works ONLY if the are triangles (it there is
 	 *         only a half plane - returns an empty iterator
 	 */
-	public Iterator<Triangle> getLastUpdatedTriangles() {
+	/*public Iterator<Triangle> getLastUpdatedTriangles() {
 		List<Triangle> tmp = new ArrayList<Triangle>();
 		if (this.trianglesSize() > 1) {
 			Triangle t = currT;
 			allTriangles(t, tmp, this.modCount);
 		}
 		return tmp.iterator();
-	}
+	}*/
 
 	private void allTriangles(Triangle curr, List<Triangle> front, int mc) {
 		if (curr != null && curr.modCounter == mc && !front.contains(curr)) {
@@ -1008,11 +1005,11 @@ public class DelaunayTriangulation {
 
 		// If triangulation has a spatial index try to use it as the starting triangle
 		Triangle searchTriangle = startTriangle;
-		if(gridIndex != null) {
+		/*if(gridIndex != null) {
 			Triangle indexTriangle = gridIndex.findCellTriangleOf(p);
 			if(indexTriangle != null)
 				searchTriangle = indexTriangle;
-		}
+		}*/
 
 		// Search for the point's triangle starting from searchTriangle
 		return find(searchTriangle, p);
@@ -1089,7 +1086,7 @@ public class DelaunayTriangulation {
 		return null;
 	}
 
-	public List<Point3D> findConnectedVertices(Point3D point) {
+	public List<Point3D> findConnectedVertices(Point3D point, List<Triangle> triangles) {
 		// Finding the triangles to delete.
 		List<Triangle> deletedTriangles = findConnectedTriangles(point);
 
@@ -1175,7 +1172,7 @@ public class DelaunayTriangulation {
 			if(nextTriangle.isHalfplane()) {
 				return null;
 			}
-			
+
 			triangles.add(nextTriangle);
 			prevTriangle = currentTriangle;
 			currentTriangle = nextTriangle;
@@ -1367,42 +1364,34 @@ public class DelaunayTriangulation {
 		return ans.iterator();
 	}
 
-	private void generateTriangles() {
-		
-		modCount2 = modCount;
+	private List<Triangle> generateTriangles() {
+
 		List<Triangle> front = new ArrayList<Triangle>();
 
-		triangles = new ArrayList<Triangle>();
+		List<Triangle> triangles = new ArrayList<Triangle>();
 		front.add(this.startTriangle);
-		
+
+		Set<Triangle> triSet = new HashSet<Triangle>();
+
 		while (front.size() > 0) {
 			Triangle t = front.remove(0);
 			if (t.mark == false) {
 				t.mark = true;
-						
+
 				triangles.add(t);
-				
-				/*System.out.println("Tri: ");
-				System.out.println(t.getA());
-				System.out.println(t.getB());
-				System.out.println(t.getC());*/
-				
+				triSet.add(t);
+
 				checkToInclude(t, t.abnext, front);
 				checkToInclude(t, t.bcnext, front);
 				checkToInclude(t, t.canext, front);
 			}
 		}
-		
-		System.out.println(triangles.size());
-		
-		// _triNum = _triangles.size();
-		/*for (int i = 0; i < triangles.size(); i++) {
-			triangles.get(i).mark = false;
-		}*/
+
+		return triangles;
 	}
-	
+
 	private void checkToInclude(Triangle t, Triangle nextTriangle, List<Triangle> front) {
-		if (nextTriangle != null && !nextTriangle.mark) {
+		if (nextTriangle != null && !nextTriangle.mark && !nextTriangle.isHalfplane()) {
 			front.add(nextTriangle);
 		}
 	}
@@ -1412,16 +1401,16 @@ public class DelaunayTriangulation {
 	 *  @param   xCellCount        number of grid cells in a row
 	 *  @param   yCellCount        number of grid cells in a column
 	 */
-	public void indexData(int xCellCount, int yCellCount) {
+	/*public void indexData(int xCellCount, int yCellCount) {
 		gridIndex = new GridIndex(this, xCellCount, yCellCount);
-	}
+	}*/
 
 	/**
 	 * Remove any existing spatial indexing
 	 */
-	public void removeIndex() {
+	/*public void removeIndex() {
 		gridIndex = null;
-	}
+	}*/
 
 	/**
 	 * Triangulate given points. 
@@ -1430,10 +1419,10 @@ public class DelaunayTriangulation {
 	 * @return list of triangles
 	 */
 	public List<Triangle> triangulate(List<Point3D> points) {
-		init();
-		
+		init(points.size());
+
 		Set<Point3D> vertices = new TreeSet<Point3D>(new PointComparator());
-		
+
 		bbMin = new Point3D(points.get(0));
 		bbMax = new Point3D(points.get(0));
 
@@ -1442,10 +1431,12 @@ public class DelaunayTriangulation {
 			this.insertPoint(vertices, point);
 		}
 
+		List<Triangle> triangles = null;
+
 		if (modCount != modCount2 && vertices.size() > 2) {
-			generateTriangles();
+			triangles = generateTriangles();
 		}
-				
-		return triangles;	
+
+		return triangles;
 	}
 }

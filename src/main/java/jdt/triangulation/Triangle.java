@@ -10,72 +10,71 @@ import br.com.etyllica.linear.Point3D;
  */
 
 public class Triangle {
-	
+
 	protected Point3D a;
 	protected Point3D b;
 	protected Point3D c;
 
 	protected Triangle abnext,bcnext,canext;
 	protected Circle circum;
-	
+
 	int modCounter = 0; // modcounter for triangulation fast update.
 
 	boolean halfplane = false; // true iff it is an infinite face.
 
-	//	public boolean visitflag;
 	boolean mark = false;   // tag - for bfs algorithms
-	//	private static boolean visitValue=false;
+	
 	public static int counter = 0, counter2 = 0;
-	//public int _id;
+	
 	/** constructs a triangle form 3 point - store it in counterclockwised order.*/
-	public Triangle( Point3D A, Point3D B, Point3D C ) {
-		//		visitflag=visitValue;
-		a = A;
-		int res = PointLineTest.pointLineTest(A,B,C);
-		if ( (res <= PointLineTest.LEFT) ||
-				(res == PointLineTest.INFRONTOFA) ||
-				(res == PointLineTest.BEHINDB) ) {
-			b=B;
-			c=C;
-		}
-		else {  // RIGHT
+	public Triangle(Point3D a, Point3D b, Point3D c) {
+		this.a = a;
+
+		if(isClockWise(a,b,c) ) {
+			this.b = b;
+			this.c = c;
+		} else {  // RIGHT
 			System.out.println("Warning, ajTriangle(A,B,C) "+
 					"expects points in counterclockwise order.");
-			System.out.println(""+A+B+C);
-			b=C;
-			c=B;
+			System.out.println(""+a+b+c);
+			this.b=c;
+			this.c=b;
 		}
 		circumcircle();
-		//_id = _counter++;
-		//_counter++;_c2++;
-		//if(_counter%10000 ==0) System.out.println("Triangle: "+_counter);
+	}
+
+	private boolean isClockWise(Point3D a, Point3D b, Point3D c) {
+		int res = PointLineTest.pointLineTest(a,b,c);
+
+		return (res <= PointLineTest.LEFT) ||
+				(res == PointLineTest.INFRONTOFA) ||
+				(res == PointLineTest.BEHINDB);
 	}
 
 	/**
 	 * creates a half plane using the segment (A,B).
 	 * @param A
-	 * @param B
+	 * @param b
 	 */
-	public Triangle( Point3D A, Point3D B ) {
+	public Triangle( Point3D A, Point3D b) {
 		//		visitflag=visitValue;
-		a = A;
-		b = B;
+		this.a = A;
+		this.b = b;
+		this.c = generateEquilateralPoint(a,b);
 		
-		c = generateEquilateralPoint(a,b);
 		halfplane = true;
-		//		_id = _counter++;
 	}
 
-	private Point3D generateEquilateralPoint(Point3D a, Point3D b) {
+	public Point3D generateEquilateralPoint(Point3D a, Point3D b) {
 
 		double sin = Math.sin(60 * Math.PI / 180.0);
 		double cos = Math.cos(60 * Math.PI / 180.0);
-		
+
 		double mz = (a.getZ()+b.getZ())/2;
-		
+
 		double cx = cos * (a.getX() - b.getX()) - sin * (a.getY() - b.getY()) + b.getX();
 		double cy = sin * (a.getX() - b.getX()) + cos * (a.getY() - b.getY()) + b.getY(); 
-		
+
 		Point3D c = new Point3D(cx, cy, mz);
 		return c;
 	}
@@ -165,6 +164,10 @@ public class Triangle {
 		}
 		if (c.equals(p)) {
 			neighbor = bcnext;
+		}
+		
+		if(prevTriangle == null) {
+			return neighbor;
 		}
 
 		// Udi Schneider: Added a condition check for isHalfPlane. If the current
@@ -394,7 +397,7 @@ public class Triangle {
 		double z = z_value(q);
 		return new Point3D(q.getX(),q.getY(), z);
 	}
-	
+
 	public Point3D getA() {
 		return a;
 	}
@@ -415,7 +418,7 @@ public class Triangle {
 	public double calcDet() {
 		return Triangle.calcDet(a, b, c);
 	}
-	
+
 	/**
 	 * checks if the 2 triangles shares a segment
 	 * @author Doron Ganel & Eyal Roth(2009)
@@ -425,7 +428,7 @@ public class Triangle {
 	public boolean shareSegment(Triangle t2) {
 		return sharedSegments(t2)>=2;
 	}
-	
+
 	/**
 	 * checks if the 2 triangles shares a segment
 	 * @author Doron Ganel & Eyal Roth(2009)
@@ -462,7 +465,7 @@ public class Triangle {
 		if(c.equals(t2.c)) {
 			counter++;
 		}
-		
+
 		return counter;
 	}
 
@@ -484,23 +487,37 @@ public class Triangle {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Triangle other = (Triangle) obj;
+
+		return equals((Triangle) obj);
+	}
+
+	public boolean equals(Triangle other) {
+
 		if (a == null) {
-			if (other.a != null)
+			if (other.a != null) {
 				return false;
-		} else if (!a.equals(other.a)||!a.equals(other.b)||!a.equals(other.c))
+			}
+		} else if (!a.equals(other.a)&&!a.equals(other.b)&&!a.equals(other.c)) {
 			return false;
+		}
+
 		if (b == null) {
-			if (other.b != null)
+			if (other.b != null) {
 				return false;
-		} else if (!b.equals(other.b)||!b.equals(other.c))
+			}
+		} else if (!b.equals(other.a)&&!b.equals(other.b)&&!b.equals(other.c)) {
 			return false;
+		}
+
 		if (c == null) {
-			if (other.c != null)
+			if (other.c != null) {
 				return false;
-		} else if (!c.equals(other.c))
+			}
+		} else if (!c.equals(other.a)&&!c.equals(other.b)&&!c.equals(other.c)) {
 			return false;
+		}
+
 		return true;
 	}
-	
+
 }
