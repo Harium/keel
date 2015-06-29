@@ -45,6 +45,21 @@ public class HullComponent extends Component {
 		return polygon.npoints;
 	}
 	
+	@Override
+	public List<Point2D> getPoints() {
+		if(points.isEmpty()) {
+			for(int i=0; i<polygon.npoints;i++) {
+				
+				int px = polygon.xpoints[i];
+				int py = polygon.ypoints[i];
+				
+				points.add(new Point2D(px, py));
+			}
+		}
+		
+		return points;
+	}
+	
 	public List<Point2D> asList() {
 		List<Point2D> list = new ArrayList<Point2D>();
 		for(int i = 0; i < polygon.npoints; i++) {
