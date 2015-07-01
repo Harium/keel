@@ -68,7 +68,7 @@ public class GeometricFormApplication extends Application {
 		loading = 25;
 		quickHull = new FastConvexHullModifier();
 		
-		pathCompressionModifier = new PathCompressionModifier();
+		pathCompressionModifier = new PathCompressionModifier(5);
 		
 		loading = 31;
 		
@@ -83,6 +83,7 @@ public class GeometricFormApplication extends Application {
 	private void classifyRegion(Component region) {
 		
 		List<Point2D> list = pathCompressionModifier.modify(quickHull.modify(region));
+		//List<Point2D> list = quickHull.modify(region).getPoints();
 		
 		int numberOfPoints = list.size();
 		
