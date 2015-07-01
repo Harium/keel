@@ -133,13 +133,12 @@ public class GeometricFormApplication extends Application {
 		triangle.addPoint(200, 180);
 		triangle.addPoint(400, 180);
 		
-		g.drawPolygon(triangle);
+		//g.drawPolygon(triangle);
 				
-		g.drawOval(440, 80, 100, 100);
+		//g.drawOval(440, 80, 100, 100);
 
 		//Draw Rectangle
-		g.drawRect(40, 140, 100, 180);
-		
+		//g.drawRect(40, 140, 100, 180);
 		
 		AffineTransform transform = new AffineTransform();
 		transform.rotate(Math.toRadians(10), x + w/2, y+h/2);
@@ -168,17 +167,15 @@ public class GeometricFormApplication extends Application {
 			
 			g.setColor(Color.CYAN);
 			
-			for(Point2D point: component.getPoints()) {
-				
+			/*for(Point2D point: component.getPoints()) {		
 				g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
-			}
+			}*/
 			
 			g.writeShadow(geometryForm.get(i), component.getRectangle());
 			
 			g.setStroke(new BasicStroke(1f));
 			
 			for(Point2D point: convexHull.get(i)) {
-			
 				g.setColor(Color.BLACK);
 				g.drawCircle(point, 5);
 			}

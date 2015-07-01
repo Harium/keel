@@ -12,7 +12,7 @@ import br.com.etyllica.motion.modifier.posit.CoplanarPosit;
 import br.com.etyllica.motion.modifier.posit.Pose;
 
 
-public class PositCoplanarModifier implements ComponentModifierStrategy, ComponentModifier<RotationAxis> {
+public class PositCoplanarModifier implements ComponentModifierStrategy, ComponentModifier<Component, RotationAxis> {
 
 	private int w, h;
 	

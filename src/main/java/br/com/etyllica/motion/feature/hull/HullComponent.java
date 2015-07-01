@@ -13,7 +13,6 @@ public class HullComponent extends Component {
 	
 	public HullComponent() {
 		super();
-		
 		polygon = new Polygon();
 	}
 

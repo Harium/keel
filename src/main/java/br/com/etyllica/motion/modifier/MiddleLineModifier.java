@@ -20,7 +20,7 @@ import br.com.etyllica.motion.filter.dynamic.Direction;
  */
 
 
-public class MiddleLineModifier implements ComponentModifierStrategy, ComponentModifier<Graph<Integer>> {
+public class MiddleLineModifier implements ComponentModifierStrategy, ComponentModifier<Component, Graph<Integer>> {
 
 	public MiddleLineModifier() {
 		super();

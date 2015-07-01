@@ -5,7 +5,7 @@ import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.feature.Component;
 
-public class EnvelopeModifier implements ComponentModifierStrategy, ComponentModifier<Component> {
+public class EnvelopeModifier implements ComponentModifierStrategy, ComponentModifier<Component, Component> {
 
 	protected double distance = 0;
 

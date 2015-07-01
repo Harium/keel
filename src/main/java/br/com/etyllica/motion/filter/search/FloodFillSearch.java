@@ -90,7 +90,7 @@ public class FloodFillSearch extends ComponentFilter {
 					Queue<Point2D> queue = new LinkedList<Point2D>();
 					Component found = new Component();
 
-					Point2D firstPoint = new Point2D(i, j);
+					Point2D firstPoint = new Point2D(i, j, rgb);
 
 					//Mark as touched
 					addPoint(found, firstPoint);

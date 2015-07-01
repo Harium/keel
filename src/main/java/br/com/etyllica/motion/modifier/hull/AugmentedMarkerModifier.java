@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
 
-public class AugmentedMarkerModifier implements HullModifier {
+public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {
 
 	protected int points = 0;
 
