@@ -10,6 +10,7 @@ import br.com.etyllica.util.EtyllicaMath;
 
 public class PathCompressionModifier implements ComponentModifier<HullComponent, List<Point2D>> {
 
+	private double minDistance = 5;
 	private double minAngle = 15;
 
 	public PathCompressionModifier() {

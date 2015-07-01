@@ -18,6 +18,7 @@ import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
 import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 import br.com.etyllica.motion.modifier.hull.HullModifier;
+import br.com.etyllica.motion.modifier.hull.PathCompressionModifier;
 
 public class GeometricFormApplication extends Application {
 
@@ -30,6 +31,8 @@ public class GeometricFormApplication extends Application {
 	private Component screen;
 
 	private HullModifier<HullComponent> quickHull;
+	
+	private PathCompressionModifier pathCompressionModifier;
 
 	private List<String> geometryForm = new ArrayList<String>();
 		
@@ -65,6 +68,8 @@ public class GeometricFormApplication extends Application {
 		loading = 25;
 		quickHull = new FastConvexHullModifier();
 		
+		pathCompressionModifier = new PathCompressionModifier();
+		
 		loading = 31;
 		
 		for(Component component : blackComponents) {
@@ -77,7 +82,7 @@ public class GeometricFormApplication extends Application {
 	
 	private void classifyRegion(Component region) {
 		
-		List<Point2D> list = quickHull.modifyComponent(region).getPoints();
+		List<Point2D> list = pathCompressionModifier.modify(quickHull.modify(region));
 		
 		int numberOfPoints = list.size();
 		
@@ -133,18 +138,18 @@ public class GeometricFormApplication extends Application {
 		triangle.addPoint(200, 180);
 		triangle.addPoint(400, 180);
 		
-		//g.drawPolygon(triangle);
+		g.drawPolygon(triangle);
 				
-		//g.drawOval(440, 80, 100, 100);
+		g.drawOval(440, 80, 100, 100);
 
 		//Draw Rectangle
-		//g.drawRect(40, 140, 100, 180);
+		g.drawRect(40, 140, 100, 180);
 		
 		AffineTransform transform = new AffineTransform();
-		transform.rotate(Math.toRadians(10), x + w/2, y+h/2);
+		transform.rotate(Math.toRadians(30), x + w/2, y+h/2);
 		g.transform(transform);
 		//Draw Rotated Rectangle
-		g.drawRect(340, 260, 100, 180);
+		g.drawRect(340, 260, 110, 180);
 		
 	}
 
