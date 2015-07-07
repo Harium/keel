@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.etyllica.awt.AWTGraphics;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
@@ -69,7 +70,7 @@ public class SubcomponentApplication extends Application {
 
 	private void drawImage(BufferedImage image) {
 
-		Graphic g = new Graphic(image);
+		Graphic g = new AWTGraphics(image);
 
 		g.setColor(Color.WHITE);
 

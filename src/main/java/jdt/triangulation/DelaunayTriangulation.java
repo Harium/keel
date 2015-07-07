@@ -50,7 +50,7 @@ public class DelaunayTriangulation {
 	private boolean allCollinear;
 
 	// the first and last triangles (used only for first step construction)
-	private Triangle firstT, lastT, currT;
+	private Triangle firstT, lastT;
 
 	// the triangle the fond (search start from
 	private Triangle startTriangle;
@@ -133,7 +133,7 @@ public class DelaunayTriangulation {
 			return;
 
 		Triangle tt = t;
-		currT = t; // recall the last point for - fast (last) update iterator.
+		//currT = t; // recall the last point for - fast (last) update iterator.
 		do {
 			flip(tt, modCount);
 			tt = tt.canext;
@@ -272,7 +272,7 @@ public class DelaunayTriangulation {
 	//update the neighbors of the addedTriangle and deletedTriangle
 	//we assume the 2 triangles share a segment
 	//by Doron Ganel & Eyal Roth(2009)
-	private void updateNeighbor(Triangle addedTriangle, Triangle deletedTriangle,Point3D pointToDelete) {
+	/*private void updateNeighbor(Triangle addedTriangle, Triangle deletedTriangle,Point3D pointToDelete) {
 		Point3D delA = deletedTriangle.p1();
 		Point3D delB = deletedTriangle.p2();
 		Point3D delC = deletedTriangle.p3();
@@ -328,12 +328,12 @@ public class DelaunayTriangulation {
 				addedTriangle.bcnext = deletedTriangle.next_12();
 			}
 		}
-	}
+	}*/
 
 	//update the neighbors of the 2 added Triangle s
 	//we assume the 2 triangles share a segment
 	//by Doron Ganel & Eyal Roth(2009)
-	private void updateNeighbor(Triangle addedTriangle1,Triangle addedTriangle2) {
+	/*private void updateNeighbor(Triangle addedTriangle1,Triangle addedTriangle2) {
 		Point3D A1 = addedTriangle1.p1();
 		Point3D B1 = addedTriangle1.p2();
 		Point3D C1 = addedTriangle1.p3();
@@ -548,12 +548,12 @@ public class DelaunayTriangulation {
 				addedTriangle2.bcnext = addedTriangle1;
 			}
 		}
-	}
+	}*/
 
 	//finds the a point on the triangle that if connect it to "point" (creating a segment)
 	//the other two points of the triangle will be to the left and to the right of the segment
 	//by Doron Ganel & Eyal Roth(2009)
-	private Point3D findDiagonal(Triangle triangle, Point3D point) {
+	/*private Point3D findDiagonal(Triangle triangle, Point3D point) {
 		Point3D p1 = triangle.p1();
 		Point3D p2 = triangle.p2();
 		Point3D p3 = triangle.p3();
@@ -568,7 +568,7 @@ public class DelaunayTriangulation {
 				(PointLineTest.pointLineTest(point, p1, p3) == PointLineTest.RIGHT))
 			return p1;
 		return null;
-	}
+	}*/
 
 	/**
 	 * Calculates a Voronoi cell for a given neighborhood
@@ -686,14 +686,14 @@ public class DelaunayTriangulation {
 		return tmp.iterator();
 	}*/
 
-	private void allTriangles(Triangle curr, List<Triangle> front, int mc) {
+	/*private void allTriangles(Triangle curr, List<Triangle> front, int mc) {
 		if (curr != null && curr.modCounter == mc && !front.contains(curr)) {
 			front.add(curr);
 			allTriangles(curr.abnext, front, mc);
 			allTriangles(curr.bcnext, front, mc);
 			allTriangles(curr.canext, front, mc);
 		}
-	}
+	}*/
 
 	private Triangle insertPointSimple(Set<Point3D> vertices, Point3D p) {
 		if (!allCollinear) {
@@ -968,7 +968,7 @@ public class DelaunayTriangulation {
 		t.abnext.switchneighbors(u, t);
 		t.circumcircle();
 
-		currT = v;
+		//currT = v;
 		flip(t, mc);
 		flip(v, mc);
 	}
@@ -1188,7 +1188,7 @@ public class DelaunayTriangulation {
 	 * By: Doron Ganel & Eyal Roth
 	 * 
 	 */
-	private Triangle findTriangle(List<Point3D> pointsVec, Point3D p) {
+	/*private Triangle findTriangle(List<Point3D> pointsVec, Point3D p) {
 		Point3D[] arrayPoints = new Point3D[pointsVec.size()];
 		pointsVec.toArray(arrayPoints);
 
@@ -1230,7 +1230,7 @@ public class DelaunayTriangulation {
 		}
 
 		return null;
-	}
+	}*/
 
 	/**
 	 *
