@@ -4,7 +4,7 @@ package br.com.etyllica.motion.filter.search;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
 
 public class NoiseSearch extends PolygonalSearch {

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import br.com.etyllica.core.linear.Point3D;
 import br.com.etyllica.linear.BoundingBox;
-import br.com.etyllica.linear.Point3D;
 
 /**
  *

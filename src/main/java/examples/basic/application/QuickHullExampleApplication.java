@@ -3,14 +3,14 @@ package examples.basic.application;
 import java.awt.Color;
 import java.awt.Polygon;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.awt.SVGColor;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.graphics.SVGColor;
-import br.com.etyllica.core.input.mouse.MouseButton;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;

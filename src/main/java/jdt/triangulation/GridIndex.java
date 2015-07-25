@@ -2,9 +2,9 @@ package jdt.triangulation;
 
 import java.util.Iterator;
 
+import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.core.linear.PointInt2D;
 import br.com.etyllica.linear.BoundingBox;
-import br.com.etyllica.linear.Point3D;
-import br.com.etyllica.linear.PointInt2D;
 
 /**
  * Created by IntelliJ IDEA.

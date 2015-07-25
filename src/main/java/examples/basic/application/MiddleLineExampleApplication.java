@@ -2,12 +2,12 @@ package examples.basic.application;
 
 import java.awt.Color;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
+import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.input.mouse.MouseButton;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.linear.graph.GenericEdge;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;

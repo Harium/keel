@@ -5,17 +5,16 @@ import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.awt.SVGColor;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.graphics.SVGColor;
-import br.com.etyllica.core.input.mouse.MouseButton;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.FakeCamera;
-import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
@@ -238,37 +237,37 @@ public class TrackingMultiAreaApplication extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.TSK_H)) {
+		if(event.isKeyDown(KeyEvent.VK_H)) {
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_J)) {
+		if(event.isKeyDown(KeyEvent.VK_J)) {
 			markers = !markers;
 		}
 
 		//Change Tolerance
-		if(event.isKeyUp(KeyEvent.TSK_EQUALS)) {
+		if(event.isKeyUp(KeyEvent.VK_EQUALS)) {
 			tolerance++;
 			orangeFilter.setTolerance(tolerance);
-		} else if(event.isKeyUp(KeyEvent.TSK_MINUS)) {
+		} else if(event.isKeyUp(KeyEvent.VK_MINUS)) {
 			tolerance--;
 			orangeFilter.setTolerance(tolerance);
 		}
 
 		//Change Density
-		if(event.isKeyUp(KeyEvent.TSK_P)) {
+		if(event.isKeyUp(KeyEvent.VK_P)) {
 			minDensity++;
 			densityValidation.setDensity(minDensity);
-		} else if(event.isKeyUp(KeyEvent.TSK_O)) {
+		} else if(event.isKeyUp(KeyEvent.VK_O)) {
 			minDensity--;
 			densityValidation.setDensity(minDensity);
 		}
 
 		//Change Dimension
-		if(event.isKeyUp(KeyEvent.TSK_L)) {
+		if(event.isKeyUp(KeyEvent.VK_L)) {
 			minDimension++;
 			minDimensionValidation.setDimension(minDimension);
-		} else if(event.isKeyUp(KeyEvent.TSK_K)) {
+		} else if(event.isKeyUp(KeyEvent.VK_K)) {
 			minDimension--;
 			minDimensionValidation.setDimension(minDimension);
 		}
@@ -279,9 +278,9 @@ public class TrackingMultiAreaApplication extends Application {
 	}
 	
 	protected void updateCameraInput(KeyEvent event) {
-		if(event.isKeyUp(KeyEvent.TSK_RIGHT_ARROW)) {
+		if(event.isKeyUp(KeyEvent.VK_RIGHT_ARROW)) {
 			((FakeCamera)cam).nextFrame();
-		} else if(event.isKeyUp(KeyEvent.TSK_LEFT_ARROW)) {
+		} else if(event.isKeyUp(KeyEvent.VK_LEFT_ARROW)) {
 			((FakeCamera)cam).previousFrame();
 		}
 	}

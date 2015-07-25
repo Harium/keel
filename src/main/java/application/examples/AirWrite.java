@@ -7,13 +7,13 @@ import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.input.mouse.MouseButton;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.core.gesture.GestureRegex;
 import br.com.etyllica.motion.core.gesture.PolygonMatcher;
@@ -115,36 +115,36 @@ public class AirWrite extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.TSK_H)){
+		if(event.isKeyDown(KeyEvent.VK_H)){
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_P)){
+		if(event.isKeyDown(KeyEvent.VK_P)){
 			pixels = !pixels;
 		}
 		
-		if(event.isKeyDown(KeyEvent.TSK_SPACE)){
+		if(event.isKeyDown(KeyEvent.VK_SPACE)){
 			freeze = !freeze;
 		}
 		
-		if(event.isKeyDown(KeyEvent.TSK_ESC)){
+		if(event.isKeyDown(KeyEvent.VK_ESC)){
 			match = "_";
 		}
 		
-		if(event.isKeyDown(KeyEvent.TSK_IGUAL)){
+		if(event.isKeyDown(KeyEvent.VK_EQUALS)){
 			colorStrategy.setOffsetTolerance(+1);
 		}
 		
-		if(event.isKeyDown(KeyEvent.TSK_MENOS)){
+		if(event.isKeyDown(KeyEvent.VK_MINUS)){
 			colorStrategy.setOffsetTolerance(-1);
 		}
 		
-		if(event.isKeyDown(KeyEvent.TSK_UP_ARROW)){
+		if(event.isKeyDown(KeyEvent.VK_UP_ARROW)){
 			colorFilter.setBorder(colorFilter.getBorder()+1);
 			System.out.println("Border: "+colorFilter.getBorder());
 		}
 		
-		if(event.isKeyDown(KeyEvent.TSK_DOWN_ARROW)){
+		if(event.isKeyDown(KeyEvent.VK_DOWN_ARROW)){
 			colorFilter.setBorder(colorFilter.getBorder()-1);
 		}
 

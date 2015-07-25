@@ -9,9 +9,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.ColorFilter;

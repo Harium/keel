@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.linear.graph.common.IntegerEdge;

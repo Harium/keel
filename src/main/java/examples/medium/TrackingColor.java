@@ -2,8 +2,7 @@ package examples.medium;
 
 
 import br.com.etyllica.EtyllicaFrame;
-import br.com.etyllica.context.Application;
-import examples.medium.application.TrackingCameraColorApplication;
+import br.com.etyllica.core.context.Application;
 import examples.medium.application.area.TrackingMultiAreaWithCameraApplication;
 
 public class TrackingColor extends EtyllicaFrame {

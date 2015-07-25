@@ -1,9 +1,9 @@
 package examples.basic;
 
 
-import examples.basic.application.QuickHullExampleApplication;
 import br.com.etyllica.Etyllica;
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
+import examples.basic.application.QuickHullExampleApplication;
 
 public class QuickHull extends Etyllica {
 

@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.modifier.hull.PathCompressionModifier;
 

@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.input.mouse.MouseButton;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.BufferedLayer;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
@@ -153,37 +153,37 @@ public class TrackingCameraColorApplication extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.TSK_H)){
+		if(event.isKeyDown(KeyEvent.VK_H)){
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_J)){
+		if(event.isKeyDown(KeyEvent.VK_J)){
 			pixels = !pixels;
 		}
 
 		//Change Tolerance
-		if(event.isKeyUp(KeyEvent.TSK_EQUALS)) {
+		if(event.isKeyUp(KeyEvent.VK_EQUALS)) {
 			tolerance++;
 			blueFilter.setTolerance(tolerance);
-		} else if(event.isKeyUp(KeyEvent.TSK_MINUS)) {
+		} else if(event.isKeyUp(KeyEvent.VK_MINUS)) {
 			tolerance--;
 			blueFilter.setTolerance(tolerance);
 		}
 
 		//Change Density
-		if(event.isKeyUp(KeyEvent.TSK_P)) {
+		if(event.isKeyUp(KeyEvent.VK_P)) {
 			minDensity++;
 			densityValidation.setDensity(minDensity);
-		} else if(event.isKeyUp(KeyEvent.TSK_O)) {
+		} else if(event.isKeyUp(KeyEvent.VK_O)) {
 			minDensity--;
 			densityValidation.setDensity(minDensity);
 		}
 
 		//Change Dimension
-		if(event.isKeyUp(KeyEvent.TSK_L)) {
+		if(event.isKeyUp(KeyEvent.VK_L)) {
 			minDimension++;
 			dimensionValidation.setDimension(minDimension);
-		} else if(event.isKeyUp(KeyEvent.TSK_K)) {
+		} else if(event.isKeyUp(KeyEvent.VK_K)) {
 			minDimension--;
 			dimensionValidation.setDimension(minDimension);
 		}

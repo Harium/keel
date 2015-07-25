@@ -6,12 +6,12 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
@@ -138,11 +138,11 @@ public class FaceSampledReal extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.TSK_H)){
+		if(event.isKeyDown(KeyEvent.VK_H)){
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_P)){
+		if(event.isKeyDown(KeyEvent.VK_P)){
 			pixels = !pixels;
 		}
 

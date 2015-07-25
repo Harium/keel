@@ -2,9 +2,9 @@ package br.com.etyllica.motion.feature;
 
 import java.awt.Polygon;
 
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.GeometricLayer;
 import br.com.etyllica.layer.Layer;
-import br.com.etyllica.linear.Point2D;
 
 public class MaskComponent implements Comparable<MaskComponent> {
 

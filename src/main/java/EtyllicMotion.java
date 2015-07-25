@@ -1,27 +1,8 @@
 
 
-import examples.basic.MultipleColorTracking;
-import examples.basic.application.MultipleTrackingApplication;
-import examples.basic.application.QuickHullExampleApplication;
-import examples.hard.face.PirateHatApplication;
-import application.AugmentedReality;
-import application.CaptchaCleaner;
-import application.FaceApplication;
-import application.HollowController;
-import application.examples.AirWrite;
 import application.examples.AugmentedRealityStatic;
-import application.examples.BarCodeExample;
-import application.examples.FaceSampledMultiFilterStatic;
-import application.examples.FaceSampledReal;
-import application.examples.FaceSkinFilter;
-import application.examples.FaceStatic;
-import application.examples.HollowTest;
-import application.examples.MagicWand;
-import application.examples.MagicWandStatic;
-import application.examples.SimpleCam;
 import br.com.etyllica.Etyllica;
-import br.com.etyllica.context.Application;
-import br.com.etyllica.motion.feature.graph.SkinGraphic;
+import br.com.etyllica.core.context.Application;
 
 public class EtyllicMotion extends Etyllica {
 
@@ -50,7 +31,7 @@ public class EtyllicMotion extends Etyllica {
 		
 		//return new AirWrite(w,h);				
 		
-		//return new AugmentedRealityStatic(w,h);
+		return new AugmentedRealityStatic(w,h);
 		
 		//return new MagicWand(w,h);
 		
@@ -58,7 +39,7 @@ public class EtyllicMotion extends Etyllica {
 		
 		//return new FaceStatic(w,h);
 		
-		return new PirateHatApplication(w,h);
+		//return new PirateHatApplication(w,h);
 		//return new FaceSkinFilter(w,h);
 				
 		//return new HollowController(w,h);

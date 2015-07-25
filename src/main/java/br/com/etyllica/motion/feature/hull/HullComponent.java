@@ -4,7 +4,7 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
 
 public class HullComponent extends Component {

@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorPointFilter;
@@ -74,27 +74,27 @@ public class FaceApplication extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event){
 
-		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
+		if(event.isKeyDown(KeyEvent.VK_RIGHT)){
 			maxX++;
 			System.out.println(maxX);
 		}
-		else if(event.isKeyDown(KeyEvent.TSK_SETA_ESQUERDA)){
+		else if(event.isKeyDown(KeyEvent.VK_LEFT)){
 			maxX--;
 			System.out.println(maxX);
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_SETA_CIMA)){
+		if(event.isKeyDown(KeyEvent.VK_UP)){
 			//distFace+=0.1;
 			maxPontos+=20;
 			System.out.println(maxPontos);
 		}
-		else if(event.isKeyDown(KeyEvent.TSK_SETA_BAIXO)){
+		else if(event.isKeyDown(KeyEvent.VK_DOWN)){
 			//distFace-=0.1;
 			maxPontos-=20;
 			System.out.println(maxPontos);
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_R)){
+		if(event.isKeyDown(KeyEvent.VK_R)){
 			//maiorRelevancia = 0;
 			//new Voicer().say("Putz, o sistema resetou");
 		}

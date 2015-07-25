@@ -2,7 +2,7 @@ package examples.hard;
 
 
 import br.com.etyllica.Etyllica;
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import examples.hard.microscopy.EmptyWellPlateApplication;
 
 public class MicroscopyWellPlate extends Etyllica {

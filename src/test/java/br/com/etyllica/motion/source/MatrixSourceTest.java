@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.etyllica.core.graphics.SVGColor;
+import br.com.etyllica.awt.SVGColor;
 
 public class MatrixSourceTest {
 

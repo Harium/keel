@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
@@ -41,17 +41,17 @@ public class CaptchaCleaner extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 		
-		if(event.isKeyDown(KeyEvent.TSK_SPACE)){
+		if(event.isKeyDown(KeyEvent.VK_SPACE)){
 			saveImage(fileName);
 		}
 		
-		if(event.isKeyDown(KeyEvent.TSK_RIGHT_ARROW)){
+		if(event.isKeyDown(KeyEvent.VK_RIGHT_ARROW)){
 			cam.nextFrame();
 			fileName = "captcha"+Integer.toString(cam.getCurrentFrame());
 			reset(fileName);
 		}
 		
-		if(event.isKeyDown(KeyEvent.TSK_LEFT_ARROW)){
+		if(event.isKeyDown(KeyEvent.VK_LEFT_ARROW)){
 			cam.previousFrame();
 			fileName = "captcha"+Integer.toString(cam.getCurrentFrame());
 			reset(fileName);

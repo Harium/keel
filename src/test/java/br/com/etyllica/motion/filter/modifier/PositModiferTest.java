@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.opencv.OpenCv;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.modifier.PositModifier;
 
@@ -13,16 +13,15 @@ public class PositModiferTest {
 	private PositModifier modifier;
 	
 	@Before
-	public void setUp(){
+	public void setUp() {
 		
 		double focalLength = 760;
 		
 		modifier = new PositModifier(focalLength, 0);
-		
 	}
 		
 	
-	public void testModifier(){
+	public void testModifier() {
 		
 		Component imageComponent = new Component(200, 200);
 		

@@ -1,28 +1,12 @@
 package examples.filter.application;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
-import br.com.etyllica.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.loader.image.ImageLoader;
 import br.com.etyllica.layer.BufferedLayer;
-import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.filter.image.LensCorrectionFilter;
+import br.com.etyllica.loader.image.ImageLoader;
 import br.com.etyllica.motion.filter.image.SimpleFishEyeCorrectionFilter;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
-import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
-import br.com.etyllica.motion.modifier.hull.HullModifier;
 
 public class FishEyeCorrectionApplication extends Application {
 

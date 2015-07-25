@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.core.ComponentFilter;
 import br.com.etyllica.motion.core.dynamic.DynamicArrayMask;
 import br.com.etyllica.motion.core.dynamic.DynamicMask;

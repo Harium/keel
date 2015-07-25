@@ -5,13 +5,13 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.awt.SVGColor;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.graphics.SVGColor;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.BufferedLayer;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
@@ -194,7 +194,7 @@ public class MelanomaFinderApplication extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.TSK_H)) {
+		if(event.isKeyDown(KeyEvent.VK_H)) {
 			hide = !hide;
 		}
 

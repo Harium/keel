@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.awt.SVGColor;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.graphics.SVGColor;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.gui.spinner.IntegerSpinner;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
@@ -195,129 +195,129 @@ public class FaceSampledMultiFilterStatic extends Application {
 
 		//System.out.println("updateKeyBoard "+event.getKey()+" "+event.getState());
 
-		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
+		if(event.isKeyDown(KeyEvent.VK_RIGHT_ARROW)){
 			cam.nextFrame();
 			reset(cam.getBufferedImage());
 		}
 
-		else if(event.isKeyDown(KeyEvent.TSK_SETA_ESQUERDA)){
+		else if(event.isKeyDown(KeyEvent.VK_LEFT_ARROW)){
 			cam.previousFrame();
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_Y)){
+		if(event.isKeyDown(KeyEvent.VK_Y)){
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_P)){
+		if(event.isKeyDown(KeyEvent.VK_P)){
 			pixels = !pixels;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_U)){
+		if(event.isKeyDown(KeyEvent.VK_U)){
 			drawCleanedOnly = !drawCleanedOnly;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_I)){
+		if(event.isKeyDown(KeyEvent.VK_I)){
 			drawBox = !drawBox;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_A)){
+		if(event.isKeyDown(KeyEvent.VK_A)){
 			noiseRadius++;			
 			System.out.println("RadiusHull = "+noiseRadius);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_S)){
+		if(event.isKeyDown(KeyEvent.VK_S)){
 			noiseRadius--;
 			System.out.println("RadiusHull = "+noiseRadius);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_Z)){
+		if(event.isKeyDown(KeyEvent.VK_Z)){
 			tolerance++;
 			System.out.println("tolerance = "+tolerance);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_X)){
+		if(event.isKeyDown(KeyEvent.VK_X)){
 			tolerance--;
 			System.out.println("tolerance = "+tolerance);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_D)){
+		if(event.isKeyDown(KeyEvent.VK_D)){
 			minNeighboor++;
 			System.out.println("minNeighboor = "+minNeighboor);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_F)){
+		if(event.isKeyDown(KeyEvent.VK_F)){
 			minNeighboor--;
 			System.out.println("minNeighboor = "+minNeighboor);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_C)){
+		if(event.isKeyDown(KeyEvent.VK_C)){
 			maxNeighboor++;
 			System.out.println("maxNeighboor = "+maxNeighboor);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_V)){
+		if(event.isKeyDown(KeyEvent.VK_V)){
 			maxNeighboor--;
 			System.out.println("maxNeighboor = "+maxNeighboor);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_G)){
+		if(event.isKeyDown(KeyEvent.VK_G)){
 			skinNoiseRadius++;
 			System.out.println("skinNoiseRadius = "+skinNoiseRadius);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_H)){
+		if(event.isKeyDown(KeyEvent.VK_H)){
 			skinNoiseRadius--;
 			System.out.println("skinNoiseRadius = "+skinNoiseRadius);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_B)){
+		if(event.isKeyDown(KeyEvent.VK_B)){
 			skinTolerance++;
 			System.out.println("skinTolerance = "+skinTolerance);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_N)){
+		if(event.isKeyDown(KeyEvent.VK_N)){
 			skinTolerance--;
 			System.out.println("skinTolerance = "+skinTolerance);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_J)){
+		if(event.isKeyDown(KeyEvent.VK_J)){
 			skinMinNeighboor++;
 			System.out.println("skinMinNeighboor = "+skinMinNeighboor);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_K)){
+		if(event.isKeyDown(KeyEvent.VK_K)){
 			skinMinNeighboor--;
 			System.out.println("skinMinNeighboor = "+skinMinNeighboor);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_M)){
+		if(event.isKeyDown(KeyEvent.VK_M)){
 			skinMaxNeighboor++;
 			System.out.println("skinMaxNeighboor = "+skinMaxNeighboor);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_VIRGULA)){
+		if(event.isKeyDown(KeyEvent.VK_VIRGULA)){
 			skinMaxNeighboor--;
 			System.out.println("skinMaxNeighboor = "+skinMaxNeighboor);
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_SPACE)){
+		if(event.isKeyDown(KeyEvent.VK_SPACE)){
 			System.out.println("------------------------------");
 			System.out.println("noiseRadius = "+noiseRadius+";");
 			System.out.println("tolerance = "+tolerance+";");
@@ -332,7 +332,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 		}
 
 		//Presets
-		if(event.isKeyDown(KeyEvent.TSK_1)){
+		if(event.isKeyDown(KeyEvent.VK_1)){
 
 			noiseRadius = 117;
 			tolerance = 50;
@@ -347,7 +347,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_2)){
+		if(event.isKeyDown(KeyEvent.VK_2)){
 
 			noiseRadius = 117;
 			tolerance = 68;
@@ -363,7 +363,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 		}
 
 
-		if(event.isKeyDown(KeyEvent.TSK_3)){
+		if(event.isKeyDown(KeyEvent.VK_3)){
 
 			noiseRadius = 117;
 			tolerance = 60;
@@ -377,7 +377,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_4)){
+		if(event.isKeyDown(KeyEvent.VK_4)){
 
 			noiseRadius = 55;
 			tolerance = 75;
@@ -392,7 +392,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_5)){
+		if(event.isKeyDown(KeyEvent.VK_5)){
 			noiseRadius = 49;
 			tolerance = 154;
 			minNeighboor = 3;
@@ -405,7 +405,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_6)){
+		if(event.isKeyDown(KeyEvent.VK_6)){
 			noiseRadius = 55;
 			tolerance = 79;
 			minNeighboor = 4;

@@ -3,7 +3,7 @@ package br.com.etyllica.motion.modifier.posit;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.linear.vector.Mat3D;
 import br.com.etyllica.linear.vector.Vec3D;
 

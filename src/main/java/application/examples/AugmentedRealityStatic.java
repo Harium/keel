@@ -3,12 +3,12 @@ package application.examples;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.feature.Component;
@@ -89,7 +89,7 @@ public class AugmentedRealityStatic extends Application {
 		loading = 100;
 	}
 	
-	private void reset(BufferedImage b){
+	private void reset(BufferedImage b) {
 				
 		loading = 60;
 
@@ -115,21 +115,21 @@ public class AugmentedRealityStatic extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
+		if(event.isKeyDown(KeyEvent.VK_RIGHT)) {
 			cam.nextFrame();
 			reset(cam.getBufferedImage());
 		}
 
-		else if(event.isKeyDown(KeyEvent.TSK_SETA_ESQUERDA)){
+		else if(event.isKeyDown(KeyEvent.VK_LEFT)) {
 			cam.previousFrame();
 			reset(cam.getBufferedImage());
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_H)){
+		if(event.isKeyDown(KeyEvent.VK_H)) {
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_P)){
+		if(event.isKeyDown(KeyEvent.VK_P)) {
 			pixels = !pixels;
 		}
 
@@ -143,13 +143,13 @@ public class AugmentedRealityStatic extends Application {
 
 		g.setColor(Color.BLUE);
 
-		for(Point2D ponto: feature.getPoints()){
+		for(Point2D ponto: feature.getPoints()) {
 			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
 		}
 		
 		int textHeight = 25;
 		
-		if(feature.getPoints().size()>3){
+		if(feature.getPoints().size()>3) {
 
 			drawBox(g, feature);
 
@@ -167,7 +167,7 @@ public class AugmentedRealityStatic extends Application {
 
 	}
 
-	private void drawBox(Graphic g, Component box){
+	private void drawBox(Graphic g, Component box) {
 
 		g.setColor(Color.RED);
 
@@ -216,11 +216,11 @@ public class AugmentedRealityStatic extends Application {
 
 	}
 
-	private void drawLine(Graphic g, Point2D a, Point2D b){		
+	private void drawLine(Graphic g, Point2D a, Point2D b) {		
 		g.drawLine(xOffset+(int)a.getX(), yOffset+(int)a.getY(), xOffset+(int)b.getX(), yOffset+(int)b.getY());		
 	}
 
-	private void drawPoint(Graphic g, Point2D point){
+	private void drawPoint(Graphic g, Point2D point) {
 		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
 	}
 

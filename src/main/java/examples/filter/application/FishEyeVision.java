@@ -2,10 +2,10 @@ package examples.filter.application;
 
 import java.awt.image.BufferedImage;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.loader.image.ImageLoader;
 import br.com.etyllica.layer.BufferedLayer;
+import br.com.etyllica.loader.image.ImageLoader;
 import br.com.etyllica.motion.filter.image.SimpleFishEyeCorrectionFilter;
 
 public class FishEyeVision extends Application {

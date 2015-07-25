@@ -6,15 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.awt.SVGColor;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.graphics.SVGColor;
-import br.com.etyllica.core.input.mouse.MouseButton;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.ImageLayer;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
@@ -222,29 +222,29 @@ public class PirateHatApplication extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.TSK_SETA_DIREITA)){
+		if(event.isKeyDown(KeyEvent.VK_RIGHT)){
 			cam.nextFrame();
 			reset();
 		}
 
-		else if(event.isKeyDown(KeyEvent.TSK_SETA_ESQUERDA)){
+		else if(event.isKeyDown(KeyEvent.VK_LEFT)){
 			cam.previousFrame();
 			reset();
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_H)){
+		if(event.isKeyDown(KeyEvent.VK_H)){
 			hide = !hide;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_P)){
+		if(event.isKeyDown(KeyEvent.VK_P)){
 			pixels = !pixels;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_C)){
+		if(event.isKeyDown(KeyEvent.VK_C)){
 			drawCleanedOnly = !drawCleanedOnly;
 		}
 
-		if(event.isKeyDown(KeyEvent.TSK_B)){
+		if(event.isKeyDown(KeyEvent.VK_B)){
 			drawBox = !drawBox;
 		}
 

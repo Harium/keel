@@ -2,7 +2,7 @@ package examples.basic;
 
 
 import br.com.etyllica.Etyllica;
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import examples.basic.application.GeometricFormApplication;
 
 public class GeometricFormClassifier extends Etyllica {
@@ -17,7 +17,6 @@ public class GeometricFormClassifier extends Etyllica {
 	public Application startApplication() {
 		
 		return new GeometricFormApplication(w,h);
-		
 	}	
 
 }

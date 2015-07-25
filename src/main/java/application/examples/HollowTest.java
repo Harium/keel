@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.core.loader.image.ImageLoader;
+import br.com.etyllica.loader.image.ImageLoader;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.RedLedFilter;
 

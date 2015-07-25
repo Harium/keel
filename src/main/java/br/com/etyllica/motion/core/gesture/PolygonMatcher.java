@@ -3,7 +3,7 @@ package br.com.etyllica.motion.core.gesture;
 import java.awt.Polygon;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 
 public class PolygonMatcher {
 

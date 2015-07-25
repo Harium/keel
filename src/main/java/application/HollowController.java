@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.context.Application;
-import br.com.etyllica.context.UpdateIntervalListener;
+import br.com.etyllica.core.context.Application;
+import br.com.etyllica.core.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
@@ -67,7 +67,7 @@ public class HollowController extends Application implements UpdateIntervalListe
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event){
 
-		if(event.isKeyDown(KeyEvent.TSK_R)){
+		if(event.isKeyDown(KeyEvent.VK_R)){
 			activated = false;
 		}
 		

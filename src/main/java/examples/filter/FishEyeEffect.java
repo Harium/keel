@@ -1,7 +1,7 @@
 package examples.filter;
 
 import br.com.etyllica.Etyllica;
-import br.com.etyllica.context.Application;
+import br.com.etyllica.core.context.Application;
 import examples.filter.application.FishEyeVision;
 
 public class FishEyeEffect extends Etyllica {
@@ -15,7 +15,7 @@ public class FishEyeEffect extends Etyllica {
 	@Override
 	public Application startApplication() {
 		
-		initialSetup("../../../../");
+		initialSetup("../../");
 		
 		return new FishEyeVision(w,h);
 		

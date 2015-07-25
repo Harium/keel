@@ -3,7 +3,7 @@ package examples.medium.application.area;
 import java.awt.Color;
 
 import br.com.etyllica.core.graphics.Graphic;
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 
 public class AreaDrawer {
 	

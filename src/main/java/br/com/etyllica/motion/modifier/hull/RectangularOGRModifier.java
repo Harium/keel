@@ -3,7 +3,7 @@ package br.com.etyllica.motion.modifier.hull;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.ogr.OGR;

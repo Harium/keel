@@ -2,8 +2,8 @@ package examples.medium.application.area;
 
 import java.awt.Polygon;
 
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.GeometricLayer;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
 
 public class MultiArea {

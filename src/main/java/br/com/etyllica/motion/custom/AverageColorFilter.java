@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.core.ProcessComponentFilter;
 import br.com.etyllica.motion.core.ProcessFilter;
 import br.com.etyllica.motion.feature.Component;
