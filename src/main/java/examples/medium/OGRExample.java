@@ -3,26 +3,28 @@ package examples.medium;
 
 import br.com.etyllica.EtyllicaFrame;
 import br.com.etyllica.core.context.Application;
-import examples.medium.application.area.TrackingMultiAreaApplication;
+import examples.medium.ogr.OGRApplication;
 
-public class TrackingStaticColor extends EtyllicaFrame {
+public class OGRExample extends EtyllicaFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	public TrackingStaticColor() {
+	public OGRExample() {
 		super(640, 480);
 	}
 	
 	public static void main(String[] args) {
-		TrackingStaticColor finder = new TrackingStaticColor();
+		OGRExample finder = new OGRExample();
 		finder.init();
 	}
 
 	@Override
 	public Application startApplication() {
+				
 		initialSetup("../");
-		//return new TrackingShadingColorApplication(w,h);
-		return new TrackingMultiAreaApplication(w,h);
+		
+		return new OGRApplication(w,h);
+		
 	}	
 
 }
