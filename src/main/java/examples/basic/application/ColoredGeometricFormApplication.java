@@ -12,6 +12,8 @@ import java.util.List;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.motion.classifier.ColorClassifier;
+import br.com.etyllica.motion.classifier.PolygonClassifier;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.ColorFilter;
@@ -20,25 +22,22 @@ import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 import br.com.etyllica.motion.modifier.hull.HullModifier;
 import br.com.etyllica.motion.modifier.hull.PathCompressionModifier;
 
-public class GeometricFormApplication extends Application {
+public class ColoredGeometricFormApplication extends Application {
 
 	private BufferedImage image;
 
 	private ColorFilter blackFilter;
-	
 	private List<Component> blackComponents;
 
 	private Component screen;
 
 	private HullModifier<HullComponent> quickHull;
-	
 	private PathCompressionModifier pathCompressionModifier;
 
-	private List<String> geometryForm = new ArrayList<String>();
-		
+	private List<String> geometryText = new ArrayList<String>();		
 	private List<List<Point2D>> convexHull = new ArrayList<List<Point2D>>();
 
-	public GeometricFormApplication(int w, int h) {
+	public ColoredGeometricFormApplication(int w, int h) {
 		super(w, h);
 	}
 
@@ -53,11 +52,11 @@ public class GeometricFormApplication extends Application {
 
 		loading = 10;
 		//Create the image with elements
-		drawImage(image);
+		createImage(image);
 
 		//Define blue and black filters
 		blackFilter = new ColorFilter(w, h, Color.BLACK);
-				
+		
 		SoftFloodFillSearch floodFill = (SoftFloodFillSearch)blackFilter.getSearchStrategy();
 		floodFill.setStep(1);
 		
@@ -77,7 +76,6 @@ public class GeometricFormApplication extends Application {
 		}
 		
 		loading = 50;
-
 	}
 	
 	private void classifyRegion(Component region) {
@@ -85,43 +83,20 @@ public class GeometricFormApplication extends Application {
 		List<Point2D> list = pathCompressionModifier.modify(quickHull.modify(region));
 		//List<Point2D> list = quickHull.modify(region).getPoints();
 		
-		int numberOfPoints = list.size();
+		Point2D center = region.getCenter();
+		Color color = new Color(image.getRGB((int)center.getX(), (int)center.getY())); 
 		
-		String form = "undefined";
-
-		switch(numberOfPoints) {
-
-		case 3:
-			form = "Triangle";
-			break;
-
-		case 4:
-			form = "Rectangle";
-			break;
-			
-		case 5:
-			form = "Pentagon";
-			break;
-			
-		case 6:
-			form = "Hexagon";
-			break;
-
-		default:
-			form = "Circle";
-			break;
-
-		}
+		String colorText = ColorClassifier.getColorName(color.getRed(), color.getGreen(), color.getBlue());
 		
-		form += " "+numberOfPoints;
+		String form = PolygonClassifier.indentifyRegion(list);
 		
-		geometryForm.add(form);
+		String text = colorText+" "+form;
 		
+		geometryText.add(text);
 		convexHull.add(list);
-				
 	}
 
-	private void drawImage(BufferedImage image) {
+	private void createImage(BufferedImage image) {
 
 		Graphics2D g = image.createGraphics();
 		
@@ -139,17 +114,36 @@ public class GeometricFormApplication extends Application {
 		triangle.addPoint(200, 180);
 		triangle.addPoint(400, 180);
 		
+		//Draw Triangle
+		g.setColor(Color.BLUE);
+		g.fillPolygon(triangle);
+		
+		g.setColor(Color.BLACK);
 		g.drawPolygon(triangle);
 				
+		//Draw Circle
+		g.setColor(Color.YELLOW);
+		g.fillOval(440, 80, 100, 100);
+		
+		g.setColor(Color.BLACK);
 		g.drawOval(440, 80, 100, 100);
 
 		//Draw Rectangle
+		g.setColor(Color.RED);
+		g.fillRect(40, 140, 100, 180);
+		
+		g.setColor(Color.BLACK);
 		g.drawRect(40, 140, 100, 180);
 		
+		//Draw rotated Rectangle
 		AffineTransform transform = new AffineTransform();
 		transform.rotate(Math.toRadians(30), x + w/2, y+h/2);
 		g.transform(transform);
-		//Draw Rotated Rectangle
+		
+		g.setColor(Color.GREEN);
+		g.fillRect(340, 260, 110, 180);
+		
+		g.setColor(Color.BLACK);
 		g.drawRect(340, 260, 110, 180);
 		
 	}
@@ -173,21 +167,14 @@ public class GeometricFormApplication extends Application {
 			
 			g.setColor(Color.CYAN);
 			
-			/*for(Point2D point: component.getPoints()) {		
-				g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
-			}*/
-			
-			g.writeShadow(geometryForm.get(i), component.getRectangle());
+			g.writeShadow(geometryText.get(i), component.getRectangle());
 			
 			g.setStroke(new BasicStroke(1f));
 			
 			for(Point2D point: convexHull.get(i)) {
 				g.setColor(Color.BLACK);
 				g.drawCircle(point, 5);
-			}
-			
+			}	
 		}
-
 	}
-
 }
