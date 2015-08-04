@@ -14,4 +14,6 @@ public interface SearchStrategy {
 		
 	public void setup();
 	
+	public void setStep(int step);
+	
 }
