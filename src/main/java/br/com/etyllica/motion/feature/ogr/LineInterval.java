@@ -2,19 +2,12 @@ package br.com.etyllica.motion.feature.ogr;
 
 public class LineInterval {
 
-	private int height = 1;
+	private int height = 0;
 	
 	private int start = 0;
 	
 	private int length = 0;
-	
-	public LineInterval(int start, int length) {
-		super();
 		
-		this.start = start;
-		this.length = length;
-	}
-	
 	public LineInterval(int start, int length, int height) {
 		super();
 		
@@ -45,6 +38,14 @@ public class LineInterval {
 	
 	public int expand() {
 		return length++;
+	}
+	
+	public boolean intersect(LineInterval interval) {
+		if(height-interval.height > 1 || height-interval.height < -1) {
+			return false;
+		}
+		
+		return (start >= interval.start && start < interval.start+interval.length)||(interval.start >= start && interval.start < start+length);
 	}
 	
 }

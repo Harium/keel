@@ -6,10 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.etyllica.linear.graph.Graph;
-import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.motion.feature.ogr.LineInterval;
-import br.com.etyllica.motion.modifier.ogr.RectangularOGR;
 
 public class LineIntervalModifierTest {
 	
@@ -42,8 +39,9 @@ public class LineIntervalModifierTest {
 	
 		List<LineInterval> intervals = modifier.modify(matrix);
 				
-		Assert.assertEquals(1, intervals.size());
-		Assert.assertEquals(4, intervals.get(0).getLength());
+		Assert.assertEquals(2, intervals.size());
+		Assert.assertEquals(1, intervals.get(0).getLength());
+		Assert.assertEquals(4, intervals.get(1).getLength());
 	}
 	
 	@Test
@@ -63,5 +61,4 @@ public class LineIntervalModifierTest {
 		Assert.assertEquals(4, intervals.get(3).getLength());
 	}
 
-	
 }
