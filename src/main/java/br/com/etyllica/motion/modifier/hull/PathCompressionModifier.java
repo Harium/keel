@@ -25,11 +25,12 @@ public class PathCompressionModifier implements ComponentModifier<HullComponent,
 	@Override
 	public List<Point2D> modify(HullComponent component) {
 		List<Point2D> points = component.getPoints();
-		
+				
 		List<Point2D> list = new ArrayList<Point2D>();
 		
 		if(points.size() <= 2) {
 			list.addAll(points);
+			return points;
 		}
 
 		int needleIndex = 0;

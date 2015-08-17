@@ -45,6 +45,11 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 
 	}
 
+	public Component(List<Point2D> list) {
+		this();
+		addAll(list);
+	}
+
 	public boolean[][] generateMask() {
 
 		int w = getW();
