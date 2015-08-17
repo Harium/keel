@@ -53,7 +53,7 @@ public class LineIntervalModifier implements ComponentModifier<Component, List<L
 		return modify(mask);
 	}
 	
-	public Map<Integer, List<LineInterval>> groupIntervals(List<LineInterval> intervals) {
+	public static Map<Integer, List<LineInterval>> groupIntervals(List<LineInterval> intervals) {
 		
 		Map<Integer, List<LineInterval>> map = new HashMap<Integer, List<LineInterval>>();
 		
