@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.linear.graph.WeightEdge;
@@ -16,6 +15,14 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 
 	public LetterOGRModifier() {
 		super();
+	}
+
+	public Graph<Integer> modify(Component component) {
+
+		Graph<Integer> graph = modify(component.generateMask());
+		graph.moveNodes(component.getX(), component.getY());
+
+		return graph;
 	}
 
 	public Graph<Integer> modify(boolean[][] mask) {
@@ -30,7 +37,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 
 		int lastIntervalCount = 0;
 
-		for(int i=0; i<map.size(); i++) {
+		for(int i=0; i < map.size(); i++) {
 
 			List<LineInterval> line = map.get(i);
 
@@ -38,42 +45,11 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 				firstLine(graph, i, line, activeNodes);
 			} else {
 				if(line.size() < lastIntervalCount) {
-					for(int l = 0;l < line.size(); l++) {
-
-						LineInterval interval = line.get(l);
-
-						Node<Integer> joint = new Node<Integer>(interval.getCenter());
-
-						Node<Integer> leftNode = activeNodes.get(l);
-						Node<Integer> rightNode = activeNodes.get(l+1);
-
-						graph.addEdge(new WeightEdge<Integer>(joint, leftNode));
-						graph.addEdge(new WeightEdge<Integer>(joint, rightNode));
-
-						graph.addNode(joint);
-						activeNodes.clear();
-						activeNodes.add(joint);
-					}
+					joint(activeNodes, graph, line);
 				} else if(line.size() > lastIntervalCount) {
-
-					if(lastIntervalCount == 1) {
-						
-						Node<Integer> joint = activeNodes.get(0);
-						activeNodes.clear();
-
-						for(int l = 0;l < line.size(); l++) {
-							LineInterval interval = line.get(l);
-
-							Node<Integer> node = new Node<Integer>(interval.getCenter());
-
-							graph.addNode(node);
-							graph.addEdge(new WeightEdge<Integer>(node, joint));
-
-							activeNodes.add(node);
-						}
-					} else {
-						System.out.println("Not implemented yet.");
-					}
+					fork(activeNodes, graph, lastIntervalCount, line);
+				} else {
+					expand(activeNodes, map, i, line);
 				}
 			}
 
@@ -81,6 +57,73 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 		}
 
 		return graph;
+	}
+
+	private void expand(List<Node<Integer>> activeNodes,
+			Map<Integer, List<LineInterval>> map, int i, List<LineInterval> line) {
+		if(i >= map.size()/2) {
+			//Pull nodes
+			for(int l = 0;l < line.size(); l++) {
+				LineInterval interval = line.get(l);
+
+				Node<Integer> node;
+				if(activeNodes.size()<=l) {
+					//TODO workaround
+					node = activeNodes.get(0);
+				} else {
+					node = activeNodes.get(l);
+				}
+				node.getPoint().setLocation(interval.getCenter(), i);
+			}
+		}
+	}
+
+	private void fork(List<Node<Integer>> activeNodes, Graph<Integer> graph,
+			int lastIntervalCount, List<LineInterval> line) {
+		if(lastIntervalCount == 1) {
+			Node<Integer> joint = activeNodes.get(0);
+			activeNodes.clear();
+
+			for(int l = 0;l < line.size(); l++) {
+				LineInterval interval = line.get(l);
+
+				Node<Integer> node = new Node<Integer>(interval.getCenter(), interval.getHeight());
+
+				graph.addNode(node);
+				graph.addEdge(new WeightEdge<Integer>(node, joint));
+
+				activeNodes.add(node);
+			}
+		} else {
+			System.out.println("Not implemented yet.");
+		}
+	}
+
+	private void joint(List<Node<Integer>> activeNodes, Graph<Integer> graph,
+			List<LineInterval> line) {
+		for(int l = 0;l < line.size(); l++) {
+
+			LineInterval interval = line.get(l);
+
+			Node<Integer> joint = new Node<Integer>(interval.getCenter(), interval.getHeight());
+
+			if(activeNodes.size() > l+1) {
+				Node<Integer> leftNode = activeNodes.get(l);
+				Node<Integer> rightNode = activeNodes.get(l+1);
+
+				graph.addEdge(new WeightEdge<Integer>(joint, leftNode));
+				graph.addEdge(new WeightEdge<Integer>(joint, rightNode));
+			} else {
+				//TODO workaround
+				Node<Integer> lastCenteredNode = activeNodes.get(0);
+
+				graph.addEdge(new WeightEdge<Integer>(joint, lastCenteredNode));
+			}
+
+			graph.addNode(joint);
+			activeNodes.clear();
+			activeNodes.add(joint);
+		}
 	}
 
 	private void firstLine(Graph<Integer> graph, int i, List<LineInterval> line, List<Node<Integer>> activeNodes) {
@@ -96,18 +139,9 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 	}
 
 	private void addNode(Graph<Integer> graph, List<Node<Integer>> activeNodes, LineInterval interval) {
-		Node<Integer> node = new Node<Integer>(interval.getCenter());
+		Node<Integer> node = new Node<Integer>(interval.getCenter(), interval.getHeight());
 		graph.addNode(node);
 		activeNodes.add(node);
-	}
-
-	private Node<Integer> getNode(Map<Point2D, Node<Integer>>  nodes, LineInterval interval) {
-		return nodes.get(new Point2D(interval.getCenter(), interval.getHeight()));
-	}
-
-	public Graph<Integer> modify(Component component) {
-
-		return modify(component.generateMask());
 	}
 
 }

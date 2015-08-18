@@ -43,6 +43,12 @@ public class LineIntervalModifier implements ComponentModifier<Component, List<L
 					currentInterval = null;
 				}
 			}
+			
+			if(currentInterval != null) {
+				//End Interval
+				intervals.add(currentInterval);
+				currentInterval = null;
+			}
 		}
 
 		return intervals;

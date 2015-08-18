@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.com.etyllica.linear.graph.Graph;
+import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.motion.feature.ogr.LineInterval;
 
 public class LineIntervalModifierTest {
@@ -59,6 +61,21 @@ public class LineIntervalModifierTest {
 		Assert.assertEquals(4, intervals.get(1).getLength());
 		Assert.assertEquals(1, intervals.get(2).getLength());
 		Assert.assertEquals(4, intervals.get(3).getLength());
+	}
+	
+	@Test
+	public void letterATest() {
+		final boolean[][] matrix = new boolean[5][5];
+		
+		matrix[0] = new boolean[] {false, false,  true, false, false};
+		matrix[1] = new boolean[] {false,  true, false,  true, false};
+		matrix[2] = new boolean[] { true,  true,  true,  true,  true};
+		matrix[3] = new boolean[] { true, false, false, false,  true};
+		matrix[4] = new boolean[] { true, false, false, false, true};
+	
+		List<LineInterval> intervals = modifier.modify(matrix);
+		
+		Assert.assertEquals(8, intervals.size());
 	}
 
 }
