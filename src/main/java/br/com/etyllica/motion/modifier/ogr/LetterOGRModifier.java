@@ -49,7 +49,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 				} else if(line.size() > lastIntervalCount) {
 					fork(activeNodes, graph, lastIntervalCount, line);
 				} else {
-					expand(activeNodes, map, i, line);
+					expand(activeNodes, graph, map, i, line);
 				}
 			}
 
@@ -59,9 +59,26 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 		return graph;
 	}
 
-	private void expand(List<Node<Integer>> activeNodes,
+	private void expand(List<Node<Integer>> activeNodes, Graph<Integer> graph,
 			Map<Integer, List<LineInterval>> map, int i, List<LineInterval> line) {
-		if(i >= map.size()/2) {
+		if(i == 1 && line.size() == 1) {
+			//expand based on root
+			
+				LineInterval interval = line.get(0);
+
+				Node<Integer> rootNode = activeNodes.get(0);
+				
+				Node<Integer> node = new Node<Integer>(interval.getCenter(), interval.getHeight());
+				node.setData(interval.getHeight());
+
+				graph.addNode(node);
+				graph.addEdge(new WeightEdge<Integer>(rootNode, node));
+
+				//Replace rootNode
+				activeNodes.remove(0);
+				activeNodes.add(0, node);
+				
+		} else if(i >= map.size()/2) {
 			//Pull nodes
 			for(int l = 0;l < line.size(); l++) {
 				LineInterval interval = line.get(l);
@@ -88,6 +105,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 				LineInterval interval = line.get(l);
 
 				Node<Integer> node = new Node<Integer>(interval.getCenter(), interval.getHeight());
+				node.setData(interval.getHeight());
 
 				graph.addNode(node);
 				graph.addEdge(new WeightEdge<Integer>(node, joint));
@@ -106,6 +124,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 			LineInterval interval = line.get(l);
 
 			Node<Integer> joint = new Node<Integer>(interval.getCenter(), interval.getHeight());
+			joint.setData(interval.getHeight());
 
 			if(activeNodes.size() > l+1) {
 				Node<Integer> leftNode = activeNodes.get(l);
@@ -140,6 +159,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 
 	private void addNode(Graph<Integer> graph, List<Node<Integer>> activeNodes, LineInterval interval) {
 		Node<Integer> node = new Node<Integer>(interval.getCenter(), interval.getHeight());
+		node.setData(interval.getHeight());
 		graph.addNode(node);
 		activeNodes.add(node);
 	}

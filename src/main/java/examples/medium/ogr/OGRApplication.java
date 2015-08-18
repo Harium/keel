@@ -81,9 +81,8 @@ public class OGRApplication extends Application {
 		for(Component component: blackComponents) {
 			graphs.put(component, ogr.modify(component));
 		}
-				
+		
 		loading = 50;
-
 	}
 	
 	@Override
