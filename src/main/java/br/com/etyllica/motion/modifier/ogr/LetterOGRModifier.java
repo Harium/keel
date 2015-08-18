@@ -18,7 +18,6 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 	}
 
 	public Graph<Integer> modify(Component component) {
-
 		Graph<Integer> graph = modify(component.generateMask());
 		graph.moveNodes(component.getX(), component.getY());
 
@@ -26,7 +25,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 	}
 
 	public Graph<Integer> modify(boolean[][] mask) {
-
+		
 		List<Node<Integer>> activeNodes = new ArrayList<Node<Integer>>();
 
 		List<LineInterval> intervals = new LineIntervalModifier().modify(mask);
@@ -42,10 +41,10 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 			List<LineInterval> line = map.get(i);
 
 			if(graph.isEmpty()) {
-				firstLine(graph, i, line, activeNodes);
+				firstLine(mask, graph, i, line, activeNodes);
 			} else {
 				if(line.size() < lastIntervalCount) {
-					joint(activeNodes, graph, line);
+					join(mask, activeNodes, graph, line);
 				} else if(line.size() > lastIntervalCount) {
 					fork(activeNodes, graph, lastIntervalCount, line);
 				} else {
@@ -117,8 +116,11 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 		}
 	}
 
-	private void joint(List<Node<Integer>> activeNodes, Graph<Integer> graph,
+	private void join(boolean[][] mask, List<Node<Integer>> activeNodes, Graph<Integer> graph,
 			List<LineInterval> line) {
+		
+		int w = mask[0].length;
+		
 		for(int l = 0;l < line.size(); l++) {
 
 			LineInterval interval = line.get(l);
@@ -130,8 +132,16 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 				Node<Integer> leftNode = activeNodes.get(l);
 				Node<Integer> rightNode = activeNodes.get(l+1);
 
-				graph.addEdge(new WeightEdge<Integer>(joint, leftNode));
-				graph.addEdge(new WeightEdge<Integer>(joint, rightNode));
+				double leftDist = modDistX(joint, leftNode);
+				if(leftDist<w/2) {
+					graph.addEdge(new WeightEdge<Integer>(joint, leftNode));	
+				}
+				
+				double rightDist = modDistX(joint, rightNode);
+				if(rightDist<w/2) {
+					graph.addEdge(new WeightEdge<Integer>(joint, rightNode));	
+				}
+				
 			} else {
 				//TODO workaround
 				Node<Integer> lastCenteredNode = activeNodes.get(0);
@@ -145,23 +155,46 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 		}
 	}
 
-	private void firstLine(Graph<Integer> graph, int i, List<LineInterval> line, List<Node<Integer>> activeNodes) {
+	private void firstLine(boolean[][] mask, Graph<Integer> graph, int i, List<LineInterval> line, List<Node<Integer>> activeNodes) {
 		//Found root
 		LineInterval firstInterval = line.get(0);
-		addNode(graph, activeNodes, firstInterval);
-
+		Node<Integer> root = addNode(graph, activeNodes, firstInterval);		
+		
+		int w = mask[0].length;
+		
 		if(line.size() > 1) {
 			for(int l = 1;l<line.size();l++) {
 				addNode(graph, activeNodes, line.get(l));
 			}
+		} else if(firstInterval.getLength()>w/2) {
+			//Letter T
+			/*Node<Integer> leftNode = new Node<Integer>(firstInterval.getStart(), firstInterval.getHeight());
+			leftNode.setData(firstInterval.getHeight());
+			graph.addNode(leftNode);
+			
+			graph.addEdge(new WeightEdge<Integer>(root, leftNode));
+			
+			Node<Integer> rightNode = new Node<Integer>(firstInterval.getEnd(), firstInterval.getHeight());
+			rightNode.setData(firstInterval.getHeight());
+			graph.addNode(rightNode);
+			
+			graph.addEdge(new WeightEdge<Integer>(root, rightNode));*/
 		}
 	}
 
-	private void addNode(Graph<Integer> graph, List<Node<Integer>> activeNodes, LineInterval interval) {
+	private Node<Integer> addNode(Graph<Integer> graph, List<Node<Integer>> activeNodes, LineInterval interval) {
 		Node<Integer> node = new Node<Integer>(interval.getCenter(), interval.getHeight());
 		node.setData(interval.getHeight());
 		graph.addNode(node);
 		activeNodes.add(node);
+		
+		return node;
+	}
+	
+	private double modDistX(Node<Integer> a, Node<Integer> b) {
+		double dist = a.getPoint().getX()-b.getPoint().getX();
+		if(dist<0) dist = -dist;
+		return dist;
 	}
 
 }
