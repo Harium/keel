@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.feature.ogr;
+package br.com.etyllica.motion.modifier.ogr;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,8 @@ import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.linear.graph.common.IntegerEdge;
+import br.com.etyllica.motion.feature.ogr.LineInterval;
+import br.com.etyllica.motion.feature.ogr.OGR;
 
 public class RectangularOGR implements OGR<Integer> {
 

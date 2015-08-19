@@ -267,7 +267,7 @@ public class PirateHatApplication extends Application {
 		g.setColor(Color.BLUE);
 		g.setAlpha(80);
 
-		g.setBasicStroke(2);
+		g.setLineWidth(2);
 
 		drawFeatures(skinFeatures, g);
 
@@ -334,7 +334,7 @@ public class PirateHatApplication extends Application {
 
 			g.drawRect(component.getRectangle());
 
-			g.setBasicStroke(1);
+			g.setLineWidth(1);
 
 			for(Point2D point: component.getPoints()) {
 

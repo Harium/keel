@@ -41,7 +41,7 @@ public class EmptyWellPlateApplication extends Application {
 			g.fillOval(offsetX+PLATE_RADIUS*i, offsetY, PLATE_RADIUS, PLATE_RADIUS);
 
 			g.setColor(Color.BLACK);
-			g.setBasicStroke(20f);
+			g.setLineWidth(20f);
 			g.drawOval(offsetX+PLATE_RADIUS*i, offsetY, PLATE_RADIUS, PLATE_RADIUS);
 			
 		}

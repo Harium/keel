@@ -197,14 +197,14 @@ public class FaceSkinFilter extends Application implements UpdateIntervalListene
 		g.setColor(Color.BLUE);
 		g.setAlpha(80);
 
-		g.setBasicStroke(2);
+		g.setLineWidth(2);
 
 		for(Component skin: skinFeatures) {
 
 			g.setColor(SVGColor.BLUE_VIOLET);
 			g.drawRect(skin.getRectangle());
 
-			g.setBasicStroke(1);
+			g.setLineWidth(1);
 			
 			for(Point2D point: skin.getPoints()) {
 

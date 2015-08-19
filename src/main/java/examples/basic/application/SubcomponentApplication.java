@@ -78,7 +78,7 @@ public class SubcomponentApplication extends Application {
 
 		g.setColor(Color.BLACK);
 
-		g.setBasicStroke(8);
+		g.setLineWidth(8);
 
 		g.drawLine(40, 40, 140, 40);
 		g.drawLine(40, 40, 40, 100);
@@ -89,7 +89,7 @@ public class SubcomponentApplication extends Application {
 		g.drawRect(300, 200, 80, 80);
 
 		//Draw Subcomponents
-		g.setBasicStroke(1);
+		g.setLineWidth(1);
 		g.fillCircle(60, 60, 5);
 		g.fillCircle(80, 60, 5);
 

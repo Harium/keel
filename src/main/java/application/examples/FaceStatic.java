@@ -179,20 +179,20 @@ public class FaceStatic extends Application {
 		g.setColor(Color.BLUE);
 
 		g.setColor(SVGColor.BLACK);
-		g.setBasicStroke(2);
+		g.setLineWidth(2);
 		g.drawPolygon(blackPolygon);
 		
 		g.drawRect(blackSampledFeature.getRectangle());
 		
 		g.setColor(SVGColor.WHITE);
-		g.setBasicStroke(1);
+		g.setLineWidth(1);
 		
 		g.setColor(SVGColor.ORANGE);
 		g.drawPolygon(whitePolygon);
 		
 		g.drawRect(lightDirection.getRectangle());
 		
-		g.setBasicStroke(2);
+		g.setLineWidth(2);
 		for(Component skin: skinFeatures){
 			
 			g.setColor(SVGColor.BLUE_VIOLET);

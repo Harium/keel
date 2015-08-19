@@ -445,11 +445,11 @@ public class FaceSampledMultiFilterStatic extends Application {
 	private void drawComponentPolygon(Graphic g, Component component, Polygon p, Color color){
 
 		g.setColor(SVGColor.BLACK);
-		g.setBasicStroke(3);
+		g.setLineWidth(3);
 		g.drawPolygon(p);
 
 		g.setColor(color);
-		g.setBasicStroke(1);
+		g.setLineWidth(1);
 		g.drawPolygon(p);
 
 		for(Point2D ponto: component.getPoints()){
@@ -491,11 +491,11 @@ public class FaceSampledMultiFilterStatic extends Application {
 
 	private void drawMerged(Graphic g){
 		g.setColor(SVGColor.BLACK);
-		g.setBasicStroke(3);
+		g.setLineWidth(3);
 		g.drawPolygon(merged);
 
 		g.setColor(SVGColor.RED);
-		g.setBasicStroke(1);
+		g.setLineWidth(1);
 		g.drawPolygon(merged);
 
 		int px = 0, py = 0, pr = 0; 
