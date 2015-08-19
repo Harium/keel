@@ -2,6 +2,7 @@ package br.com.etyllica.motion.modifier.ogr;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,7 @@ public class LineIntervalModifier implements ComponentModifier<Component, List<L
 	
 	public static Map<Integer, List<LineInterval>> groupIntervals(List<LineInterval> intervals) {
 		
-		Map<Integer, List<LineInterval>> map = new HashMap<Integer, List<LineInterval>>();
+		Map<Integer, List<LineInterval>> map = new LinkedHashMap<Integer, List<LineInterval>>();
 		
 		for(LineInterval interval: intervals) {
 			int key = interval.getHeight();
