@@ -2,10 +2,11 @@ package br.com.etyllica.motion.modifier.ogr;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.linear.graph.WeightEdge;
@@ -51,9 +52,9 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 				} else if(line.size() > lastLine.size()) {
 					fork(w, activeNodes, graph, lastLine, line);
 				} else {
-					
+
 					List<LineInterval> lastlasLine = map.get(i-2);
-					
+
 					if (lastlasLine == null || lastlasLine.size() != line.size()) {
 						//First Expand
 						firstLineExpand(activeNodes, graph, lastLine, line);
@@ -71,22 +72,22 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 
 	private void firstLine(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, List<LineInterval> line) {
 		//Found root
-		
+
 		List<Node<Integer>> nodes = activeNodes.get(line);
 		if(nodes!=null) {
 			nodes.clear();
 		}
-		
+
 		LineInterval firstInterval = line.get(0);
 		Node<Integer> root = addNode(activeNodes, graph, firstInterval);
-		
+
 		if(line.size() > 1) {
 			for(int l = 1;l < line.size();l++) {
 				addNode(activeNodes, graph, line.get(l));
 			}
 		}
 	}
-	
+
 	private void join(int w, Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, List<LineInterval> lastLine,
 			List<LineInterval> line) {
 
@@ -103,7 +104,6 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 
 				if(interval.intersect(lastInterval)) {
 					Node<Integer> lastNode = getCenterNode(activeNodes, lastInterval);
-					
 					graph.addEdge(new WeightEdge<Integer>(joint, lastNode));
 				}
 			}
@@ -115,65 +115,90 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 	private void fork(int w, Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph,
 			List<LineInterval> lastLine, List<LineInterval> line) {
 
-		for (int l = 0; l < line.size(); l++) {
+		Set<LineInterval> visited = new HashSet<LineInterval>(line.size());
 
-			LineInterval interval = line.get(l);
+		for (int i = 0; i < lastLine.size(); i++) {
 
-			Node<Integer> joint = new Node<Integer>(interval.getCenter(), interval.getHeight());
-			joint.setData(interval.getHeight());
-			graph.addNode(joint);
+			LineInterval lastInterval = lastLine.get(i);
 
-			for(int i = 0; i < lastLine.size(); i++) {
+			Node<Integer> joint = getCenterNode(activeNodes, lastLine.get(i));
+			Node<Integer> jointRoot = getRoots(graph, joint).get(0);
 
-				LineInterval lastInterval = lastLine.get(i);
+			//For each current interval, link with root 
+			for(int l = 0; l < line.size(); l++) {
+				LineInterval interval = line.get(l);
 
-				if(interval.intersect(lastInterval)) {
-					Node<Integer> lastNode = getCenterNode(activeNodes, lastInterval);
-					graph.addEdge(new WeightEdge<Integer>(joint, lastNode));
+				if(lastInterval.intersect(interval)) {
+					//Create new Node
+					Node<Integer> node = addNode(activeNodes, graph, interval);
+					graph.addEdge(new WeightEdge<Integer>(jointRoot, node));
+
+					//Remove expanded joint
+					graph.removeNode(joint);
+					visited.add(interval);
 				}
 			}
+		}
 
-			addActiveNode(activeNodes, interval, joint);
+		for(LineInterval interval: line) {
+			if(!visited.contains(interval)) {
+				addNode(activeNodes, graph, interval);
+			}
 		}
 	}
-	
+
 	private void firstLineExpand(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, List<LineInterval> lastLine, List<LineInterval> line) {
 		for(int l = 0;l < line.size(); l++) {
 			List<Node<Integer>> nodes = activeNodes.get(lastLine.get(l));
-			
+
 			LineInterval interval = line.get(l);
 			Node<Integer> node = nodes.get(0);
-						
-			//
+
 			Node<Integer> created = addNode(activeNodes, graph, interval);
 			graph.addEdge(new WeightEdge<Integer>(created, node));
 		}
 	}
-	
+
 	private void expand(int w, Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, List<LineInterval> lastLine, List<LineInterval> line) {
-				
-		for(int l = 0;l < line.size(); l++) {
+		for (int l = 0; l < line.size(); l++) {
 			List<Node<Integer>> nodes = activeNodes.get(lastLine.get(l));
-			
+
 			LineInterval interval = line.get(l);
 			Node<Integer> node = nodes.get(0);
-			
+
 			node.getPoint().setLocation(interval.getCenter(), interval.getHeight());
 			addActiveNode(activeNodes, interval, node);
 		}
 	}
-	
+
 	private void addActiveNode(Map<LineInterval, List<Node<Integer>>> activeNodes, LineInterval interval, Node<Integer> node) {
 		if(!activeNodes.containsKey(interval)) {
 			activeNodes.put(interval, new ArrayList<Node<Integer>>());
 		}
 		activeNodes.get(interval).add(node);
 	}
-	
+
 	private Node<Integer> getCenterNode(Map<LineInterval, List<Node<Integer>>> activeNodes, LineInterval interval) {
 		List<Node<Integer>> list = activeNodes.get(interval);
 		int center = list.size()/2;
 		return list.get(center);
+	}
+	
+	private List<Node<Integer>> getRoots(Graph<Integer> graph, Node<Integer> node) {
+		List<Node<Integer>> roots = new ArrayList<Node<Integer>>();
+		for(WeightEdge<Integer> edge: graph.getEdges(node)) {
+			if (edge.getOrigin() == node) {
+				roots.add(edge.getDestination());
+			} else {
+				roots.add(edge.getOrigin());
+			}
+		}
+		
+		if(roots.isEmpty()) {
+			roots.add(node);
+		}
+		
+		return roots;
 	}
 
 	private Node<Integer> addNode(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, LineInterval interval) {
