@@ -1,9 +1,11 @@
-package br.com.etyllica.motion.feature.graph;
+package examples.medium.skin;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.etyllica.awt.SVGColor;
+import br.com.etyllica.core.collision.CollisionDetector;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
@@ -11,13 +13,17 @@ import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.Layer;
+import br.com.etyllica.linear.Ellipse;
 
 public class SkinGraphic extends Application {
 
-	private List<ColorPoint> good = new ArrayList<ColorPoint>();
-	private List<ColorPoint> bad = new ArrayList<ColorPoint>();
+	private static final Ellipse SKIN_ELLIPSE = new Ellipse(140, 140, 123, 26, 316);
+	
+	private List<SkinPoint> good = new ArrayList<SkinPoint>();
+	private List<SkinPoint> bad = new ArrayList<SkinPoint>();
 	
 	private boolean validateGraph = true;
+	private boolean[][] mask;
 
 	public SkinGraphic(int w, int h) {
 		super(w,h);
@@ -47,19 +53,28 @@ public class SkinGraphic extends Application {
 
 		System.out.println("GreenDots = "+(good.size()-blueDots));
 		System.out.println("BlueDots = "+blueDots);
+		
+		//Load Ellipse mask
+		mask = new boolean[256][256];
+		
+		for (int j = 0; j < 256; j++) {
+			for (int i = 0; i < 256; i++) {
+				if(CollisionDetector.colideEllipsePoint(SKIN_ELLIPSE, i, j)) {
+					mask[j][i] = true;
+				}
+			}
+		}
 
 		loading = 100;
 	}
 
 	private void addGoodPoint(int r, int g, int b) {
-
-		good.add(new ColorPoint(r,g,b));
-
+		good.add(new SkinPoint(r,g,b));
 	}
 
 	private void addBadPoint(int r, int g, int b) {
 
-		ColorPoint badPoint = new ColorPoint(r, g, b);
+		SkinPoint badPoint = new SkinPoint(r, g, b);
 		badPoint.setColor(Color.RED);
 
 		bad.add(badPoint);
@@ -70,17 +85,22 @@ public class SkinGraphic extends Application {
 	public void draw(Graphic g) {
 
 		g.setColor(Color.BLACK);
-		drawGrid(g);
-		drawMouseCross(g);
+		//drawGrid(g);
+		//drawMouseCross(g);
 
-		if(validateGraph) {
+		/*if(validateGraph) {
 			drawValidation(g);
-		}
+		}*/
+		
 		
 		g.setAlpha(80);
-
-		drawBadPoints(g);
+		
+		//drawBadPoints(g);
 		drawGoodPoints(g);
+		
+		g.setAlpha(50);
+		
+		drawEllipse(g);
 
 		g.setAlpha(100);
 
@@ -89,7 +109,7 @@ public class SkinGraphic extends Application {
 
 	}
 
-	private void drawValidation(Graphic g) {
+	/*private void drawValidation(Graphic g) {
 
 		g.setAlpha(50);
 		
@@ -106,7 +126,7 @@ public class SkinGraphic extends Application {
 				
 			}
 		}
-	}
+	}*/
 
 	private boolean validateGraph(int x, int y) {
 		int maxTolerance = 20;
@@ -135,7 +155,7 @@ public class SkinGraphic extends Application {
 
 	private void drawGoodPoints(Graphic g) {
 
-		for(ColorPoint ponto: good) {
+		for(SkinPoint ponto: good) {
 			ponto.draw(g);
 		}
 	}
@@ -619,11 +639,10 @@ public class SkinGraphic extends Application {
 
 	}
 
-	private void drawMouseCross(Graphic g) {
+	/*private void drawMouseCross(Graphic g) {
 		g.drawLine(mx, 0, mx, h);
 		g.drawLine(0, my, w, my);
-	}
-
+	}*/
 
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
@@ -642,7 +661,7 @@ public class SkinGraphic extends Application {
 		mx = event.getX();
 		my = event.getY();
 
-		for(ColorPoint ponto: good) {
+		for(SkinPoint ponto: good) {
 
 			if(ponto.colideCirclePoint(mx, my)) {
 				ponto.setOver(true);	
@@ -654,11 +673,10 @@ public class SkinGraphic extends Application {
 
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 
-
 			System.out.println("MX = "+event.getX());
 			System.out.println("MY = "+event.getY());
 
-			for(ColorPoint ponto: good) {
+			for(SkinPoint ponto: good) {
 
 				if(ponto.colideCirclePoint(mx, my)) {
 					ponto.setOver(true);
@@ -675,5 +693,17 @@ public class SkinGraphic extends Application {
 
 		return null;
 	}
-
+	
+	//Draw Ellipse
+	private void drawEllipse(Graphic g) {
+		g.setColor(SVGColor.GOLD);
+		for (int j = 0; j < 256; j++) {
+			for (int i = 0; i < 256; i++) {
+				if(mask[j][i]) {
+					g.fillRect(i, j, 1, 1);
+				}
+			}
+		}	
+	}
+	
 }

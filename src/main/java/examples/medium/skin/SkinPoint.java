@@ -1,11 +1,11 @@
-package br.com.etyllica.motion.feature.graph;
+package examples.medium.skin;
 
 import java.awt.Color;
 
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.Layer;
 
-public class ColorPoint extends Layer {
+public class SkinPoint extends Layer {
 	
 	private int r,g,b; 
 	
@@ -13,13 +13,13 @@ public class ColorPoint extends Layer {
 	
 	private Color color;
 	
-	public ColorPoint(int r, int g, int b){
+	public SkinPoint(int r, int g, int b) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
 		
 		this.x = r-2;
-		this.y = (b+(g-b));
+		this.y = 255-(b+(g-b));
 		
 		if(b>g){
 			color = Color.BLUE;
@@ -70,12 +70,15 @@ public class ColorPoint extends Layer {
 		
 		g.setColor(color);
 		
-		if(over){
-			g.fillCircle(x+2, y+2, 8);
+		int radius = 4;
+		
+		if(over) {
+			radius = 8;
 		}
-		else{
-			g.fillCircle(x+2, y+2, 4);
-		}
+		
+		g.fillCircle(x+2, y+2, radius);
+		g.setColor(Color.BLACK);
+		g.drawCircle(x+2, y+2, radius);
 	}
 
 	public boolean isOver() {
