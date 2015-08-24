@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.source;
+package br.com.etyllica.motion.core.source;
 
 public class MatrixSource implements ImageSource {
   
