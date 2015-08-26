@@ -1,14 +1,14 @@
-package br.com.etyllica.motion.filter;
+package br.com.etyllica.motion.filter.search;
+
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import br.com.etyllica.motion.feature.Cross;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.color.CrossSearch;
 
 public class CrossSearchTest {
 
