@@ -131,7 +131,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 			if(pixelStrategy.validateColor(rgb)) {
 				mask.setValid(px, py);
 			} else if(lastRGB != UNDEFINED_COLOR) {
-				if(pixelStrategy.weakValidateColor(lastRGB, rgb)) {
+				if(pixelStrategy.strongValidateColor(lastRGB, rgb)) {
 					mask.setValid(px, py);
 				}
 			} else {
@@ -155,7 +155,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 				int currentColor = bimg.getRGB(i, j);
 				if(mask.isValid(i, j)) {
 					verified++;
-				} else if(pixelStrategy.weakValidateColor(baseColor, currentColor)) {
+				} else if(pixelStrategy.strongValidateColor(baseColor, currentColor)) {
 					verified++;
 				}
 				baseColor = currentColor;

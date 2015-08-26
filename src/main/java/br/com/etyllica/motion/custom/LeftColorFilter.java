@@ -1,8 +1,9 @@
-package br.com.etyllica.motion.filter.color;
+package br.com.etyllica.motion.custom;
 
 import java.awt.Color;
 
 import br.com.etyllica.motion.filter.ColorPointFilter;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.LeftToRightSearch;
 
 public class LeftColorFilter extends ColorPointFilter {

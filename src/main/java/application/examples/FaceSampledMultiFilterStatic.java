@@ -15,9 +15,9 @@ import br.com.etyllica.gui.spinner.IntegerSpinner;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.color.CrossSearch;
 import br.com.etyllica.motion.filter.color.SkinColorStrategy;
 import br.com.etyllica.motion.filter.search.CornerSearch;
+import br.com.etyllica.motion.filter.search.CrossSearch;
 import br.com.etyllica.motion.filter.search.NoiseSearch;
 import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 

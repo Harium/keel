@@ -43,7 +43,7 @@ public class SkinColorStrategy extends SimpleToleranceStrategy implements SoftPi
 	}
 
 	@Override
-	public boolean weakValidateColor(int baseColor, int rgb) {
+	public boolean strongValidateColor(int baseColor, int rgb) {
 		return validateColor(rgb);
 	}
 	

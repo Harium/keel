@@ -11,7 +11,7 @@ public class DumbColorFilter implements SoftPixelStrategy {
 	}
 
 	@Override
-	public boolean weakValidateColor(int baseColor, int rgb) {
+	public boolean strongValidateColor(int baseColor, int rgb) {
 		// TODO Auto-generated method stub
 		return false;
 	}

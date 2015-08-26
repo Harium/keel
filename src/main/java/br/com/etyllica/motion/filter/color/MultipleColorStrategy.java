@@ -32,7 +32,7 @@ public class MultipleColorStrategy implements PixelStrategy {
 	}
 	
 	@Override
-	public boolean weakValidateColor(int rgb, int reference) {
+	public boolean strongValidateColor(int rgb, int reference) {
 		return validateColor(rgb);
 	}
 

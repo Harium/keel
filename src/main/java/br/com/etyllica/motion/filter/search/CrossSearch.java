@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.filter.color;
+package br.com.etyllica.motion.filter.search;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
