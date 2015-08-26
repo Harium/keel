@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.linear.graph.WeightEdge;
 import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.ogr.LineInterval;
+import br.com.etyllica.util.EtyllicaMath;
 
 public class LetterOGRModifier implements ComponentModifier<Component, Graph<Integer>> {
 
@@ -48,9 +50,9 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 				firstLine(activeNodes, graph, line);
 			} else {
 				if(line.size() < lastLine.size()) {
-					join(w, activeNodes, graph, lastLine, line);
+					join(activeNodes, graph, lastLine, line);
 				} else if(line.size() > lastLine.size()) {
-					fork(w, activeNodes, graph, lastLine, line);
+					fork(activeNodes, graph, lastLine, line);
 				} else {
 
 					List<LineInterval> lastlasLine = map.get(i-2);
@@ -59,7 +61,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 						//First Expand
 						firstLineExpand(activeNodes, graph, lastLine, line);
 					} else {
-						expand(w, activeNodes, graph, lastLine, line);
+						expand(activeNodes, graph, lastLine, line);
 					}
 				}
 			}
@@ -79,16 +81,16 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 		}
 
 		LineInterval firstInterval = line.get(0);
-		Node<Integer> root = addNode(activeNodes, graph, firstInterval);
+		Node<Integer> root = addCenterNode(activeNodes, graph, firstInterval);
 
 		if(line.size() > 1) {
 			for(int l = 1;l < line.size();l++) {
-				addNode(activeNodes, graph, line.get(l));
+				addCenterNode(activeNodes, graph, line.get(l));
 			}
 		}
 	}
 
-	private void join(int w, Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, List<LineInterval> lastLine,
+	private void join(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, List<LineInterval> lastLine,
 			List<LineInterval> line) {
 
 		for (int l = 0; l < line.size(); l++) {
@@ -112,7 +114,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 		}
 	}
 
-	private void fork(int w, Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph,
+	private void fork(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph,
 			List<LineInterval> lastLine, List<LineInterval> line) {
 
 		Set<LineInterval> visited = new HashSet<LineInterval>(line.size());
@@ -130,7 +132,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 
 				if(lastInterval.intersect(interval)) {
 					//Create new Node
-					Node<Integer> node = addNode(activeNodes, graph, interval);
+					Node<Integer> node = addCenterNode(activeNodes, graph, interval);
 					graph.addEdge(new WeightEdge<Integer>(jointRoot, node));
 
 					//Remove expanded joint
@@ -142,7 +144,7 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 
 		for(LineInterval interval: line) {
 			if(!visited.contains(interval)) {
-				addNode(activeNodes, graph, interval);
+				addCenterNode(activeNodes, graph, interval);
 			}
 		}
 	}
@@ -154,20 +156,70 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 			LineInterval interval = line.get(l);
 			Node<Integer> node = nodes.get(0);
 
-			Node<Integer> created = addNode(activeNodes, graph, interval);
+			Node<Integer> created = addCenterNode(activeNodes, graph, interval);
 			graph.addEdge(new WeightEdge<Integer>(created, node));
 		}
 	}
 
-	private void expand(int w, Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, List<LineInterval> lastLine, List<LineInterval> line) {
+	private void expand(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, List<LineInterval> lastLine, List<LineInterval> line) {
 		for (int l = 0; l < line.size(); l++) {
-			List<Node<Integer>> nodes = activeNodes.get(lastLine.get(l));
-
+			LineInterval lastInterval = lastLine.get(l);
+			List<Node<Integer>> nodes = activeNodes.get(lastInterval);
+			
 			LineInterval interval = line.get(l);
 			Node<Integer> node = nodes.get(0);
 
-			node.getPoint().setLocation(interval.getCenter(), interval.getHeight());
-			addActiveNode(activeNodes, interval, node);
+			if(lastInterval.getLength() > interval.getLength()*3) {
+				//Divide in three
+				Node<Integer> center = createCenterNode(activeNodes, graph, lastInterval);
+				
+				Node<Integer> start = createStartNode(activeNodes, graph, lastInterval);
+				graph.addEdge(new WeightEdge<Integer>(start, node));
+				
+				Node<Integer> end = createEndNode(activeNodes, graph, lastInterval);
+				graph.addEdge(new WeightEdge<Integer>(end, node));
+				
+				double ps = dist(interval, start);
+				double pe = dist(interval, end);
+				double pc = dist(interval, center);
+				
+				if(pc<=ps && pc<=ps) {
+					graph.addEdge(new WeightEdge<Integer>(center, node));
+					addActiveNode(activeNodes, interval, center);
+				} else if(ps<=pe && ps<=pc) {
+					graph.addEdge(new WeightEdge<Integer>(start, node));
+					addActiveNode(activeNodes, interval, start);
+				} else if(pe<=ps && pe<=pc) {
+					graph.addEdge(new WeightEdge<Integer>(end, node));
+					addActiveNode(activeNodes, interval, end);
+				}
+				
+				
+			} else if(lastInterval.getLength() > interval.getLength()*2) {
+				//Divide in two
+				Node<Integer> start = createStartNode(activeNodes, graph, lastInterval);
+				
+				Node<Integer> end = createEndNode(activeNodes, graph, lastInterval);
+				graph.addEdge(new WeightEdge<Integer>(start, end));
+
+				double ps = dist(interval, start);
+				double pe = dist(interval, end);
+				
+				if(ps<=pe) {
+					//Expand by Start
+					graph.addEdge(new WeightEdge<Integer>(start, node));
+					addActiveNode(activeNodes, interval, start);
+				} else {
+					//Expand by End
+					graph.addEdge(new WeightEdge<Integer>(end, node));
+					addActiveNode(activeNodes, interval, end);
+				}
+				
+			} else {
+				//Move point
+				node.getPoint().setLocation(interval.getCenter(), interval.getHeight());
+				addActiveNode(activeNodes, interval, node);
+			}
 		}
 	}
 
@@ -201,13 +253,47 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
 		return roots;
 	}
 
-	private Node<Integer> addNode(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, LineInterval interval) {
+	private Node<Integer> createStartNode(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, LineInterval interval) {
+		Node<Integer> node = new Node<Integer>(interval.getStart(), interval.getHeight());
+		node.setData(interval.getHeight());
+		graph.addNode(node);
+		//addActiveNode(activeNodes, interval, node);
+
+		return node;
+	}
+	
+	private Node<Integer> createEndNode(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, LineInterval interval) {
+		Node<Integer> node = new Node<Integer>(interval.getEnd(), interval.getHeight());
+		node.setData(interval.getHeight());
+		graph.addNode(node);
+		//addActiveNode(activeNodes, interval, node);
+
+		return node;
+	}
+	
+	private Node<Integer> createCenterNode(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, LineInterval interval) {
+		Node<Integer> node = new Node<Integer>(interval.getCenter(), interval.getHeight());
+		node.setData(interval.getHeight());
+		graph.addNode(node);
+		
+		return node;
+	}
+	
+	private Node<Integer> addCenterNode(Map<LineInterval, List<Node<Integer>>> activeNodes, Graph<Integer> graph, LineInterval interval) {
 		Node<Integer> node = new Node<Integer>(interval.getCenter(), interval.getHeight());
 		node.setData(interval.getHeight());
 		graph.addNode(node);
 		addActiveNode(activeNodes, interval, node);
 
 		return node;
+	}
+	
+	private double dist(Node<Integer> a, Node<Integer> b) {
+		return a.getPoint().distance(b.getPoint());
+	}
+	
+	private double dist(LineInterval interval, Node<Integer> b) {
+		return EtyllicaMath.diffMod(interval.getCenter(), b.getPoint().getX());
 	}
 
 }
