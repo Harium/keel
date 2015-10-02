@@ -14,7 +14,7 @@ import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.color.SkinColorStrategy;
+import br.com.etyllica.motion.filter.color.skin.SkinColorStrategy;
 import br.com.etyllica.motion.filter.search.CrossSearch;
 import br.com.etyllica.motion.filter.search.TriangularSearch;
 import br.com.etyllica.motion.modifier.EnvelopeModifier;

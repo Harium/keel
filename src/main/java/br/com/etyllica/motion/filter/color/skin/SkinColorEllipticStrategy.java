@@ -1,11 +1,13 @@
-package br.com.etyllica.motion.filter.color;
+package br.com.etyllica.motion.filter.color.skin;
 
 import br.com.etyllica.linear.Ellipse;
 import br.com.etyllica.motion.filter.SoftPixelStrategy;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.color.SimpleToleranceStrategy;
 
 public class SkinColorEllipticStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
 		
-	public static final Ellipse SKIN_ELLIPSE = new Ellipse(140, 140, 123, 26, 316);
+	public static final Ellipse SKIN_ELLIPSE = new Ellipse(140, 140, 133, 32, 316);
 	public static final Ellipse SKIN_STRONG_ELLIPSE = new Ellipse(140, 140, 123, 18, 316);
 	
 	public SkinColorEllipticStrategy() {

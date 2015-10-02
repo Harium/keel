@@ -1,6 +1,7 @@
 
 
 import examples.medium.ogr.OGRApplication;
+import examples.medium.skin.SkinGraphic;
 import application.examples.AugmentedRealityStatic;
 import br.com.etyllica.Etyllica;
 import br.com.etyllica.core.context.Application;
@@ -62,9 +63,9 @@ public class EtyllicMotion extends Etyllica {
 		
 		//return new CaptchaCleaner(w,h);
 		
-		//return new SkinGraph(w,h);
+		return new SkinGraphic(w,h);
 		
-		return new OGRApplication(w,h);
+		//return new OGRApplication(w,h);
 		
 	}	
 

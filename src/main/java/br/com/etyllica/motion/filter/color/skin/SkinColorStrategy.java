@@ -1,6 +1,8 @@
-package br.com.etyllica.motion.filter.color;
+package br.com.etyllica.motion.filter.color.skin;
 
 import br.com.etyllica.motion.filter.SoftPixelStrategy;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.color.SimpleToleranceStrategy;
 
 public class SkinColorStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
 		

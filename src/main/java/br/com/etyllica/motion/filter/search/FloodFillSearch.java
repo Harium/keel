@@ -10,7 +10,7 @@ import br.com.etyllica.motion.core.ComponentFilter;
 import br.com.etyllica.motion.core.dynamic.DynamicArrayMask;
 import br.com.etyllica.motion.core.dynamic.DynamicMask;
 import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.color.SkinColorStrategy;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
 
 public class FloodFillSearch extends ComponentFilter {
 
@@ -25,13 +25,13 @@ public class FloodFillSearch extends ComponentFilter {
 	protected DynamicMask mask;
 
 	public FloodFillSearch(int w, int h) {
-		super(w, h, new SkinColorStrategy());
+		super(w, h, new ColorStrategy());
 
 		mask = new DynamicArrayMask(w, h);
 	}
 
 	public FloodFillSearch(int w, int h, int minNeighbors) {
-		super(w, h, new SkinColorStrategy());
+		super(w, h, new ColorStrategy());
 
 		mask = new DynamicArrayMask(w, h);
 
@@ -39,7 +39,7 @@ public class FloodFillSearch extends ComponentFilter {
 	}
 
 	public FloodFillSearch(int w, int h, int minNeighbors, int maxNeighbors) {
-		super(w, h, new SkinColorStrategy());
+		super(w, h, new ColorStrategy());
 
 		this.minNeighbors = minNeighbors;
 
