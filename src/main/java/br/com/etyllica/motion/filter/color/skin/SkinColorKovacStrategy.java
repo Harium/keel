@@ -1,15 +1,21 @@
-package br.com.etyllica.motion.filter.color;
+package br.com.etyllica.motion.filter.color.skin;
 
 import br.com.etyllica.motion.filter.SoftPixelStrategy;
+import br.com.etyllica.motion.filter.color.ColorStrategy;
+import br.com.etyllica.motion.filter.color.SimpleToleranceStrategy;
 import br.com.etyllica.util.EtyllicaMath;
 
-public class SkinColorPeerStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
+/**
+ * Based on: http://academic.aua.am/Skhachat/Public/Papers%20on%20Face%20Detection/RGB-H-CbCr%20Skin%20Colour%20Model%20for%20Human%20Face%20Detection.pdf
+ *
+ */
+public class SkinColorKovacStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
 		
-	public SkinColorPeerStrategy() {
+	public SkinColorKovacStrategy() {
 		super();
 	}
 	
-	public SkinColorPeerStrategy(int tolerance) {
+	public SkinColorKovacStrategy(int tolerance) {
 		super(tolerance);
 	}
 
@@ -27,10 +33,14 @@ public class SkinColorPeerStrategy extends SimpleToleranceStrategy implements So
 		int r = ColorStrategy.getRed(rgb);
 		int g = ColorStrategy.getGreen(rgb);
 		int b = ColorStrategy.getBlue(rgb);
-
-		boolean individual = (r > 95 && g > 40 && b > 20);
+		
+		final int R_MAX = 70;//Default is 95
+		final int G_MAX = 30;//Default is 40
+		final int B_MAX = 20;//Default is 20
+		
+		boolean individual = (r > R_MAX && g > G_MAX && b > B_MAX);
 		boolean interval = max(r,g,b) - min(r,g,b) > 15;
-		boolean dif = EtyllicaMath.diffMod(r, g) > 15 && r > g && r > b;
+		boolean dif = EtyllicaMath.diffMod(r, g) > 15 && r > g && r > b;			
 		
 		return individual&&interval&&dif;
 	}
