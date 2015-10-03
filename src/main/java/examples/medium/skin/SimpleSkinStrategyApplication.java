@@ -15,15 +15,15 @@ import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.SkinColorFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.color.skin.SkinColorKovacStrategy;
+import br.com.etyllica.motion.filter.color.skin.SkinColorKovacNewStrategy;
 
 public class SimpleSkinStrategyApplication extends Application {
 
 	private FakeCamera cam = new FakeCamera();
-	private final int IMAGES_TO_LOAD = 10;
-	
+	private final int IMAGES_TO_LOAD = 60;
+
 	private SkinColorFilter skinFilter;
-	
+
 	private List<Component> skinComponents;
 
 	private Component screen;
@@ -52,49 +52,41 @@ public class SimpleSkinStrategyApplication extends Application {
 		}
 
 		loadingInfo = "Configuring Filter";
-		
-		//Define the area to search for elements
-		int w = cam.getBufferedImage().getWidth();
-		int h = cam.getBufferedImage().getHeight();
-		
-		screen = new Component(0, 0, w, h);
-		//skinFilter = new SkinColorFilter(w, h, new SkinColorEllipticStrategy());
-		skinFilter = new SkinColorFilter(w, h, new SkinColorKovacStrategy());
-		
+
 		loading = 25;
 		reset();
-		
+
 		/*System.out.println("skin: "+skinComponents.size());
 		quickHull = new FastConvexHullModifier();
 		pathCompressionModifier = new PathCompressionModifier(5);
-		
+
 		loading = 31;
-				
+
 		for(Component component : skinComponents) {
 			classifyRegion(component);
 		}*/
-		
+
 		loading = 50;
 	}
-	
+
 	/*private void classifyRegion(Component region) {
-		
+
 		List<Point2D> list = pathCompressionModifier.modify(quickHull.modify(region));
 		//List<Point2D> list = quickHull.modify(region).getPoints();
-		
+
 		Point2D center = region.getCenter();
 		Color color = new Color(cam.getBufferedImage().getRGB((int)center.getX(), (int)center.getY())); 
-		
+
 		String colorText = ColorClassifier.getColorName(color.getRed(), color.getGreen(), color.getBlue());
-		
+
 		String form = PolygonClassifier.indentifyRegion(list);
-		
+
 		String text = colorText+" "+form;
-		
+
 		geometryText.add(text);
 		convexHull.add(list);
 	}*/
-	
+
 	@Override
 	public void draw(Graphic g) {
 		g.setAlpha(100);
@@ -103,21 +95,21 @@ public class SimpleSkinStrategyApplication extends Application {
 		g.setAlpha(90);
 
 		//Draw a red line around the components
-		
+
 		for(int i = 0; i < skinComponents.size(); i++) {
 			Component component = skinComponents.get(i);
-			
+
 			g.setStroke(new BasicStroke(3f));
 			g.setColor(Color.RED);
 			g.drawRect(component.getRectangle());
-						
+
 			/*for(Point2D point: convexHull.get(i)) {
 				g.setColor(Color.BLACK);
 				g.drawCircle(point, 5);
 			}*/
 		}
 	}
-	
+
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
@@ -130,10 +122,10 @@ public class SimpleSkinStrategyApplication extends Application {
 			cam.previousFrame();
 			reset();
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public GUIEvent updateMouse(PointerEvent event) {
 
@@ -149,7 +141,7 @@ public class SimpleSkinStrategyApplication extends Application {
 				final int R = ColorStrategy.getRed(rgb);
 				final int G = ColorStrategy.getGreen(rgb);
 				final int B = ColorStrategy.getBlue(rgb);
-				
+
 				System.out.println(R+" "+G+" "+B);
 			}
 
@@ -159,7 +151,15 @@ public class SimpleSkinStrategyApplication extends Application {
 	}
 
 	private void reset() {
-		// TODO Auto-generated method stub
+		//Define the area to search for elements
+		int w = cam.getBufferedImage().getWidth();
+		int h = cam.getBufferedImage().getHeight();
+
+		screen = new Component(0, 0, w, h);
+		//skinFilter = new SkinColorFilter(w, h, new SkinColorEllipticStrategy());
+		//skinFilter = new SkinColorFilter(w, h, new SkinColorKovacStrategy());
+		skinFilter = new SkinColorFilter(w, h, new SkinColorKovacNewStrategy());
+
 		skinComponents = skinFilter.filter(cam.getBufferedImage(), screen);
 	}
 }
