@@ -53,7 +53,7 @@ public class SkinColorKovacNewStrategy extends SimpleToleranceStrategy implement
 		//Darker skin color
 		boolean thirdRule = R <= 145 && G > G_MIN && B > B_MIN &&
 							R >= G && R >= B &&
-							RG_MOD >= 6 && RB_MOD >= 19 
+							RG_MOD >= 6 && RB_MOD >= 19
 							/*&& RG_MOD + RB_MOD < 50*/;
 							
 				             //105 92 73 RG_MOD=13

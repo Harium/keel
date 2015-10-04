@@ -13,15 +13,17 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.SkinColorFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.skin.SkinColorKovacNewStrategy;
+import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 
 public class SimpleSkinStrategyApplication extends Application {
 
 	private FakeCamera cam = new FakeCamera();
-	private final int IMAGES_TO_LOAD = 80;
+	private final int IMAGES_TO_LOAD = 90;
 
 	private SkinColorFilter skinFilter;
 
@@ -46,7 +48,6 @@ public class SimpleSkinStrategyApplication extends Application {
 
 	@Override
 	public void load() {
-
 		loading = 0;
 
 		loadingInfo = "Loading Images";
@@ -190,6 +191,13 @@ public class SimpleSkinStrategyApplication extends Application {
 		//skinFilter = new SkinColorFilter(w, h, new SkinColorEllipticStrategy());
 		//skinFilter = new SkinColorFilter(w, h, new SkinColorKovacStrategy());
 		skinFilter = new SkinColorFilter(w, h, new SkinColorKovacNewStrategy());
+		
+		SearchFilter filter = skinFilter.getSearchStrategy();
+		filter.setStep(2);
+		filter.setBorder(4);
+		
+		//Remove components smaller than 20x20
+		skinFilter.addValidation(new MinDimensionValidation(20));
 
 		skinComponents = skinFilter.filter(cam.getBufferedImage(), screen);
 
