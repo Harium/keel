@@ -1,9 +1,9 @@
 package examples.medium.skin;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Random;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -11,6 +11,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.SkinColorFilter;
@@ -20,7 +21,7 @@ import br.com.etyllica.motion.filter.color.skin.SkinColorKovacNewStrategy;
 public class SimpleSkinStrategyApplication extends Application {
 
 	private FakeCamera cam = new FakeCamera();
-	private final int IMAGES_TO_LOAD = 60;
+	private final int IMAGES_TO_LOAD = 80;
 
 	private SkinColorFilter skinFilter;
 
@@ -28,11 +29,16 @@ public class SimpleSkinStrategyApplication extends Application {
 
 	private Component screen;
 
+	private Color color = Color.BLACK;
+
 	/*private HullModifier<HullComponent> quickHull;
 	private PathCompressionModifier pathCompressionModifier;
 
 	private List<String> geometryText = new ArrayList<String>();		
 	private List<List<Point2D>> convexHull = new ArrayList<List<Point2D>>();*/
+
+	private boolean drawPoints = false;
+	private boolean leftPoints = true;
 
 	public SimpleSkinStrategyApplication(int w, int h) {
 		super(w, h);
@@ -89,38 +95,63 @@ public class SimpleSkinStrategyApplication extends Application {
 
 	@Override
 	public void draw(Graphic g) {
-		g.setAlpha(100);
+		//g.setAlpha(100);
 		g.drawImage(cam.getBufferedImage(), 0, 0);
 
-		g.setAlpha(90);
+		//g.setAlpha(90);
 
 		//Draw a red line around the components
 
 		for(int i = 0; i < skinComponents.size(); i++) {
 			Component component = skinComponents.get(i);
 
-			g.setStroke(new BasicStroke(3f));
-			g.setColor(Color.RED);
+			//g.setStroke(new BasicStroke(3f));
+
+			g.setColor(color);
 			g.drawRect(component.getRectangle());
 
-			/*for(Point2D point: convexHull.get(i)) {
-				g.setColor(Color.BLACK);
-				g.drawCircle(point, 5);
-			}*/
+			if(drawPoints) {
+				for(Point2D point: component.getPoints()) {
+					
+					if(leftPoints) {
+						if(point.getX()<w/2) {
+							g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
+						}
+					} else if(point.getX()>=w/2) {
+						g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);	
+					}
+				}
+			}
 		}
+	}
+
+	private Color randomColor() {
+		int r = new Random().nextInt(255);
+		int g = new Random().nextInt(255);
+		int b = new Random().nextInt(255);
+
+		return new Color(r,g,b);
 	}
 
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.VK_RIGHT)){
+		if(event.isKeyDown(KeyEvent.VK_RIGHT)) {
 			cam.nextFrame();
 			reset();
-		}
-
-		else if(event.isKeyDown(KeyEvent.VK_LEFT)){
+		} else if(event.isKeyDown(KeyEvent.VK_LEFT)) {
 			cam.previousFrame();
 			reset();
+		} else if(event.isKeyDown(KeyEvent.VK_SPACE)) {
+			drawPoints = !drawPoints;
+		}
+		
+		if(event.isKeyDown(KeyEvent.VK_1)) {
+			leftPoints = true;
+		}
+		
+		if(event.isKeyDown(KeyEvent.VK_2)) {
+			leftPoints = false;
 		}
 
 		return null;
@@ -142,7 +173,7 @@ public class SimpleSkinStrategyApplication extends Application {
 				final int G = ColorStrategy.getGreen(rgb);
 				final int B = ColorStrategy.getBlue(rgb);
 
-				System.out.println(R+" "+G+" "+B);
+				System.out.println(R+" "+G+" "+B+" RG_MOD="+(R-G)+" R-B="+(R-B));
 			}
 
 		}
@@ -161,5 +192,7 @@ public class SimpleSkinStrategyApplication extends Application {
 		skinFilter = new SkinColorFilter(w, h, new SkinColorKovacNewStrategy());
 
 		skinComponents = skinFilter.filter(cam.getBufferedImage(), screen);
+
+		color = randomColor();
 	}
 }

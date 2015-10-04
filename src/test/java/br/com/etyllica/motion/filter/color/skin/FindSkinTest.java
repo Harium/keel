@@ -28,6 +28,10 @@ public class FindSkinTest {
 		color.add(ColorStrategy.getRGB(74, 71, 64));
 		color.add(ColorStrategy.getRGB(66, 65, 60));
 		
+		color.add(ColorStrategy.getRGB(90, 60, 52));
+		color.add(ColorStrategy.getRGB(119, 67, 53));
+		color.add(ColorStrategy.getRGB(122, 76, 61));
+		
 		int count = 0;
 		for(Integer i:color) {
 			if(testColor(i)) {
