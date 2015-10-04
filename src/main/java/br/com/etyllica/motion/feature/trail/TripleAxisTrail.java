@@ -1,6 +1,6 @@
 package br.com.etyllica.motion.feature.trail;
 
-import br.com.abby.linear.ColoredPoint3D;
+import br.com.etyllica.core.linear.Point3D;
 import br.com.etyllica.motion.model.RangeFlag;
 
 public class TripleAxisTrail {
@@ -35,7 +35,7 @@ public class TripleAxisTrail {
 		this.listener = listener;
 	}
 
-	public void add(ColoredPoint3D point) {
+	public void add(Point3D point) {
 		addValue(axisX, point.getX());
 		addValue(axisY, point.getY());
 		addValue(axisZ, point.getZ());
@@ -94,12 +94,12 @@ public class TripleAxisTrail {
 		return axisZ;
 	}
 
-	public ColoredPoint3D getPoint(int index) {
+	public Point3D getPoint(int index) {
 		double x = axisX.getValues().get(index);
 		double y = axisY.getValues().get(index);
 		double z = axisZ.getValues().get(index);
 
-		return new ColoredPoint3D(x, y, z);
+		return new Point3D(x, y, z);
 	}
 
 	public int getSize() {

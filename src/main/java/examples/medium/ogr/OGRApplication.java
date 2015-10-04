@@ -2,16 +2,12 @@ package examples.medium.ogr;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.dyn4j.geometry.Edge;
-
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
@@ -21,9 +17,6 @@ import br.com.etyllica.linear.graph.WeightEdge;
 import br.com.etyllica.motion.core.SearchStrategy;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.filter.HardColorFilter;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
-import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
 import br.com.etyllica.motion.modifier.ogr.LetterOGRModifier;
 
 public class OGRApplication extends Application {
