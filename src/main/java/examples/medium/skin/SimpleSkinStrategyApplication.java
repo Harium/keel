@@ -12,6 +12,7 @@ import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.feature.Component;
@@ -22,7 +23,7 @@ import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 
 public class SimpleSkinStrategyApplication extends Application {
 
-	private FakeCamera cam = new FakeCamera();
+	protected Camera cam = new FakeCamera();
 	private final int IMAGES_TO_LOAD = 90;
 
 	private SkinColorFilter skinFilter;
@@ -52,11 +53,7 @@ public class SimpleSkinStrategyApplication extends Application {
 
 		loadingInfo = "Loading Images";
 
-		for(int i=1;i<=IMAGES_TO_LOAD;i++) {
-			loading = i;
-
-			cam.addImage("skin/skin"+Integer.toString(i)+".jpg");
-		}
+		initCamera();
 
 		loadingInfo = "Configuring Filter";
 
@@ -74,6 +71,14 @@ public class SimpleSkinStrategyApplication extends Application {
 		}*/
 
 		loading = 50;
+	}
+
+	protected void initCamera() {
+		for(int i=1;i<=IMAGES_TO_LOAD;i++) {
+			loading = i;
+
+			((FakeCamera)cam).addImage("skin/skin"+Integer.toString(i)+".jpg");
+		}
 	}
 
 	/*private void classifyRegion(Component region) {
@@ -96,13 +101,13 @@ public class SimpleSkinStrategyApplication extends Application {
 
 	@Override
 	public void draw(Graphic g) {
-		//g.setAlpha(100);
 		g.drawImage(cam.getBufferedImage(), 0, 0);
 
-		//g.setAlpha(90);
-
 		//Draw a red line around the components
+		drawComponents(g);
+	}
 
+	protected void drawComponents(Graphic g) {
 		for(int i = 0; i < skinComponents.size(); i++) {
 			Component component = skinComponents.get(i);
 
@@ -138,10 +143,10 @@ public class SimpleSkinStrategyApplication extends Application {
 	public GUIEvent updateKeyboard(KeyEvent event) {
 
 		if(event.isKeyDown(KeyEvent.VK_RIGHT)) {
-			cam.nextFrame();
+			((FakeCamera)cam).nextFrame();
 			reset();
 		} else if(event.isKeyDown(KeyEvent.VK_LEFT)) {
-			cam.previousFrame();
+			((FakeCamera)cam).previousFrame();
 			reset();
 		} else if(event.isKeyDown(KeyEvent.VK_SPACE)) {
 			drawPoints = !drawPoints;
@@ -182,7 +187,7 @@ public class SimpleSkinStrategyApplication extends Application {
 		return GUIEvent.NONE;
 	}
 
-	private void reset() {
+	protected void reset() {
 		//Define the area to search for elements
 		int w = cam.getBufferedImage().getWidth();
 		int h = cam.getBufferedImage().getHeight();
