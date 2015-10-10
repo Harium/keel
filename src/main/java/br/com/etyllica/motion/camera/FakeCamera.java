@@ -6,7 +6,7 @@ import java.util.List;
 
 import br.com.etyllica.loader.image.ImageLoader;
 
-public class FakeCamera implements Camera{
+public class FakeCamera implements Camera {
 
 	private List<BufferedImage> list = new ArrayList<BufferedImage>();
 	

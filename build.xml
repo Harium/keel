@@ -66,6 +66,9 @@
 				<fileset dir="${reports.dir}">
 					<include name="*.jar"/>
 				</fileset>
+                <fileset dir="${lib.dir}">
+					<include name="etyllica*.jar"/>
+				</fileset>
 			</classpath>
 			<batchtest>
 				<fileset dir="${test.dir}">
