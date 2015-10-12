@@ -9,7 +9,9 @@ import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
 
 public class ColorFilter extends ColorPointFilter {
-		
+	
+	protected int tolerance = 0x40; 
+	
 	public ColorFilter(int w, int h) {
 		this(w, h, Color.BLACK);
 	}
@@ -18,9 +20,7 @@ public class ColorFilter extends ColorPointFilter {
 		super(w, h);
 
 		this.searchStrategy = new SoftFloodFillSearch(w, h);
-		
-		colorStrategy = new ColorStrategy(color, 0x40);
-		
+		colorStrategy = new ColorStrategy(color, tolerance);
 		searchStrategy.setPixelStrategy(colorStrategy);
 	}
 	
