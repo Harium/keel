@@ -1,8 +1,8 @@
 package examples.medium.skin;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,19 +25,19 @@ import br.com.etyllica.motion.filter.SkinColorFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.skin.SkinColorKovacNewStrategy;
 import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
-import br.com.etyllica.motion.modifier.trim.VerticalTrimModifier;
 
 public class SimpleFaceFinderApplication extends Application {
 
 	protected Camera cam = new FakeCamera();
-	private final int IMAGES_TO_LOAD = 30;
+	private final int IMAGES_TO_LOAD = 2;
 
 	private SkinColorFilter skinFilter;
 
-	private Component bestCandidate;
+	protected Component bestCandidate;
 	private List<Component> skinComponents;
 	private List<Component> darkComponents;
-	private Map<Component, Integer> dc = new HashMap<Component, Integer>();
+	private Map<Component, Integer> counts = new HashMap<Component, Integer>();
+	protected List<Component> faceComponents = new ArrayList<Component>();
 
 	private Component screen;
 
@@ -61,14 +61,11 @@ public class SimpleFaceFinderApplication extends Application {
 		loading = 0;
 
 		loadingInfo = "Loading Images";
-
 		initCamera();
-
 		loadingInfo = "Configuring Filter";
 
 		loading = 25;
 		reset();
-
 		loading = 50;
 	}
 
@@ -129,7 +126,7 @@ public class SimpleFaceFinderApplication extends Application {
 
 		screen = new Component(0, 0, w, h);
 		skinFilter = new SkinColorFilter(w, h, new SkinColorKovacNewStrategy());
-		HardColorFilter colorFilter = new HardColorFilter(w, h, new Color(40,40,40), 30);
+		HardColorFilter colorFilter = new HardColorFilter(w, h, new Color(40,40,40), 25);
 		
 		SearchFilter filter = skinFilter.getSearchStrategy();
 		filter.setStep(2);
@@ -137,51 +134,59 @@ public class SimpleFaceFinderApplication extends Application {
 		
 		//Remove components smaller than 20x20
 		skinFilter.addValidation(new MinDimensionValidation(20));
-		colorFilter.addValidation(new MinDimensionValidation(20));
-		
 		skinComponents = skinFilter.filter(cam.getBufferedImage(), screen);
+		
+		colorFilter.addValidation(new MinDimensionValidation(3));
 		darkComponents = colorFilter.filter(cam.getBufferedImage(), screen);
 		
-		evaluateComponent();
-		
 		//Evaluate components
-		/*for (int i=skinComponents.size()-1;i>=0;i--) {
+		//validateComponents();
+		evaluateComponent(skinComponents);
+		
+		ColorFilter featureFilter = new ColorFilter(w, h, new Color(40,40,40), 60);
+		featureFilter.addValidation(new MinDimensionValidation(2));
+		faceComponents = featureFilter.filter(cam.getBufferedImage(), bestCandidate);
+		System.out.println("Fc "+faceComponents.size());
+		
+		color = randomColor();
+	}
+
+	private void validateComponents() {
+		for (int i=skinComponents.size()-1;i>=0;i--) {
 			Component component = skinComponents.get(i);
 		
 			//Vertical trim component
-			component = trim(component);
+			//component = trim(component);
 			
 			//Remove components near from left border
 			if(component.getX() < 20+10) {
 				skinComponents.remove(i);
 				continue;
 			}
-			//Remove horizontal components
-			if(component.getW() > component.getH()*2) {
+			
+			if(component.getX()+component.getW() > h-10) {
 				skinComponents.remove(i);
 				continue;
 			}
-		}*/
-
-		color = randomColor();
+		}
 	}
 
-	private void evaluateComponent() {
+	private void evaluateComponent(List<Component> components) {
 		int higher = 0;
-		bestCandidate = skinComponents.get(0);		
+		bestCandidate = components.get(0);
 		
-		for(Component c:skinComponents) {
+		for(Component component:components) {
 			int count = 0;
 			for(Component dc:darkComponents) {
-				if(c.colide(dc)) {
+				if(component.colide(dc)) {
 					count++;
 				}
 			}
 			if(count>higher) {
 				higher = count;
-				bestCandidate = c;
+				bestCandidate = component;
 			}
-			dc.put(c, count);
+			counts.put(component, count);
 		}
 	}
 
@@ -194,16 +199,22 @@ public class SimpleFaceFinderApplication extends Application {
 	}
 	
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphic g) {	
 		g.drawImage(cam.getBufferedImage(), 0, 0);
 
+		g.setColor(color);
 		drawComponent(g, bestCandidate);
 		
+		g.setColor(Color.RED);
+		for(Component feature: faceComponents) {
+			g.drawRect(feature.getRectangle());
+		}
+		
 		//Draw a red line around the components
-		/*drawComponents(g);
+		//drawComponents(g);
 		
 		//Draw dark components
-		g.setStroke(new BasicStroke(3f));
+		/*g.setStroke(new BasicStroke(3f));
 		g.setColor(Color.BLACK);
 		
 		for(Component component:darkComponents) {
@@ -215,19 +226,20 @@ public class SimpleFaceFinderApplication extends Application {
 		for(int i = 0; i < skinComponents.size(); i++) {
 			Component component = skinComponents.get(i);
 
+			g.setColor(color);
 			drawComponent(g, component);
 		}
 	}
 
-	private void drawComponent(Graphic g, Component component) {
+	protected void drawComponent(Graphic g, Component component) {
 		//g.setStroke(new BasicStroke(3f));
-		g.setColor(color);
 		g.drawRect(component.getRectangle());
 		
 		g.setColor(Color.BLACK);
-		GeometricLayer layer = component.getRectangle();
-		//g.drawString(component.getRectangle(), Double.toString(component.getDensity()));
-		g.drawString(component.getRectangle(), Integer.toString(dc.get(component)));
+		
+		int count = counts.get(component);
+		
+		g.drawString(component.getRectangle(), Integer.toString(count));
 
 		if(drawPoints) {
 			for(Point2D point: component.getPoints()) {
