@@ -3,6 +3,7 @@ package examples.medium;
 
 import br.com.etyllica.EtyllicaFrame;
 import br.com.etyllica.core.context.Application;
+import examples.medium.skin.SimpleFaceFinderApplication;
 import examples.medium.skin.SimpleSkinStrategyApplication;
 import examples.medium.skin.SkinStrategyCameraApplication;
 
@@ -22,7 +23,8 @@ public class FindSkinColor extends EtyllicaFrame {
 	@Override
 	public Application startApplication() {
 		initialSetup("../");
-		return new SimpleSkinStrategyApplication(w, h);
+		//return new SimpleSkinStrategyApplication(w, h);
+		return new SimpleFaceFinderApplication(w, h);
 		//return new SkinStrategyCameraApplication(w, h);
 	}
 }
