@@ -7,7 +7,6 @@ import java.util.List;
 
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
@@ -205,7 +204,7 @@ public class TrackingMultiAreaApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
+	public void updateMouse(PointerEvent event) {
 
 		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
 			orangeColor = pickColor(event.getX(), event.getY());
@@ -226,8 +225,6 @@ public class TrackingMultiAreaApplication extends Application {
 			System.out.println(blueColor.getBlue());
 			System.out.println("---------");
 		}
-
-		return GUIEvent.NONE;
 	}
 
 	private Color pickColor(int px, int py) {
@@ -235,7 +232,7 @@ public class TrackingMultiAreaApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
+	public void updateKeyboard(KeyEvent event) {
 
 		if(event.isKeyDown(KeyEvent.VK_H)) {
 			hide = !hide;
@@ -273,8 +270,6 @@ public class TrackingMultiAreaApplication extends Application {
 		}
 
 		updateCameraInput(event);
-
-		return GUIEvent.NONE;
 	}
 	
 	protected void updateCameraInput(KeyEvent event) {

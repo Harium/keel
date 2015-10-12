@@ -7,7 +7,6 @@ import java.util.List;
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.collision.CollisionDetector;
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
@@ -645,19 +644,14 @@ public class SkinGraphic extends Application {
 	}*/
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-		
+	public void updateKeyboard(KeyEvent event) {
 		if(event.isKeyDown(KeyEvent.VK_SPACE)) {
 			validateGraph = !validateGraph;
 		}
-		
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-
+	public void updateMouse(PointerEvent event) {
 		mx = event.getX();
 		my = event.getY();
 
@@ -685,13 +679,8 @@ public class SkinGraphic extends Application {
 					System.out.print(" B = "+ponto.getB());
 					System.out.println(" Y = "+(ponto.getB()+(ponto.getG()-ponto.getB())));					
 				}
-
 			}
-
-
 		}
-
-		return null;
 	}
 	
 	//Draw Ellipse

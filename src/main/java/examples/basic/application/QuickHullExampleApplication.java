@@ -5,8 +5,6 @@ import java.awt.Polygon;
 
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
@@ -79,7 +77,7 @@ public class QuickHullExampleApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
+	public void updateMouse(PointerEvent event) {
 		
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			//Add a new Point to the list
@@ -90,15 +88,5 @@ public class QuickHullExampleApplication extends Application {
 			//Compute the Convex Hull
 			convexHull = quickHullModifier.modify(component);
 		}
-		
-		return null;
 	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-				
-		// TODO Auto-generated method stub
-		return null;
-	}	
-	
 }

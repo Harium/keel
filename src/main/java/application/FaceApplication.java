@@ -5,9 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.ImageLayer;
@@ -72,7 +70,7 @@ public class FaceApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event){
+	public void updateKeyboard(KeyEvent event){
 
 		if(event.isKeyDown(KeyEvent.VK_RIGHT)){
 			maxX++;
@@ -98,8 +96,6 @@ public class FaceApplication extends Application {
 			//maiorRelevancia = 0;
 			//new Voicer().say("Putz, o sistema resetou");
 		}
-
-		return GUIEvent.NONE;
 	}
 	
 	private double distFace = 4.0;
@@ -210,11 +206,6 @@ public class FaceApplication extends Application {
 
 		//return achaIris(g, bimg);
 
-	}
-
-	public GUIEvent updateMouse(PointerEvent arg0) {
-
-		return GUIEvent	.NONE;
 	}
 
 }

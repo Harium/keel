@@ -6,9 +6,7 @@ import java.awt.image.BufferedImage;
 
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.gui.spinner.IntegerSpinner;
@@ -129,7 +127,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 		skinMinNeighboorSpinner.setMinValue(0);
 		skinMinNeighboorSpinner.setMaxValue(20);
 		skinMinNeighboorSpinner.setValue(1);
-		add(skinMinNeighboorSpinner);
+		addView(skinMinNeighboorSpinner);
 
 		loading = 100;
 	}
@@ -183,15 +181,8 @@ public class FaceSampledMultiFilterStatic extends Application {
 
 	}
 
-
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return GUIEvent.NONE;
-	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
+	public void updateKeyboard(KeyEvent event) {
 
 		//System.out.println("updateKeyBoard "+event.getKey()+" "+event.getState());
 
@@ -416,8 +407,6 @@ public class FaceSampledMultiFilterStatic extends Application {
 			skinMinNeighboor = 8;
 			skinMaxNeighboor = 19;
 		}
-
-		return GUIEvent.NONE;
 	}
 
 	@Override

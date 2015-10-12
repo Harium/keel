@@ -26,12 +26,10 @@ public class LuviaMotion extends Application {
 	private float my = 0;
 	
 	@Override
-	public GUIEvent updateMouse(PointerEvent event){
+	public void updateMouse(PointerEvent event){
 		
 		mx = event.getX();
 		my = event.getY();
-		
-		return GUIEvent	.NONE;
 	}
 	
 	@Override
@@ -116,12 +114,6 @@ public class LuviaMotion extends Application {
 
 		g.setColor(new Color(0,0,0x66));
 		g.drawArc(cx+((100-96)/2), cy+((100-96)/2), 96, 96, 0, angulo);		
-	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-		// TODO Auto-generated method stub
-		return GUIEvent	.NONE;
 	}
 	
 }

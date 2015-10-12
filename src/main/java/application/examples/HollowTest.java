@@ -5,9 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.loader.image.ImageLoader;
 import br.com.etyllica.motion.feature.Component;
@@ -22,18 +19,6 @@ public class HollowTest extends Application {
 
 	public HollowTest(int w, int h) {
 		super(w, h);
-	}
-
-	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return GUIEvent.NONE;
-	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-		// TODO Auto-generated method stub
-		return GUIEvent.NONE;
 	}
 
 	@Override

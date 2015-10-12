@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
@@ -102,18 +101,15 @@ public class AirWrite extends Application {
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
+	public void updateMouse(PointerEvent event) {
 		
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			colorStrategy.setColor(mirror.getRGB((int)event.getX(), (int)event.getY()));
 		}
-		
-		// TODO Auto-generated method stub
-		return GUIEvent.NONE;
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
+	public void updateKeyboard(KeyEvent event) {
 
 		if(event.isKeyDown(KeyEvent.VK_H)){
 			hide = !hide;
@@ -148,7 +144,6 @@ public class AirWrite extends Application {
 			colorFilter.setBorder(colorFilter.getBorder()-1);
 		}
 
-		return GUIEvent.NONE;
 	}
 
 	@Override

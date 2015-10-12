@@ -7,9 +7,7 @@ import java.util.List;
 
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.feature.Component;
@@ -131,13 +129,7 @@ public class FaceStatic extends Application {
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return GUIEvent.NONE;
-	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
+	public void updateKeyboard(KeyEvent event) {
 		
 		if(event.isKeyDown(KeyEvent.VK_RIGHT_ARROW)){
 			cam.nextFrame();
@@ -164,9 +156,6 @@ public class FaceStatic extends Application {
 		if(event.isKeyDown(KeyEvent.VK_B)){
 			drawBox = !drawBox;
 		}
-
-
-		return GUIEvent.NONE;
 	}
 
 	@Override

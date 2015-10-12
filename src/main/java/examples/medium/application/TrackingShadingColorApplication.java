@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
@@ -123,7 +122,7 @@ public class TrackingShadingColorApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
+	public void updateMouse(PointerEvent event) {
 
 		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
 			color = pickColor(event.getX(), event.getY());
@@ -134,9 +133,6 @@ public class TrackingShadingColorApplication extends Application {
 			System.out.println(color.getBlue());
 			System.out.println("---------");
 		}
-
-		// TODO Auto-generated method stub
-		return GUIEvent.NONE;
 	}
 
 	private Color pickColor(int px, int py) {
@@ -144,7 +140,7 @@ public class TrackingShadingColorApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
+	public void updateKeyboard(KeyEvent event) {
 
 		if(event.isKeyDown(KeyEvent.VK_H)){
 			hide = !hide;
@@ -186,8 +182,6 @@ public class TrackingShadingColorApplication extends Application {
 		} else if(event.isKeyUp(KeyEvent.VK_LEFT_ARROW)) {
 			cam.previousFrame();
 		}
-
-		return GUIEvent.NONE;
 	}
 
 	@Override

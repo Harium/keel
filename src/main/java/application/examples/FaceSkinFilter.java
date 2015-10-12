@@ -7,7 +7,6 @@ import java.util.List;
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.context.UpdateIntervalListener;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
@@ -139,7 +138,7 @@ public class FaceSkinFilter extends Application implements UpdateIntervalListene
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
+	public void updateMouse(PointerEvent event) {
 
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 
@@ -160,12 +159,10 @@ public class FaceSkinFilter extends Application implements UpdateIntervalListene
 			}
 
 		}
-
-		return GUIEvent.NONE;
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
+	public void updateKeyboard(KeyEvent event) {
 
 		if(event.isKeyDown(KeyEvent.VK_H)){
 			hide = !hide;
@@ -182,9 +179,6 @@ public class FaceSkinFilter extends Application implements UpdateIntervalListene
 		if(event.isKeyDown(KeyEvent.VK_B)){
 			drawBox = !drawBox;
 		}
-
-
-		return GUIEvent.NONE;
 	}
 
 	@Override

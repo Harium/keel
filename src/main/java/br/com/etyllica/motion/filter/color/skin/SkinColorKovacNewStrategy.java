@@ -33,7 +33,7 @@ public class SkinColorKovacNewStrategy extends SimpleToleranceStrategy implement
 		final int G = ColorStrategy.getGreen(rgb);
 		final int B = ColorStrategy.getBlue(rgb);
 		
-		final int R_MIN = 80-tolerance/2;//Default is 95
+		final int R_MIN = 95-tolerance/2;//Default is 95
 		final int G_MIN = 40-tolerance/3;//Default is 40
 		final int B_MIN = 20-tolerance/4;//Default is 20
 		
@@ -42,21 +42,21 @@ public class SkinColorKovacNewStrategy extends SimpleToleranceStrategy implement
 		final double R_MIN_MOD = R - Math.min(G,B);
 		
 		//Standard illumination
-		boolean firstRule = (R > R_MIN && G > G_MIN && B > B_MIN) &&
+		boolean firstRule = (R > R_MIN && R < 220 && G > G_MIN && B > B_MIN) &&
 				             R_MIN_MOD > 15 &&
 				             RG_MOD >= 10 && 
 				             RB_MOD <= 110; //Very important rule
 				             
 		//Strong illumination
-		boolean secondRule = R > 190 && R < 245 && G > 210 && B > 170 &&
+		boolean secondRule = R > 195 && R < 245 && G > 210 && B > 170 &&
 							 RG_MOD <= 15 && R > B && G > B && 
 							 RG_MOD + RB_MOD > 80;
 		
 		//Darker skin color
-		boolean thirdRule = R <= 145 && R > 60 && G > G_MIN && B > B_MIN &&
+		boolean thirdRule = R <= 145 && R > 60 && G > G_MIN*2 && B > B_MIN*2 &&
 							R >= G && R >= B &&
 							R_MIN_MOD < 38 &&
-							RG_MOD >= 5 &&
+							RG_MOD >= 3 &&
 							RB_MOD+RG_MOD < 70; //Important Rule
 
 							//Remove

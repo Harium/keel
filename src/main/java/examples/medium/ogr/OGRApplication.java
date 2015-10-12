@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
@@ -106,7 +105,7 @@ public class OGRApplication extends Application {
 	
 	
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
+	public void updateMouse(PointerEvent event) {
 
 		/*if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
 			Color color = pickColor(event.getX(), event.getY());
@@ -116,8 +115,6 @@ public class OGRApplication extends Application {
 			System.out.println(color.getBlue());
 			System.out.println("---------");
 		}*/
-
-		return GUIEvent.NONE;
 	}
 	
 	private Color pickColor(int px, int py) {
