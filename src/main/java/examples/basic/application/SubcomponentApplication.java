@@ -10,9 +10,6 @@ import java.util.Map;
 import br.com.etyllica.awt.AWTGraphics;
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
@@ -118,18 +115,6 @@ public class SubcomponentApplication extends Application {
 			}
 		}
 
-	}
-
-	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

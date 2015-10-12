@@ -22,7 +22,7 @@ public class FindSkinColor extends EtyllicaFrame {
 	@Override
 	public Application startApplication() {
 		initialSetup("../");
-		//return new SimpleSkinStrategyApplication(w, h);
-		return new SkinStrategyCameraApplication(w, h);
+		return new SimpleSkinStrategyApplication(w, h);
+		//return new SkinStrategyCameraApplication(w, h);
 	}
 }

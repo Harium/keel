@@ -10,9 +10,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.motion.camera.FakeCamera;
@@ -39,7 +37,7 @@ public class CaptchaCleaner extends Application {
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
+	public void updateKeyboard(KeyEvent event) {
 		
 		if(event.isKeyDown(KeyEvent.VK_SPACE)){
 			saveImage(fileName);
@@ -56,15 +54,6 @@ public class CaptchaCleaner extends Application {
 			fileName = "captcha"+Integer.toString(cam.getCurrentFrame());
 			reset(fileName);
 		}
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

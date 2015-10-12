@@ -7,9 +7,7 @@ import java.util.List;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.context.UpdateIntervalListener;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
@@ -65,13 +63,11 @@ public class HollowController extends Application implements UpdateIntervalListe
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event){
+	public void updateKeyboard(KeyEvent event){
 
 		if(event.isKeyDown(KeyEvent.VK_R)){
 			activated = false;
 		}
-		
-		return GUIEvent.NONE;
 	}
 
 	private boolean activated = false;
@@ -128,12 +124,6 @@ public class HollowController extends Application implements UpdateIntervalListe
 			}
 		}
 
-	}
-
-	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return GUIEvent	.NONE;
 	}
 
 }

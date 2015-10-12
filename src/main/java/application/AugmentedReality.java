@@ -27,18 +27,6 @@ public class AugmentedReality extends Application{
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void load() {
 		// TODO Auto-generated method stub
 		

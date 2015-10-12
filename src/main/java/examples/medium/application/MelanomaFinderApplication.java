@@ -7,7 +7,6 @@ import java.util.List;
 
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.core.linear.Point2D;
@@ -192,13 +191,10 @@ public class MelanomaFinderApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-
+	public void updateKeyboard(KeyEvent event) {
 		if(event.isKeyDown(KeyEvent.VK_H)) {
 			hide = !hide;
 		}
-
-		return null;
 	}
 
 }

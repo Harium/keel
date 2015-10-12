@@ -3,8 +3,6 @@ package examples.hard.microscopy;
 import java.awt.Color;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
-import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
@@ -49,7 +47,7 @@ public class EmptyWellPlateApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
+	public void updateMouse(PointerEvent event) {
 
 		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
 			
@@ -71,14 +69,5 @@ public class EmptyWellPlateApplication extends Application {
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 			mouseDrag = false;
 		}
-
-		return null;
 	}
-
-	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

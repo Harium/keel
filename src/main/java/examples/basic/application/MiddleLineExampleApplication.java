@@ -3,7 +3,6 @@ package examples.basic.application;
 import java.awt.Color;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphic;
@@ -130,8 +129,7 @@ public class MiddleLineExampleApplication extends Application {
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
-		
+	public void updateMouse(PointerEvent event) {
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			//Add a new Point to the list
 			component.add(event.getX(), event.getY());
@@ -140,8 +138,6 @@ public class MiddleLineExampleApplication extends Application {
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)){
 			//Compute the Middle Line
 		}
-		
-		return null;
 	}
 	
 }

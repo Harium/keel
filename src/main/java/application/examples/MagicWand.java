@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.context.UpdateIntervalListener;
-import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
@@ -112,7 +111,7 @@ public class MagicWand extends Application implements UpdateIntervalListener {
 	}
 
 	@Override
-	public GUIEvent updateMouse(PointerEvent event) {
+	public void updateMouse(PointerEvent event) {
 
 		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
 			//When mouse clicks with LeftButton, the color filter tries to find
@@ -120,12 +119,10 @@ public class MagicWand extends Application implements UpdateIntervalListener {
 			colorStrategy.setColor(mirror.getBuffer().getRGB((int)event.getX(), (int)event.getY()));
 
 		}
-
-		return GUIEvent.NONE;
 	}
 
 	@Override
-	public GUIEvent updateKeyboard(KeyEvent event) {
+	public void updateKeyboard(KeyEvent event) {
 
 		if(event.isKeyDown(KeyEvent.VK_H)){
 			hide = !hide;
@@ -134,8 +131,6 @@ public class MagicWand extends Application implements UpdateIntervalListener {
 		if(event.isKeyDown(KeyEvent.VK_P)){
 			pixels = !pixels;
 		}
-
-		return GUIEvent.NONE;
 	}
 
 	@Override
