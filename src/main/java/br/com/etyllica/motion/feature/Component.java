@@ -166,7 +166,6 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 	}
 
 	public Polygon getBoundingBox() {
-
 		Polygon p = new Polygon();
 
 		p.addPoint(lowestX, lowestY);
@@ -347,7 +346,7 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 	}
 
 	public boolean intersects(int x, int y) {
-		return (x>=getX()&&x<getW()&&y>=getY()&&y<getH());
+		return (x>=getX()&&x<getX()+getW()&&y>=getY()&&y<getY()+getH());
 	}
 
 }
