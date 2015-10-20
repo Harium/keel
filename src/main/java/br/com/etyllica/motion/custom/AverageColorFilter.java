@@ -14,11 +14,13 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
 	
 	public AverageColorFilter() {
 		super();
-		
 	}
 	
 	public Color process(BufferedImage buffer) {
-		
+		return filter(buffer);
+	}
+	
+	public static Color filter(BufferedImage buffer) {
 		int averageRed = 0;
 		int averageBlue = 0;
 		int averageGreen = 0;
@@ -37,24 +39,23 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
 				
 				averageGreen += ColorStrategy.getGreen(rgb);
 				
-				pixelCount ++;
-				
+				pixelCount++;	
 			}
-
 		}
 		
 		averageRed /= pixelCount;
-		
 		averageBlue /= pixelCount;
-		
 		averageGreen /= pixelCount;
 		
 		return new Color(averageRed, averageGreen, averageBlue);
-
 	}
 	
 	@Override
 	public Color process(BufferedImage buffer, Component component) {
+		return filter(buffer, component);
+	}
+	
+	public static Color filter(BufferedImage buffer, Component component) {
 		
 		int averageRed = 0;
 		int averageBlue = 0;

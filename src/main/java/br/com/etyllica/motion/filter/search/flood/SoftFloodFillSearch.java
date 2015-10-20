@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.filter.search;
+package br.com.etyllica.motion.filter.search.flood;
 
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
@@ -10,7 +10,7 @@ import br.com.etyllica.motion.feature.Component;
 
 public class SoftFloodFillSearch extends FloodFillSearch {
 			
-	private int UNDEFINED_COLOR = -1;
+	protected int UNDEFINED_COLOR = -1;
 	
 	public SoftFloodFillSearch(int w, int h) {
 		super(w, h);
@@ -83,7 +83,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 		return result;
 	}
 	
-	private boolean verifyNext(Point2D p, int x, int y, int width,
+	protected boolean verifyNext(Point2D p, int x, int y, int width,
 			int height, BufferedImage bimg) {
 		
 		int px = (int)p.getX();
@@ -104,18 +104,18 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 		return false;
 	}
 		
-	private void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor) {
+	protected void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor) {
 		addNeighbor(queue, (int)p.getX() + step, (int)p.getY(), lastColor);
 		addNeighbor(queue, (int)p.getX() - step, (int)p.getY(), lastColor);
 		addNeighbor(queue, (int)p.getX(), (int)p.getY() + step, lastColor);
 		addNeighbor(queue, (int)p.getX(), (int)p.getY() - step, lastColor);
 	}
-		
+	
 	private boolean verifyPixel(int px, int py, int rgb, int lastRGB, BufferedImage bimg) {
 		
 		if (verifySinglePixel(px, py, rgb, lastRGB)) {
-			if(minNeighbors > 0 && maxNeighbors > 0) {
-				if(!verifyNeighbors(px, py, rgb, bimg)) {
+			if (minNeighbors > 0 && maxNeighbors > 0) {
+				if (!verifyNeighbors(px, py, rgb, bimg)) {
 					return false;
 				}
 			}
@@ -126,7 +126,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 
 	}
 
-	private boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {		
+	protected boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {		
 		if(mask.isUnknown(px, py)) {
 			if(pixelStrategy.validateColor(rgb)) {
 				mask.setValid(px, py);
@@ -145,18 +145,17 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 	private boolean verifyNeighbors(int px, int py, int rgb, BufferedImage bimg) {
 
 		int verified = 0;
-		
 		int baseColor = rgb;
 
 		for(int j = py-step; j <= py+step; j += step) {
-
 			for(int i = px-step; i <= px+step; i += step) {
 
 				int currentColor = bimg.getRGB(i, j);
-				if(mask.isValid(i, j)) {
+				if(mask.isValid(i, j) || pixelStrategy.strongValidateColor(baseColor, currentColor)) {
 					verified++;
-				} else if(pixelStrategy.strongValidateColor(baseColor, currentColor)) {
-					verified++;
+					if(verified>=minNeighbors) {
+						return true;
+					}
 				}
 				baseColor = currentColor;
 			}

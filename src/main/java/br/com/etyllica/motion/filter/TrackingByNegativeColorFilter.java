@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import br.com.etyllica.motion.core.strategy.ComponentValidationStrategy;
 import br.com.etyllica.motion.filter.color.NegativeColorStrategy;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
+import br.com.etyllica.motion.filter.search.flood.FloodFillSearch;
 
 public class TrackingByNegativeColorFilter extends ColorPointFilter {
 	

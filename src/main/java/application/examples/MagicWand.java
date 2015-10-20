@@ -15,7 +15,7 @@ import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
+import br.com.etyllica.motion.filter.search.flood.FloodFillSearch;
 import br.com.etyllica.motion.modifier.EnvelopeModifier;
 
 public class MagicWand extends Application implements UpdateIntervalListener {

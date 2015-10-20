@@ -6,25 +6,25 @@ import java.util.List;
 
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.flood.SoftFloodFillSearch;
+import br.com.etyllica.motion.filter.search.flood.ExpandableFloodFillSearch;
 
-public class ColorFilter extends ColorPointFilter {
+public class ExpandableColorFilter extends ColorPointFilter {
 	
 	protected int tolerance = 0x40; 
 	
-	public ColorFilter(int w, int h) {
+	public ExpandableColorFilter(int w, int h) {
 		this(w, h, Color.BLACK);
 	}
 	
-	public ColorFilter(int w, int h, Color color) {
+	public ExpandableColorFilter(int w, int h, Color color) {
 		super(w, h);
 
-		this.searchStrategy = new SoftFloodFillSearch(w, h);
+		this.searchStrategy = new ExpandableFloodFillSearch(w, h);
 		colorStrategy = new ColorStrategy(color, tolerance);
 		searchStrategy.setPixelStrategy(colorStrategy);
 	}
 	
-	public ColorFilter(int w, int h, Color color, int tolerance) {
+	public ExpandableColorFilter(int w, int h, Color color, int tolerance) {
 		this(w, h, color);
 		colorStrategy.setTolerance(tolerance);
 	}

@@ -6,7 +6,7 @@ import java.util.List;
 
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.MultipleColorStrategy;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
+import br.com.etyllica.motion.filter.search.flood.FloodFillSearch;
 
 public class TrackingByMultipleColorFilter extends TrackingFilter {
 	

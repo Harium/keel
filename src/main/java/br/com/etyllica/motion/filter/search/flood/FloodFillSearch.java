@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.filter.search;
+package br.com.etyllica.motion.filter.search.flood;
 
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
@@ -48,7 +48,6 @@ public class FloodFillSearch extends ComponentFilter {
 
 	@Override
 	public Component filterFirst(BufferedImage bimg, Component component) {
-
 		List<Component> list = filter(bimg, component);
 
 		if(!list.isEmpty()) {
@@ -65,7 +64,7 @@ public class FloodFillSearch extends ComponentFilter {
 	}
 
 	@Override
-	public List<Component> filter(BufferedImage bimg, Component component) {
+	public List<Component> filter(final BufferedImage bimg, final Component component) {
 		setup();
 		
 		boundary = component;
@@ -122,7 +121,7 @@ public class FloodFillSearch extends ComponentFilter {
 		return result;
 	}
 
-	private boolean verifyNext(Point2D p, int x, int y, int width,
+	protected boolean verifyNext(Point2D p, int x, int y, int width,
 			int height, BufferedImage bimg) {
 		
 		int px = (int)p.getX();
@@ -155,7 +154,7 @@ public class FloodFillSearch extends ComponentFilter {
 	//It also prevents same pixel be included in a better list of neighbors
 	//May have to be changed to let multiple touch
 	protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color) {
-		if(!boundary.intersects(px, py)) {
+		if(!inBoundary(px, py)) {
 			return;
 		}
 		
@@ -177,7 +176,7 @@ public class FloodFillSearch extends ComponentFilter {
 
 	}
 
-	private boolean verifySinglePixel(int px, int py, int rgb) {
+	protected boolean verifySinglePixel(int px, int py, int rgb) {
 
 		if(mask.isUnknown(px, py)) {
 			if(pixelStrategy.validateColor(rgb)) {
@@ -188,16 +187,15 @@ public class FloodFillSearch extends ComponentFilter {
 		}
 
 		return (!mask.isTouched(px, py) && mask.isValid(px, py));
-
 	}
 
-	private boolean verifyNeighbors(int px, int py, BufferedImage bimg) {
+	protected boolean verifyNeighbors(int px, int py, BufferedImage bimg) {
 
 		int verified = 0;
 
 		for(int j = py-step; j <= py+step; j += step) {
 			for(int i = px-step; i <= px+step; i += step) {
-				if(!boundary.intersects(i,j)) {
+				if(!inBoundary(i,j)) {
 					continue;
 				}
 				
@@ -210,6 +208,10 @@ public class FloodFillSearch extends ComponentFilter {
 		}
 
 		return verified >= minNeighbors && verified <= maxNeighbors;
+	}
+	
+	public boolean inBoundary(int px, int py) {
+		return boundary.intersects(px, py);
 	}
 
 	public int getMinNeighbors() {

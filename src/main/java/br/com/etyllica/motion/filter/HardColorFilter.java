@@ -3,7 +3,7 @@ package br.com.etyllica.motion.filter;
 import java.awt.Color;
 
 import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.FloodFillSearch;
+import br.com.etyllica.motion.filter.search.flood.FloodFillSearch;
 
 public class HardColorFilter extends ColorFilter {
 	

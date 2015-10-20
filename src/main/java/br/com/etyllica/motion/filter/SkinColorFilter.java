@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.SimpleToleranceStrategy;
 import br.com.etyllica.motion.filter.color.skin.SkinColorStrategy;
-import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
+import br.com.etyllica.motion.filter.search.flood.SoftFloodFillSearch;
 
 public class SkinColorFilter extends TrackingFilter {
 

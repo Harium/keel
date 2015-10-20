@@ -17,7 +17,7 @@ import br.com.etyllica.motion.classifier.PolygonClassifier;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.filter.search.SoftFloodFillSearch;
+import br.com.etyllica.motion.filter.search.flood.SoftFloodFillSearch;
 import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 import br.com.etyllica.motion.modifier.hull.HullModifier;
 import br.com.etyllica.motion.modifier.hull.PathCompressionModifier;
