@@ -10,7 +10,7 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Ellipse;
 
@@ -81,7 +81,7 @@ public class SkinGraphic extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		g.setColor(Color.BLACK);
 		//drawGrid(g);
@@ -152,7 +152,7 @@ public class SkinGraphic extends Application {
 		return true;
 	}
 
-	private void drawGoodPoints(Graphic g) {
+	private void drawGoodPoints(Graphics g) {
 
 		for(SkinPoint ponto: good) {
 			ponto.draw(g);
@@ -613,7 +613,7 @@ public class SkinGraphic extends Application {
 		addBadPoint(63,69,81);
 	}
 
-	private void drawBadPoints(Graphic g) {
+	private void drawBadPoints(Graphics g) {
 
 		g.setColor(Color.RED);
 		for(Layer ponto: bad) {
@@ -624,7 +624,7 @@ public class SkinGraphic extends Application {
 	int mx = 0;
 	int my = 0;
 
-	private void drawGrid(Graphic g) {
+	private void drawGrid(Graphics g) {
 
 		int spacing = 10;
 
@@ -684,7 +684,7 @@ public class SkinGraphic extends Application {
 	}
 	
 	//Draw Ellipse
-	private void drawEllipse(Graphic g) {
+	private void drawEllipse(Graphics g) {
 		g.setColor(SVGColor.GOLD);
 		for (int j = 0; j < 256; j++) {
 			for (int i = 0; i < 256; i++) {

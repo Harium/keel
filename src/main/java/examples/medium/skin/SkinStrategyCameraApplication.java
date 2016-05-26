@@ -1,6 +1,6 @@
 package examples.medium.skin;
 
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.motion.camera.CameraSarxosWebcam;
 import br.com.etyllica.motion.feature.Component;
 
@@ -15,7 +15,7 @@ public class SkinStrategyCameraApplication extends SimpleFaceFinderApplication {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		g.drawImage(cam.getBufferedImage(), 0, 0);
 		reset();
 		//drawComponents(g);

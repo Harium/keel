@@ -7,7 +7,7 @@ import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
@@ -37,7 +37,7 @@ public class QuickHullExampleApplication extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		
 		g.setColor(Color.BLACK);
 		
@@ -57,7 +57,7 @@ public class QuickHullExampleApplication extends Application {
 		
 	}
 	
-	private void drawConvexHull(Graphic g) {
+	private void drawConvexHull(Graphics g) {
 
 		if(convexHull==null)
 			return;

@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.gui.spinner.IntegerSpinner;
 import br.com.etyllica.motion.camera.FakeCamera;
@@ -410,7 +410,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		if(!hide){
 			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
@@ -431,7 +431,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 
 	}
 
-	private void drawComponentPolygon(Graphic g, Component component, Polygon p, Color color){
+	private void drawComponentPolygon(Graphics g, Component component, Polygon p, Color color){
 
 		g.setColor(SVGColor.BLACK);
 		g.setLineWidth(3);
@@ -453,7 +453,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 
 	}
 
-	private void drawPolygon(Graphic g, Polygon p, Color color, int radius){
+	private void drawPolygon(Graphics g, Polygon p, Color color, int radius){
 
 		/*g.setColor(SVGColor.BLACK);
 		g.setBasicStroke(3);
@@ -478,7 +478,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 
 	}
 
-	private void drawMerged(Graphic g){
+	private void drawMerged(Graphics g){
 		g.setColor(SVGColor.BLACK);
 		g.setLineWidth(3);
 		g.drawPolygon(merged);

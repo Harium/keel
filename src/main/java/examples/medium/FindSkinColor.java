@@ -1,13 +1,13 @@
 package examples.medium;
 
 
-import br.com.etyllica.EtyllicaFrame;
+import br.com.etyllica.Etyllica;
 import br.com.etyllica.core.context.Application;
 import examples.medium.skin.SimpleFaceFinderApplication;
 import examples.medium.skin.SimpleSkinStrategyApplication;
 import examples.medium.skin.SkinStrategyCameraApplication;
 
-public class FindSkinColor extends EtyllicaFrame {
+public class FindSkinColor extends Etyllica {
 
 	private static final long serialVersionUID = 1L;
 

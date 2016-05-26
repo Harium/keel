@@ -11,7 +11,7 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.motion.camera.FakeCamera;
@@ -246,7 +246,7 @@ public class PirateHatApplication extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		g.setColor(Color.BLACK);
 
@@ -268,7 +268,7 @@ public class PirateHatApplication extends Application {
 
 	}
 
-	private void drawFeatureInfo(Graphic g) {
+	private void drawFeatureInfo(Graphics g) {
 
 		g.setColor(Color.BLACK);
 
@@ -297,7 +297,7 @@ public class PirateHatApplication extends Application {
 
 	}
 
-	private void drawFeatures(List<Component> features, Graphic g) {
+	private void drawFeatures(List<Component> features, Graphics g) {
 
 		//List<Component> features = mergeComponents(skinFeatures);
 
@@ -347,7 +347,7 @@ public class PirateHatApplication extends Application {
 
 	}
 
-	private void drawPirateHat(Component face, Graphic g) {
+	private void drawPirateHat(Component face, Graphics g) {
 
 
 		double angle = drawAndCalculateAngle(face, g);
@@ -430,7 +430,7 @@ public class PirateHatApplication extends Application {
 
 	}
 
-	private double drawAndCalculateAngle(Component component, Graphic g) {
+	private double drawAndCalculateAngle(Component component, Graphics g) {
 
 		int upperPoints = 0, upperX = 0, upperY = 0;
 

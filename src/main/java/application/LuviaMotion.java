@@ -6,7 +6,7 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 
 public class LuviaMotion extends Application {
 
@@ -33,7 +33,7 @@ public class LuviaMotion extends Application {
 	}
 	
 	@Override
-	public void draw(Graphic g){
+	public void draw(Graphics g){
 		g.setAlpha(100);
 		g.setColor(Color.white);
 		g.fillRect(0, 0, w, h);
@@ -63,7 +63,7 @@ public class LuviaMotion extends Application {
 
 	}
 
-	private void drawCircle(Graphic g){
+	private void drawCircle(Graphics g){
 
 		int cw = 100;
 		int ch = 100;
@@ -94,7 +94,7 @@ public class LuviaMotion extends Application {
 
 	}
 
-	private void drawContent(Graphic g, int percent){
+	private void drawContent(Graphics g, int percent){
 
 		int angulo = percent;
 		

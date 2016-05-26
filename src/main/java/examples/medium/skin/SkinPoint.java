@@ -2,7 +2,7 @@ package examples.medium.skin;
 
 import java.awt.Color;
 
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.layer.Layer;
 
 public class SkinPoint extends Layer {
@@ -66,7 +66,7 @@ public class SkinPoint extends Layer {
 		this.color = color;
 	}
 
-	public void draw(Graphic g){
+	public void draw(Graphics g){
 		
 		g.setColor(color);
 		

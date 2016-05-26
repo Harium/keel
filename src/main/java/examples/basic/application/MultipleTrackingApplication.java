@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 
@@ -79,7 +79,7 @@ public class MultipleTrackingApplication extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		g.setAlpha(100);
 		g.drawImage(image, 0, 0);
 		

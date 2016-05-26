@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.classifier.ColorClassifier;
 import br.com.etyllica.motion.classifier.PolygonClassifier;
@@ -149,7 +149,7 @@ public class ColoredGeometricFormApplication extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		g.setAlpha(100);
 		g.drawImage(image, 0, 0);
 
