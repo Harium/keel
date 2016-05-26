@@ -10,7 +10,7 @@ import java.util.Map;
 import br.com.etyllica.awt.AWTGraphics;
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.ColorFilter;
@@ -67,7 +67,7 @@ public class SubcomponentApplication extends Application {
 
 	private void drawImage(BufferedImage image) {
 
-		Graphic g = new AWTGraphics(image);
+		Graphics g = new AWTGraphics(image);
 
 		g.setColor(Color.WHITE);
 
@@ -93,7 +93,7 @@ public class SubcomponentApplication extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		g.setAlpha(100);
 		g.drawImage(image, 0, 0);
 

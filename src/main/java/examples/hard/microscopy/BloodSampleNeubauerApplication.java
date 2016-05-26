@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import examples.hard.microscopy.cell.RedBloodCell;
 
 public class BloodSampleNeubauerApplication extends EmptyNeubauerApplication {
@@ -44,7 +44,7 @@ public class BloodSampleNeubauerApplication extends EmptyNeubauerApplication {
 	}
 	
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		
 		drawNeubauer(g);
 		

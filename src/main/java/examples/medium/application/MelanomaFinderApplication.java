@@ -8,7 +8,7 @@ import java.util.List;
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.motion.custom.AverageColorFilter;
@@ -115,7 +115,7 @@ public class MelanomaFinderApplication extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		g.setAlpha(100);
 		g.drawImage(buffer, 0, 0);
 
@@ -166,14 +166,14 @@ public class MelanomaFinderApplication extends Application {
 
 	}
 
-	private void drawComponentPixels(Graphic g, Component component) {
+	private void drawComponentPixels(Graphics g, Component component) {
 
 		for(Point2D point: component.getPoints()) {
 			g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
 		}
 	}
 
-	private void drawConvexHullMask(Graphic g, Component component) {
+	private void drawConvexHullMask(Graphics g, Component component) {
 
 		Point2D centroid = component.getCenter();
 

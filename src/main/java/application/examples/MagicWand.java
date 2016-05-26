@@ -8,7 +8,7 @@ import br.com.etyllica.core.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.motion.camera.Camera;
@@ -134,7 +134,7 @@ public class MagicWand extends Application implements UpdateIntervalListener {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		mirror.draw(g);
 
@@ -156,7 +156,7 @@ public class MagicWand extends Application implements UpdateIntervalListener {
 
 	}
 
-	private void drawBox(Graphic g, Component box){
+	private void drawBox(Graphics g, Component box){
 
 		g.setColor(Color.RED);
 
@@ -203,11 +203,11 @@ public class MagicWand extends Application implements UpdateIntervalListener {
 
 	}
 
-	private void drawLine(Graphic g, Point2D a, Point2D b){		
+	private void drawLine(Graphics g, Point2D a, Point2D b){		
 		g.drawLine(xOffset+(int)a.getX(), yOffset+(int)a.getY(), xOffset+(int)b.getX(), yOffset+(int)b.getY());		
 	}
 
-	private void drawPoint(Graphic g, Point2D point){
+	private void drawPoint(Graphics g, Point2D point){
 		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
 	}
 

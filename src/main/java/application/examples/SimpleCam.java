@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
@@ -75,7 +75,7 @@ public class SimpleCam extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		//Draw the mirror image
 		mirror.draw(g);

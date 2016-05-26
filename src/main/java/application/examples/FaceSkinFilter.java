@@ -10,7 +10,7 @@ import br.com.etyllica.core.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.motion.camera.Camera;
@@ -182,7 +182,7 @@ public class FaceSkinFilter extends Application implements UpdateIntervalListene
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		if(!hide){
 			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
@@ -212,7 +212,7 @@ public class FaceSkinFilter extends Application implements UpdateIntervalListene
 		
 	}
 	
-	private void drawPirateHat(List<Component> components, Graphic g) {
+	private void drawPirateHat(List<Component> components, Graphics g) {
 		
 		if(!skinFeatures.isEmpty()) {
 			
@@ -257,7 +257,7 @@ public class FaceSkinFilter extends Application implements UpdateIntervalListene
 
 	}
 
-	private double drawAndCalculateAngle(Component component, Graphic g) {
+	private double drawAndCalculateAngle(Component component, Graphics g) {
 
 		int upperPoints = 0, upperX = 0, upperY = 0;
 

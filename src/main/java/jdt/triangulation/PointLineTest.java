@@ -2,26 +2,32 @@ package jdt.triangulation;
 
 import br.com.etyllica.core.linear.Point3D;
 
-//pointLineTest
-// ===============
-// simple geometry to make things easy!
+/**
+ * PointLineTest - simple geometry to make things easy!
+ * Forked from jdt Triangulation 
+ */
 public class PointLineTest {
+	
 	public final static int ONSEGMENT = 0;
 
 	/**
-	 * + <br>
-	 * �����a---------b������
+	 * +
+	 * a---------b
 	 * */
 	public final static int LEFT = 1;
 
 	/**
-	 * �����a---------b������ <br>
+	 * a---------b
 	 * +
 	 * */
 	public final static int RIGHT = 2;
-	/** ��+��a---------b������ */
+	/** 
+	 * + a---------b 
+	 * */
 	public final static int INFRONTOFA = 3;
-	/** ������a---------b���+��� */
+	/** 
+	 * a---------b +
+	 * */
 	public final static int BEHINDB = 4;
 	public final static int ERROR = 5;
 	

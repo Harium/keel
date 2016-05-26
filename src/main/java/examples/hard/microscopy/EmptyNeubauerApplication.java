@@ -5,7 +5,7 @@ import java.awt.Color;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 
 public class EmptyNeubauerApplication extends Application {
 
@@ -46,7 +46,7 @@ public class EmptyNeubauerApplication extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		
 		drawNeubauer(g);
 		
@@ -54,7 +54,7 @@ public class EmptyNeubauerApplication extends Application {
 
 	}
 	
-	protected void drawNeubauer(Graphic g){
+	protected void drawNeubauer(Graphics g){
 		
 		g.setColor(background);
 		g.fillRect(0, 0, w, h);
@@ -80,7 +80,7 @@ public class EmptyNeubauerApplication extends Application {
 		
 	}
 	
-	protected void drawInformation(Graphic g) {
+	protected void drawInformation(Graphics g) {
 		
 		g.setColor(Color.WHITE);
 		
@@ -90,7 +90,7 @@ public class EmptyNeubauerApplication extends Application {
 		
 	}
 
-	private void drawStrongLines(Graphic g, int spacing005mm) {
+	private void drawStrongLines(Graphics g, int spacing005mm) {
 		
 		g.setLineWidth(1f);
 		
@@ -106,7 +106,7 @@ public class EmptyNeubauerApplication extends Application {
 		
 	}
 	
-	private void drawMiddleLines(Graphic g, int spacing005mm) {
+	private void drawMiddleLines(Graphics g, int spacing005mm) {
 
 		//Strong Lines
 		for(int i=0;i<=5;i++) {
@@ -127,7 +127,7 @@ public class EmptyNeubauerApplication extends Application {
 
 	}
 	
-	private void drawHorizontalStrongLine(Graphic g, int spacing, int i) {
+	private void drawHorizontalStrongLine(Graphics g, int spacing, int i) {
 
 		drawHorizontalLine(g, 0, spacing, i);
 		drawHorizontalLine(g, -1*zoom/4, spacing, i);
@@ -135,23 +135,23 @@ public class EmptyNeubauerApplication extends Application {
 
 	}
 	
-	private void drawHorizontalLine(Graphic g, int spacing, int i) {
+	private void drawHorizontalLine(Graphics g, int spacing, int i) {
 		drawHorizontalLine(g, 0, spacing, i);
 	}
 
-	private void drawHorizontalLine(Graphic g, int offset, int spacing, int i) {
+	private void drawHorizontalLine(Graphics g, int offset, int spacing, int i) {
 
 		g.drawLine(offsetX, offsetY+offset+(spacing)*i, offsetX+lineSize, offsetY+offset+(spacing)*i);
 
 	}
 
-	private void drawVerticalLine(Graphic g, int spacing, int i) {
+	private void drawVerticalLine(Graphics g, int spacing, int i) {
 
 		drawVerticalLine(g, 0, spacing, i);
 
 	}
 	
-	private void drawVerticalStrongLine(Graphic g, int spacing, int i) {
+	private void drawVerticalStrongLine(Graphics g, int spacing, int i) {
 
 		drawVerticalLine(g, 0, spacing, i);
 		drawVerticalLine(g, -1*zoom/4, spacing, i);
@@ -159,7 +159,7 @@ public class EmptyNeubauerApplication extends Application {
 
 	}
 
-	private void drawVerticalLine(Graphic g, int offset, int spacing, int i) {
+	private void drawVerticalLine(Graphics g, int offset, int spacing, int i) {
 
 		g.drawLine(offsetX+offset+(spacing)*i, offsetY, offsetX+offset+(spacing)*i, offsetY+lineSize);
 

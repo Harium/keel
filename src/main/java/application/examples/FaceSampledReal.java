@@ -8,7 +8,7 @@ import java.util.List;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
@@ -140,7 +140,7 @@ public class FaceSampledReal extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		if(!hide){
 			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
@@ -157,7 +157,7 @@ public class FaceSampledReal extends Application {
 
 	}
 
-	private void drawFeaturedPoints(Graphic g, Component feature, Color color){
+	private void drawFeaturedPoints(Graphics g, Component feature, Color color){
 
 		for(Point2D ponto: feature.getPoints()){
 

@@ -3,10 +3,10 @@
 import examples.medium.ogr.OGRApplication;
 import examples.medium.skin.SkinGraphic;
 import application.examples.AugmentedRealityStatic;
-import br.com.etyllica.Etyllica;
+import br.com.etyllica.EtyllicaApplet;
 import br.com.etyllica.core.context.Application;
 
-public class EtyllicMotion extends Etyllica {
+public class EtyllicMotion extends EtyllicaApplet {
 
 	public EtyllicMotion() {
 		super(800, 480);

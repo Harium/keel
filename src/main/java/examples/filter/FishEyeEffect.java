@@ -1,10 +1,10 @@
 package examples.filter;
 
-import br.com.etyllica.Etyllica;
+import br.com.etyllica.EtyllicaApplet;
 import br.com.etyllica.core.context.Application;
 import examples.filter.application.FishEyeVision;
 
-public class FishEyeEffect extends Etyllica {
+public class FishEyeEffect extends EtyllicaApplet {
 
 	private static final long serialVersionUID = 1L;
 

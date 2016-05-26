@@ -5,7 +5,7 @@ import java.awt.Color;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.MouseButton;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 
 public class EmptyWellPlateApplication extends Application {
 
@@ -31,7 +31,7 @@ public class EmptyWellPlateApplication extends Application {
 	}
 	
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		
 		for(int i=0; i<WELL_PLATES; i++) {
 			

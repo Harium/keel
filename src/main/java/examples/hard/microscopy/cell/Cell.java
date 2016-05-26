@@ -2,7 +2,7 @@ package examples.hard.microscopy.cell;
 
 import java.awt.Color;
 
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.layer.Layer;
 
 public class Cell extends Layer {
@@ -22,7 +22,7 @@ public class Cell extends Layer {
 		
 	}
 	
-	public void draw(Graphic g, int offsetX, int offsetY, int zoom) {
+	public void draw(Graphics g, int offsetX, int offsetY, int zoom) {
 		
 		int cx = offsetX+x*zoom;
 		

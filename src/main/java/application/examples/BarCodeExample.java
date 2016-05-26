@@ -6,7 +6,7 @@ import java.util.List;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
 import br.com.etyllica.motion.custom.BarCodeFilter;
@@ -89,7 +89,7 @@ public class BarCodeExample extends Application {
 	}
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
 		
@@ -106,7 +106,7 @@ public class BarCodeExample extends Application {
 
 	}
 
-	private void drawBox(Graphic g, Component box, int downOffset){
+	private void drawBox(Graphics g, Component box, int downOffset){
 
 		g.setColor(Color.RED);
 
@@ -149,11 +149,11 @@ public class BarCodeExample extends Application {
 
 	}
 
-	private void drawLine(Graphic g, Point2D a, Point2D b){		
+	private void drawLine(Graphics g, Point2D a, Point2D b){		
 		g.drawLine(xOffset+(int)a.getX(), yOffset+(int)a.getY(), xOffset+(int)b.getX(), yOffset+(int)b.getY());		
 	}
 
-	private void drawPoint(Graphic g, Point2D point){
+	private void drawPoint(Graphics g, Point2D point){
 		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
 	}
 

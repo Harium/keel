@@ -8,7 +8,7 @@ import java.util.List;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorPointFilter;
@@ -73,7 +73,7 @@ public class HollowController extends Application implements UpdateIntervalListe
 	private boolean activated = false;
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		buf = cam.getBufferedImage();
 

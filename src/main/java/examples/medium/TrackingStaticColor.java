@@ -1,11 +1,11 @@
 package examples.medium;
 
 
-import br.com.etyllica.EtyllicaFrame;
+import br.com.etyllica.Etyllica;
 import br.com.etyllica.core.context.Application;
 import examples.medium.application.area.TrackingMultiAreaApplication;
 
-public class TrackingStaticColor extends EtyllicaFrame {
+public class TrackingStaticColor extends Etyllica {
 
 	private static final long serialVersionUID = 1L;
 

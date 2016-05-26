@@ -8,7 +8,7 @@ import java.util.Map;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
@@ -78,7 +78,7 @@ public class OGRApplication extends Application {
 	}
 	
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 		g.setAlpha(100);
 		image.draw(g);
 
@@ -121,7 +121,7 @@ public class OGRApplication extends Application {
 		return new Color(image.getBuffer().getRGB(px, py));
 	}
 	
-	private void drawGraph(Graphic g, Graph<Integer> graph) {
+	private void drawGraph(Graphics g, Graph<Integer> graph) {
 		for(WeightEdge<Integer> edge: graph.getEdges()) {
 			g.drawLine(edge.getOrigin().getPoint(), edge.getDestination().getPoint());
 		}

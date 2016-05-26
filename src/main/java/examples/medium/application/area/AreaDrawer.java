@@ -2,12 +2,12 @@ package examples.medium.application.area;
 
 import java.awt.Color;
 
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 
 public class AreaDrawer {
 	
-	public static void drawMultiArea(Graphic g, Point2D p, Point2D q) {
+	public static void drawMultiArea(Graphics g, Point2D p, Point2D q) {
 		g.setColor(Color.BLACK);
 
 		int areas = 5;
@@ -73,7 +73,7 @@ public class AreaDrawer {
 		return points;
 	}
 
-	private static void drawPoint(Graphic g, Point2D point) {
+	private static void drawPoint(Graphics g, Point2D point) {
 		g.fillCircle(point, 5);
 	}
 	

@@ -1,11 +1,11 @@
 package examples.hard;
 
 
-import br.com.etyllica.Etyllica;
+import br.com.etyllica.EtyllicaApplet;
 import br.com.etyllica.core.context.Application;
 import examples.hard.microscopy.BloodSampleNeubauerApplication;
 
-public class MicroscopyNeubauer extends Etyllica {
+public class MicroscopyNeubauer extends EtyllicaApplet {
 
 	private static final long serialVersionUID = 1L;
 

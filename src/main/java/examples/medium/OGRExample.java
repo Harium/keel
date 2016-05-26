@@ -1,11 +1,11 @@
 package examples.medium;
 
 
-import br.com.etyllica.EtyllicaFrame;
+import br.com.etyllica.Etyllica;
 import br.com.etyllica.core.context.Application;
 import examples.medium.ogr.OGRApplication;
 
-public class OGRExample extends EtyllicaFrame {
+public class OGRExample extends Etyllica {
 
 	private static final long serialVersionUID = 1L;
 

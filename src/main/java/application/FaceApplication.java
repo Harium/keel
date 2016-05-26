@@ -6,7 +6,7 @@ import java.util.List;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.graphics.Graphic;
+import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
@@ -101,7 +101,7 @@ public class FaceApplication extends Application {
 	private double distFace = 4.0;
 
 	@Override
-	public void draw(Graphic g) {
+	public void draw(Graphics g) {
 
 		buf = cam.getBufferedImage();
 
@@ -167,7 +167,7 @@ public class FaceApplication extends Application {
 	private int maxX = 600;
 	private int maxPontos = 700;
 		
-	private void pintaFace(Graphic g, List<Component> componentes){
+	private void pintaFace(Graphics g, List<Component> componentes){
 
 		int maiorRelevancia = 0;
 
