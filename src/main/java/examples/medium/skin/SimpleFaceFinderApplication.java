@@ -251,7 +251,7 @@ public class SimpleFaceFinderApplication extends Application {
 		}
 	}
 
-	public void drawPoints(Graphic g, Component component) {
+	public void drawPoints(Graphics g, Component component) {
 		for(Point2D point: component.getPoints()) {
 
 			if(leftPoints) {
@@ -264,7 +264,7 @@ public class SimpleFaceFinderApplication extends Application {
 		}
 	}
 
-	public void drawAllPoints(Graphic g, Component component) {
+	public void drawAllPoints(Graphics g, Component component) {
 		for(Point2D point: component.getPoints()) {
 			g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
 		}
