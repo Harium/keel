@@ -1,5 +1,7 @@
 package br.com.etyllica.motion.feature.trail;
 
+import com.badlogic.gdx.math.Vector3;
+
 import br.com.etyllica.core.linear.Point3D;
 import br.com.etyllica.motion.model.RangeFlag;
 
@@ -35,10 +37,10 @@ public class TripleAxisTrail {
 		this.listener = listener;
 	}
 
-	public void add(Point3D point) {
-		addValue(axisX, point.getX());
-		addValue(axisY, point.getY());
-		addValue(axisZ, point.getZ());
+	public void add(Vector3 point) {
+		addValue(axisX, point.x);
+		addValue(axisY, point.y);
+		addValue(axisZ, point.z);
 	}
 
 	private void addValue(TrailAxis axis, double value) {
