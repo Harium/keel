@@ -3,7 +3,7 @@ package br.com.etyllica.motion.filter.color.skin;
 import br.com.etyllica.motion.filter.SoftPixelStrategy;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.SimpleToleranceStrategy;
-import br.com.etyllica.util.EtyllicaMath;
+import br.com.etyllica.util.math.EtyllicaMath;
 
 /**
  * Based on: Jure Kovač, Peter Peer, and Franc Solina - Human Skin Colour Clustering for Face Detection

@@ -3,7 +3,7 @@ package br.com.etyllica.motion.filter.color.skin;
 import br.com.etyllica.motion.filter.SoftPixelStrategy;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.SimpleToleranceStrategy;
-import br.com.etyllica.util.EtyllicaMath;
+import br.com.etyllica.util.math.EtyllicaMath;
 
 /**
  * Based on: http://academic.aua.am/Skhachat/Public/Papers%20on%20Face%20Detection/RGB-H-CbCr%20Skin%20Colour%20Model%20for%20Human%20Face%20Detection.pdf

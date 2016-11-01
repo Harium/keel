@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.core.ComponentModifier;
 import br.com.etyllica.motion.feature.hull.HullComponent;
-import br.com.etyllica.util.EtyllicaMath;
+import br.com.etyllica.util.math.EtyllicaMath;
 
 public class PathCompressionModifier implements ComponentModifier<HullComponent, List<Point2D>> {
 

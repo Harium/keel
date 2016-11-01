@@ -2,7 +2,7 @@ package br.com.etyllica.motion.awt.util;
 
 import java.awt.Color;
 
-import br.com.etyllica.util.EtyllicaMath;
+import br.com.etyllica.util.math.EtyllicaMath;
 
 public class ColorUtils {
 
