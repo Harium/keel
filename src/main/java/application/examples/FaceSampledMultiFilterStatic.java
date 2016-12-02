@@ -11,6 +11,7 @@ import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.gui.spinner.IntegerSpinner;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.skin.SkinColorStrategy;
@@ -22,6 +23,7 @@ import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 public class FaceSampledMultiFilterStatic extends Application {
 
 	private FakeCamera cam = new FakeCamera();
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private CrossSearch blackFilter = new CrossSearch();
 	
@@ -133,6 +135,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 	}
 
 	private void reset(BufferedImage b){
+		source.setImage(b);
 		/*int w = b.getWidth();
 		int h = b.getHeight();*/
 
@@ -144,9 +147,9 @@ public class FaceSampledMultiFilterStatic extends Application {
 		//quickFilter.setRadius(20);
 
 		//Sampled
-		blackSampledFeature = blackFilter.filter(b, screen).get(0);
+		blackSampledFeature = blackFilter.filter(source, screen).get(0);
 		blackPolygon.reset();
-		quickFilter.filter(b, blackSampledFeature).get(0);
+		quickFilter.filter(source, blackSampledFeature).get(0);
 		blackPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
 
 		quickFilter.setRadius(skinNoiseRadius);
@@ -155,9 +158,9 @@ public class FaceSampledMultiFilterStatic extends Application {
 
 		skinColorStrategy.setTolerance(skinTolerance);
 
-		skinFeature = skinFilter.filter(b, screen).get(0);
+		skinFeature = skinFilter.filter(source, screen).get(0);
 		skinPolygon.reset();
-		quickFilter.filter(b, skinFeature).get(0);
+		quickFilter.filter(source, skinFeature).get(0);
 		skinPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
 
 		

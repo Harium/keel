@@ -14,6 +14,7 @@ import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.linear.graph.WeightEdge;
 import br.com.etyllica.motion.core.SearchStrategy;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.modifier.ogr.LetterOGRModifier;
@@ -21,6 +22,7 @@ import br.com.etyllica.motion.modifier.ogr.LetterOGRModifier;
 public class OGRApplication extends Application {
 
 	private BufferedLayer image;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private ColorFilter blackFilter;
 	
@@ -66,9 +68,10 @@ public class OGRApplication extends Application {
 		loading = 20;
 		
 		ogr = new LetterOGRModifier();
+		source.setImage(image.getBuffer());
 		
 		//Filter the image
-		blackComponents = blackFilter.filter(image.getBuffer(), screen);
+		blackComponents = blackFilter.filter(source, screen);
 		
 		for(Component component: blackComponents) {
 			graphs.put(component, ogr.modify(component));

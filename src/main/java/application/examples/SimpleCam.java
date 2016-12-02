@@ -10,6 +10,7 @@ import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.TriangularSearch;
@@ -21,7 +22,8 @@ public class SimpleCam extends Application {
 	}
 
 	private Camera cam;
-
+	private BufferedImageSource source = new BufferedImageSource();
+	
 	private TriangularSearch colorFilter;
 
 	private ColorStrategy colorStrategy;
@@ -60,18 +62,18 @@ public class SimpleCam extends Application {
 	}
 
 	@Override
-	public void update(long now){
+	public void update(long now) {
 
 		//Get the Camera image
 		mirror.setBuffer(cam.getBufferedImage());
-
+		
 		//Normally the camera shows the image flipped, but we want to see something like a mirror
 		//So we flip the image
 		mirror.flipHorizontal();
+		source.setImage(mirror.getBuffer());
 
 		//Now we search for the first pixel with the desired color in the whole screen
-		point = colorFilter.filterFirst(mirror.getBuffer(), screen);
-
+		point = colorFilter.filterFirst(source, screen);
 	}
 
 	@Override

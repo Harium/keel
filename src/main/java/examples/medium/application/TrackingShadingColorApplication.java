@@ -11,6 +11,7 @@ import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.validation.MinDensityValidation;
@@ -19,6 +20,7 @@ import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 public class TrackingShadingColorApplication extends Application {
 
 	private FakeCamera cam;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private ColorFilter blueFilter;
 
@@ -95,7 +97,9 @@ public class TrackingShadingColorApplication extends Application {
 	int bRadius = 0;
 
 	private void reset(BufferedImage b){
-		blueComponents = blueFilter.filter(b, screen);
+		source.setImage(b);
+		
+		blueComponents = blueFilter.filter(source, screen);
 
 		if(!blueComponents.isEmpty()) {
 

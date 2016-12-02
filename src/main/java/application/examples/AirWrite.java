@@ -16,6 +16,7 @@ import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
 import br.com.etyllica.motion.core.gesture.GestureRegex;
 import br.com.etyllica.motion.core.gesture.PolygonMatcher;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;
@@ -23,6 +24,7 @@ import br.com.etyllica.motion.filter.search.ColoredPointSearch;
 public class AirWrite extends Application {
 
 	private CameraV4L4J cam;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private ColoredPointSearch colorFilter;
 	
@@ -83,8 +85,9 @@ public class AirWrite extends Application {
 	}
 
 	private void reset(BufferedImage b){
-
-		Component point = colorFilter.filterFirst(b, screen);
+		source.setImage(b);
+		
+		Component point = colorFilter.filterFirst(source, screen);
 
 		if(!freeze){
 
@@ -102,8 +105,7 @@ public class AirWrite extends Application {
 
 	@Override
 	public void updateMouse(PointerEvent event) {
-		
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
+		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
 			colorStrategy.setColor(mirror.getRGB((int)event.getX(), (int)event.getY()));
 		}
 	}

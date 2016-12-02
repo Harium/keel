@@ -13,6 +13,7 @@ import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.flood.FloodFillSearch;
@@ -21,7 +22,8 @@ import br.com.etyllica.motion.modifier.EnvelopeModifier;
 public class MagicWand extends Application implements UpdateIntervalListener {
 
 	private Camera cam;
-
+	private BufferedImageSource source = new BufferedImageSource();
+	
 	private FloodFillSearch cornerFilter;
 
 	private ColorStrategy colorStrategy;
@@ -100,8 +102,9 @@ public class MagicWand extends Application implements UpdateIntervalListener {
 		loading = 60;
 
 		loadingInfo = "Start Filter";
-
-		feature = cornerFilter.filterFirst(b, new Component(0, 0, w, h));
+		source.setImage(b);
+		
+		feature = cornerFilter.filterFirst(source, new Component(0, 0, w, h));
 
 		loading = 65;
 		loadingInfo = "Show Result";

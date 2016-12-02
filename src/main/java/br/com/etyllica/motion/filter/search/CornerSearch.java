@@ -1,10 +1,10 @@
 package br.com.etyllica.motion.filter.search;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.motion.core.BooleanMaskSearch;
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.Cross;
 
@@ -16,7 +16,7 @@ public class CornerSearch extends BooleanMaskSearch {
 		super(w, h);
 	}
 	
-	public Component filterFirst(BufferedImage bimg, Component component){
+	public Component filterFirst(ImageSource bimg, Component component){
 
 		super.setup();
 		
@@ -47,7 +47,7 @@ public class CornerSearch extends BooleanMaskSearch {
 		return lastComponent;
 	}
 
-	public List<Component> filter(BufferedImage bimg, Component component){
+	public List<Component> filter(ImageSource bimg, Component component){
 
 		super.setup();
 		
@@ -81,7 +81,7 @@ public class CornerSearch extends BooleanMaskSearch {
 		return result;
 	}
 
-	private void setCross(int i, int j , BufferedImage b){
+	private void setCross(int i, int j , ImageSource b){
 
 		cross.setUp(b.getRGB(i, j-step));
 		cross.setDown(b.getRGB(i, j+step));

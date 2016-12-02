@@ -8,6 +8,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
@@ -18,6 +19,7 @@ import br.com.etyllica.motion.modifier.hull.AugmentedMarkerModifier;
 public class AugmentedRealityStatic extends Application {
 
 	private FakeCamera cam;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private CornerSearch cornerFilter;
 	
@@ -92,8 +94,9 @@ public class AugmentedRealityStatic extends Application {
 		loading = 60;
 
 		loadingInfo = "Start Filter";
-				
-		feature = cornerFilter.filterFirst(b, new Component(0, 0, w, h));
+		
+		source.setImage(b);
+		feature = cornerFilter.filterFirst(source, new Component(0, 0, w, h));
 		
 		positModifier.modifyComponent(feature);
 

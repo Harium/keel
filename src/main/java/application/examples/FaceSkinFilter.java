@@ -15,6 +15,7 @@ import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
 import br.com.etyllica.motion.filter.validation.MinCountPoints;
@@ -24,6 +25,7 @@ import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 public class FaceSkinFilter extends Application implements UpdateIntervalListener {
 
 	private Camera cam;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private TrackingByMultipleColorFilter skinFilter;
 
@@ -132,9 +134,9 @@ public class FaceSkinFilter extends Application implements UpdateIntervalListene
 
 		screen = new Component(0, 0, w, h);
 
+		source.setImage(b);
 		//Sampled
-		skinFeatures = skinFilter.filter(b, screen);
-
+		skinFeatures = skinFilter.filter(source, screen);
 	}
 
 	@Override

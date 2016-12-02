@@ -15,6 +15,7 @@ import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
 import br.com.etyllica.motion.filter.image.ContrastQuickFilter;
@@ -22,6 +23,7 @@ import br.com.etyllica.motion.filter.image.ContrastQuickFilter;
 public class PirateHatApplication extends Application {
 
 	private FakeCamera cam = new FakeCamera();
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private TrackingByMultipleColorFilter skinFilter;
 
@@ -152,10 +154,12 @@ public class PirateHatApplication extends Application {
 		int w = image.getWidth();
 		int h = image.getHeight();
 
+		source.setImage(image);
+		
 		screen = new Component(0, 0, w, h);
 
 		//Sampled
-		skinFeatures = skinFilter.filter(image, screen);
+		skinFeatures = skinFilter.filter(source, screen);
 
 
 		//TODO Merge components

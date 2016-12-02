@@ -9,12 +9,14 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.custom.BarCodeFilter;
 import br.com.etyllica.motion.feature.Component;
 
 public class BarCodeExample extends Application {
 
 	private FakeCamera cam = new FakeCamera();
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private BarCodeFilter filter = new BarCodeFilter((int)w, (int)h);
 
@@ -58,7 +60,8 @@ public class BarCodeExample extends Application {
 		loading = 65;
 		loadingInfo = "Show Result";
 
-		result = filter.filter(b, screen);
+		source.setImage(b);
+		result = filter.filter(source, screen);
 
 		loading = 70;
 		loadingInfo = "Show Angle";

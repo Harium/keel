@@ -2,8 +2,8 @@ package br.com.etyllica.motion.core.source;
 
 public interface ImageSource {
   
-  public int getW(int x, int y);
-  public int getH(int x, int y);
+  public int getWidth();
+  public int getHeight();
   public int getRGB(int x, int y);
   
 }

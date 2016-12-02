@@ -11,6 +11,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.BufferedLayer;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
@@ -23,6 +24,7 @@ import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 public class MelanomaFinderApplication extends Application {
 
 	private BufferedImage buffer;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private TrackingByDarkerColorFilter skinFilter;
 
@@ -50,6 +52,7 @@ public class MelanomaFinderApplication extends Application {
 
 		//Load the image with elements
 		buffer = new BufferedLayer("melanoma/melanoma1.png").getBuffer();
+		source.setImage(buffer);
 
 		//Process image to calculate it's Average Color
 		AverageColorFilter avgColorFilter = new AverageColorFilter();
@@ -75,7 +78,7 @@ public class MelanomaFinderApplication extends Application {
 		loadingInfo = "Start Filter";
 
 		//Search for melanoma candidates
-		candidates = skinFilter.filter(buffer, screen);
+		candidates = skinFilter.filter(source, screen);
 
 		//Find the biggest component/candidate
 		biggestComponent = findBiggestComponent(candidates);

@@ -14,6 +14,7 @@ import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
@@ -27,6 +28,7 @@ public class TrackingMultiAreaApplication extends Application {
 	protected Camera cam;
 	
 	protected BufferedImage buffer;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	//Orange Marker
 	private ColorFilter orangeFilter;
@@ -127,8 +129,10 @@ public class TrackingMultiAreaApplication extends Application {
 	}
 
 	protected void reset(BufferedImage b) {
-		orangeComponents = orangeFilter.filter(b, screen);
-		blueComponents = blueFilter.filter(b, screen);
+		source.setImage(b);
+		
+		orangeComponents = orangeFilter.filter(source, screen);
+		blueComponents = blueFilter.filter(source, screen);
 
 		if(!orangeComponents.isEmpty()) {
 			evaluateDensity(b);

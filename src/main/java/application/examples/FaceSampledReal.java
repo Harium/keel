@@ -11,6 +11,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.CameraV4L4J;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.CrossSearch;
@@ -19,7 +20,8 @@ import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 public class FaceSampledReal extends Application {
 
 	private CameraV4L4J cam;
-
+	private BufferedImageSource source = new BufferedImageSource();
+	
 	private CrossSearch colorFilter = new CrossSearch();
 
 	private FastConvexHullModifier quickHull = new FastConvexHullModifier();
@@ -66,9 +68,9 @@ public class FaceSampledReal extends Application {
 	}
 
 	private void reset(BufferedImage b) {
-				
+		source.setImage(b);
 		//Sampled
-		sampledFeature = colorFilter.filter(b, screen).get(0);
+		sampledFeature = colorFilter.filter(source, screen).get(0);
 
 		sampledPolygon.reset();
 

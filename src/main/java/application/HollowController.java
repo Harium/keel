@@ -10,6 +10,7 @@ import br.com.etyllica.core.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.motion.camera.CameraV4L4J;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorPointFilter;
 import br.com.etyllica.motion.filter.RedLedFilter;
@@ -26,6 +27,8 @@ public class HollowController extends Application implements UpdateIntervalListe
 	private CameraV4L4J cam;
 
 	private BufferedImage buf;
+	
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private RedLedFilter ledFilter;
 	
@@ -39,6 +42,7 @@ public class HollowController extends Application implements UpdateIntervalListe
 	public void load() {
 
 		cam = new CameraV4L4J(0);
+		source.setImage(cam.getBufferedImage());
 		
 		final int w = cam.getBufferedImage().getWidth();
 		final int h = cam.getBufferedImage().getHeight();
@@ -57,9 +61,7 @@ public class HollowController extends Application implements UpdateIntervalListe
 
 	@Override
 	public void timeUpdate(long now){
-
 		System.out.println("TIME UPDATE");
-
 	}
 
 	@Override
@@ -76,6 +78,7 @@ public class HollowController extends Application implements UpdateIntervalListe
 	public void draw(Graphics g) {
 
 		buf = cam.getBufferedImage();
+		source.setImage(buf);
 
 		g.drawImage(buf,0,0);
 
@@ -83,7 +86,7 @@ public class HollowController extends Application implements UpdateIntervalListe
 		
 		for(Component component: lastButtons){
 
-			List<Component> active = activeFilter.filter(buf, component);
+			List<Component> active = activeFilter.filter(source, component);
 
 			Color color = Color.YELLOW;
 
@@ -101,7 +104,7 @@ public class HollowController extends Application implements UpdateIntervalListe
 
 		if(!activated){
 
-			components = ledFilter.filter(buf, screen);
+			components = ledFilter.filter(source, screen);
 
 			if(components!=null){
 

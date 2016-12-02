@@ -13,6 +13,7 @@ import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.SkinColorFilter;
@@ -23,6 +24,8 @@ import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 public class SimpleSkinStrategyApplication extends Application {
 
 	protected Camera cam = new FakeCamera();
+	private BufferedImageSource source = new BufferedImageSource();
+	
 	private final int IMAGES_TO_LOAD = 90;
 
 	private SkinColorFilter skinFilter;
@@ -121,7 +124,8 @@ public class SimpleSkinStrategyApplication extends Application {
 		//Remove components smaller than 20x20
 		skinFilter.addValidation(new MinDimensionValidation(20));
 
-		skinComponents = skinFilter.filter(cam.getBufferedImage(), screen);
+		source.setImage(cam.getBufferedImage());
+		skinComponents = skinFilter.filter(source, screen);
 
 		color = randomColor();
 	}

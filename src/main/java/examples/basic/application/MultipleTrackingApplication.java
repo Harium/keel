@@ -8,12 +8,14 @@ import java.util.List;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphics;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 
 public class MultipleTrackingApplication extends Application {
 
 	private BufferedImage image;
+	private BufferedImageSource source = new BufferedImageSource();
 	
 	private ColorFilter blueFilter;
 	
@@ -36,9 +38,10 @@ public class MultipleTrackingApplication extends Application {
 		screen = new Component(0, 0, w, h);
 		
 		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-		
+				
 		//Create the image with elements
-		drawImage(image);
+		createImage(image);
+		source.setImage(image);
 		
 		//Define blue and black filters
 		blackFilter = new ColorFilter(w, h, Color.BLACK);
@@ -46,13 +49,13 @@ public class MultipleTrackingApplication extends Application {
 		blueFilter = new ColorFilter(w, h, Color.BLUE);
 		
 		//Filter the image 
-		blueComponents = blueFilter.filter(image, screen);
+		blueComponents = blueFilter.filter(source, screen);
 		
-		blackComponents = blackFilter.filter(image, screen);
+		blackComponents = blackFilter.filter(source, screen);
 		
 	}
 	
-	private void drawImage(BufferedImage image) {
+	private void createImage(BufferedImage image) {
 		
 		Graphics2D g = image.createGraphics();
 				

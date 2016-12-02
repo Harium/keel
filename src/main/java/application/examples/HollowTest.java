@@ -7,6 +7,7 @@ import java.util.List;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.loader.image.ImageLoader;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.RedLedFilter;
 
@@ -14,7 +15,8 @@ public class HollowTest extends Application {
 
 	private Component screen;
 	private RedLedFilter filter;
-
+	private BufferedImageSource source = new BufferedImageSource();
+	
 	private BufferedImage test;
 
 	public HollowTest(int w, int h) {
@@ -45,10 +47,12 @@ public class HollowTest extends Application {
 
 		g.drawImage(test, 0, 0);
 
-		List<Component> components = filter.filter(test, screen);
+		source.setImage(test);
+		
+		List<Component> components = filter.filter(source, screen);
 		
 		Color color = Color.RED;
-		if(components.size()==8){
+		if (components.size() == 8) {
 			color = Color.BLUE;
 		}
 		
@@ -60,7 +64,5 @@ public class HollowTest extends Application {
 		}		
 		
 	}
-
-
 
 }

@@ -11,6 +11,7 @@ import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.motion.camera.CameraV4L4J;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorPointFilter;
 
@@ -29,7 +30,7 @@ public class FaceApplication extends Application {
 
 	private Layer lastFace;
 
-	private BufferedImage buf;
+	private BufferedImageSource buf;
 
 	private ColorPointFilter findFaceFilter;
 	private ColorPointFilter findEye;
@@ -103,9 +104,9 @@ public class FaceApplication extends Application {
 	@Override
 	public void draw(Graphics g) {
 
-		buf = cam.getBufferedImage();
+		buf = new BufferedImageSource(cam.getBufferedImage());
 
-		g.drawImage(buf,0,0);
+		g.drawImage(buf.getImage(),0,0);
 		
 		faces = findFaceFilter.filter(buf, screen);
 		

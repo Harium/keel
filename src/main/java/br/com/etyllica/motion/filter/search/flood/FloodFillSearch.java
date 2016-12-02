@@ -1,6 +1,5 @@
 package br.com.etyllica.motion.filter.search.flood;
 
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -9,6 +8,7 @@ import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.core.ComponentFilter;
 import br.com.etyllica.motion.core.dynamic.DynamicArrayMask;
 import br.com.etyllica.motion.core.dynamic.DynamicMask;
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 
@@ -47,8 +47,8 @@ public class FloodFillSearch extends ComponentFilter {
 	}
 
 	@Override
-	public Component filterFirst(BufferedImage bimg, Component component) {
-		List<Component> list = filter(bimg, component);
+	public Component filterFirst(ImageSource source, Component component) {
+		List<Component> list = filter(source, component);
 
 		if(!list.isEmpty()) {
 			lastComponent = list.get(0);
@@ -64,7 +64,7 @@ public class FloodFillSearch extends ComponentFilter {
 	}
 
 	@Override
-	public List<Component> filter(final BufferedImage bimg, final Component component) {
+	public List<Component> filter(final ImageSource source, final Component component) {
 		setup();
 		
 		boundary = component;
@@ -81,7 +81,7 @@ public class FloodFillSearch extends ComponentFilter {
 					continue;
 				}
 
-				int rgb = bimg.getRGB(i, j);
+				int rgb = source.getRGB(i, j);
 				
 				if (verifySinglePixel(i, j, rgb)) {
 
@@ -101,7 +101,7 @@ public class FloodFillSearch extends ComponentFilter {
 						//Queue.pop(); 
 						Point2D p = queue.remove();
 												
-						if (verifyNext(p, i, j, width, height, bimg)) {
+						if (verifyNext(p, i, j, width, height, source)) {
 							addPoint(found, p);
 							addNeighbors(queue, p);
 						} else {
@@ -122,17 +122,17 @@ public class FloodFillSearch extends ComponentFilter {
 	}
 
 	protected boolean verifyNext(Point2D p, int x, int y, int width,
-			int height, BufferedImage bimg) {
+			int height, ImageSource source) {
 		
 		int px = (int)p.getX();
 		int py = (int)p.getY();
 		
-		int rgb = bimg.getRGB(px, py);
+		int rgb = source.getRGB(px, py);
 
 		if ((px >= x) && (px < x+width &&
 				(py >= y) && (py < y+height))) {
 
-			if (verifyPixel(px, py, rgb, bimg)) {
+			if (verifyPixel(px, py, rgb, source)) {
 				return true;
 			}
 		}
@@ -163,10 +163,10 @@ public class FloodFillSearch extends ComponentFilter {
 		}
 	}
 
-	protected boolean verifyPixel(int px, int py, int rgb, BufferedImage bimg) {
+	protected boolean verifyPixel(int px, int py, int rgb, ImageSource source) {
 
 		if (verifySinglePixel(px, py, rgb)) {
-			if(!verifyNeighbors(px, py, bimg)) {
+			if(!verifyNeighbors(px, py, source)) {
 				return false;
 			}
 			return true;
@@ -189,7 +189,7 @@ public class FloodFillSearch extends ComponentFilter {
 		return (!mask.isTouched(px, py) && mask.isValid(px, py));
 	}
 
-	protected boolean verifyNeighbors(int px, int py, BufferedImage bimg) {
+	protected boolean verifyNeighbors(int px, int py, ImageSource source) {
 
 		int verified = 0;
 
@@ -201,7 +201,7 @@ public class FloodFillSearch extends ComponentFilter {
 				
 				if(mask.isValid(i, j)) {
 					verified++;
-				} else if(pixelStrategy.validateColor(bimg.getRGB(i, j))) {
+				} else if(pixelStrategy.validateColor(source.getRGB(i, j))) {
 					verified++;
 				}
 			}

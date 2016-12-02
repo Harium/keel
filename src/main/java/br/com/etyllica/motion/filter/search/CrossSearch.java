@@ -1,8 +1,8 @@
 package br.com.etyllica.motion.filter.search;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.core.strategy.PixelStrategy;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.feature.Component;
@@ -15,19 +15,19 @@ public class CrossSearch extends SearchFilter{
 	public CrossSearch() {
 		super();
 	}
-	
+
 	public CrossSearch(PixelStrategy colorValidator) {
 		super();
 	}
-	
+
 	@Override
-	public Component filterFirst(BufferedImage bimg, Component component){
+	public Component filterFirst(ImageSource bimg, Component component){
 
 		return filter(bimg, component).get(0);
 
 	}
 
-	public List<Component> filter(BufferedImage bimg, Component component){
+	public List<Component> filter(ImageSource bimg, Component component){
 
 		super.setup();
 
@@ -61,7 +61,7 @@ public class CrossSearch extends SearchFilter{
 		return result;
 	}
 
-	private void setCross(int i, int j , BufferedImage b){
+	private void setCross(int i, int j , ImageSource b){
 
 		cross.setUp(b.getRGB(i, j-step));
 		cross.setDown(b.getRGB(i, j+step));

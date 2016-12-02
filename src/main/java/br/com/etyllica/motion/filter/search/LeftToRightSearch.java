@@ -1,14 +1,14 @@
 package br.com.etyllica.motion.filter.search;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.feature.Component;
 
 public class LeftToRightSearch extends SearchFilter {
 
-	public Component filterFirst(BufferedImage bimg, Component component) {
+	public Component filterFirst(ImageSource bimg, Component component) {
 
 		super.setup();
 				
@@ -39,7 +39,7 @@ public class LeftToRightSearch extends SearchFilter {
 	}
 
 	@Override
-	public List<Component> filter(BufferedImage bimg, Component component) {
+	public List<Component> filter(ImageSource bimg, Component component) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -13,6 +13,7 @@ import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.CameraV4L4J;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.validation.MaxDimensionValidation;
@@ -23,7 +24,8 @@ import examples.medium.application.area.AreaDrawer;
 public class TrackingCameraColorApplication extends Application {
 
 	private Camera cam;
-
+	private BufferedImageSource source = new BufferedImageSource();
+	
 	private ColorFilter blueFilter;
 
 	//Blue Marker	
@@ -102,7 +104,9 @@ public class TrackingCameraColorApplication extends Application {
 		layer.setBuffer(b);
 		layer.flipHorizontal();
 
-		blueComponents = blueFilter.filter(layer.getBuffer(), screen);
+		source.setImage(layer.getBuffer());
+		
+		blueComponents = blueFilter.filter(source, screen);
 
 		if(!blueComponents.isEmpty()) {
 

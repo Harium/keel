@@ -1,9 +1,9 @@
 package br.com.etyllica.motion.filter;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;
@@ -25,14 +25,11 @@ public class ColorPointFilter extends TrackingFilter {
 		colorStrategy.setColor(color);
 	}
 
-	public Component filterFirst(BufferedImage bimg, Component component) {
-		
+	public Component filterFirst(ImageSource bimg, Component component) {
 		return searchStrategy.filterFirst(bimg, component);
-		
 	}
 	
-	public List<Component> filter(BufferedImage bimg, Component component) {
-		
+	public List<Component> filter(ImageSource bimg, Component component) {
 		return searchStrategy.filter(bimg, component);
 	}
 

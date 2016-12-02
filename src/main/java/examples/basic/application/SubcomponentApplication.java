@@ -11,6 +11,7 @@ import br.com.etyllica.awt.AWTGraphics;
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphics;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.ColorFilter;
@@ -20,6 +21,7 @@ import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 public class SubcomponentApplication extends Application {
 
 	private BufferedImage image;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private ColorFilter whiteFilter;
 	private ColorFilter blackFilter;
@@ -46,7 +48,8 @@ public class SubcomponentApplication extends Application {
 		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 
 		//Create the image with elements
-		drawImage(image);
+		createImage(image);
+		source.setImage(image);
 
 		//Define white and black filters
 		whiteFilter = new ColorFilter(w, h, Color.WHITE);
@@ -55,17 +58,17 @@ public class SubcomponentApplication extends Application {
 		blackFilter = new ColorFilter(w, h, Color.BLACK);
 
 		//Filter the image 
-		whiteComponents = whiteFilter.filter(image, screen);
+		whiteComponents = whiteFilter.filter(source, screen);
 
 		modifier = new FastConvexHullModifier();
 
 		HullComponent hull = modifier.modify(whiteComponents.get(0));
-		List<Component> sub = blackFilter.filter(image, hull);
+		List<Component> sub = blackFilter.filter(source, hull);
 
 		subComponents.put(0, sub);
 	}
 
-	private void drawImage(BufferedImage image) {
+	private void createImage(BufferedImage image) {
 
 		Graphics g = new AWTGraphics(image);
 

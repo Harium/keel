@@ -16,6 +16,7 @@ import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.Camera;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
 import br.com.etyllica.motion.custom.AverageColorFilter;
 import br.com.etyllica.motion.feature.Component;
@@ -29,6 +30,8 @@ import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 public class SimpleFaceFinderApplication extends Application {
 
 	protected Camera cam = new FakeCamera();
+	private BufferedImageSource source = new BufferedImageSource();
+	
 	private final int IMAGES_TO_LOAD = 20;
 
 	private SkinColorFilter skinFilter;
@@ -116,6 +119,7 @@ public class SimpleFaceFinderApplication extends Application {
 	protected void reset() {
 
 		BufferedImage image = cam.getBufferedImage();
+		source.setImage(image);
 
 		//Define the area to search for elements
 		int w = image.getWidth();
@@ -131,10 +135,10 @@ public class SimpleFaceFinderApplication extends Application {
 
 		//Remove components smaller than 20x20
 		skinFilter.addValidation(new MinDimensionValidation(20));
-		skinComponents = skinFilter.filter(image, screen);
+		skinComponents = skinFilter.filter(source, screen);
 
 		colorFilter.addValidation(new MinDimensionValidation(3));
-		darkComponents = colorFilter.filter(image, screen);
+		darkComponents = colorFilter.filter(source, screen);
 
 		//Evaluate components
 		//validateComponents();
@@ -147,7 +151,7 @@ public class SimpleFaceFinderApplication extends Application {
 		featureFilter.getSearchStrategy().setStep(4);
 		featureFilter.addValidation(new MinDimensionValidation(2));
 
-		faceComponents = featureFilter.filter(image, bestCandidate);
+		faceComponents = featureFilter.filter(source, bestCandidate);
 
 		//System.out.println("Fc "+faceComponents.size());
 		color = randomColor();

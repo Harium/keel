@@ -14,6 +14,7 @@ import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.classifier.ColorClassifier;
 import br.com.etyllica.motion.classifier.PolygonClassifier;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.ColorFilter;
@@ -25,6 +26,7 @@ import br.com.etyllica.motion.modifier.hull.PathCompressionModifier;
 public class ColoredGeometricFormApplication extends Application {
 
 	private BufferedImage image;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private ColorFilter blackFilter;
 	private List<Component> blackComponents;
@@ -52,8 +54,9 @@ public class ColoredGeometricFormApplication extends Application {
 
 		loading = 10;
 		//Create the image with elements
-		createImage(image);
-
+		createImage(image);		
+		source.setImage(image);
+		
 		//Define blue and black filters
 		blackFilter = new ColorFilter(w, h, Color.BLACK);
 		
@@ -62,7 +65,7 @@ public class ColoredGeometricFormApplication extends Application {
 		
 		loading = 20;
 		//Filter the image
-		blackComponents = blackFilter.filter(image, screen);
+		blackComponents = blackFilter.filter(source, screen);
 
 		loading = 25;
 		quickHull = new FastConvexHullModifier();

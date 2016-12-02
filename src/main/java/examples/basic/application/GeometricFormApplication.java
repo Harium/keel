@@ -12,6 +12,7 @@ import java.util.List;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.ColorFilter;
@@ -23,6 +24,7 @@ import br.com.etyllica.motion.modifier.hull.PathCompressionModifier;
 public class GeometricFormApplication extends Application {
 
 	private BufferedImage image;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private ColorFilter blackFilter;
 	
@@ -53,7 +55,8 @@ public class GeometricFormApplication extends Application {
 
 		loading = 10;
 		//Create the image with elements
-		drawImage(image);
+		createImage(image);
+		source.setImage(image);
 
 		//Define blue and black filters
 		blackFilter = new ColorFilter(w, h, Color.BLACK);
@@ -63,7 +66,7 @@ public class GeometricFormApplication extends Application {
 		
 		loading = 20;
 		//Filter the image
-		blackComponents = blackFilter.filter(image, screen);
+		blackComponents = blackFilter.filter(source, screen);
 
 		loading = 25;
 		quickHull = new FastConvexHullModifier();
@@ -121,7 +124,7 @@ public class GeometricFormApplication extends Application {
 				
 	}
 
-	private void drawImage(BufferedImage image) {
+	private void createImage(BufferedImage image) {
 
 		Graphics2D g = image.createGraphics();
 		

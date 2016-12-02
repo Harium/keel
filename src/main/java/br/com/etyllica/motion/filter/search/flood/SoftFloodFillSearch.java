@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.feature.Component;
 
 public class SoftFloodFillSearch extends FloodFillSearch {
@@ -25,7 +26,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 	}
 
 	@Override
-	public List<Component> filter(BufferedImage bimg, Component component) {
+	public List<Component> filter(ImageSource bimg, Component component) {
 		setup();
 		
 		this.boundary = component;

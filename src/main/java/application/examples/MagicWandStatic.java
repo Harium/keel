@@ -9,6 +9,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.flood.FloodFillSearch;
@@ -17,6 +18,7 @@ import br.com.etyllica.motion.modifier.EnvelopeModifier;
 public class MagicWandStatic extends Application {
 
 	private FakeCamera cam;
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private FloodFillSearch cornerFilter;
 
@@ -82,7 +84,9 @@ public class MagicWandStatic extends Application {
 
 		loadingInfo = "Start Filter";
 
-		features = cornerFilter.filter(b, new Component(0, 0, w, h));
+		source.setImage(b);
+		
+		features = cornerFilter.filter(source, new Component(0, 0, w, h));
 
 		loading = 65;
 		loadingInfo = "Show Result";

@@ -1,9 +1,9 @@
 package br.com.etyllica.motion.filter;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.flood.ExpandableFloodFillSearch;
@@ -30,7 +30,7 @@ public class ExpandableColorFilter extends ColorPointFilter {
 	}
 	
 	@Override
-	public List<Component> filter(BufferedImage bimg, Component component) {
+	public List<Component> filter(ImageSource bimg, Component component) {
 		searchStrategy.setup();
 		return searchStrategy.filter(bimg, component);
 	}

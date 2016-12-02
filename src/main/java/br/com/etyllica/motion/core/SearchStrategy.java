@@ -1,16 +1,16 @@
 package br.com.etyllica.motion.core;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.feature.Component;
 
 
 public interface SearchStrategy {
 
-	public Component filterFirst(BufferedImage bimg, Component component);
+	public Component filterFirst(ImageSource source, Component component);
 	
-	public List<Component> filter(BufferedImage bimg, Component component);
+	public List<Component> filter(ImageSource source, Component component);
 		
 	public void setup();
 	

@@ -1,11 +1,11 @@
 package br.com.etyllica.motion.custom;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.feature.hull.HullComponent;
 import br.com.etyllica.motion.filter.ColorFilter;
@@ -32,7 +32,7 @@ public class PolygonFilter {
 		pathCompressionModifier = new PathCompressionModifier(5);
 	}
 	
-	public List<Component> filter(BufferedImage image, Component screen) {
+	public List<Component> filter(ImageSource image, Component screen) {
 		List<Component> components = colorFilter.filter(image, screen);
 		
 		System.out.println("First pass: "+components.size());

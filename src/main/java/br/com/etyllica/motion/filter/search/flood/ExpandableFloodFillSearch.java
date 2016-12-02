@@ -1,11 +1,11 @@
 package br.com.etyllica.motion.filter.search.flood;
 
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.feature.Component;
 
 
@@ -29,7 +29,7 @@ public class ExpandableFloodFillSearch extends FloodFillSearch {
 	}
 	
 	@Override
-	public List<Component> filter(final BufferedImage bimg, final Component component) {
+	public List<Component> filter(final ImageSource bimg, final Component component) {
 		setup();
 		
 		boundary = component;

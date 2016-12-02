@@ -10,6 +10,7 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.motion.camera.FakeCamera;
+import br.com.etyllica.motion.core.source.BufferedImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.color.skin.SkinColorStrategy;
@@ -21,6 +22,7 @@ import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 public class FaceStatic extends Application {
 
 	private FakeCamera cam = new FakeCamera();
+	private BufferedImageSource source = new BufferedImageSource();
 
 	private CrossSearch blackFilter = new CrossSearch();
 	
@@ -111,20 +113,22 @@ public class FaceStatic extends Application {
 		
 		screen = new Component(w, h);
 
+		source.setImage(b);
+		
 		//Sampled
-		blackSampledFeature = blackFilter.filterFirst(b, screen);
+		blackSampledFeature = blackFilter.filterFirst(source, screen);
 		blackPolygon.reset();
 
 		blackPolygon = blackSampledFeature.getPolygon();
 		
 		
 		//White Component
-		lightDirection = whiteFilter.filterFirst(b, screen);
+		lightDirection = whiteFilter.filterFirst(source, screen);
 		whitePolygon.reset();
 		
 		whitePolygon = lightDirection.getPolygon();
 		
-		skinFeatures = skinFilter.filter(b, screen);
+		skinFeatures = skinFilter.filter(source, screen);
 				
 	}
 
