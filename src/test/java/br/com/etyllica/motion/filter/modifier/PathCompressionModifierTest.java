@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.feature.hull.HullComponent;
-import br.com.etyllica.motion.modifier.hull.PathCompressionModifier;
+import br.com.etyllica.motion.modifier.smooth.PathCompressionModifier;
 
 public class PathCompressionModifierTest {
 

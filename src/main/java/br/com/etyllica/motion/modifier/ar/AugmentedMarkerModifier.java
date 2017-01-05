@@ -1,10 +1,11 @@
-package br.com.etyllica.motion.modifier.hull;
+package br.com.etyllica.motion.modifier.ar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.motion.feature.Component;
+import br.com.etyllica.motion.modifier.hull.HullModifier;
 
 public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {
 

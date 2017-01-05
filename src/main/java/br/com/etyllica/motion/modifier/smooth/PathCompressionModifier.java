@@ -1,4 +1,4 @@
-package br.com.etyllica.motion.modifier.hull;
+package br.com.etyllica.motion.modifier.smooth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +37,9 @@ public class PathCompressionModifier implements ComponentModifier<HullComponent,
 		double lastAngle = 0;
 
 		list.add(points.get(0));
+		
+		//Important, to check the last point
+		points.add(points.get(0));
 
 		Point2D lastNeedle = points.get(needleIndex);
 		Point2D point = points.get(needleIndex+1);

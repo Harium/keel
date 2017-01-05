@@ -12,7 +12,7 @@ import br.com.etyllica.motion.filter.ColorFilter;
 import br.com.etyllica.motion.filter.search.flood.SoftFloodFillSearch;
 import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 import br.com.etyllica.motion.modifier.hull.HullModifier;
-import br.com.etyllica.motion.modifier.hull.PathCompressionModifier;
+import br.com.etyllica.motion.modifier.smooth.PathCompressionModifier;
 
 public class PolygonFilter {
 

@@ -14,7 +14,7 @@ import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.ColorStrategy;
 import br.com.etyllica.motion.filter.search.CornerSearch;
 import br.com.etyllica.motion.modifier.PositCoplanarModifier;
-import br.com.etyllica.motion.modifier.hull.AugmentedMarkerModifier;
+import br.com.etyllica.motion.modifier.ar.AugmentedMarkerModifier;
 
 public class AugmentedRealityStatic extends Application {
 
