@@ -3,7 +3,7 @@ package examples.hard.microscopy;
 import java.awt.Color;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 
@@ -86,7 +86,7 @@ public class EmptyNeubauerApplication extends Application {
 		
 		g.setFontSize(20f);		
 		
-		g.drawShadow(20, 60, "Zoom: "+zoom+"x");
+		g.drawStringShadow("Zoom: "+zoom+"x", 20, 60);
 		
 	}
 
@@ -168,12 +168,12 @@ public class EmptyNeubauerApplication extends Application {
 	@Override
 	public void updateMouse(PointerEvent event) {
 
-		if(event.isButtonDown(MouseButton.MOUSE_WHEEL_UP)) {
+		if(event.isButtonDown(MouseEvent.MOUSE_WHEEL_UP)) {
 			zoom*=2;
 			changeZoom();			
 		}
 		
-		if(event.isButtonDown(MouseButton.MOUSE_WHEEL_DOWN)) {
+		if(event.isButtonDown(MouseEvent.MOUSE_WHEEL_DOWN)) {
 			
 			if(zoom>1) {
 				zoom/=2;
@@ -182,7 +182,7 @@ public class EmptyNeubauerApplication extends Application {
 		
 		}		
 		
-		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonDown(MouseEvent.MOUSE_BUTTON_LEFT)) {
 
 			if(!mouseDrag) {
 
@@ -199,7 +199,7 @@ public class EmptyNeubauerApplication extends Application {
 			offsetY = -(dragY-event.getY());
 		}
 
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
 			mouseDrag = false;
 		}
 	}

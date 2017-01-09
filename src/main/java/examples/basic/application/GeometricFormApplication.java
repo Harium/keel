@@ -180,7 +180,7 @@ public class GeometricFormApplication extends Application {
 				g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
 			}*/
 			
-			g.writeShadow(geometryForm.get(i), component.getRectangle());
+			g.drawStringShadow(geometryForm.get(i), component.getRectangle());
 			
 			g.setStroke(new BasicStroke(1f));
 			

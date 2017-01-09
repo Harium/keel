@@ -3,7 +3,7 @@ package examples.basic.application;
 import java.awt.Color;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
@@ -62,11 +62,11 @@ public class MiddleLineExampleApplication extends Application {
 		
 		g.setFontSize(18);
 		
-		g.writeX(40, "Middle Line Example");
+		g.drawStringX("Middle Line Example", 40);
 		
-		g.writeX(70, "Press Left Mouse Button to Add Points");
+		g.drawStringX("Press Left Mouse Button to Add Points", 70);
 		
-		g.writeX(90, "Press Right Mouse Button to Compute the Middle Line");
+		g.drawStringX("Press Right Mouse Button to Compute the Middle Line", 90);
 				
 		drawPolygon(g);
 		
@@ -120,8 +120,8 @@ public class MiddleLineExampleApplication extends Application {
 			Point2D a = component.getPoints().get(i);
 			Point2D b = component.getPoints().get(i+1);
 			
-			g.drawShadow((int)(a.getX()+b.getX())/2, (int)(a.getY()+b.getY())/2, MiddleLineModifier.classify(a, b).toString());
-						
+			String text = MiddleLineModifier.classify(a, b).toString();
+			g.drawStringShadow(text, (int)(a.getX()+b.getX())/2, (int)(a.getY()+b.getY())/2);
 		}
 		
 		g.drawLine(lastPoint, firstPoint);
@@ -130,12 +130,12 @@ public class MiddleLineExampleApplication extends Application {
 
 	@Override
 	public void updateMouse(PointerEvent event) {
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)){
 			//Add a new Point to the list
 			component.add(event.getX(), event.getY());
 		}
 		
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)){
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_RIGHT)){
 			//Compute the Middle Line
 		}
 	}

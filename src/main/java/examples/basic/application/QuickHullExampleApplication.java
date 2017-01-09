@@ -5,7 +5,7 @@ import java.awt.Polygon;
 
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
@@ -43,11 +43,11 @@ public class QuickHullExampleApplication extends Application {
 		
 		g.setFontSize(18);
 		
-		g.writeX(40, "Quick Hull Example");
+		g.drawStringX("Quick Hull Example", 40);
 		
-		g.writeX(70, "Press Left Mouse Button to Add Points");
+		g.drawStringX("Press Left Mouse Button to Add Points", 70);
 		
-		g.writeX(90, "Press Right Mouse Button to Compute the Convex Hull");
+		g.drawStringX("Press Right Mouse Button to Compute the Convex Hull", 90);
 		
 		for(Point2D point: component.getPoints()) {
 			g.drawCircle(point, 5);
@@ -79,12 +79,12 @@ public class QuickHullExampleApplication extends Application {
 	@Override
 	public void updateMouse(PointerEvent event) {
 		
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)){
 			//Add a new Point to the list
 			component.add(new Point2D(event.getX(), event.getY()));
 		}
 		
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)){
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_RIGHT)){
 			//Compute the Convex Hull
 			convexHull = quickHullModifier.modify(component);
 		}

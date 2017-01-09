@@ -8,7 +8,7 @@ import java.util.List;
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
@@ -210,7 +210,7 @@ public class TrackingMultiAreaApplication extends Application {
 	@Override
 	public void updateMouse(PointerEvent event) {
 
-		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonDown(MouseEvent.MOUSE_BUTTON_LEFT)) {
 			orangeColor = pickColor(event.getX(), event.getY());
 			orangeFilter.setColor(orangeColor);
 
@@ -220,7 +220,7 @@ public class TrackingMultiAreaApplication extends Application {
 			System.out.println("---------");
 		}
 
-		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_RIGHT)) {
+		if(event.isButtonDown(MouseEvent.MOUSE_BUTTON_RIGHT)) {
 			blueColor = pickColor(event.getX(), event.getY());
 			blueFilter.setColor(blueColor);
 
@@ -303,9 +303,9 @@ public class TrackingMultiAreaApplication extends Application {
 		
 		if(markers) {
 
-			g.drawShadow(10, 80, "Tol: "+Integer.toString(tolerance));
-			g.drawShadow(10, 100, "Den: "+Integer.toString(minDensity));
-			g.drawShadow(10, 120, "Dim: "+Integer.toString(minDimension));
+			g.drawStringShadow("Tol: "+Integer.toString(tolerance), 10, 80);
+			g.drawStringShadow("Den: "+Integer.toString(minDensity), 10, 100);
+			g.drawStringShadow("Dim: "+Integer.toString(minDimension), 10, 120);
 
 			g.setColor(SVGColor.ORANGE);
 
@@ -313,8 +313,8 @@ public class TrackingMultiAreaApplication extends Application {
 			if(orangeComponents != null) {
 				for(Component component:orangeComponents) {
 					g.drawPolygon(component.getBoundingBox());
-					g.drawString(component.getX(), component.getY(), component.getW(), component.getH(), component.getW()+"x"+component.getH());
-					g.drawString(component.getX(), component.getY()+25, component.getW(), component.getH(), Double.toString(component.getDensity()));
+					g.drawStringShadow(component.getW()+"x"+component.getH(), component.getRectangle());
+					g.drawStringShadow(Double.toString(component.getDensity()), component.getX(), component.getY()+25, component.getW(), component.getH());
 					
 				}
 			}
@@ -343,11 +343,11 @@ public class TrackingMultiAreaApplication extends Application {
 				g.resetOpacity();
 			}
 			
-			if(areaOver >= 0)
-				g.drawStringShadowX(300, Integer.toString(areaOver+1));
+			if (areaOver >= 0)
+				g.drawStringShadowX(Integer.toString(areaOver+1), 300);
 
-			if(blueComponents != null) {
-				for(Component component:blueComponents) {
+			if (blueComponents != null) {
+				for (Component component:blueComponents) {
 					g.drawPolygon(component.getBoundingBox());
 				}
 			}

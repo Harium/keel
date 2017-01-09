@@ -10,7 +10,7 @@ import java.util.Random;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
@@ -98,7 +98,7 @@ public class SimpleFaceFinderApplication extends Application {
 	@Override
 	public void updateMouse(PointerEvent event) {
 
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
 			int x = event.getX();
 			int y = event.getY();
 
@@ -248,7 +248,7 @@ public class SimpleFaceFinderApplication extends Application {
 
 		int count = counts.get(component);
 
-		g.drawString(component.getRectangle(), Integer.toString(count));
+		g.drawString(Integer.toString(count), component.getRectangle());
 
 		if(drawPoints) {
 			drawPoints(g, component);

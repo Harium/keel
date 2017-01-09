@@ -9,7 +9,7 @@ import java.util.Map;
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
@@ -190,7 +190,7 @@ public class PirateHatApplication extends Application {
 
 		}
 
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
 
 			if(mx<image.getWidth()&&my<image.getHeight()) {
 
@@ -211,7 +211,7 @@ public class PirateHatApplication extends Application {
 				reset();
 			}
 
-		} else if (event.isButtonUp(MouseButton.MOUSE_BUTTON_RIGHT)) {
+		} else if (event.isButtonUp(MouseEvent.MOUSE_BUTTON_RIGHT)) {
 
 			configureSkinFilter();
 
@@ -282,20 +282,21 @@ public class PirateHatApplication extends Application {
 
 			int offsetX = 650;
 
-			g.drawShadow(offsetX, 40, "x: "+overMouse.getX());
+			g.drawStringShadow("x: "+overMouse.getX(), offsetX, 40);
 
-			g.drawShadow(offsetX, 60, "y: "+overMouse.getY());
+			g.drawStringShadow("y: "+overMouse.getY(), offsetX, 60);
 
-			g.drawShadow(offsetX, 80, "w: "+overMouse.getW());
+			g.drawStringShadow("w: "+overMouse.getW(), offsetX, 80);
 
-			g.drawShadow(offsetX, 100, "h: "+overMouse.getH());
+			g.drawStringShadow("h: "+overMouse.getH(), offsetX, 100);
 
-			g.drawShadow(offsetX, 120, "area: "+overMouse.getArea());
+			g.drawStringShadow("area: "+overMouse.getArea(), offsetX, 120);
 
-			g.drawShadow(offsetX, 140, "dens: "+(int)overMouse.getDensity()+"%");
+			g.drawStringShadow("dens: "+(int)overMouse.getDensity()+"%", offsetX, 140);
 
-			if(map.containsKey(overMouse))
-				g.drawShadow(offsetX, 160, "factor: "+(double)map.get(overMouse));
+			if (map.containsKey(overMouse)) {
+				g.drawStringShadow("factor: "+(double)map.get(overMouse), offsetX, 160);
+			}
 
 		}
 

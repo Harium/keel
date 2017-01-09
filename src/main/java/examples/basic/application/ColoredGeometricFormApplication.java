@@ -170,7 +170,7 @@ public class ColoredGeometricFormApplication extends Application {
 			
 			g.setColor(Color.CYAN);
 			
-			g.writeShadow(geometryText.get(i), component.getRectangle());
+			g.drawStringShadow(geometryText.get(i), component.getRectangle());
 			
 			g.setStroke(new BasicStroke(1f));
 			

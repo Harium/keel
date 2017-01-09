@@ -7,7 +7,7 @@ import java.util.Random;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
@@ -91,7 +91,7 @@ public class SimpleSkinStrategyApplication extends Application {
 	@Override
 	public void updateMouse(PointerEvent event) {
 
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
 			int x = event.getX();
 			int y = event.getY();
 
@@ -156,7 +156,7 @@ public class SimpleSkinStrategyApplication extends Application {
 			g.drawRect(component.getRectangle());
 			
 			g.setColor(Color.BLACK);
-			g.drawString(component.getRectangle(), Double.toString(component.getDensity()));
+			g.drawString(Double.toString(component.getDensity()), component.getRectangle());
 
 			if(drawPoints) {
 				for(Point2D point: component.getPoints()) {

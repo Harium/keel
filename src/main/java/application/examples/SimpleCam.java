@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.layer.BufferedLayer;
@@ -93,7 +93,7 @@ public class SimpleCam extends Application {
 	@Override
 	public void updateMouse(PointerEvent event) {
 
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)){
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)){
 			//When mouse clicks with LeftButton, the color filter tries to find
 			//the color we are clicking on
 			colorStrategy.setColor(mirror.getBuffer().getRGB((int)event.getX(), (int)event.getY()));						

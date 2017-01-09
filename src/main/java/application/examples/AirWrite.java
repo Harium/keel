@@ -9,7 +9,7 @@ import java.util.List;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
@@ -105,7 +105,7 @@ public class AirWrite extends Application {
 
 	@Override
 	public void updateMouse(PointerEvent event) {
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
 			colorStrategy.setColor(mirror.getRGB((int)event.getX(), (int)event.getY()));
 		}
 	}
@@ -170,7 +170,7 @@ public class AirWrite extends Application {
 		g.setColor(colorStrategy.getColor());
 		g.fillRect(0, 0, 30, 30);
 		g.setColor(Color.WHITE);
-		g.drawShadow(10, 15, Integer.toString(colorStrategy.getMaxToleranceRed()));
+		g.drawStringShadow(Integer.toString(colorStrategy.getMaxToleranceRed()), 10, 15);
 		
 		int border = colorFilter.getBorder();
 		
@@ -194,9 +194,9 @@ public class AirWrite extends Application {
 		}
 		
 
-		g.drawShadow(20, 20, regex);
+		g.drawStringShadow(regex, 20, 20);
 
-		g.drawShadow(50, 50, match);
+		g.drawStringShadow(match, 50, 50);
 
 	}
 	

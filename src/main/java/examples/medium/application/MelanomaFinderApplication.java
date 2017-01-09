@@ -155,17 +155,17 @@ public class MelanomaFinderApplication extends Application {
 		g.fillRect(0, 40, 40, 30);
 		
 		g.setColor(Color.WHITE);
-		g.drawShadow(45, 60, "← avg skin color");
+		g.drawStringShadow("← avg skin color", 45, 60);
 		
 		//Draw average melanoma color rectangle
 		g.setColor(avgBiggestComponentColor);
 		g.fillRect(0, 86, 40, 30);
 		
 		g.setColor(Color.WHITE);
-		g.drawShadow(45, 106, "← avg melanoma color");
+		g.drawStringShadow("← avg melanoma color", 45, 106);
 		
 		//How to show/hide pixel mask 
-		g.writeX(380, "Press H to show/hide colored pixels");
+		g.drawStringX("Press H to show/hide colored pixels", 380);
 
 	}
 

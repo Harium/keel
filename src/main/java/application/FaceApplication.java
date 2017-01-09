@@ -125,7 +125,7 @@ public class FaceApplication extends Application {
 			//TODO Write Number of Points
 			g.setColor(Color.WHITE);
 			g.drawRect(component.getLayer());
-			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getPointCount()), Color.BLACK);
+			g.drawStringShadow(Integer.toString(component.getPointCount()), component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Color.BLACK);
 
 		}
 		
@@ -139,7 +139,7 @@ public class FaceApplication extends Application {
 			//TODO Write Number of Points
 			g.setColor(Color.BLUE);
 			g.drawRect(component.getLayer());
-			g.drawStringShadow(component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Integer.toString(component.getPointCount()), Color.BLACK);
+			g.drawStringShadow(Integer.toString(component.getPointCount()), component.getLowestX(), component.getLowestY(), component.getW(), component.getH(), Color.BLACK);
 
 		}
 		

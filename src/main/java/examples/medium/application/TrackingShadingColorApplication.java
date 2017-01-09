@@ -6,7 +6,7 @@ import java.util.List;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
@@ -128,7 +128,7 @@ public class TrackingShadingColorApplication extends Application {
 	@Override
 	public void updateMouse(PointerEvent event) {
 
-		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonDown(MouseEvent.MOUSE_BUTTON_LEFT)) {
 			color = pickColor(event.getX(), event.getY());
 			blueFilter.setColor(color);
 
@@ -217,7 +217,7 @@ public class TrackingShadingColorApplication extends Application {
 			if(blueComponents != null) {
 				for(Component component:blueComponents) {
 					g.drawPolygon(component.getBoundingBox());
-					g.drawString(component.getX(), component.getY(), component.getW(), component.getH(), Double.toString(component.getDensity()));
+					g.drawString(Double.toString(component.getDensity()), component.getRectangle());
 
 					/*for(Point2D point: component.getPoints()) {
 						g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);	

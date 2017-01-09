@@ -3,7 +3,7 @@ package examples.hard.microscopy;
 import java.awt.Color;
 
 import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.MouseButton;
+import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 
@@ -49,7 +49,7 @@ public class EmptyWellPlateApplication extends Application {
 	@Override
 	public void updateMouse(PointerEvent event) {
 
-		if(event.isButtonDown(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonDown(MouseEvent.MOUSE_BUTTON_LEFT)) {
 			
 			if(!mouseDrag) {
 				
@@ -66,7 +66,7 @@ public class EmptyWellPlateApplication extends Application {
 			offsetY = -(dragY-event.getY());
 		}
 		
-		if(event.isButtonUp(MouseButton.MOUSE_BUTTON_LEFT)) {
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
 			mouseDrag = false;
 		}
 	}
