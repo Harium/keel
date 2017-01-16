@@ -38,5 +38,9 @@ public class ColorFilter extends ColorPointFilter {
 	public ColorStrategy getColorStrategy() {
 		return colorStrategy;
 	}
-			
+
+	public int getTolerance() {
+		return tolerance;
+	}
+				
 }
