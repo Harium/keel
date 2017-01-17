@@ -102,10 +102,9 @@ public abstract class SearchFilter implements SearchStrategy {
 	protected boolean validate(Component component) {
 		
 		for(ComponentValidationStrategy validation : validations) {
-		
-			if(!validation.validate(component)) {
+			if (!validation.validate(component)) {
 				return false;
-			}			
+			}
 		}
 		
 		return true;

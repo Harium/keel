@@ -33,6 +33,10 @@ public class TrackingFilter {
 
 	public void setSearchStrategy(SearchFilter searchStrategy) {
 		this.searchStrategy = searchStrategy;
+	}
+
+	public void clearValidations() {
+		searchStrategy.getValidations().clear();
 	}	
 
 }
