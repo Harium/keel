@@ -19,25 +19,28 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
 		colorStrategy = new MultipleColorStrategy();
 		
 		this.searchStrategy.setPixelStrategy(colorStrategy);
-		
 	}
 	
 	public TrackingByMultipleColorFilter(int w, int h, Color color, int tolerance) {
 		this(w, h);
 		
 		colorStrategy.addColor(color, tolerance);
-		
 	}
 	
 	public TrackingByMultipleColorFilter(int w, int h, Color color) {
 		this(w, h, color, DEFAULT_TOLERANCE);
 	}
-	
+
+	@Override
 	public List<Component> filter(ImageSource bimg, Component component) {
-		
 		searchStrategy.setup();
-		
 		return searchStrategy.filter(bimg, component);
+	}
+	
+	@Override
+	public Component filterFirst(ImageSource bimg, Component component) {
+		searchStrategy.setup();
+		return searchStrategy.filterFirst(bimg, component);
 	}
 
 	public void addColor(Color color, int tolerance) {
@@ -51,5 +54,5 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
 	public void addColor(Color color, int maxTolerance, int minTolerance) {
 		colorStrategy.addColor(color, maxTolerance, minTolerance);
 	}
-			
+					
 }
