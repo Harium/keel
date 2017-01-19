@@ -2,12 +2,14 @@ package br.com.etyllica.motion.core;
 
 import br.com.etyllica.motion.core.strategy.PixelStrategy;
 import br.com.etyllica.motion.core.strategy.SearchFilter;
+import br.com.etyllica.motion.feature.Component;
+
+import java.util.ArrayList;
 
 
 public abstract class ComponentFilter extends SearchFilter {
 	
 	protected int w;
-	
 	protected int h;
 	
 	public ComponentFilter(int w, int h){
@@ -23,7 +25,14 @@ public abstract class ComponentFilter extends SearchFilter {
 		this.w = w;
 		this.h = h;
 	}
-	
+
+	@Override
+	public void setup(int w, int h) {
+		this.w = w;
+		this.h = h;
+		super.setup(w, h);
+	}
+
 	public int getW() {
 		return w;
 	}
