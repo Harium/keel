@@ -68,12 +68,10 @@ public abstract class BooleanMaskSearch extends ComponentFilter {
 	}
 
 	@Override
-	public void setup() {
-		
-		super.setup();
+	public void setup(int w, int h) {
+		super.setup(w, h);
 		
 		resetAllMask();
-		
 	}
 	
 }

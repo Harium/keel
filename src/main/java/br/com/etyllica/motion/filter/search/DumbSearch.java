@@ -9,8 +9,7 @@ import br.com.etyllica.motion.feature.Component;
 public class DumbSearch extends SearchFilter {
 
 	public Component filterFirst(ImageSource bimg, Component component) {
-
-		super.setup();
+		super.setup(component.getW(), component.getH());
 
 		int w = component.getW();
 		int h = component.getH();

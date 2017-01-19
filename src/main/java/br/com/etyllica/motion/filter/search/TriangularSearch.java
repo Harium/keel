@@ -14,8 +14,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 
 	@Override
 	public Component filterFirst(ImageSource bimg, Component component){
-		
-		super.setup();
+		super.setup(component.getW(), component.getH());
 		
 		Component lastComponent = new Component(0, 0, w, h);
 								
@@ -51,8 +50,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 	
 	@Override
 	public List<Component> filter(ImageSource bimg, Component component){
-		
-		super.setup();
+		super.setup(component.getW(), component.getH());
 		
 		int x = border;
 		int y = border;

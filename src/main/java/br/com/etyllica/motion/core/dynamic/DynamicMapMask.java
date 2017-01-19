@@ -23,7 +23,6 @@ public class DynamicMapMask implements DynamicMask {
 		super();
 		
 		this.w = w;
-		
 		this.h = h;
 	}
 	
@@ -150,4 +149,13 @@ public class DynamicMapMask implements DynamicMask {
 		isLineTouched.clear();		
 	}
 	
+	@Override
+	public int getW() {
+		return w;
+	}
+
+	@Override
+	public int getH() {
+		return h;
+	}
 }

@@ -20,8 +20,7 @@ public class ColoredPointSearch extends BooleanMaskSearch {
 
 	@Override
 	public Component filterFirst(ImageSource bimg, Component component) {
-		
-		super.setup();
+		super.setup(component.getW(), component.getH());
 										
 		int x = component.getLowestX()+border;
 		int y = component.getLowestY()+border;
@@ -51,8 +50,7 @@ public class ColoredPointSearch extends BooleanMaskSearch {
 	
 	@Override
 	public List<Component> filter(ImageSource bimg, Component component) {
-		
-		super.setup();
+		super.setup(component.getW(), component.getH());
 		
 		int x = component.getLowestX()+border;
 		int y = component.getLowestY()+border;

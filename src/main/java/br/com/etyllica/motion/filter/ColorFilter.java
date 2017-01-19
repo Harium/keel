@@ -32,7 +32,8 @@ public class ColorFilter extends ColorPointFilter {
 	
 	@Override
 	public List<Component> filter(ImageSource bimg, Component component) {
-		searchStrategy.setup();
+		//Setup happens on filter
+		//searchStrategy.setup();
 		return searchStrategy.filter(bimg, component);
 	}
 

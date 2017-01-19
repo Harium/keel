@@ -9,8 +9,7 @@ import br.com.etyllica.motion.feature.Component;
 public class LeftToRightSearch extends SearchFilter {
 
 	public Component filterFirst(ImageSource bimg, Component component) {
-
-		super.setup();
+		super.setup(component.getW(), component.getH());
 				
 		int x = component.getLowestX();
 		int y = component.getLowestY();

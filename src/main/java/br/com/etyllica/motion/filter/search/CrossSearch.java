@@ -27,9 +27,8 @@ public class CrossSearch extends SearchFilter{
 
 	}
 
-	public List<Component> filter(ImageSource bimg, Component component){
-
-		super.setup();
+	public List<Component> filter(ImageSource bimg, Component component) {
+		super.setup(component.getW(), component.getH());
 
 		int w = bimg.getWidth();
 		int h = bimg.getHeight();

@@ -1,6 +1,5 @@
 package br.com.etyllica.motion.filter.search;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import br.com.etyllica.motion.core.source.ImageSource;
@@ -10,8 +9,7 @@ import br.com.etyllica.motion.feature.Component;
 public class RightToLeftSearch extends SearchFilter{
 
 	public Component filterFirst(ImageSource bimg, Component component){
-
-		super.setup();
+		super.setup(component.getW(), component.getH());
 		
 		int x = component.getLowestX();
 		int y = component.getLowestY();

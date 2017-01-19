@@ -14,8 +14,7 @@ public class PointSearch extends BooleanMaskSearch {
 
 	@Override
 	public Component filterFirst(ImageSource bimg, Component component) {
-		
-		super.setup();
+		super.setup(component.getW(), component.getH());
 		
 		lastComponent.reset();
 								
@@ -47,8 +46,7 @@ public class PointSearch extends BooleanMaskSearch {
 	
 	@Override
 	public List<Component> filter(ImageSource bimg, Component component) {
-		
-		super.setup();
+		super.setup(component.getW(), component.getH());
 		
 		int w = bimg.getWidth();
 		int h = bimg.getHeight();

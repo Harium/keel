@@ -33,13 +33,15 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
 
 	@Override
 	public List<Component> filter(ImageSource bimg, Component component) {
-		searchStrategy.setup();
+		//Setup happens on filter
+		//searchStrategy.setup();
 		return searchStrategy.filter(bimg, component);
 	}
 	
 	@Override
 	public Component filterFirst(ImageSource bimg, Component component) {
-		searchStrategy.setup();
+		//Setup happens on filter
+		//searchStrategy.setup();
 		return searchStrategy.filterFirst(bimg, component);
 	}
 

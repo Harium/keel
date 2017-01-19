@@ -27,8 +27,7 @@ public class NoiseSearch extends PolygonalSearch {
 	
 	@Override
 	public List<Component> filter(ImageSource bimg, Component component) {
-
-		super.setup();
+		super.setup(component.getW(), component.getH());
 
 		Component poly = new Component(w, h);
 

@@ -14,8 +14,9 @@ public abstract class PolygonalSearch extends BooleanMaskSearch {
 		polygon = new Polygon();		
 	}
 	
-	public void setup(){
-		super.setup();
+	@Override
+	public void setup(int w, int h) {
+		super.setup(w, h);
 		
 		polygon.reset();
 	}

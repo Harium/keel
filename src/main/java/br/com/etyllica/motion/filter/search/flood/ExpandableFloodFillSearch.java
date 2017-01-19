@@ -30,7 +30,7 @@ public class ExpandableFloodFillSearch extends FloodFillSearch {
 	
 	@Override
 	public List<Component> filter(final ImageSource bimg, final Component component) {
-		setup();
+		super.setup(component.getW(), component.getH());
 		
 		boundary = component;
 

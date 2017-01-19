@@ -51,7 +51,8 @@ public abstract class SearchFilter implements SearchStrategy {
 		this.componentModifierStrategy = new DumbComponentModifier();
 	}
 	
-	public void setup(){
+	@Override
+	public void setup(int w, int h) {
 		result = new ArrayList<Component>();
 	}
 

@@ -5,10 +5,15 @@ import br.com.etyllica.motion.filter.dynamic.DynamicPixel;
 
 public class DynamicArrayMask implements DynamicMask {
 
+	private int w;
+	private int h;
 	protected int[][] mask;
 		
 	public DynamicArrayMask(int w, int h) {
 		super();
+		
+		this.w = w;
+		this.h = h;
 		
 		mask = new int[w][h];
 		
@@ -86,6 +91,16 @@ public class DynamicArrayMask implements DynamicMask {
 		int status = mask[px][py];
 		
 		mask[px][py] = DynamicPixel.setTouched(status);
+	}
+
+	@Override
+	public int getW() {
+		return w;
+	}
+
+	@Override
+	public int getH() {
+		return h;
 	}
 	
 }

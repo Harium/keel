@@ -17,8 +17,7 @@ public class CornerSearch extends BooleanMaskSearch {
 	}
 	
 	public Component filterFirst(ImageSource bimg, Component component){
-
-		super.setup();
+		super.setup(component.getW(), component.getH());
 		
 		int w = bimg.getWidth();
 		int h = bimg.getHeight();
@@ -48,8 +47,7 @@ public class CornerSearch extends BooleanMaskSearch {
 	}
 
 	public List<Component> filter(ImageSource bimg, Component component){
-
-		super.setup();
+		super.setup(component.getW(), component.getH());
 		
 		List<Component> result = new ArrayList<Component>();
 

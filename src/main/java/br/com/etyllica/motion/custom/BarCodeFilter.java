@@ -42,7 +42,7 @@ public class BarCodeFilter extends CustomFilter {
 	}
 
 	@Override
-	public void setup() {
+	public void setup(int w, int h) {
 		// TODO Auto-generated method stub	
 	}
 	

@@ -12,7 +12,7 @@ public interface SearchStrategy {
 	
 	public List<Component> filter(ImageSource source, Component component);
 		
-	public void setup();
+	public void setup(int w, int h);
 	
 	public void setStep(int step);
 	
