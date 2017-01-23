@@ -23,6 +23,10 @@ public class MaxDimensionValidation implements ComponentValidationStrategy {
 		return w <= dimension && h <= dimension;
 	}
 
+	public void setDimension(int dimension) {
+		this.dimension = dimension;
+	}
+
 	public int getDimension() {
 		return dimension;
 	}

@@ -41,6 +41,10 @@ public class ColorPointFilter extends TrackingFilter {
 		return colorStrategy.getColor();
 	}
 
+	public void setColor(int color) {
+		colorStrategy.setColor(color);
+	}
+
 	public void setColor(Color color) {
 		colorStrategy.setColor(color);
 	}
