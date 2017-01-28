@@ -41,6 +41,12 @@ public class ColorFilter extends ColorPointFilter {
 		return colorStrategy;
 	}
 
+	@Override
+	public void setTolerance(int tolerance) {
+		super.setTolerance(tolerance);
+		this.tolerance = tolerance;
+	}
+	
 	public int getTolerance() {
 		return tolerance;
 	}
