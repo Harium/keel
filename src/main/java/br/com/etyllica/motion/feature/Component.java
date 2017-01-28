@@ -19,6 +19,9 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 
 	protected int highestX = 0;
 	protected int highestY = 0;
+	
+	protected double sumX;
+	protected double sumY;
 
 	public Component() {
 		this(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -42,7 +45,6 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 
 		highestX = w;
 		highestY = h;
-
 	}
 
 	public Component(List<Point2D> list) {
@@ -119,6 +121,8 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 
 	protected void addLogic(Point2D p) {
 		points.add(p);
+		sumX += p.getX();
+		sumY += p.getY();
 	}
 
 	public int getPointCount() {
@@ -211,16 +215,7 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 			return center;
 		}
 
-		double countX = 0;
-		double countY = 0;
-
-		for(Point2D point: points) {
-			countX+=point.getX();
-			countY+=point.getY();
-		}
-
-		center = new Point2D(countX/points.size(), countY/points.size());
-
+		center = new Point2D(sumX/points.size(), sumY/points.size());
 		return center;
 	}
 
@@ -301,15 +296,10 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 	}
 
 	public void setLocation(int x, int y) {
-
 		this.lowestX = x;
-
 		this.lowestY = y;
-
 		this.highestX = x+1;
-
 		this.highestY = y+1;
-
 	}
 
 	public int getX() {
@@ -329,7 +319,6 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 	}
 
 	public void reset() {
-
 		points.clear();
 
 		highestX = 0;
@@ -337,7 +326,9 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 
 		lowestX = Integer.MAX_VALUE;
 		lowestY = Integer.MAX_VALUE;
-
+		
+		sumX = 0;
+		sumY = 0;
 	}
 
 	@Override
