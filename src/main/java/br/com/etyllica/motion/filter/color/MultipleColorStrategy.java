@@ -15,13 +15,13 @@ public class MultipleColorStrategy implements PixelStrategy {
 	}
 	
 	@Override
-	public boolean validateColor(int rgb) {
+	public boolean validateColor(int rgb, int j, int i) {
 		
 		boolean result = false;
 		
 		for(ColorStrategy strategy: colors) {
 			
-			if(strategy.validateColor(rgb)) {
+			if(strategy.validateColor(rgb, j, i)) {
 				result = true;
 				break;
 			}
@@ -32,8 +32,8 @@ public class MultipleColorStrategy implements PixelStrategy {
 	}
 	
 	@Override
-	public boolean strongValidateColor(int rgb, int reference) {
-		return validateColor(rgb);
+	public boolean strongValidateColor(int rgb, int j, int i, int reference) {
+		return validateColor(rgb, j, i);
 	}
 
 	public void addColor(Color color, int tolerance) {

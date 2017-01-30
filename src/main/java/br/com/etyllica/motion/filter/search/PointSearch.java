@@ -24,11 +24,12 @@ public class PointSearch extends BooleanMaskSearch {
 		int w = component.getW()-border;
 		int h = component.getH()-border;
 		
+		//TODO Swap i,j
 		for(int j=y;j<h;j+=step) {
 			
 			for(int i=x;i<w;i+=step) {
 				
-				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))) {
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)) {
 					
 					lastComponent.setBounds(i, j, 1, 1);
 										
@@ -53,11 +54,12 @@ public class PointSearch extends BooleanMaskSearch {
 
 		int i,j;
 
+		//TODO Swap i,j
 		for(j=border;j<h-border;j+=step) {
 
 			for(i=border;i<w-border;i+=step) {
 
-				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))) {
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)) {
 					
 					Component holder = new Component(i, j, 1, 1);
 					

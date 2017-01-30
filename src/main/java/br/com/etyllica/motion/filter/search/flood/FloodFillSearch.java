@@ -187,7 +187,7 @@ public class FloodFillSearch extends ComponentFilter {
 	protected boolean verifySinglePixel(int px, int py, int rgb) {
 
 		if(mask.isUnknown(px, py)) {
-			if(pixelStrategy.validateColor(rgb)) {
+			if(pixelStrategy.validateColor(rgb, px, py)) {
 				mask.setValid(px, py);
 			} else {
 				mask.setInvalid(px, py);
@@ -201,6 +201,7 @@ public class FloodFillSearch extends ComponentFilter {
 
 		int verified = 0;
 
+		//TODO Swap i,j
 		for(int j = py-step; j <= py+step; j += step) {
 			for(int i = px-step; i <= px+step; i += step) {
 				if(!inBoundary(i,j)) {
@@ -209,7 +210,7 @@ public class FloodFillSearch extends ComponentFilter {
 				
 				if(mask.isValid(i, j)) {
 					verified++;
-				} else if(pixelStrategy.validateColor(source.getRGB(i, j))) {
+				} else if(pixelStrategy.validateColor(source.getRGB(i, j), i, j)) {
 					verified++;
 				}
 			}

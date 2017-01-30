@@ -129,10 +129,10 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 
 	protected boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {		
 		if(mask.isUnknown(px, py)) {
-			if(pixelStrategy.validateColor(rgb)) {
+			if(pixelStrategy.validateColor(rgb, px, py)) {
 				mask.setValid(px, py);
 			} else if(lastRGB != UNDEFINED_COLOR) {
-				if(pixelStrategy.strongValidateColor(lastRGB, rgb)) {
+				if(pixelStrategy.strongValidateColor(lastRGB, px, py, rgb)) {
 					mask.setValid(px, py);
 				}
 			} else {
@@ -148,11 +148,11 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 		int verified = 0;
 		int baseColor = rgb;
 
-		for(int j = py-step; j <= py+step; j += step) {
-			for(int i = px-step; i <= px+step; i += step) {
+		for(int i = py-step; i <= py+step; i += step) {
+			for(int j = px-step; j <= px+step; j += step) {
 
 				int currentColor = bimg.getRGB(i, j);
-				if(mask.isValid(i, j) || pixelStrategy.strongValidateColor(baseColor, currentColor)) {
+				if(mask.isValid(j, i) || pixelStrategy.strongValidateColor(baseColor, j, i, currentColor)) {
 					verified++;
 					if(verified>=minNeighbors) {
 						return true;

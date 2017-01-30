@@ -40,6 +40,7 @@ public class ExpandableFloodFillSearch extends FloodFillSearch {
 		int width = getComponentWidth(component);
 		int height = getComponentHeight(component);
 
+		//TODO Swap i,j
 		for (int j = y; j < y+height; j+=step) {
 			for (int i = x; i < x+width; i+=step) {
 				if(!component.isInside(i, j)) {

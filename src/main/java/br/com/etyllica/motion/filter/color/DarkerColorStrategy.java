@@ -2,8 +2,6 @@ package br.com.etyllica.motion.filter.color;
 
 import java.awt.Color;
 
-import br.com.etyllica.motion.filter.ColorPointFilter;
-
 
 public class DarkerColorStrategy extends ColorStrategy {
 
@@ -12,7 +10,7 @@ public class DarkerColorStrategy extends ColorStrategy {
 	}
 	
 	@Override
-	public boolean validateColor(int rgb) {
+	public boolean validateColor(int rgb, int j, int i) {
 		return ColorStrategy.isDarkerColor(rgb, this.color, this.minToleranceRed, this.minToleranceGreen, this.minToleranceBlue);
 	}
 		

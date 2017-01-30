@@ -24,11 +24,12 @@ public class CornerSearch extends BooleanMaskSearch {
 
 		lastComponent.reset();
 		
+		//TODO Swap i,j
 		for(int j=border;j<h-border*2;j+=step){
 
 			for(int i=border;i<w-border*2;i+=step){
 
-				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))){
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)){
 
 					setCross(i,j,bimg);
 
@@ -56,11 +57,12 @@ public class CornerSearch extends BooleanMaskSearch {
 
 		Component holder = new Component(w,h);
 
+		//TODO Swap i,j
 		for(int j=border;j<h-border*2;j+=step){
 
 			for(int i=border;i<w-border*2;i+=step){
 
-				if(pixelStrategy.validateColor(bimg.getRGB(i, j))){
+				if(pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)){
 
 					setCross(i,j,bimg);
 
@@ -193,34 +195,34 @@ public class CornerSearch extends BooleanMaskSearch {
 
 	}
 
-	public boolean validateCross(Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight){
+	public boolean validateCross(int j, int i, Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight){
 
-		boolean result = pixelStrategy.validateColor(cross.getUpperLeft())==upperLeft&&
-				pixelStrategy.validateColor(cross.getUp())==up&&
-				pixelStrategy.validateColor(cross.getUpperRight())==upperRight&&
-				pixelStrategy.validateColor(cross.getLeft())==left&&
-				pixelStrategy.validateColor(cross.getCenter())==center&&
-				pixelStrategy.validateColor(cross.getRight())==right&&
-				pixelStrategy.validateColor(cross.getLowerLeft())==lowerLeft&&
-				pixelStrategy.validateColor(cross.getDown())==down&&
-				pixelStrategy.validateColor(cross.getLowerRight())==lowerRight;
+		boolean result = pixelStrategy.validateColor(cross.getUpperLeft(), j-1, i-1)==upperLeft&&
+				pixelStrategy.validateColor(cross.getUp(), j, i-1)==up&&
+				pixelStrategy.validateColor(cross.getUpperRight(), j+1, i-1)==upperRight&&
+				pixelStrategy.validateColor(cross.getLeft(), j-1, i)==left&&
+				pixelStrategy.validateColor(cross.getCenter(), j, i)==center&&
+				pixelStrategy.validateColor(cross.getRight(), j+1, i)==right&&
+				pixelStrategy.validateColor(cross.getLowerLeft(), j-1, i+1)==lowerLeft&&
+				pixelStrategy.validateColor(cross.getDown(), j, i+1)==down&&
+				pixelStrategy.validateColor(cross.getLowerRight(), j+1, i+1)==lowerRight;
 
 		return result;
-	}	
+	}
 
-	public String getCrossString(Cross cross){
+	public String getCrossString(Cross cross) {
 
 		StringBuilder builder = new StringBuilder();
 
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperLeft())));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUp())));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperRight())));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLeft())));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getCenter())));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getRight())));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerLeft())));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getDown())));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerRight())));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperLeft(), 0, 0)));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUp(), 0, 0)));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperRight(), 0, 0)));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLeft(), 0, 0)));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getCenter(), 0, 0)));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getRight(), 0, 0)));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerLeft(), 0, 0)));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getDown(), 0, 0)));
+		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerRight(), 0, 0)));
 
 		return builder.toString();
 	}

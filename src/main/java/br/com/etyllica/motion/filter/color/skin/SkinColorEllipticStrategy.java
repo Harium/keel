@@ -19,12 +19,12 @@ public class SkinColorEllipticStrategy extends SimpleToleranceStrategy implement
 	}
 
 	@Override
-	public boolean validateColor(int rgb) {
+	public boolean validateColor(int rgb, int j, int i) {
 		return inEllipse(SKIN_ELLIPSE, rgb);
 	}
 	
 	@Override
-	public boolean strongValidateColor(int baseColor, int rgb) {
+	public boolean strongValidateColor(int baseColor, int rgb, int j, int i) {
 		return inEllipse(SKIN_STRONG_ELLIPSE, rgb);
 	}
 	

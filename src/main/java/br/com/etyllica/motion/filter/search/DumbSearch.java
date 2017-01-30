@@ -13,12 +13,14 @@ public class DumbSearch extends SearchFilter {
 
 		int w = component.getW();
 		int h = component.getH();
-		
-		for(int j=border;j<h-border;j++){
-		
-		for(int i=border;i<w-border;i++){
 
-				if(pixelStrategy.validateColor(bimg.getRGB(i, j))){
+
+		//Swap i,j
+		for(int j=border;j<h-border;j++){
+
+			for(int i=border;i<w-border;i++){
+
+				if(pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)){
 
 					lastComponent.setLocation(i, j);
 

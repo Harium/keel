@@ -22,8 +22,8 @@ public class NegativeColorStrategy extends ColorStrategy {
 	}
 	
 	@Override
-	public boolean validateColor(int rgb) {
-		return !super.validateColor(rgb);
+	public boolean validateColor(int rgb, int j, int i) {
+		return !super.validateColor(rgb, j, i);
 	}
 		
 }

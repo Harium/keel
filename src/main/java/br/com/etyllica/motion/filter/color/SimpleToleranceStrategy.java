@@ -25,8 +25,8 @@ public abstract class SimpleToleranceStrategy implements PixelStrategy {
 	}
 	
 	@Override
-	public boolean strongValidateColor(int rgb, int reference) {
-		return validateColor(rgb);
+	public boolean strongValidateColor(int rgb, int j, int i, int reference) {
+		return validateColor(rgb, j, i);
 	}
 		
 }

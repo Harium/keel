@@ -38,12 +38,12 @@ public class ColorStrategy extends ToleranceStrategy {
 	}
 
 	@Override
-	public boolean validateColor(int rgb) {
+	public boolean validateColor(int rgb, int j, int i) {
 		return isColor(rgb, this.color, minToleranceRed, maxToleranceRed, minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
 	}
 
 	@Override
-	public boolean strongValidateColor(int rgb, int reference) {
+	public boolean strongValidateColor(int rgb, int j, int i, int reference) {
 		int weakFactor = 2;
 		return isColor(rgb, reference, minToleranceRed/weakFactor, maxToleranceRed/weakFactor, minToleranceGreen/weakFactor, maxToleranceGreen/weakFactor, minToleranceBlue/weakFactor, maxToleranceBlue/weakFactor);
 	}

@@ -17,11 +17,12 @@ public class LeftToRightSearch extends SearchFilter {
 		int w = component.getW();
 		int h = component.getH();
 		
+		//TODO Swap i,j
 		for(int i=x+border;i<w-border;i++){
 
 			for(int j=y+border;j<h-border;j++){
 
-				if(pixelStrategy.validateColor(bimg.getRGB(i, j))){
+				if(pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)){
 
 					lastComponent.setLocation(i, j);
 

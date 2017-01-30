@@ -24,10 +24,10 @@ public class ComplexPixelStrategy implements PixelStrategy {
 	}
 
 	@Override
-	public boolean validateColor(int rgb) {
+	public boolean validateColor(int rgb, int j, int i) {
 		
 		for(PixelStrategy strategy: strategies) {
-			if (!strategy.validateColor(rgb)){
+			if (!strategy.validateColor(rgb, j, i)){
 				return false;
 			}
 		}	
@@ -35,8 +35,8 @@ public class ComplexPixelStrategy implements PixelStrategy {
 	}
 	
 	@Override
-	public boolean strongValidateColor(int rgb, int reference) {
-		return validateColor(rgb);
+	public boolean strongValidateColor(int rgb, int j, int i, int reference) {
+		return validateColor(rgb, j, i);
 	}
 	
 }

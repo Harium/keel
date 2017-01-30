@@ -24,11 +24,12 @@ public class TriangularSearch extends BooleanMaskSearch{
 		int w = component.getW()-border*2;
 		int h = component.getH()-border*2;
 		
+		//TODO Swap i,j
 		for(int j=y;j<h;j+=step){
 			
 			for(int i=x;i<w;i+=step){
 				
-				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))){
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)){
 					
 					int width = findHorizontalLimit(bimg, i, j, w);
 					
@@ -58,11 +59,12 @@ public class TriangularSearch extends BooleanMaskSearch{
 		int w = bimg.getWidth()-border*2;
 		int h = bimg.getHeight()-border*2;
 
+		//TODO Swap i,j
 		for(int j=y;j<h;j+=step){
 
 			for(int i=x;i<w;i+=step){
 
-				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j))){
+				if(!mask[i][j]&&pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)){
 					
 					int width = findHorizontalLimit(bimg, i, j, w);
 					
@@ -89,7 +91,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 		
 		for(int ni=i;ni<w;ni++){
 			
-			if(!mask[ni][j]&&pixelStrategy.validateColor(bimg.getRGB(ni, j))){
+			if(!mask[ni][j]&&pixelStrategy.validateColor(bimg.getRGB(ni, j), ni, j)){
 				totalWidth++;
 			}else{
 				break;
@@ -107,7 +109,7 @@ public class TriangularSearch extends BooleanMaskSearch{
 				
 		for(int nj=j;nj<h;nj++){
 			
-			if(!mask[i][nj]&&pixelStrategy.validateColor(bimg.getRGB(i, nj))){
+			if(!mask[i][nj]&&pixelStrategy.validateColor(bimg.getRGB(i, nj), i, nj)){
 				totalHeight++;
 			}else{
 				break;
