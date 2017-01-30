@@ -28,7 +28,7 @@ public class ImageMaskStrategy extends ToleranceStrategy {
 		}
 		int color = mask.getRGB(j, i);
 		
-		return ColorStrategy.isColor(rgb, color, minToleranceRed, maxToleranceRed, 
+		return !ColorStrategy.isColor(rgb, color, minToleranceRed, maxToleranceRed, 
 				minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
 	}
 
