@@ -53,4 +53,8 @@ public class SubtractiveFilter extends TrackingFilter {
 		maskStrategy.setMask(mask);
 	}
 
+	public int getTolerance() {
+		return tolerance;
+	}
+
 }
