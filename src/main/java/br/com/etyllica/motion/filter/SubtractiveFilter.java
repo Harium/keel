@@ -6,18 +6,26 @@ import br.com.etyllica.motion.core.source.ImageSource;
 import br.com.etyllica.motion.feature.Component;
 import br.com.etyllica.motion.filter.color.mask.ImageMaskStrategy;
 import br.com.etyllica.motion.filter.search.ColoredPointSearch;
+import br.com.etyllica.motion.filter.search.flood.SoftFloodFillSearch;
 
 public class SubtractiveFilter extends TrackingFilter {
 
+	protected int tolerance = 0x40;
 	protected ImageMaskStrategy maskStrategy;
-		
+	
 	public SubtractiveFilter(int w, int h) {
+		this(w, h, 0x40);
+	}
+	
+	public SubtractiveFilter(int w, int h, int tolerance) {
 		super(new ColoredPointSearch(w, h));
+		this.tolerance = tolerance;
 		
+		this.searchStrategy = new SoftFloodFillSearch(w, h);
 		maskStrategy = new ImageMaskStrategy();
 		searchStrategy.setPixelStrategy(maskStrategy);
 	}
-		
+	
 	public SubtractiveFilter(int w, int h, ImageSource source) {
 		this(w, h);
 		
@@ -33,6 +41,7 @@ public class SubtractiveFilter extends TrackingFilter {
 	}
 
 	public void setTolerance(int tolerance) {
+		this.tolerance = tolerance;
 		maskStrategy.setTolerance(tolerance);
 	}
 	
