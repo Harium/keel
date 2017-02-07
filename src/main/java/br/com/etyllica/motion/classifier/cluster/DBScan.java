@@ -9,8 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.motion.classifier.cluster.distance.DistanceMeasure;
-import br.com.etyllica.motion.classifier.cluster.distance.EuclideanDistance;
+import br.com.etyllica.storage.kdtree.KDTree;
+import br.com.etyllica.storage.kdtree.KeyDuplicateException;
+import br.com.etyllica.storage.kdtree.KeySizeException;
 
 /**
  * Forked from: http://alvinalexander.com/java/jwarehouse/commons-math3-3.6.1/src/main/java/org/apache/commons/math3/ml/clustering/DBSCANClusterer.java.shtml
@@ -23,8 +24,6 @@ public class DBScan {
 
     /** Minimum number of points needed for a cluster. */
     private final int minPts;
-    
-    private DistanceMeasure measure;
 
     /** Status of a point during the clustering process. */
     private enum PointStatus {
@@ -36,31 +35,17 @@ public class DBScan {
 
     /**
      * Creates a new instance of a DBSCANClusterer.
-     * <p>
-     * The euclidean distance will be used as default distance measure.
-     *
-     * @param eps maximum radius of the neighborhood to be considered
-     * @param minPts minimum number of points needed for a cluster
-     * @throws NotPositiveException if {@code eps < 0.0} or {@code minPts < 0}
-     */
-    public DBScan(final double eps, final int minPts) {
-        this(eps, minPts, new EuclideanDistance());
-    }
-
-    /**
-     * Creates a new instance of a DBSCANClusterer.
      *
      * @param eps maximum radius of the neighborhood to be considered
      * @param minPts minimum number of points needed for a cluster
      * @param measure the distance measure to use
      * @throws NotPositiveException if {@code eps < 0.0} or {@code minPts < 0}
      */
-    public DBScan(final double eps, final int minPts, final DistanceMeasure measure) {
+    public DBScan(final double eps, final int minPts) {
         super();
 
         this.eps = eps;
         this.minPts = minPts;
-        this.measure = measure;
     }
 
     /**
@@ -87,18 +72,34 @@ public class DBScan {
      * @throws NullArgumentException if the data points are null
      */
     public List<Cluster> cluster(final Collection<Point2D> points) {
-        final List<Cluster> clusters = new ArrayList<Cluster>();
+    	final List<Cluster> clusters = new ArrayList<Cluster>();
         final Map<Point2D, PointStatus> visited = new HashMap<Point2D, DBScan.PointStatus>();
 
+        KDTree<Point2D> tree = new KDTree<Point2D>(2);
+        
+        //Populate the kdTree
+        for (final Point2D point : points) {
+        	double[] key = {point.getX(), point.getY()};
+        	try {
+				tree.insert(key, point);
+			} catch (KeySizeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (KeyDuplicateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+                
         for (final Point2D point : points) {
             if (visited.get(point) != null) {
                 continue;
             }
-            final List<Point2D> neighbors = getNeighbors(point, points);
+            final List<Point2D> neighbors = getNeighbors(point, tree);
             if (neighbors.size() >= minPts) {
                 // DBSCAN does not care about center points
                 final Cluster cluster = new Cluster(clusters.size());
-                clusters.add(expandCluster(cluster, point, neighbors, points, visited));
+                clusters.add(expandCluster(cluster, point, neighbors, tree, visited));
             } else {
                 visited.put(point, PointStatus.NOISE);
             }
@@ -124,7 +125,7 @@ public class DBScan {
     private Cluster expandCluster(final Cluster cluster,
                                      final Point2D point,
                                      final List<Point2D> neighbors,
-                                     final Collection<Point2D> points,
+                                     final KDTree<Point2D> points,
                                      final Map<Point2D, PointStatus> visited) {
         cluster.addPoint(point);
         visited.put(point, PointStatus.PART_OF_CLUSTER);
@@ -159,19 +160,19 @@ public class DBScan {
      * @param points possible neighbors
      * @return the List of neighbors
      */
-    private List<Point2D> getNeighbors(final Point2D point, final Collection<Point2D> points) {
+    private List<Point2D> getNeighbors(final Point2D point, KDTree<Point2D> points) {
+    	double[] key = {point.getX(), point.getY()};
         final List<Point2D> neighbors = new ArrayList<Point2D>();
-        for (final Point2D neighbor : points) {
-            if (point != neighbor && distance(neighbor, point) <= eps) {
-                neighbors.add(neighbor);
-            }
-        }
-        return neighbors;
+        
+        try {
+			neighbors.addAll(points.nearestEuclidean(key, eps));
+		} catch (KeySizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return neighbors; 
     }
-
-    private double distance(Point2D a, Point2D b) {
-		return measure.distance(a, b);
-	}
 
 	/**
      * Merges two lists together.
