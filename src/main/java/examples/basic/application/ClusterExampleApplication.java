@@ -1,8 +1,9 @@
 package examples.basic.application;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.core.context.Application;
@@ -17,7 +18,7 @@ public class ClusterExampleApplication extends Application {
 
 	private boolean computing = false;
 	
-	private List<Point2D> points;
+	private Set<Point2D> points;
 	private List<Cluster> clusters;
 	
 	private DBScan clusterClassifier;
@@ -28,7 +29,7 @@ public class ClusterExampleApplication extends Application {
 		
 	@Override
 	public void load() {
-		points = new ArrayList<Point2D>();
+		points = new HashSet<Point2D>();
 		clusterClassifier = new DBScan(40, 5);
 						
 		loading = 100;
@@ -81,6 +82,7 @@ public class ClusterExampleApplication extends Application {
 		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
 			//Add a new Point to the list
 			points.add(new Point2D(event.getX(), event.getY()));
+			System.out.println("points "+points.size());
 		}
 		
 		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_RIGHT)) {
