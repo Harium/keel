@@ -60,7 +60,7 @@ public class DBScan {
      * Returns the minimum number of points needed for a cluster.
      * @return minimum number of points needed for a cluster
      */
-    public int getMinPts() {
+    public int getMinPoints() {
         return minPoints;
     }
 
