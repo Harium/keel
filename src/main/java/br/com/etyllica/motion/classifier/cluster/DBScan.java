@@ -20,10 +20,10 @@ import br.com.etyllica.storage.kdtree.KeySizeException;
 public class DBScan {
 
     /** Maximum radius of the neighborhood to be considered. */
-    private final double eps;
+    private double eps;
 
     /** Minimum number of points needed for a cluster. */
-    private final int minPts;
+    private int minPoints;
 
     /** Status of a point during the clustering process. */
     private enum PointStatus {
@@ -41,11 +41,11 @@ public class DBScan {
      * @param measure the distance measure to use
      * @throws NotPositiveException if {@code eps < 0.0} or {@code minPts < 0}
      */
-    public DBScan(final double eps, final int minPts) {
+    public DBScan(final double eps, final int minPoints) {
         super();
 
         this.eps = eps;
-        this.minPts = minPts;
+        this.minPoints = minPoints;
     }
 
     /**
@@ -61,7 +61,7 @@ public class DBScan {
      * @return minimum number of points needed for a cluster
      */
     public int getMinPts() {
-        return minPts;
+        return minPoints;
     }
 
     /**
@@ -96,7 +96,7 @@ public class DBScan {
                 continue;
             }
             final List<Point2D> neighbors = getNeighbors(point, tree);
-            if (neighbors.size() >= minPts) {
+            if (neighbors.size() >= minPoints) {
                 // DBSCAN does not care about center points
                 final Cluster cluster = new Cluster(clusters.size());
                 clusters.add(expandCluster(cluster, point, neighbors, tree, visited));
@@ -138,7 +138,7 @@ public class DBScan {
             // only check non-visited points
             if (pStatus == null) {
                 final List<Point2D> currentNeighbors = getNeighbors(current, points);
-                if (currentNeighbors.size() >= minPts) {
+                if (currentNeighbors.size() >= minPoints) {
                     seeds = merge(seeds, currentNeighbors);
                 }
             }
@@ -190,4 +190,12 @@ public class DBScan {
         }
         return one;
     }
+
+	public void setEps(double eps) {
+		this.eps = eps;
+	}
+	
+	public void setMinPoints(int minPoints) {
+		this.minPoints = minPoints;
+	}
 }
