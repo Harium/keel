@@ -9,6 +9,11 @@ public class Interval {
 		this.start = start;
 		this.end = end;
 	}
+	
+	public Interval(Interval interval) {
+		this.start = interval.start;
+		this.end = interval.end;
+	}
 
 	public int getStart() {
 		return start;
@@ -30,4 +35,8 @@ public class Interval {
 		return end - start;
 	}
 	
+	public void merge(Interval interval) {
+		start = Math.min(start, interval.getStart());
+		end = Math.max(end, interval.getEnd());
+	}
 }
