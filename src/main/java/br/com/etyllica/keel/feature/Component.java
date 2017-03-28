@@ -24,17 +24,18 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 	protected double sumY;
 
 	public Component() {
-		this(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		//Inverted to adapt the size adding points
+		this(Integer.MAX_VALUE, Integer.MAX_VALUE, 0, 0);
 	}
 
 	public Component(int w, int h) {
 		super();
 
-		highestX = 0;
-		highestY = 0;
+		highestX = w;
+		highestY = h;
 
-		lowestX = w;
-		lowestY = h;
+		lowestX = 0;
+		lowestY = 0;
 	}
 
 	public Component(int x, int y, int w, int h) {

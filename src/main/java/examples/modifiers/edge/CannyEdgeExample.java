@@ -17,7 +17,6 @@ public class CannyEdgeExample extends Etyllica {
 		example.init();
 	}
 
-	@Override
 	public Application startApplication() {
 		initialSetup("../");
 		

@@ -46,7 +46,6 @@ public class FloodFillSearch extends ComponentFilter {
 		this.maxNeighbors = maxNeighbors;
 	}
 
-	@Override
 	public Component filterFirst(ImageSource source, Component component) {
 		List<Component> list = filter(source, component);
 
@@ -71,7 +70,6 @@ public class FloodFillSearch extends ComponentFilter {
 		mask.reset();
 	}
 
-	@Override
 	public List<Component> filter(final ImageSource source, final Component component) {
 		this.setup(component.getW(), component.getH());
 		
