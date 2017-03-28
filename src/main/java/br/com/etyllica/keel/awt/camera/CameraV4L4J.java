@@ -96,12 +96,10 @@ public class CameraV4L4J implements CaptureCallback, Camera {
 		return frameGrabber;
 	}
 
-	@Override
 	public void exceptionReceived(V4L4JException e) {
 		e.printStackTrace();
 	}
 	
-	@Override
 	public void nextFrame(VideoFrame frame) {
  
 		buffer = frame.getBufferedImage();
