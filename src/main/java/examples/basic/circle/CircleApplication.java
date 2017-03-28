@@ -43,8 +43,6 @@ public class CircleApplication extends Application {
 
         CircleClassifier classifier = new CircleClassifier();
 
-        System.out.println(components.size());
-
         for (Component component : components) {
             if (classifier.classify(component)) {
                 circle.add(component);
