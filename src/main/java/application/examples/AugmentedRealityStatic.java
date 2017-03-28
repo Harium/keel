@@ -7,14 +7,14 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.motion.camera.FakeCamera;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.core.strategy.ComponentModifierStrategy;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.CornerSearch;
-import br.com.etyllica.motion.modifier.PositCoplanarModifier;
-import br.com.etyllica.motion.modifier.hull.AugmentedMarkerModifier;
+import br.com.etyllica.keel.awt.camera.FakeCamera;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.core.strategy.ComponentModifierStrategy;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.filter.color.ColorStrategy;
+import br.com.etyllica.keel.filter.search.CornerSearch;
+import br.com.etyllica.keel.modifier.PositCoplanarModifier;
+import br.com.etyllica.keel.modifier.hull.AugmentedMarkerModifier;
 
 public class AugmentedRealityStatic extends Application {
 

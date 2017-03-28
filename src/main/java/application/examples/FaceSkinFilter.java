@@ -12,15 +12,15 @@ import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.keel.awt.camera.Camera;
+import br.com.etyllica.keel.awt.camera.CameraV4L4J;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.filter.TrackingByMultipleColorFilter;
+import br.com.etyllica.keel.filter.validation.MinCountPoints;
+import br.com.etyllica.keel.filter.validation.MinDensityValidation;
+import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
 import br.com.etyllica.layer.ImageLayer;
-import br.com.etyllica.motion.camera.Camera;
-import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.TrackingByMultipleColorFilter;
-import br.com.etyllica.motion.filter.validation.MinCountPoints;
-import br.com.etyllica.motion.filter.validation.MinDensityValidation;
-import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
 
 public class FaceSkinFilter extends Application implements UpdateIntervalListener {
 

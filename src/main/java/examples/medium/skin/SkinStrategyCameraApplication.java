@@ -1,8 +1,8 @@
 package examples.medium.skin;
 
 import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.motion.camera.CameraSarxosWebcam;
-import br.com.etyllica.motion.feature.Component;
+import br.com.etyllica.keel.awt.camera.CameraSarxosWebcam;
+import br.com.etyllica.keel.feature.Component;
 
 public class SkinStrategyCameraApplication extends SimpleFaceFinderApplication {
 	

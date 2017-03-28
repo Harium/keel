@@ -12,16 +12,16 @@ import java.util.List;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.motion.classifier.ColorClassifier;
-import br.com.etyllica.motion.classifier.PolygonClassifier;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.feature.hull.HullComponent;
-import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.filter.search.flood.SoftFloodFillSearch;
-import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
-import br.com.etyllica.motion.modifier.hull.HullModifier;
-import br.com.etyllica.motion.modifier.hull.PathCompressionModifier;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.classifier.ColorClassifier;
+import br.com.etyllica.keel.classifier.PolygonClassifier;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.feature.hull.HullComponent;
+import br.com.etyllica.keel.filter.ColorFilter;
+import br.com.etyllica.keel.filter.search.flood.SoftFloodFillSearch;
+import br.com.etyllica.keel.modifier.hull.FastConvexHullModifier;
+import br.com.etyllica.keel.modifier.hull.HullModifier;
+import br.com.etyllica.keel.modifier.hull.PathCompressionModifier;
 
 public class ColoredGeometricFormApplication extends Application {
 

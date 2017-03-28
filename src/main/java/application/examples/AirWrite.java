@@ -13,13 +13,13 @@ import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.core.gesture.GestureRegex;
-import br.com.etyllica.motion.core.gesture.PolygonMatcher;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.ColoredPointSearch;
+import br.com.etyllica.keel.awt.camera.CameraV4L4J;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.core.gesture.GestureRegex;
+import br.com.etyllica.keel.core.gesture.PolygonMatcher;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.filter.color.ColorStrategy;
+import br.com.etyllica.keel.filter.search.ColoredPointSearch;
 
 public class AirWrite extends Application {
 

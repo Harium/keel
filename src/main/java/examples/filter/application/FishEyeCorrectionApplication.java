@@ -4,9 +4,9 @@ import java.awt.image.BufferedImage;
 
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphics;
+import br.com.etyllica.keel.image.SimpleFishEyeCorrectionFilter;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.loader.image.ImageLoader;
-import br.com.etyllica.motion.filter.image.SimpleFishEyeCorrectionFilter;
 
 public class FishEyeCorrectionApplication extends Application {
 

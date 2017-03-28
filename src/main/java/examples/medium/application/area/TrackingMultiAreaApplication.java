@@ -12,16 +12,16 @@ import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.motion.camera.Camera;
-import br.com.etyllica.motion.camera.FakeCamera;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.flood.SoftFloodFillSearch;
-import br.com.etyllica.motion.filter.validation.MaxDimensionValidation;
-import br.com.etyllica.motion.filter.validation.MinDensityValidation;
-import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
+import br.com.etyllica.keel.awt.camera.Camera;
+import br.com.etyllica.keel.awt.camera.FakeCamera;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.filter.ColorFilter;
+import br.com.etyllica.keel.filter.color.ColorStrategy;
+import br.com.etyllica.keel.filter.search.flood.SoftFloodFillSearch;
+import br.com.etyllica.keel.filter.validation.MaxDimensionValidation;
+import br.com.etyllica.keel.filter.validation.MinDensityValidation;
+import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
 
 public class TrackingMultiAreaApplication extends Application {
 

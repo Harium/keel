@@ -8,12 +8,12 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.motion.camera.FakeCamera;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.search.flood.FloodFillSearch;
-import br.com.etyllica.motion.modifier.EnvelopeModifier;
+import br.com.etyllica.keel.awt.camera.FakeCamera;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.filter.color.ColorStrategy;
+import br.com.etyllica.keel.filter.search.flood.FloodFillSearch;
+import br.com.etyllica.keel.modifier.EnvelopeModifier;
 
 public class MagicWandStatic extends Application {
 

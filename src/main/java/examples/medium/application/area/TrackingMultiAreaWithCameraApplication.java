@@ -3,10 +3,10 @@ package examples.medium.application.area;
 import java.awt.image.BufferedImage;
 
 import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.keel.awt.camera.CameraSarxosWebcam;
+import br.com.etyllica.keel.awt.camera.CameraV4L4J;
+import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.layer.BufferedLayer;
-import br.com.etyllica.motion.camera.CameraSarxosWebcam;
-import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.feature.Component;
 
 
 public class TrackingMultiAreaWithCameraApplication extends TrackingMultiAreaApplication {

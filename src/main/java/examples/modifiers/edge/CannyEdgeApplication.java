@@ -7,12 +7,12 @@ import java.util.List;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.core.source.ImageSource;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.modifier.edge.CannyEdgeModifier;
+import br.com.etyllica.keel.modifier.edge.EdgeModifier;
 import br.com.etyllica.loader.image.ImageLoader;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.core.source.ImageSource;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.modifier.edge.CannyEdgeModifier;
-import br.com.etyllica.motion.modifier.edge.EdgeModifier;
 
 public class CannyEdgeApplication extends Application {
 
@@ -29,7 +29,6 @@ public class CannyEdgeApplication extends Application {
 	@Override
 	public void load() {
 		BufferedImage image = ImageLoader.getInstance().getImage("hand/dorso.jpg");
-		
 		source = new BufferedImageSource(image);
 		screen = new Component(0, 0, image.getWidth(), image.getHeight());
 		

@@ -9,15 +9,15 @@ import java.util.Map;
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.core.SearchStrategy;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.filter.ColorFilter;
+import br.com.etyllica.keel.modifier.ogr.LetterOGRModifier;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.linear.graph.WeightEdge;
-import br.com.etyllica.motion.core.SearchStrategy;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.ColorFilter;
-import br.com.etyllica.motion.modifier.ogr.LetterOGRModifier;
 
 public class OGRApplication extends Application {
 

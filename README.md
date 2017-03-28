@@ -1,7 +1,7 @@
-E-Motion
+Keel
 ========
 
-E-Motion is a Java Image Processing Library built over [Etyllica](https://github.com/yuripourre/etyllica/).
+Keel is a Java Image Processing Library built over [Etyllica](https://github.com/yuripourre/etyllica/).
 
 Comparing to other computer vision libraries it is:
 
@@ -11,7 +11,7 @@ Comparing to other computer vision libraries it is:
 - probably slower
 
 ### Main Goal:
-The main goal is port widely known algorithms to Java and create a tool to help programmers to work with image processing/computer vision. If you are looking for an ultrafast library, try [OpenCV](http://opencv.org/) instead.
+The main goal is port widely known algorithms to Java and create a tool to help Java programmers to work with image processing/computer vision.
 
 
 ### Related Projects:
@@ -29,4 +29,4 @@ The main goal is port widely known algorithms to Java and create a tool to help 
 - For more details, see the [wiki](https://github.com/yuripourre/e-motion/wiki/) or some [examples](https://github.com/yuripourre/e-motion/wiki/Examples).
 
 ### License:
-- [GPL](https://www.gnu.org/copyleft/gpl.html)
+- [LGPL](https://www.gnu.org/licenses/lgpl-3.0.en.html)

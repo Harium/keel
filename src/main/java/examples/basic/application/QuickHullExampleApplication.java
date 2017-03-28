@@ -9,9 +9,9 @@ import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.feature.hull.HullComponent;
-import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.feature.hull.HullComponent;
+import br.com.etyllica.keel.modifier.hull.FastConvexHullModifier;
 
 public class QuickHullExampleApplication extends Application {
 

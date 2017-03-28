@@ -11,8 +11,8 @@ import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.motion.classifier.cluster.Cluster;
-import br.com.etyllica.motion.classifier.cluster.DBScan;
+import br.com.etyllica.keel.classifier.cluster.Cluster;
+import br.com.etyllica.keel.classifier.cluster.DBScan;
 
 public class ClusterExampleApplication extends Application {
 

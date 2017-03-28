@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<project name="E-Motion" default="dist" basedir=".">
+<project name="Keel" default="dist" basedir=".">
 
-	<property name="version"  value="0.9.3" />
+	<property name="version"  value="0.9.4" />
 
-	<property name="libcore"  value="e-motion-${version}" />
+	<property name="libcore"  value="keel-${version}" />
 
 	<property name="src.dir"     value="src/main/java" />
 	<property name="test.dir"    value="src/test/java" />
@@ -49,8 +49,8 @@
 	<target name="package" depends="init, compile">
 		<jar destfile="${lib.dir}/${libcore}.jar">
 			<fileset dir="${build.dir}">
-				<include name="**/br/com/etyllica/motion/*"/>
-				<include name="**/br/com/etyllica/motion/**"/>
+				<include name="**/br/com/etyllica/keel/*"/>
+				<include name="**/br/com/etyllica/keel/**"/>
 				<include name="**/org/opencv/*"/>
 				<include name="**/org/opencv/**"/>
 				<include name="**/jama/*"/>

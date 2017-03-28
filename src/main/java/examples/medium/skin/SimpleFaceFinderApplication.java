@@ -14,18 +14,18 @@ import br.com.etyllica.core.event.MouseEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.motion.camera.Camera;
-import br.com.etyllica.motion.camera.FakeCamera;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.core.strategy.SearchFilter;
-import br.com.etyllica.motion.custom.AverageColorFilter;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.ExpandableColorFilter;
-import br.com.etyllica.motion.filter.HardColorFilter;
-import br.com.etyllica.motion.filter.SkinColorFilter;
-import br.com.etyllica.motion.filter.color.ColorStrategy;
-import br.com.etyllica.motion.filter.color.skin.SkinColorKovacNewStrategy;
-import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
+import br.com.etyllica.keel.awt.camera.Camera;
+import br.com.etyllica.keel.awt.camera.FakeCamera;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.core.strategy.SearchFilter;
+import br.com.etyllica.keel.custom.AverageColorFilter;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.filter.ExpandableColorFilter;
+import br.com.etyllica.keel.filter.HardColorFilter;
+import br.com.etyllica.keel.filter.SkinColorFilter;
+import br.com.etyllica.keel.filter.color.ColorStrategy;
+import br.com.etyllica.keel.filter.color.skin.SkinColorKovacNewStrategy;
+import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
 
 public class SimpleFaceFinderApplication extends Application {
 

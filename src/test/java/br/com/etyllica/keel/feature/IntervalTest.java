@@ -1,0 +1,20 @@
+package br.com.etyllica.keel.feature;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import br.com.etyllica.keel.feature.Interval;
+
+public class IntervalTest {
+
+	@Test
+	public void testMerge() {
+		Interval interval = new Interval(0, 2);
+		Interval otherInterval = new Interval(1, 20);
+		
+		interval.merge(otherInterval);
+		Assert.assertEquals(0, interval.getStart());
+		Assert.assertEquals(20, interval.getEnd());
+	}
+	
+}

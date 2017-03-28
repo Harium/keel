@@ -10,16 +10,16 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.custom.AverageColorFilter;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.feature.hull.HullComponent;
+import br.com.etyllica.keel.filter.TrackingByDarkerColorFilter;
+import br.com.etyllica.keel.filter.validation.MaxDimensionValidation;
+import br.com.etyllica.keel.filter.validation.MinDensityValidation;
+import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
+import br.com.etyllica.keel.modifier.hull.FastConvexHullModifier;
 import br.com.etyllica.layer.BufferedLayer;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.custom.AverageColorFilter;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.feature.hull.HullComponent;
-import br.com.etyllica.motion.filter.TrackingByDarkerColorFilter;
-import br.com.etyllica.motion.filter.validation.MaxDimensionValidation;
-import br.com.etyllica.motion.filter.validation.MinDensityValidation;
-import br.com.etyllica.motion.filter.validation.MinDimensionValidation;
-import br.com.etyllica.motion.modifier.hull.FastConvexHullModifier;
 
 public class MelanomaFinderApplication extends Application {
 

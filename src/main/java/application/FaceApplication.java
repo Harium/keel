@@ -8,12 +8,12 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.keel.awt.camera.CameraV4L4J;
+import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.feature.Component;
+import br.com.etyllica.keel.filter.ColorPointFilter;
 import br.com.etyllica.layer.ImageLayer;
 import br.com.etyllica.layer.Layer;
-import br.com.etyllica.motion.camera.CameraV4L4J;
-import br.com.etyllica.motion.core.source.BufferedImageSource;
-import br.com.etyllica.motion.feature.Component;
-import br.com.etyllica.motion.filter.ColorPointFilter;
 
 
 public class FaceApplication extends Application {
