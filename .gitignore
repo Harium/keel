@@ -4,6 +4,10 @@
 .classpath
 .project
 
+# intelliJ Files
+*.iml
+.idea/*
+
 # Automatic generated Files#
 *.applet
 *.html
