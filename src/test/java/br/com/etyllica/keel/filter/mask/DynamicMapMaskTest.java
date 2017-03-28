@@ -1,10 +1,10 @@
-package br.com.etyllica.keel.filter.dynamic;
+package br.com.etyllica.keel.filter.mask;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.etyllica.keel.core.dynamic.DynamicMapMask;
+import br.com.etyllica.keel.core.mask.DynamicMapMask;
 
 public class DynamicMapMaskTest {
 

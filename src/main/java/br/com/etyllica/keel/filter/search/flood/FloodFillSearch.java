@@ -6,8 +6,8 @@ import java.util.Queue;
 
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.keel.core.ComponentFilter;
-import br.com.etyllica.keel.core.dynamic.DynamicArrayMask;
-import br.com.etyllica.keel.core.dynamic.DynamicMask;
+import br.com.etyllica.keel.core.mask.DynamicArrayMask;
+import br.com.etyllica.keel.core.mask.DynamicMask;
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.color.ColorStrategy;

@@ -1,9 +1,9 @@
-package br.com.etyllica.keel.filter.dynamic;
+package br.com.etyllica.keel.filter.mask;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.etyllica.keel.feature.DynamicPixel;
+import br.com.etyllica.keel.core.mask.DynamicPixel;
 
 public class DynamicPixelTest {
 
