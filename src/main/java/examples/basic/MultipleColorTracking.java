@@ -7,15 +7,14 @@ import examples.basic.application.MultipleTrackingApplication;
 
 public class MultipleColorTracking extends EtyllicaApplet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MultipleColorTracking() {
-		super(800, 480);
-	}
+    public MultipleColorTracking() {
+        super(800, 480);
+    }
 
-	@Override
-	public Application startApplication() {
-		return new MultipleTrackingApplication(w,h);
-	}	
+    public Application startApplication() {
+        return new MultipleTrackingApplication(w, h);
+    }
 
 }

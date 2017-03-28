@@ -20,7 +20,6 @@ public class FindSkinColor extends Etyllica {
 		finder.init();
 	}
 
-	@Override
 	public Application startApplication() {
 		initialSetup("../");
 		//return new SimpleSkinStrategyApplication(w, h);

@@ -13,12 +13,9 @@ public class MicroscopyNeubauer extends EtyllicaApplet {
 		super(1280,720);
 	}
 
-	@Override
 	public Application startApplication() {
-				
-		String s = getClass().getResource("").toString();
-				
-		setPath(s+"../../");
+
+		initialSetup("../../");
 		
 		//return new EmptyNeubauerApplication(w,h);
 		return new BloodSampleNeubauerApplication(w,h);

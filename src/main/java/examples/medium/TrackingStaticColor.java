@@ -18,7 +18,6 @@ public class TrackingStaticColor extends Etyllica {
 		finder.init();
 	}
 
-	@Override
 	public Application startApplication() {
 		initialSetup("../");
 		//return new TrackingShadingColorApplication(w,h);

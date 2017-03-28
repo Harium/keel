@@ -1,4 +1,4 @@
-package application;
+package examples.misc;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -59,7 +59,6 @@ public class HollowController extends Application implements UpdateIntervalListe
 
 	}
 
-	@Override
 	public void timeUpdate(long now){
 		System.out.println("TIME UPDATE");
 	}

@@ -1,4 +1,4 @@
-package application;
+package examples.misc;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

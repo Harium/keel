@@ -7,15 +7,14 @@ import examples.basic.application.SubcomponentApplication;
 
 public class SubcomponentTracking extends EtyllicaApplet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public SubcomponentTracking() {
-		super(800, 480);
-	}
+    public SubcomponentTracking() {
+        super(800, 480);
+    }
 
-	@Override
-	public Application startApplication() {
-		return new SubcomponentApplication(w,h);
-	}	
+    public Application startApplication() {
+        return new SubcomponentApplication(w, h);
+    }
 
 }

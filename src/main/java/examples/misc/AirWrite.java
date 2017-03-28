@@ -1,4 +1,4 @@
-package application.examples;
+package examples.misc;
 
 import java.awt.Color;
 import java.awt.geom.AffineTransform;

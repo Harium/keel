@@ -13,12 +13,8 @@ public class MicroscopyWellPlate extends EtyllicaApplet {
 		super(1280,720);
 	}
 
-	@Override
 	public Application startApplication() {
-				
-		String s = getClass().getResource("").toString();
-				
-		setPath(s+"../../");
+		initialSetup("../../");
 		
 		return new EmptyWellPlateApplication(w,h);		
 		

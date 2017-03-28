@@ -13,7 +13,6 @@ public class ClusterExample extends EtyllicaApplet {
 		super(800, 480);
 	}
 
-	@Override
 	public Application startApplication() {
 		return new ClusterExampleApplication(w, h);
 	}	

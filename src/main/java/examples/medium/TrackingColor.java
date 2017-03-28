@@ -20,7 +20,6 @@ public class TrackingColor extends Etyllica {
 		
 	}
 
-	@Override
 	public Application startApplication() {
 		
 		initialSetup("../../../../");

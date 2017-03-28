@@ -1,8 +1,6 @@
 
 
-import examples.medium.ogr.OGRApplication;
 import examples.medium.skin.SkinGraphic;
-import application.examples.AugmentedRealityStatic;
 import br.com.etyllica.EtyllicaApplet;
 import br.com.etyllica.core.context.Application;
 
@@ -13,7 +11,6 @@ public class EtyllicMotion extends EtyllicaApplet {
 		//super(256,256);
 	}
 
-	@Override
 	public Application startApplication() {
 		
 		initialSetup("../../");

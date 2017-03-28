@@ -7,17 +7,14 @@ import examples.basic.application.MiddleLineExampleApplication;
 
 public class MiddleLine extends EtyllicaApplet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public MiddleLine() {
-		super(800, 480);
-	}
+    public MiddleLine() {
+        super(800, 480);
+    }
 
-	@Override
-	public Application startApplication() {
-		
-		return new MiddleLineExampleApplication(w,h);
-		
-	}	
+    public Application startApplication() {
+        return new MiddleLineExampleApplication(w, h);
+    }
 
 }

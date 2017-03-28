@@ -7,15 +7,14 @@ import examples.basic.application.QuickHullExampleApplication;
 
 public class QuickHull extends EtyllicaApplet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public QuickHull() {
-		super(800, 480);
-	}
+    public QuickHull() {
+        super(800, 480);
+    }
 
-	@Override
-	public Application startApplication() {
-		return new QuickHullExampleApplication(w,h);
-	}	
+    public Application startApplication() {
+        return new QuickHullExampleApplication(w, h);
+    }
 
 }

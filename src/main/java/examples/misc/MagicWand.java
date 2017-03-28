@@ -1,25 +1,29 @@
-package application.examples;
+package examples.misc;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.List;
 
 import br.com.etyllica.core.context.Application;
+import br.com.etyllica.core.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.core.event.MouseEvent;
+import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.keel.awt.camera.FakeCamera;
+import br.com.etyllica.keel.awt.camera.Camera;
+import br.com.etyllica.keel.awt.camera.CameraV4L4J;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.search.flood.FloodFillSearch;
 import br.com.etyllica.keel.modifier.EnvelopeModifier;
+import br.com.etyllica.layer.BufferedLayer;
 
-public class MagicWandStatic extends Application {
+public class MagicWand extends Application implements UpdateIntervalListener {
 
-	private FakeCamera cam;
+	private Camera cam;
 	private BufferedImageSource source = new BufferedImageSource();
-
+	
 	private FloodFillSearch cornerFilter;
 
 	private ColorStrategy colorStrategy;
@@ -32,11 +36,11 @@ public class MagicWandStatic extends Application {
 	private int xOffset = 40;
 	private int yOffset = 40;
 
-	private final int IMAGES_TO_LOAD = 7;
+	private Component feature;
 
-	private List<Component> features;
+	private BufferedLayer mirror;
 
-	public MagicWandStatic(int w, int h) {
+	public MagicWand(int w, int h) {
 		super(w, h);
 	}
 
@@ -45,11 +49,7 @@ public class MagicWandStatic extends Application {
 
 		loadingInfo = "Loading Images";
 
-		cam = new FakeCamera();
-
-		for(int i=0;i<IMAGES_TO_LOAD;i++){
-			cam.addImage("/wand/wand"+Integer.toString(i)+".png");
-		}
+		cam = new CameraV4L4J();
 
 		loading = 25;
 
@@ -73,9 +73,28 @@ public class MagicWandStatic extends Application {
 
 		cornerFilter.setComponentModifierStrategy(modifier);
 
+		feature = new Component(0, 0, w, h);
+
+		mirror = new BufferedLayer(0, 0);
+
 		reset(cam.getBufferedImage());
 
+		updateAtFixedRate(20, this);
+
 		loading = 100;
+	}
+
+	@Override
+	public void timeUpdate(long now) {
+
+		//Get the Camera image
+		mirror.setBuffer(cam.getBufferedImage());
+
+		//Normally the camera shows the image flipped, but we want to see something like a mirror
+		//So we flip the image
+		mirror.flipHorizontal();
+		
+		reset(mirror.getBuffer());
 	}
 
 	private void reset(BufferedImage b){
@@ -83,10 +102,9 @@ public class MagicWandStatic extends Application {
 		loading = 60;
 
 		loadingInfo = "Start Filter";
-
 		source.setImage(b);
 		
-		features = cornerFilter.filter(source, new Component(0, 0, w, h));
+		feature = cornerFilter.filterFirst(source, new Component(0, 0, w, h));
 
 		loading = 65;
 		loadingInfo = "Show Result";
@@ -96,17 +114,18 @@ public class MagicWandStatic extends Application {
 	}
 
 	@Override
+	public void updateMouse(PointerEvent event) {
+
+		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)){
+			//When mouse clicks with LeftButton, the color filter tries to find
+			//the color we are clicking on
+			colorStrategy.setColor(mirror.getBuffer().getRGB((int)event.getX(), (int)event.getY()));
+
+		}
+	}
+
+	@Override
 	public void updateKeyboard(KeyEvent event) {
-
-		if(event.isKeyDown(KeyEvent.VK_RIGHT_ARROW)){
-			cam.nextFrame();
-			reset(cam.getBufferedImage());
-		}
-
-		else if(event.isKeyDown(KeyEvent.VK_LEFT_ARROW)){
-			cam.previousFrame();
-			reset(cam.getBufferedImage());
-		}
 
 		if(event.isKeyDown(KeyEvent.VK_H)){
 			hide = !hide;
@@ -120,27 +139,21 @@ public class MagicWandStatic extends Application {
 	@Override
 	public void draw(Graphics g) {
 
-		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
+		mirror.draw(g);
 
-		g.setColor(Color.BLACK);
-		
-		g.drawString("Angle = "+modifier.getAngle(), 50, 25);
-		
 		g.setColor(Color.BLUE);
-		
-		for(Component feature: features){
 
-			for(Point2D ponto: feature.getPoints()){
-				g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
-			}
+		for(Point2D ponto: feature.getPoints()){
+			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
+		}
 
-			if(feature.getPoints().size()>3){	
+		if(feature.getPoints().size()>3){			
 
-				drawBox(g, feature);
+			drawBox(g, feature);
 
-				g.drawString("Points = "+feature.getPoints().size(), 50, 50);
+			g.drawString("Angle = "+modifier.getAngle(), 50, 25);
 
-			}
+			g.drawString("Points = "+feature.getPoints().size(), 50, 50);
 
 		}
 

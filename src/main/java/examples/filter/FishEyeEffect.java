@@ -12,7 +12,6 @@ public class FishEyeEffect extends EtyllicaApplet {
 		super(800, 480);
 	}
 
-	@Override
 	public Application startApplication() {
 		
 		initialSetup("../../");

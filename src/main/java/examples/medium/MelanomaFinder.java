@@ -18,7 +18,6 @@ public class MelanomaFinder extends Etyllica {
 		finder.init();
 	}
 
-	@Override
 	public Application startApplication() {
 				
 		initialSetup("../../../../");
