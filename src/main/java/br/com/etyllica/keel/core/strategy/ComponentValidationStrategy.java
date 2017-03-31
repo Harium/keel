@@ -4,6 +4,6 @@ import br.com.etyllica.keel.feature.Component;
 
 public interface ComponentValidationStrategy {
 
-	public boolean validate(Component component);
+	boolean validate(Component component);
 	
 }

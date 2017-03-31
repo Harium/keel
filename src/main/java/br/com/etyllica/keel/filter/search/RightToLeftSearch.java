@@ -1,47 +1,51 @@
 package br.com.etyllica.keel.filter.search;
 
-import java.util.List;
-
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.core.strategy.SearchFilter;
 import br.com.etyllica.keel.feature.Component;
 
-public class RightToLeftSearch extends SearchFilter{
+import java.util.List;
 
-	public Component filterFirst(ImageSource bimg, Component component){
-		super.setup(component.getW(), component.getH());
-		
-		int x = component.getLowestX();
-		int y = component.getLowestY();
+public class RightToLeftSearch extends SearchFilter {
 
-		int w = component.getW();
-		int h = component.getH();
-		
-		//TODO Swap i,j
-		for(int i=w-border;i>x+border;i-=step){
+    public Component filterFirst(ImageSource bimg, Component component) {
+        super.setup(component.getW(), component.getH());
 
-			for(int j=y+border;j<h-border;j+=step){
+        int x = component.getLowestX();
+        int y = component.getLowestY();
 
-				if(pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)){
+        int w = component.getW();
+        int h = component.getH();
 
-					lastComponent.setLocation(i, j);
+        //TODO Swap i,j
+        for (int i = w - border; i > x + border; i -= step) {
 
-					return lastComponent;
+            for (int j = y + border; j < h - border; j += step) {
 
-				}
+                if (!maskStrategy.validateMask(i, j)) {
+                    continue;
+                }
 
-			}
+                if (pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)) {
 
-		}
+                    lastComponent.setLocation(i, j);
 
-		return lastComponent;
+                    return lastComponent;
 
-	}
-	
-	@Override
-	public List<Component> filter(ImageSource bimg, Component component) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                }
+
+            }
+
+        }
+
+        return lastComponent;
+
+    }
+
+    @Override
+    public List<Component> filter(ImageSource bimg, Component component) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

@@ -2,7 +2,7 @@ package br.com.etyllica.keel.filter.dummy;
 
 import br.com.etyllica.keel.filter.SoftPixelStrategy;
 
-public class DummyColorFilter implements SoftPixelStrategy {
+public class DummyPixelStrategy implements SoftPixelStrategy {
 
 	@Override
 	public boolean validateColor(int rgb, int j, int i) {

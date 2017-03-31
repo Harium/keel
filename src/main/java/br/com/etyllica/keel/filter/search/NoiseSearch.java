@@ -1,101 +1,105 @@
 package br.com.etyllica.keel.filter.search;
 
 
-import java.util.List;
-
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.feature.Component;
 
+import java.util.List;
+
 public class NoiseSearch extends PolygonalSearch {
 
-	private int radius = 20;
+    private int radius = 20;
 
-	private int minNeighboors = 0;
-	private int maxNeighboors = Integer.MAX_VALUE;
+    private int minNeighboors = 0;
+    private int maxNeighboors = Integer.MAX_VALUE;
 
-	public NoiseSearch(int w, int h) {
-		super(w, h);
-		// TODO Auto-generated constructor stub
-	}
+    public NoiseSearch(int w, int h) {
+        super(w, h);
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public Component filterFirst(ImageSource bimg, Component component) {
-		// TODO Auto-generated method stub
-		return filter(bimg, component).get(0);
-	}	
-	
-	@Override
-	public List<Component> filter(ImageSource bimg, Component component) {
-		super.setup(component.getW(), component.getH());
+    @Override
+    public Component filterFirst(ImageSource bimg, Component component) {
+        // TODO Auto-generated method stub
+        return filter(bimg, component).get(0);
+    }
 
-		Component poly = new Component(w, h);
+    @Override
+    public List<Component> filter(ImageSource bimg, Component component) {
+        super.setup(component.getW(), component.getH());
 
-		List<Point2D> points = component.getPoints();
+        Component poly = new Component(w, h);
 
-		for(int i=0;i<points.size()-1;i++){
+        List<Point2D> points = component.getPoints();
 
-			Point2D point = points.get(i);
+        for (int i = 0; i < points.size() - 1; i++) {
 
-			int neighboors = 0;
+            Point2D point = points.get(i);
 
-			for(int j=i+1;j<points.size();j++){
+            int neighboors = 0;
 
-				Point2D pointJ = points.get(j);
+            for (int j = i + 1; j < points.size(); j++) {
 
-				if(insideCircle(point.getX(), point.getY(), radius, pointJ.getX(), pointJ.getY())){
+                Point2D pointJ = points.get(j);
 
-					neighboors++;
+                if (!maskStrategy.validateMask(i, j)) {
+                    continue;
+                }
 
-					if(neighboors>=minNeighboors&&neighboors<maxNeighboors){
+                if (insideCircle(point.getX(), point.getY(), radius, pointJ.getX(), pointJ.getY())) {
 
-						polygon.addPoint((int)point.getX(), (int)point.getY());
-						poly.add(point);
-						break;
-					}
+                    neighboors++;
 
-				}
+                    if (neighboors >= minNeighboors && neighboors < maxNeighboors) {
 
-			}
+                        polygon.addPoint((int) point.getX(), (int) point.getY());
+                        poly.add(point);
+                        break;
+                    }
 
-		}
+                }
 
-		result.add(poly);
+            }
 
-		return result;
-	}
+        }
 
-	private boolean insideCircle(double cx, double cy, double radius, double px, double py){
+        result.add(poly);
 
-		double difX = (px - cx)*(px - cx);
-		double difY = (py - cy)*(py - cy);
+        return result;
+    }
 
-		return difX + difY < radius*radius;
+    private boolean insideCircle(double cx, double cy, double radius, double px, double py) {
 
-	}
+        double difX = (px - cx) * (px - cx);
+        double difY = (py - cy) * (py - cy);
 
-	public int getRadius() {
-		return radius;
-	}
+        return difX + difY < radius * radius;
 
-	public void setRadius(int radius) {
-		this.radius = radius;
-	}
+    }
 
-	public int getMinNeighboors() {
-		return minNeighboors;
-	}
+    public int getRadius() {
+        return radius;
+    }
 
-	public void setMinNeighboors(int minNeighboors) {
-		this.minNeighboors = minNeighboors;
-	}
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
 
-	public int getMaxNeighboors() {
-		return maxNeighboors;
-	}
+    public int getMinNeighboors() {
+        return minNeighboors;
+    }
 
-	public void setMaxNeighboors(int maxNeighboors) {
-		this.maxNeighboors = maxNeighboors;
-	}
+    public void setMinNeighboors(int minNeighboors) {
+        this.minNeighboors = minNeighboors;
+    }
+
+    public int getMaxNeighboors() {
+        return maxNeighboors;
+    }
+
+    public void setMaxNeighboors(int maxNeighboors) {
+        this.maxNeighboors = maxNeighboors;
+    }
 
 }

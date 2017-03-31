@@ -127,7 +127,10 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 
 	}
 
-	protected boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {		
+	protected boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {
+		if (!maskStrategy.validateMask(px, py)) {
+			mask.setInvalid(px, py);
+		}
 		if(mask.isUnknown(px, py)) {
 			if(pixelStrategy.validateColor(rgb, px, py)) {
 				mask.setValid(px, py);

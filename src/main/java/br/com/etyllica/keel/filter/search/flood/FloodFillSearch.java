@@ -1,9 +1,5 @@
 package br.com.etyllica.keel.filter.search.flood;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.keel.core.ComponentFilter;
 import br.com.etyllica.keel.core.mask.DynamicArrayMask;
@@ -12,229 +8,236 @@ import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 public class FloodFillSearch extends ComponentFilter {
 
-	protected int minNeighbors = 1;
+    protected int minNeighbors = 1;
 
-	protected int maxNeighbors = 9;
+    protected int maxNeighbors = 9;
 
-	private Component lastComponent;
-	
-	protected Component boundary;
+    private Component lastComponent;
 
-	protected DynamicMask mask;
+    protected Component boundary;
 
-	public FloodFillSearch(int w, int h) {
-		super(w, h, new ColorStrategy());
+    protected DynamicMask mask;
 
-		mask = new DynamicArrayMask(w, h);
-	}
+    public FloodFillSearch(int w, int h) {
+        super(w, h, new ColorStrategy());
 
-	public FloodFillSearch(int w, int h, int minNeighbors) {
-		super(w, h, new ColorStrategy());
+        mask = new DynamicArrayMask(w, h);
+    }
 
-		mask = new DynamicArrayMask(w, h);
+    public FloodFillSearch(int w, int h, int minNeighbors) {
+        super(w, h, new ColorStrategy());
 
-		this.minNeighbors = minNeighbors;
-	}
+        mask = new DynamicArrayMask(w, h);
 
-	public FloodFillSearch(int w, int h, int minNeighbors, int maxNeighbors) {
-		super(w, h, new ColorStrategy());
+        this.minNeighbors = minNeighbors;
+    }
 
-		this.minNeighbors = minNeighbors;
+    public FloodFillSearch(int w, int h, int minNeighbors, int maxNeighbors) {
+        super(w, h, new ColorStrategy());
 
-		this.maxNeighbors = maxNeighbors;
-	}
+        this.minNeighbors = minNeighbors;
 
-	public Component filterFirst(ImageSource source, Component component) {
-		List<Component> list = filter(source, component);
+        this.maxNeighbors = maxNeighbors;
+    }
 
-		if(!list.isEmpty()) {
-			lastComponent = list.get(0);
-		}
+    public Component filterFirst(ImageSource source, Component component) {
+        List<Component> list = filter(source, component);
 
-		return lastComponent;
-	}
+        if (!list.isEmpty()) {
+            lastComponent = list.get(0);
+        }
 
-	@Override
-	public void setup(int w, int h) {
-		super.setup(w, h);
-		resetMask(w, h);
-	}
-	
-	protected void resetMask(int w, int h) {
-		if (mask.getW() != w || mask.getH() != h) {
-			mask = new DynamicArrayMask(w, h);
-		}
-		
-		mask.reset();
-	}
+        return lastComponent;
+    }
 
-	public List<Component> filter(final ImageSource source, final Component component) {
-		this.setup(component.getW(), component.getH());
-		
-		boundary = component;
+    @Override
+    public void setup(int w, int h) {
+        super.setup(w, h);
+        resetMask(w, h);
+    }
 
-		int x = component.getX()+border;
-		int y = component.getY()+border;
+    protected void resetMask(int w, int h) {
+        if (mask.getW() != w || mask.getH() != h) {
+            mask = new DynamicArrayMask(w, h);
+        }
 
-		int width = getComponentWidth(component);
-		int height = getComponentHeight(component);
+        mask.reset();
+    }
 
-		for (int j = y; j < y+height; j+=step) {
-			for (int i = x; i < x+width; i+=step) {
-				if(!component.isInside(i, j)) {
-					continue;
-				}
+    public List<Component> filter(final ImageSource source, final Component component) {
+        this.setup(component.getW(), component.getH());
 
-				int rgb = source.getRGB(i, j);
-				
-				if (verifySinglePixel(i, j, rgb)) {
+        boundary = component;
 
-					//Clear Queue
-					Queue<Point2D> queue = new LinkedList<Point2D>();
-					Component found = new Component();
+        int x = component.getX() + border;
+        int y = component.getY() + border;
 
-					Point2D firstPoint = new Point2D(i, j, rgb);
+        int width = getComponentWidth(component);
+        int height = getComponentHeight(component);
 
-					//Mark as touched
-					addPoint(found, firstPoint);
-					addNeighbors(queue, firstPoint);
+        for (int j = y; j < y + height; j += step) {
+            for (int i = x; i < x + width; i += step) {
+                if (!component.isInside(i, j)) {
+                    continue;
+                }
 
-					//For each neighbor
-					while (!queue.isEmpty()) {
-						
-						//Queue.pop(); 
-						Point2D p = queue.remove();
-												
-						if (verifyNext(p, i, j, width, height, source)) {
-							addPoint(found, p);
-							addNeighbors(queue, p);
-						} else {
-							mask.setTouched(i, j);		
-						}
-					}
+                int rgb = source.getRGB(i, j);
 
-					if(this.validate(found)) {
-						result.add(componentModifierStrategy.modifyComponent(found));
-					}
-				} else {
-					mask.setTouched(i, j);
-				}
-			}
-		}
+                if (verifySinglePixel(i, j, rgb)) {
 
-		return result;
-	}
+                    //Clear Queue
+                    Queue<Point2D> queue = new LinkedList<Point2D>();
+                    Component found = new Component();
 
-	protected boolean verifyNext(Point2D p, int x, int y, int width,
-			int height, ImageSource source) {
-		
-		int px = (int)p.getX();
-		int py = (int)p.getY();
-		
-		int rgb = source.getRGB(px, py);
+                    Point2D firstPoint = new Point2D(i, j, rgb);
 
-		if ((px >= x) && (px < x+width &&
-				(py >= y) && (py < y+height))) {
+                    //Mark as touched
+                    addPoint(found, firstPoint);
+                    addNeighbors(queue, firstPoint);
 
-			if (verifyPixel(px, py, rgb, source)) {
-				return true;
-			}
-		}
-		return false;
-	}
+                    //For each neighbor
+                    while (!queue.isEmpty()) {
 
-	protected void addPoint(Component component, Point2D p) {
-		mask.setTouched((int)p.getX(), (int)p.getY());
-		component.add(p);
-	}
+                        //Queue.pop();
+                        Point2D p = queue.remove();
 
-	protected void addNeighbors(Queue<Point2D> queue, Point2D p) {
-		addNeighbor(queue, (int)p.getX() + step, (int)p.getY(), p.getColor());
-		addNeighbor(queue, (int)p.getX() - step, (int)p.getY(), p.getColor());
-		addNeighbor(queue, (int)p.getX(), (int)p.getY() + step, p.getColor());
-		addNeighbor(queue, (int)p.getX(), (int)p.getY() - step, p.getColor());
-	}
-	
-	//It also prevents same pixel be included in a better list of neighbors
-	//May have to be changed to let multiple touch
-	protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color) {
-		if(!inBoundary(px, py)) {
-			return;
-		}
-		
-		if(!mask.isTouched(px, py)) {
-			queue.add(new Point2D(px, py, color));	
-		}
-	}
+                        if (verifyNext(p, i, j, width, height, source)) {
+                            addPoint(found, p);
+                            addNeighbors(queue, p);
+                        } else {
+                            mask.setTouched(i, j);
+                        }
+                    }
 
-	protected boolean verifyPixel(int px, int py, int rgb, ImageSource source) {
+                    if (this.validate(found)) {
+                        result.add(componentModifierStrategy.modifyComponent(found));
+                    }
+                } else {
+                    mask.setTouched(i, j);
+                }
+            }
+        }
 
-		if (verifySinglePixel(px, py, rgb)) {
-			if(!verifyNeighbors(px, py, source)) {
-				return false;
-			}
-			return true;
-		}
+        return result;
+    }
 
-		return false;
+    protected boolean verifyNext(Point2D p, int x, int y, int width,
+                                 int height, ImageSource source) {
 
-	}
+        int px = (int) p.getX();
+        int py = (int) p.getY();
 
-	protected boolean verifySinglePixel(int px, int py, int rgb) {
+        int rgb = source.getRGB(px, py);
 
-		if(mask.isUnknown(px, py)) {
-			if(pixelStrategy.validateColor(rgb, px, py)) {
-				mask.setValid(px, py);
-			} else {
-				mask.setInvalid(px, py);
-			}
-		}
+        if ((px >= x) && (px < x + width &&
+                (py >= y) && (py < y + height))) {
 
-		return (!mask.isTouched(px, py) && mask.isValid(px, py));
-	}
+            if (verifyPixel(px, py, rgb, source)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	protected boolean verifyNeighbors(int px, int py, ImageSource source) {
+    protected void addPoint(Component component, Point2D p) {
+        mask.setTouched((int) p.getX(), (int) p.getY());
+        component.add(p);
+    }
 
-		int verified = 0;
+    protected void addNeighbors(Queue<Point2D> queue, Point2D p) {
+        addNeighbor(queue, (int) p.getX() + step, (int) p.getY(), p.getColor());
+        addNeighbor(queue, (int) p.getX() - step, (int) p.getY(), p.getColor());
+        addNeighbor(queue, (int) p.getX(), (int) p.getY() + step, p.getColor());
+        addNeighbor(queue, (int) p.getX(), (int) p.getY() - step, p.getColor());
+    }
 
-		//TODO Swap i,j
-		for(int j = py-step; j <= py+step; j += step) {
-			for(int i = px-step; i <= px+step; i += step) {
-				if(!inBoundary(i,j)) {
-					continue;
-				}
-				
-				if(mask.isValid(i, j)) {
-					verified++;
-				} else if(pixelStrategy.validateColor(source.getRGB(i, j), i, j)) {
-					verified++;
-				}
-			}
-		}
+    //It also prevents same pixel be included in a better list of neighbors
+    //May have to be changed to let multiple touch
+    protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color) {
+        if (!inBoundary(px, py)) {
+            return;
+        }
 
-		return verified >= minNeighbors && verified <= maxNeighbors;
-	}
-	
-	public boolean inBoundary(int px, int py) {
-		return boundary.intersects(px, py);
-	}
+        if (!mask.isTouched(px, py)) {
+            queue.add(new Point2D(px, py, color));
+        }
+    }
 
-	public int getMinNeighbors() {
-		return minNeighbors;
-	}
+    protected boolean verifyPixel(int px, int py, int rgb, ImageSource source) {
 
-	public void setMinNeighbors(int minNeighbors) {
-		this.minNeighbors = minNeighbors;
-	}
+        if (verifySinglePixel(px, py, rgb)) {
+            if (!verifyNeighbors(px, py, source)) {
+                return false;
+            }
+            return true;
+        }
 
-	public int getMaxNeighbors() {
-		return maxNeighbors;
-	}
+        return false;
 
-	public void setMaxNeighbors(int maxNeighbors) {
-		this.maxNeighbors = maxNeighbors;
-	}	
+    }
+
+    protected boolean verifySinglePixel(int px, int py, int rgb) {
+        if (!maskStrategy.validateMask(px, py)) {
+            mask.setInvalid(px, py);
+        }
+
+        if (mask.isUnknown(px, py)) {
+            if (pixelStrategy.validateColor(rgb, px, py)) {
+                mask.setValid(px, py);
+            } else {
+                mask.setInvalid(px, py);
+            }
+        }
+
+        return (!mask.isTouched(px, py) && mask.isValid(px, py));
+    }
+
+    protected boolean verifyNeighbors(int px, int py, ImageSource source) {
+
+        int verified = 0;
+
+        //TODO Swap i,j
+        for (int j = py - step; j <= py + step; j += step) {
+            for (int i = px - step; i <= px + step; i += step) {
+                if (!inBoundary(i, j)) {
+                    continue;
+                }
+
+                if (mask.isValid(i, j)) {
+                    verified++;
+                } else if (pixelStrategy.validateColor(source.getRGB(i, j), i, j)) {
+                    verified++;
+                }
+            }
+        }
+
+        return verified >= minNeighbors && verified <= maxNeighbors;
+    }
+
+    public boolean inBoundary(int px, int py) {
+        return boundary.intersects(px, py);
+    }
+
+    public int getMinNeighbors() {
+        return minNeighbors;
+    }
+
+    public void setMinNeighbors(int minNeighbors) {
+        this.minNeighbors = minNeighbors;
+    }
+
+    public int getMaxNeighbors() {
+        return maxNeighbors;
+    }
+
+    public void setMaxNeighbors(int maxNeighbors) {
+        this.maxNeighbors = maxNeighbors;
+    }
 
 }

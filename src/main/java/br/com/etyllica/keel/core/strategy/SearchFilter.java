@@ -5,7 +5,8 @@ import java.util.List;
 
 import br.com.etyllica.keel.core.SearchStrategy;
 import br.com.etyllica.keel.feature.Component;
-import br.com.etyllica.keel.filter.dummy.DummyColorFilter;
+import br.com.etyllica.keel.filter.dummy.DummyMaskStrategy;
+import br.com.etyllica.keel.filter.dummy.DummyPixelStrategy;
 import br.com.etyllica.keel.filter.dummy.DummyComponentModifier;
 
 
@@ -16,7 +17,9 @@ public abstract class SearchFilter implements SearchStrategy {
 	protected int border = 1;
 		
 	protected PixelStrategy pixelStrategy;
-			
+
+	protected MaskStrategy maskStrategy;
+
 	protected ComponentModifierStrategy componentModifierStrategy;
 	
 	protected Component lastComponent = new Component(0, 0, 1, 1);
@@ -27,8 +30,10 @@ public abstract class SearchFilter implements SearchStrategy {
 	
 	public SearchFilter() {
 		super();
-		
-		this.pixelStrategy = new DummyColorFilter();
+
+		this.maskStrategy = new DummyMaskStrategy();
+
+		this.pixelStrategy = new DummyPixelStrategy();
 				
 		this.componentModifierStrategy = new DummyComponentModifier();
 	}
