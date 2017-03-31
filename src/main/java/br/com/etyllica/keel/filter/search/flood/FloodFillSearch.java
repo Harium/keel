@@ -56,18 +56,17 @@ public class FloodFillSearch extends ComponentFilter {
 		return lastComponent;
 	}
 
-	@Override
-	public void setup(int w, int h) {
+	public void setup(int w, int h, ImageSource source) {
 		super.setup(w, h);
-		resetMask(w, h);
+		updateMask(w, h, source);
 	}
 	
-	protected void resetMask(int w, int h) {
+	protected void updateMask(int w, int h, ImageSource source) {
 		if (mask.getW() != w || mask.getH() != h) {
-			mask = new DynamicArrayMask(w, h);
+			mask.init(w, h);
 		}
 		
-		mask.reset();
+		mask.update(source);
 	}
 
 	public List<Component> filter(final ImageSource source, final Component component) {

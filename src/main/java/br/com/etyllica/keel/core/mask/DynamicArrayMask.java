@@ -3,6 +3,7 @@ package br.com.etyllica.keel.core.mask;
 
 import br.com.etyllica.keel.core.mask.strategy.DynamicMaskStrategy;
 import br.com.etyllica.keel.core.mask.strategy.EmptyMaskStrategy;
+import br.com.etyllica.keel.core.source.ImageSource;
 
 public class DynamicArrayMask implements DynamicMask {
 
@@ -13,12 +14,14 @@ public class DynamicArrayMask implements DynamicMask {
 
     public DynamicArrayMask(int w, int h) {
         super();
+        init(w, h);
+    }
 
+    public void init(int w, int h) {
         this.w = w;
         this.h = h;
 
         mask = new int[w][h];
-
         maskStrategy.reset(mask);
     }
 
@@ -82,6 +85,11 @@ public class DynamicArrayMask implements DynamicMask {
     @Override
     public int getH() {
         return h;
+    }
+
+    @Override
+    public void update(ImageSource source) {
+        maskStrategy.update(source, mask);
     }
 
 }

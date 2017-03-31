@@ -1,11 +1,17 @@
 package br.com.etyllica.keel.core.mask;
 
+import br.com.etyllica.keel.core.source.ImageSource;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class DynamicMapMask implements DynamicMask {
+
+    private int w;
+
+    private int h;
 
     private Map<Integer, Set<Integer>> isInvalid = new HashMap<Integer, Set<Integer>>();
 
@@ -15,15 +21,20 @@ public class DynamicMapMask implements DynamicMask {
 
     private Set<Integer> isLineTouched = new HashSet<Integer>();
 
-    private int w;
-
-    private int h;
-
     public DynamicMapMask(int w, int h) {
         super();
+        init(w, h);
+    }
 
+    @Override
+    public void init(int w, int h) {
         this.w = w;
         this.h = h;
+
+        isValid = new HashMap<Integer, Set<Integer>>();
+        isInvalid = new HashMap<Integer, Set<Integer>>();
+        isTouchedMap = new HashMap<Integer, Set<Integer>>();
+        isLineTouched = new HashSet<Integer>();
     }
 
     @Override
@@ -138,14 +149,10 @@ public class DynamicMapMask implements DynamicMask {
     }
 
     @Override
-    public void reset() {
-
+    public void update(ImageSource source) {
         isValid.clear();
-
         isInvalid.clear();
-
         isTouchedMap.clear();
-
         isLineTouched.clear();
     }
 

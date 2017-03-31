@@ -1,11 +1,16 @@
 package br.com.etyllica.keel.core.mask;
 
 
+import br.com.etyllica.keel.core.source.ImageSource;
+
 public interface DynamicMask {
 
 	int getW();
 
 	int getH();
+
+	void init(int w, int h);
+	void update(ImageSource source);
 
 	boolean isUnknown(int px, int py);
 	
