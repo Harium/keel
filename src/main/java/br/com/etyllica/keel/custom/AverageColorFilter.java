@@ -7,6 +7,7 @@ import java.util.List;
 import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.keel.core.ProcessComponentFilter;
 import br.com.etyllica.keel.core.ProcessFilter;
+import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 
@@ -33,11 +34,11 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
 				
 				int rgb = buffer.getRGB(i, j);
 				
-				averageRed += ColorStrategy.getRed(rgb);
+				averageRed += ColorHelper.getRed(rgb);
 				
-				averageBlue += ColorStrategy.getBlue(rgb);
+				averageBlue += ColorHelper.getBlue(rgb);
 				
-				averageGreen += ColorStrategy.getGreen(rgb);
+				averageGreen += ColorHelper.getGreen(rgb);
 				
 				pixelCount++;	
 			}
@@ -73,11 +74,11 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
 			
 			int rgb = buffer.getRGB(i, j);
 			
-			averageRed += ColorStrategy.getRed(rgb);
+			averageRed += ColorHelper.getRed(rgb);
 			
-			averageBlue += ColorStrategy.getBlue(rgb);
+			averageBlue += ColorHelper.getBlue(rgb);
 			
-			averageGreen += ColorStrategy.getGreen(rgb);
+			averageGreen += ColorHelper.getGreen(rgb);
 			
 			pixelCount ++;
 			

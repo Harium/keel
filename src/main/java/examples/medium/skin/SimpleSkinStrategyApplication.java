@@ -1,10 +1,5 @@
 package examples.medium.skin;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.util.List;
-import java.util.Random;
-
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseEvent;
@@ -14,162 +9,167 @@ import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.Camera;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.core.strategy.SearchFilter;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.SkinColorFilter;
-import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.color.skin.SkinColorKovacNewStrategy;
 import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.List;
+import java.util.Random;
+
 public class SimpleSkinStrategyApplication extends Application {
 
-	protected Camera cam = new FakeCamera();
-	private BufferedImageSource source = new BufferedImageSource();
-	
-	private final int IMAGES_TO_LOAD = 90;
+    protected Camera cam = new FakeCamera();
+    private BufferedImageSource source = new BufferedImageSource();
 
-	private SkinColorFilter skinFilter;
+    private final int IMAGES_TO_LOAD = 90;
 
-	private List<Component> skinComponents;
+    private SkinColorFilter skinFilter;
 
-	private Component screen;
+    private List<Component> skinComponents;
 
-	private Color color = Color.BLACK;
+    private Component screen;
 
-	private boolean drawPoints = false;
-	private boolean leftPoints = true;
+    private Color color = Color.BLACK;
 
-	public SimpleSkinStrategyApplication(int w, int h) {
-		super(w, h);
-	}
+    private boolean drawPoints = false;
+    private boolean leftPoints = true;
 
-	@Override
-	public void load() {
-		loading = 0;
+    public SimpleSkinStrategyApplication(int w, int h) {
+        super(w, h);
+    }
 
-		loadingInfo = "Loading Images";
+    @Override
+    public void load() {
+        loading = 0;
 
-		initCamera();
+        loadingInfo = "Loading Images";
 
-		loadingInfo = "Configuring Filter";
+        initCamera();
 
-		loading = 25;
-		reset();
+        loadingInfo = "Configuring Filter";
 
-		loading = 50;
-	}
+        loading = 25;
+        reset();
 
-	protected void initCamera() {
-		for(int i=1;i<=IMAGES_TO_LOAD;i++) {
-			loading = i;
+        loading = 50;
+    }
 
-			((FakeCamera)cam).addImage("skin/skin"+Integer.toString(i)+".jpg");
-		}
-	}
+    protected void initCamera() {
+        for (int i = 1; i <= IMAGES_TO_LOAD; i++) {
+            loading = i;
 
-	@Override
-	public void updateKeyboard(KeyEvent event) {
-		if(event.isKeyDown(KeyEvent.VK_RIGHT)) {
-			((FakeCamera)cam).nextFrame();
-			reset();
-		} else if(event.isKeyDown(KeyEvent.VK_LEFT)) {
-			((FakeCamera)cam).previousFrame();
-			reset();
-		} else if(event.isKeyDown(KeyEvent.VK_SPACE)) {
-			drawPoints = !drawPoints;
-		}
-		
-		if(event.isKeyDown(KeyEvent.VK_1)) {
-			leftPoints = true;
-		}
-		
-		if(event.isKeyDown(KeyEvent.VK_2)) {
-			leftPoints = false;
-		}
-	}
+            ((FakeCamera) cam).addImage("skin/skin" + Integer.toString(i) + ".jpg");
+        }
+    }
 
-	@Override
-	public void updateMouse(PointerEvent event) {
+    @Override
+    public void updateKeyboard(KeyEvent event) {
+        if (event.isKeyDown(KeyEvent.VK_RIGHT)) {
+            ((FakeCamera) cam).nextFrame();
+            reset();
+        } else if (event.isKeyDown(KeyEvent.VK_LEFT)) {
+            ((FakeCamera) cam).previousFrame();
+            reset();
+        } else if (event.isKeyDown(KeyEvent.VK_SPACE)) {
+            drawPoints = !drawPoints;
+        }
 
-		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
-			int x = event.getX();
-			int y = event.getY();
+        if (event.isKeyDown(KeyEvent.VK_1)) {
+            leftPoints = true;
+        }
 
-			BufferedImage buffer = cam.getBufferedImage();
+        if (event.isKeyDown(KeyEvent.VK_2)) {
+            leftPoints = false;
+        }
+    }
 
-			if(x<buffer.getWidth()&&y<buffer.getHeight()) {
+    @Override
+    public void updateMouse(PointerEvent event) {
 
-				int rgb = buffer.getRGB(x, y);
-				final int R = ColorStrategy.getRed(rgb);
-				final int G = ColorStrategy.getGreen(rgb);
-				final int B = ColorStrategy.getBlue(rgb);
+        if (event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
+            int x = event.getX();
+            int y = event.getY();
 
-				System.out.println(R+" "+G+" "+B+" RG_MOD="+(R-G)+" R-B="+(R-B));
-			}
-		}
-	}
+            BufferedImage buffer = cam.getBufferedImage();
 
-	protected void reset() {
-		//Define the area to search for elements
-		int w = cam.getBufferedImage().getWidth();
-		int h = cam.getBufferedImage().getHeight();
+            if (x < buffer.getWidth() && y < buffer.getHeight()) {
 
-		screen = new Component(0, 0, w, h);
-		skinFilter = new SkinColorFilter(w, h, new SkinColorKovacNewStrategy());
-		
-		SearchFilter filter = skinFilter.getSearchStrategy();
-		filter.setStep(2);
-		filter.setBorder(4);
-		
-		//Remove components smaller than 20x20
-		skinFilter.addValidation(new MinDimensionValidation(20));
+                int rgb = buffer.getRGB(x, y);
+                final int R = ColorHelper.getRed(rgb);
+                final int G = ColorHelper.getGreen(rgb);
+                final int B = ColorHelper.getBlue(rgb);
 
-		source.setImage(cam.getBufferedImage());
-		skinComponents = skinFilter.filter(source, screen);
+                System.out.println(R + " " + G + " " + B + " RG_MOD=" + (R - G) + " R-B=" + (R - B));
+            }
+        }
+    }
 
-		color = randomColor();
-	}
-	
-	private Color randomColor() {
-		int r = new Random().nextInt(255);
-		int g = new Random().nextInt(255);
-		int b = new Random().nextInt(255);
+    protected void reset() {
+        //Define the area to search for elements
+        int w = cam.getBufferedImage().getWidth();
+        int h = cam.getBufferedImage().getHeight();
 
-		return new Color(r,g,b);
-	}
-	
-	@Override
-	public void draw(Graphics g) {
-		g.drawImage(cam.getBufferedImage(), 0, 0);
+        screen = new Component(0, 0, w, h);
+        skinFilter = new SkinColorFilter(w, h, new SkinColorKovacNewStrategy());
 
-		//Draw a red line around the components
-		drawComponents(g);
-	}
+        SearchFilter filter = skinFilter.getSearchStrategy();
+        filter.setStep(2);
+        filter.setBorder(4);
 
-	protected void drawComponents(Graphics g) {
-		for(int i = 0; i < skinComponents.size(); i++) {
-			Component component = skinComponents.get(i);
+        //Remove components smaller than 20x20
+        skinFilter.addValidation(new MinDimensionValidation(20));
 
-			//g.setStroke(new BasicStroke(3f));
+        source.setImage(cam.getBufferedImage());
+        skinComponents = skinFilter.filter(source, screen);
 
-			g.setColor(color);
-			g.drawRect(component.getRectangle());
-			
-			g.setColor(Color.BLACK);
-			g.drawString(Double.toString(component.getDensity()), component.getRectangle());
+        color = randomColor();
+    }
 
-			if(drawPoints) {
-				for(Point2D point: component.getPoints()) {
-					
-					if(leftPoints) {
-						if(point.getX()<w/2) {
-							g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
-						}
-					} else if(point.getX()>=w/2) {
-						g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);	
-					}
-				}
-			}
-		}
-	}
+    private Color randomColor() {
+        int r = new Random().nextInt(255);
+        int g = new Random().nextInt(255);
+        int b = new Random().nextInt(255);
+
+        return new Color(r, g, b);
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        g.drawImage(cam.getBufferedImage(), 0, 0);
+
+        //Draw a red line around the components
+        drawComponents(g);
+    }
+
+    protected void drawComponents(Graphics g) {
+        for (int i = 0; i < skinComponents.size(); i++) {
+            Component component = skinComponents.get(i);
+
+            //g.setStroke(new BasicStroke(3f));
+
+            g.setColor(color);
+            g.drawRect(component.getRectangle());
+
+            g.setColor(Color.BLACK);
+            g.drawString(Double.toString(component.getDensity()), component.getRectangle());
+
+            if (drawPoints) {
+                for (Point2D point : component.getPoints()) {
+
+                    if (leftPoints) {
+                        if (point.getX() < w / 2) {
+                            g.fillRect((int) point.getX(), (int) point.getY(), 1, 1);
+                        }
+                    } else if (point.getX() >= w / 2) {
+                        g.fillRect((int) point.getX(), (int) point.getY(), 1, 1);
+                    }
+                }
+            }
+        }
+    }
 }

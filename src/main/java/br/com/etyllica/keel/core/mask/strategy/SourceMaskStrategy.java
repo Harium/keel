@@ -1,8 +1,8 @@
 package br.com.etyllica.keel.core.mask.strategy;
 
+import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.core.mask.DynamicPixel;
 import br.com.etyllica.keel.core.source.ImageSource;
-import br.com.etyllica.keel.filter.color.ColorStrategy;
 
 public class SourceMaskStrategy implements DynamicMaskStrategy {
 
@@ -33,6 +33,8 @@ public class SourceMaskStrategy implements DynamicMaskStrategy {
             for (int ni = 0; ni < w; ni++) {
                 if (compareSources(ni, nj)) {
                     mask[ni][nj] = DynamicPixel.INVALID;
+                } else {
+                	mask[ni][nj] = DynamicPixel.UNKNOWN;
                 }
             }
         }
@@ -43,7 +45,7 @@ public class SourceMaskStrategy implements DynamicMaskStrategy {
         int maskColor = mask.getRGB(x, y);
         int currentSourceColor = mask.getRGB(x, y);
 
-        return !ColorStrategy.isColor(maskColor, currentSourceColor, minToleranceRed, maxToleranceRed,
+        return !ColorHelper.isColor(maskColor, currentSourceColor, minToleranceRed, maxToleranceRed,
                 minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
     }
 

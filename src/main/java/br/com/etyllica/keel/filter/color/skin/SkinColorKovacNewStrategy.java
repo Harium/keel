@@ -1,5 +1,6 @@
 package br.com.etyllica.keel.filter.color.skin;
 
+import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.filter.SoftPixelStrategy;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.color.SimpleToleranceStrategy;
@@ -29,9 +30,9 @@ public class SkinColorKovacNewStrategy extends SimpleToleranceStrategy implement
 	}
 	
 	public static boolean isSkin(int rgb, int tolerance) {
-		final int R = ColorStrategy.getRed(rgb);
-		final int G = ColorStrategy.getGreen(rgb);
-		final int B = ColorStrategy.getBlue(rgb);
+		final int R = ColorHelper.getRed(rgb);
+		final int G = ColorHelper.getGreen(rgb);
+		final int B = ColorHelper.getBlue(rgb);
 		
 		final int R_MIN = 95-tolerance/2;//Default is 95
 		final int G_MIN = 40-tolerance/3;//Default is 40

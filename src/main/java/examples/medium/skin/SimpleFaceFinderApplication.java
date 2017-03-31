@@ -1,13 +1,5 @@
 package examples.medium.skin;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.MouseEvent;
@@ -17,260 +9,265 @@ import br.com.etyllica.core.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.Camera;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
+import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.core.strategy.SearchFilter;
 import br.com.etyllica.keel.custom.AverageColorFilter;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.ExpandableColorFilter;
 import br.com.etyllica.keel.filter.HardColorFilter;
 import br.com.etyllica.keel.filter.SkinColorFilter;
-import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.color.skin.SkinColorKovacNewStrategy;
 import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.*;
+import java.util.List;
+
 public class SimpleFaceFinderApplication extends Application {
 
-	protected Camera cam = new FakeCamera();
-	private BufferedImageSource source = new BufferedImageSource();
-	
-	private final int IMAGES_TO_LOAD = 20;
+    protected Camera cam = new FakeCamera();
+    private BufferedImageSource source = new BufferedImageSource();
 
-	private SkinColorFilter skinFilter;
+    private final int IMAGES_TO_LOAD = 20;
 
-	protected Component bestCandidate;
-	private List<Component> skinComponents;
-	private List<Component> darkComponents;
-	private Map<Component, Integer> counts = new HashMap<Component, Integer>();
-	protected List<Component> faceComponents = new ArrayList<Component>();
+    private SkinColorFilter skinFilter;
 
-	private Component screen;
+    protected Component bestCandidate;
+    private List<Component> skinComponents;
+    private List<Component> darkComponents;
+    private Map<Component, Integer> counts = new HashMap<Component, Integer>();
+    protected List<Component> faceComponents = new ArrayList<Component>();
 
-	private Color color = Color.BLACK;
+    private Component screen;
 
-	private boolean drawPoints = false;
-	private boolean leftPoints = true;
+    private Color color = Color.BLACK;
 
-	public SimpleFaceFinderApplication(int w, int h) {
-		super(w, h);
-	}
+    private boolean drawPoints = false;
+    private boolean leftPoints = true;
 
-	@Override
-	public void load() {
-		loading = 0;
+    public SimpleFaceFinderApplication(int w, int h) {
+        super(w, h);
+    }
 
-		loadingInfo = "Loading Images";
-		initCamera();
-		loadingInfo = "Configuring Filter";
+    @Override
+    public void load() {
+        loading = 0;
 
-		loading = 25;
-		reset();
-		loading = 50;
-	}
+        loadingInfo = "Loading Images";
+        initCamera();
+        loadingInfo = "Configuring Filter";
 
-	protected void initCamera() {
-		for(int i=1;i<=IMAGES_TO_LOAD;i++) {
-			loading = i;
+        loading = 25;
+        reset();
+        loading = 50;
+    }
 
-			((FakeCamera)cam).addImage("skin/skin"+Integer.toString(i)+".jpg");
-		}
-	}
+    protected void initCamera() {
+        for (int i = 1; i <= IMAGES_TO_LOAD; i++) {
+            loading = i;
 
-	@Override
-	public void updateKeyboard(KeyEvent event) {
-		if(event.isKeyDown(KeyEvent.VK_RIGHT)) {
-			((FakeCamera)cam).nextFrame();
-			reset();
-		} else if(event.isKeyDown(KeyEvent.VK_LEFT)) {
-			((FakeCamera)cam).previousFrame();
-			reset();
-		} else if(event.isKeyDown(KeyEvent.VK_SPACE)) {
-			drawPoints = !drawPoints;
-		}
+            ((FakeCamera) cam).addImage("skin/skin" + Integer.toString(i) + ".jpg");
+        }
+    }
 
-		if(event.isKeyDown(KeyEvent.VK_1)) {
-			leftPoints = true;
-		}
+    @Override
+    public void updateKeyboard(KeyEvent event) {
+        if (event.isKeyDown(KeyEvent.VK_RIGHT)) {
+            ((FakeCamera) cam).nextFrame();
+            reset();
+        } else if (event.isKeyDown(KeyEvent.VK_LEFT)) {
+            ((FakeCamera) cam).previousFrame();
+            reset();
+        } else if (event.isKeyDown(KeyEvent.VK_SPACE)) {
+            drawPoints = !drawPoints;
+        }
 
-		if(event.isKeyDown(KeyEvent.VK_2)) {
-			leftPoints = false;
-		}
-	}
+        if (event.isKeyDown(KeyEvent.VK_1)) {
+            leftPoints = true;
+        }
 
-	@Override
-	public void updateMouse(PointerEvent event) {
+        if (event.isKeyDown(KeyEvent.VK_2)) {
+            leftPoints = false;
+        }
+    }
 
-		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
-			int x = event.getX();
-			int y = event.getY();
+    @Override
+    public void updateMouse(PointerEvent event) {
 
-			BufferedImage buffer = cam.getBufferedImage();
+        if (event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
+            int x = event.getX();
+            int y = event.getY();
 
-			if(x<buffer.getWidth()&&y<buffer.getHeight()) {
+            BufferedImage buffer = cam.getBufferedImage();
 
-				int rgb = buffer.getRGB(x, y);
-				final int R = ColorStrategy.getRed(rgb);
-				final int G = ColorStrategy.getGreen(rgb);
-				final int B = ColorStrategy.getBlue(rgb);
+            if (x < buffer.getWidth() && y < buffer.getHeight()) {
 
-				System.out.println(R+" "+G+" "+B+" RG_MOD="+(R-G)+" R-B="+(R-B));
-			}
-		}
-	}
+                int rgb = buffer.getRGB(x, y);
+                final int R = ColorHelper.getRed(rgb);
+                final int G = ColorHelper.getGreen(rgb);
+                final int B = ColorHelper.getBlue(rgb);
 
-	protected void reset() {
+                System.out.println(R + " " + G + " " + B + " RG_MOD=" + (R - G) + " R-B=" + (R - B));
+            }
+        }
+    }
 
-		BufferedImage image = cam.getBufferedImage();
-		source.setImage(image);
+    protected void reset() {
 
-		//Define the area to search for elements
-		int w = image.getWidth();
-		int h = image.getHeight();
+        BufferedImage image = cam.getBufferedImage();
+        source.setImage(image);
 
-		screen = new Component(0, 0, w, h);
-		skinFilter = new SkinColorFilter(w, h, new SkinColorKovacNewStrategy());
-		HardColorFilter colorFilter = new HardColorFilter(w, h, new Color(40,40,40), 25);
+        //Define the area to search for elements
+        int w = image.getWidth();
+        int h = image.getHeight();
 
-		SearchFilter filter = skinFilter.getSearchStrategy();
-		filter.setStep(2);
-		filter.setBorder(20);
+        screen = new Component(0, 0, w, h);
+        skinFilter = new SkinColorFilter(w, h, new SkinColorKovacNewStrategy());
+        HardColorFilter colorFilter = new HardColorFilter(w, h, new Color(40, 40, 40), 25);
 
-		//Remove components smaller than 20x20
-		skinFilter.addValidation(new MinDimensionValidation(20));
-		skinComponents = skinFilter.filter(source, screen);
+        SearchFilter filter = skinFilter.getSearchStrategy();
+        filter.setStep(2);
+        filter.setBorder(20);
 
-		colorFilter.addValidation(new MinDimensionValidation(3));
-		darkComponents = colorFilter.filter(source, screen);
+        //Remove components smaller than 20x20
+        skinFilter.addValidation(new MinDimensionValidation(20));
+        skinComponents = skinFilter.filter(source, screen);
 
-		//Evaluate components
-		//validateComponents();
-		bestCandidate = evaluateComponent(skinComponents);
+        colorFilter.addValidation(new MinDimensionValidation(3));
+        darkComponents = colorFilter.filter(source, screen);
 
-		Color faceColor = AverageColorFilter.filter(image, bestCandidate);
+        //Evaluate components
+        //validateComponents();
+        bestCandidate = evaluateComponent(skinComponents);
 
-		ExpandableColorFilter featureFilter = new ExpandableColorFilter(w, h, faceColor, 30);
-		//featureFilter.getSearchStrategy().setBorder(2);
-		featureFilter.getSearchStrategy().setStep(4);
-		featureFilter.addValidation(new MinDimensionValidation(2));
+        Color faceColor = AverageColorFilter.filter(image, bestCandidate);
 
-		faceComponents = featureFilter.filter(source, bestCandidate);
+        ExpandableColorFilter featureFilter = new ExpandableColorFilter(w, h, faceColor, 30);
+        //featureFilter.getSearchStrategy().setBorder(2);
+        featureFilter.getSearchStrategy().setStep(4);
+        featureFilter.addValidation(new MinDimensionValidation(2));
 
-		//System.out.println("Fc "+faceComponents.size());
-		color = randomColor();
-	}
+        faceComponents = featureFilter.filter(source, bestCandidate);
 
-	private void validateComponents() {
-		for (int i=skinComponents.size()-1;i>=0;i--) {
-			Component component = skinComponents.get(i);
+        //System.out.println("Fc "+faceComponents.size());
+        color = randomColor();
+    }
 
-			//Vertical trim component
-			//component = trim(component);
+    private void validateComponents() {
+        for (int i = skinComponents.size() - 1; i >= 0; i--) {
+            Component component = skinComponents.get(i);
 
-			//Remove components near from left border
-			if(component.getX() < 20+10) {
-				skinComponents.remove(i);
-				continue;
-			}
+            //Vertical trim component
+            //component = trim(component);
 
-			if(component.getX()+component.getW() > h-10) {
-				skinComponents.remove(i);
-				continue;
-			}
-		}
-	}
+            //Remove components near from left border
+            if (component.getX() < 20 + 10) {
+                skinComponents.remove(i);
+                continue;
+            }
 
-	private Component evaluateComponent(List<Component> components) {
-		int higher = 0;
-		Component faceCandidate = components.get(0);
+            if (component.getX() + component.getW() > h - 10) {
+                skinComponents.remove(i);
+                continue;
+            }
+        }
+    }
 
-		for(Component component:components) {
-			int count = 0;
-			for(Component dc:darkComponents) {
-				if(component.colide(dc)) {
-					count++;
-				}
-			}
-			if(count>higher) {
-				higher = count;
-				faceCandidate = component;
-			}
-			counts.put(component, count);
-		}
+    private Component evaluateComponent(List<Component> components) {
+        int higher = 0;
+        Component faceCandidate = components.get(0);
 
-		return faceCandidate;
-	}
+        for (Component component : components) {
+            int count = 0;
+            for (Component dc : darkComponents) {
+                if (component.colide(dc)) {
+                    count++;
+                }
+            }
+            if (count > higher) {
+                higher = count;
+                faceCandidate = component;
+            }
+            counts.put(component, count);
+        }
 
-	private Color randomColor() {
-		int r = new Random().nextInt(255);
-		int g = new Random().nextInt(255);
-		int b = new Random().nextInt(255);
+        return faceCandidate;
+    }
 
-		return new Color(r,g,b);
-	}
+    private Color randomColor() {
+        int r = new Random().nextInt(255);
+        int g = new Random().nextInt(255);
+        int b = new Random().nextInt(255);
 
-	@Override
-	public void draw(Graphics g) {	
-		g.drawImage(cam.getBufferedImage(), 0, 0);
+        return new Color(r, g, b);
+    }
 
-		g.setColor(color);
-		drawComponent(g, bestCandidate);
+    @Override
+    public void draw(Graphics g) {
+        g.drawImage(cam.getBufferedImage(), 0, 0);
 
-		g.setColor(Color.RED);
-		for(Component feature: faceComponents) {
-			drawAllPoints(g, feature);
-			g.drawRect(feature.getRectangle());
-		}
+        g.setColor(color);
+        drawComponent(g, bestCandidate);
 
-		//Draw a red line around the components
-		//drawComponents(g);
+        g.setColor(Color.RED);
+        for (Component feature : faceComponents) {
+            drawAllPoints(g, feature);
+            g.drawRect(feature.getRectangle());
+        }
 
-		//Draw dark components
-		/*g.setStroke(new BasicStroke(3f));
+        //Draw a red line around the components
+        //drawComponents(g);
+
+        //Draw dark components
+        /*g.setStroke(new BasicStroke(3f));
 		g.setColor(Color.BLACK);
 
 		for(Component component:darkComponents) {
 			g.drawRect(component.getRectangle());
 		}*/
-	}
+    }
 
-	protected void drawComponents(Graphics g) {
-		for(int i = 0; i < skinComponents.size(); i++) {
-			Component component = skinComponents.get(i);
+    protected void drawComponents(Graphics g) {
+        for (int i = 0; i < skinComponents.size(); i++) {
+            Component component = skinComponents.get(i);
 
-			g.setColor(color);
-			drawComponent(g, component);
-		}
-	}
+            g.setColor(color);
+            drawComponent(g, component);
+        }
+    }
 
-	protected void drawComponent(Graphics g, Component component) {
-		//g.setStroke(new BasicStroke(3f));
-		g.drawRect(component.getRectangle());
+    protected void drawComponent(Graphics g, Component component) {
+        //g.setStroke(new BasicStroke(3f));
+        g.drawRect(component.getRectangle());
 
-		g.setColor(Color.BLACK);
+        g.setColor(Color.BLACK);
 
-		int count = counts.get(component);
+        int count = counts.get(component);
 
-		g.drawString(Integer.toString(count), component.getRectangle());
+        g.drawString(Integer.toString(count), component.getRectangle());
 
-		if(drawPoints) {
-			drawPoints(g, component);
-		}
-	}
+        if (drawPoints) {
+            drawPoints(g, component);
+        }
+    }
 
-	public void drawPoints(Graphics g, Component component) {
-		for(Point2D point: component.getPoints()) {
+    public void drawPoints(Graphics g, Component component) {
+        for (Point2D point : component.getPoints()) {
 
-			if(leftPoints) {
-				if(point.getX()<w/2) {
-					g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
-				}
-			} else if(point.getX()>=w/2) {
-				g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);	
-			}
-		}
-	}
+            if (leftPoints) {
+                if (point.getX() < w / 2) {
+                    g.fillRect((int) point.getX(), (int) point.getY(), 1, 1);
+                }
+            } else if (point.getX() >= w / 2) {
+                g.fillRect((int) point.getX(), (int) point.getY(), 1, 1);
+            }
+        }
+    }
 
-	public void drawAllPoints(Graphics g, Component component) {
-		for(Point2D point: component.getPoints()) {
-			g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
-		}
-	}
+    public void drawAllPoints(Graphics g, Component component) {
+        for (Point2D point : component.getPoints()) {
+            g.fillRect((int) point.getX(), (int) point.getY(), 1, 1);
+        }
+    }
 }

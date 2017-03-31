@@ -13,6 +13,7 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
+import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.layer.Layer;
 
@@ -144,7 +145,7 @@ public class CaptchaCleaner extends Application {
 				
 				int rgb = b.getRGB(i, j);
 
-				if(colorStrategy.isColor(rgb, foreColor.getRGB())){
+				if(ColorHelper.isColor(rgb, foreColor.getRGB())){
 
 					line++;
 					

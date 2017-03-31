@@ -1,5 +1,6 @@
 package br.com.etyllica.keel.filter.color.mask;
 
+import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.color.ToleranceStrategy;
@@ -28,7 +29,7 @@ public class ImageMaskStrategy extends ToleranceStrategy {
 		}
 		int color = mask.getRGB(j, i);
 		
-		return !ColorStrategy.isColor(rgb, color, minToleranceRed, maxToleranceRed, 
+		return !ColorHelper.isColor(rgb, color, minToleranceRed, maxToleranceRed,
 				minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
 	}
 

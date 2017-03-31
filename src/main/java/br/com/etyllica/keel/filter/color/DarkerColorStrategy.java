@@ -1,5 +1,7 @@
 package br.com.etyllica.keel.filter.color;
 
+import br.com.etyllica.keel.core.helper.ColorHelper;
+
 import java.awt.Color;
 
 
@@ -11,7 +13,7 @@ public class DarkerColorStrategy extends ColorStrategy {
 	
 	@Override
 	public boolean validateColor(int rgb, int j, int i) {
-		return ColorStrategy.isDarkerColor(rgb, this.color, this.minToleranceRed, this.minToleranceGreen, this.minToleranceBlue);
+		return ColorHelper.isDarkerColor(rgb, this.color, this.minToleranceRed, this.minToleranceGreen, this.minToleranceBlue);
 	}
 		
 }
