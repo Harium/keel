@@ -6,9 +6,7 @@ public interface DynamicMask {
 	int getW();
 
 	int getH();
-	
-	void reset();
-	
+
 	boolean isUnknown(int px, int py);
 	
 	boolean isValid(int px, int py);

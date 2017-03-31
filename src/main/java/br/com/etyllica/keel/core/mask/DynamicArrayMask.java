@@ -1,11 +1,15 @@
 package br.com.etyllica.keel.core.mask;
 
 
+import br.com.etyllica.keel.core.mask.strategy.DynamicMaskStrategy;
+import br.com.etyllica.keel.core.mask.strategy.EmptyMaskStrategy;
+
 public class DynamicArrayMask implements DynamicMask {
 
     private int w;
     private int h;
     protected int[][] mask;
+    private DynamicMaskStrategy maskStrategy = new EmptyMaskStrategy();
 
     public DynamicArrayMask(int w, int h) {
         super();
@@ -15,23 +19,7 @@ public class DynamicArrayMask implements DynamicMask {
 
         mask = new int[w][h];
 
-        reset();
-    }
-
-    public void reset() {
-
-        int w = mask.length;
-        int h = mask[0].length;
-
-        updateMask(0, 0, w, h, DynamicPixel.UNKNOWN);
-    }
-
-    public void updateMask(int i, int j, int w, int h, int status) {
-        for (int nj = j; nj < j + h; nj++) {
-            for (int ni = i; ni < i + w; ni++) {
-                mask[ni][nj] = status;
-            }
-        }
+        maskStrategy.reset(mask);
     }
 
     public int[][] getMask() {
