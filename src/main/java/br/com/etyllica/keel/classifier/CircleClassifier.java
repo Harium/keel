@@ -5,6 +5,7 @@ import br.com.etyllica.keel.feature.Component;
 
 public class CircleClassifier implements Classifier<Component, Boolean> {
 
+	private int step = 2;
     private int iterations = 4;
     private double radiusTolerance = 0.05;
 
@@ -42,7 +43,7 @@ public class CircleClassifier implements Classifier<Component, Boolean> {
             double dxi = Math.cos(angle);
             double dyi = Math.sin(angle);
 
-            for (int r = 0; r < radius; r++) {
+            for (int r = 0; r < radius; r+= step) {
                 double dx = r * dxi;
                 double dy = r * dyi;
 
