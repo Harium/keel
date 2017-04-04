@@ -1,4 +1,4 @@
-package examples.basic.application;
+package examples.basic.subcomponent;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

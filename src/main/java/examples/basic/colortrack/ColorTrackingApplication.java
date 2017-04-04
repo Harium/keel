@@ -1,4 +1,4 @@
-package examples.basic.application;
+package examples.basic.colortrack;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,7 +12,7 @@ import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.ColorFilter;
 
-public class MultipleTrackingApplication extends Application {
+public class ColorTrackingApplication extends Application {
 
 	private BufferedImage image;
 	private BufferedImageSource source = new BufferedImageSource();
@@ -27,7 +27,7 @@ public class MultipleTrackingApplication extends Application {
 	
 	private List<Component> blackComponents;
 	
-	public MultipleTrackingApplication(int w, int h) {
+	public ColorTrackingApplication(int w, int h) {
 		super(w, h);
 	}
 

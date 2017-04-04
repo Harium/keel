@@ -1,14 +1,19 @@
 
 
+import br.com.etyllica.Etyllica;
 import examples.medium.skin.SkinGraphic;
-import br.com.etyllica.EtyllicaApplet;
 import br.com.etyllica.core.context.Application;
 
-public class EtyllicMotion extends EtyllicaApplet {
+public class Examples extends Etyllica {
 
-	public EtyllicMotion() {
+	public Examples() {
 		super(800, 480);
 		//super(256,256);
+	}
+
+	public static void main(String[] args) {
+		Examples example = new Examples();
+		example.init();
 	}
 
 	public Application startApplication() {
@@ -19,7 +24,7 @@ public class EtyllicMotion extends EtyllicaApplet {
 		
 		//return new QuickHullExampleApplication(w,h);
 		
-		//return new MultipleTrackingApplication(w,h);
+		//return new ColorTrackingApplication(w,h);
 		
 		//return new SimpleCam(w,h);
 		

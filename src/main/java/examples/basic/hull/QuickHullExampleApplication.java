@@ -1,4 +1,4 @@
-package examples.basic.application;
+package examples.basic.hull;
 
 import java.awt.Color;
 import java.awt.Polygon;

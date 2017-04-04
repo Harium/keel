@@ -1,16 +1,20 @@
-package examples.basic;
+package examples.basic.geometric;
 
 
-import br.com.etyllica.EtyllicaApplet;
+import br.com.etyllica.Etyllica;
 import br.com.etyllica.core.context.Application;
-import examples.basic.application.ColoredGeometricFormApplication;
 
-public class GeometricFormClassifier extends EtyllicaApplet {
+public class GeometricFormExample extends Etyllica {
 
     private static final long serialVersionUID = 1L;
 
-    public GeometricFormClassifier() {
+    public GeometricFormExample() {
         super(800, 480);
+    }
+
+    public static void main(String[] args) {
+        GeometricFormExample example = new GeometricFormExample();
+        example.init();
     }
 
     public Application startApplication() {
