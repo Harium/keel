@@ -26,8 +26,8 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 	}
 
 	@Override
-	public List<Component> filter(ImageSource bimg, Component component) {
-		super.setup(component.getW(), component.getH());
+	public List<Component> filter(ImageSource source, Component component) {
+		super.setup(component.getW(), component.getH(), source);
 		
 		this.boundary = component;
 
@@ -44,7 +44,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 				}
 				
 				//Found some valid pixel
-				int rgb = bimg.getRGB(i, j);
+				int rgb = source.getRGB(i, j);
 				
 				if (verifySinglePixel(i, j, rgb, UNDEFINED_COLOR)) {
 
@@ -64,7 +64,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 						//Queue.pop(); 
 						Point2D p = queue.remove();
 						
-						if (verifyNext(p, x, y, width, height, bimg)) {
+						if (verifyNext(p, x, y, width, height, source)) {
 							addPoint(found, p);
 							addNeighbors(queue, p);
 						} else {
