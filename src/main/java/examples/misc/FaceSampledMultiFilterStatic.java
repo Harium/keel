@@ -9,7 +9,8 @@ import br.com.etyllica.core.context.Application;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.gui.spinner.IntegerSpinner;
+import br.com.etyllica.ui.UI;
+import br.com.etyllica.ui.spinner.IntegerSpinner;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
@@ -129,7 +130,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 		skinMinNeighboorSpinner.setMinValue(0);
 		skinMinNeighboorSpinner.setMaxValue(20);
 		skinMinNeighboorSpinner.setValue(1);
-		addView(skinMinNeighboorSpinner);
+		UI.add(skinMinNeighboorSpinner);
 
 		loading = 100;
 	}
