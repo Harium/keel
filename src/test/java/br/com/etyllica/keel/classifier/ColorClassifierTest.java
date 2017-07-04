@@ -1,11 +1,9 @@
 package br.com.etyllica.keel.classifier;
 
-import java.awt.Color;
-
+import br.com.etyllica.commons.graphics.Color;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.etyllica.awt.SVGColor;
 import br.com.etyllica.keel.classifier.ColorClassifier;
 
 public class ColorClassifierTest {
@@ -13,7 +11,7 @@ public class ColorClassifierTest {
 	@Test
 	public void testRed() {
 		
-		Color color = SVGColor.CRIMSON;
+		Color color = Color.CRIMSON;
 		
 		int r = color.getRed();
 		int g = color.getGreen();
@@ -24,8 +22,7 @@ public class ColorClassifierTest {
 	
 	@Test
 	public void testGreen() {
-		
-		Color color = SVGColor.LIME_GREEN;
+		Color color = Color.LIME_GREEN;
 		
 		int r = color.getRed();
 		int g = color.getGreen();

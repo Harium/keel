@@ -1,7 +1,6 @@
 package br.com.etyllica.keel.filter;
 
-import java.awt.Color;
-
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.keel.core.strategy.ComponentValidationStrategy;
 import br.com.etyllica.keel.filter.color.NegativeColorStrategy;
 import br.com.etyllica.keel.filter.search.flood.FloodFillSearch;

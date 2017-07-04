@@ -2,7 +2,7 @@
 
 import br.com.etyllica.Etyllica;
 import examples.medium.skin.SkinGraphic;
-import br.com.etyllica.core.context.Application;
+import br.com.etyllica.commons.context.Application;
 
 public class Examples extends Etyllica {
 

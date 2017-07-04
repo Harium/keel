@@ -1,15 +1,14 @@
 package br.com.etyllica.keel.custom;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.commons.graphics.Color;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.core.ProcessComponentFilter;
 import br.com.etyllica.keel.core.ProcessFilter;
 import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.feature.Component;
-import br.com.etyllica.keel.filter.color.ColorStrategy;
 
 public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponentFilter<Color> {
 	

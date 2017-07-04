@@ -1,12 +1,12 @@
 package examples.medium.application.area;
 
-import br.com.etyllica.awt.SVGColor;
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.MouseEvent;
-import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.KeyEvent;
+import br.com.etyllica.commons.event.MouseEvent;
+import br.com.etyllica.commons.event.PointerEvent;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.Camera;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
@@ -306,7 +306,7 @@ public class TrackingMultiAreaApplication extends Application {
             g.drawStringShadow("Den: " + Integer.toString(minDensity), 10, 100);
             g.drawStringShadow("Dim: " + Integer.toString(minDimension), 10, 120);
 
-            g.setColor(SVGColor.ORANGE);
+            g.setColor(Color.ORANGE);
 
             //Draw OrangeComponents
             if (orangeComponents != null) {
@@ -331,7 +331,7 @@ public class TrackingMultiAreaApplication extends Application {
 						/*g.setColor(Color.GREEN);
 						g.drawRect(area.getLayers()[i]);*/
 
-                        g.setColor(SVGColor.BLUE);
+                        g.setColor(Color.BLUE);
                         g.drawPolygon(polygon);
                     } else {
                         g.fillPolygon(polygon);

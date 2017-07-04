@@ -2,14 +2,12 @@ package br.com.etyllica.keel.filter.search;
 
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Color;
-
+import br.com.etyllica.commons.graphics.Color;
 import org.junit.Before;
 import org.junit.Test;
 
 import br.com.etyllica.keel.feature.Cross;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
-import br.com.etyllica.keel.filter.search.CrossSearch;
 
 public class CrossSearchTest {
 

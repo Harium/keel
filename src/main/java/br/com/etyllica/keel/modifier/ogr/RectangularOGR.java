@@ -3,7 +3,7 @@ package br.com.etyllica.keel.modifier.ogr;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.ogr.LineInterval;
 import br.com.etyllica.keel.feature.ogr.OGR;
 import br.com.etyllica.linear.graph.Graph;

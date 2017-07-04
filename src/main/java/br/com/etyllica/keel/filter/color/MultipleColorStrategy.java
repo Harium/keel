@@ -1,9 +1,9 @@
 package br.com.etyllica.keel.filter.color;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.keel.core.strategy.PixelStrategy;
 
 public class MultipleColorStrategy implements PixelStrategy {

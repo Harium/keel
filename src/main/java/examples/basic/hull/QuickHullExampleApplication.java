@@ -1,14 +1,13 @@
 package examples.basic.hull;
 
-import java.awt.Color;
 import java.awt.Polygon;
 
-import br.com.etyllica.awt.SVGColor;
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.MouseEvent;
-import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.MouseEvent;
+import br.com.etyllica.commons.event.PointerEvent;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.feature.hull.HullComponent;
 import br.com.etyllica.keel.modifier.hull.FastConvexHullModifier;
@@ -64,15 +63,15 @@ public class QuickHullExampleApplication extends Application {
 		
 		Polygon polygon = convexHull.getPolygon();
 		
-		g.setColor(SVGColor.BLACK);
+		g.setColor(Color.BLACK);
 		
 		for(Point2D point: convexHull.asList()) {
 			g.drawCircle(point, 5);
 		}
 		
-		g.setColor(SVGColor.KHAKI);
+		g.setColor(Color.KHAKI);
 		g.drawPolygon(polygon);
-		g.setColor(SVGColor.BLACK);
+		g.setColor(Color.BLACK);
 		g.drawPolygon(polygon);
 	}
 

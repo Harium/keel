@@ -1,14 +1,13 @@
 package examples.misc;
 
-import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 
-import br.com.etyllica.awt.SVGColor;
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.KeyEvent;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.ui.UI;
 import br.com.etyllica.ui.spinner.IntegerSpinner;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
@@ -420,24 +419,24 @@ public class FaceSampledMultiFilterStatic extends Application {
 			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
 		}
 
-		//drawPolygon(g, lightDirection, whitePolygon, SVGColor.ORANGE);
+		//drawPolygon(g, lightDirection, whitePolygon, Color.ORANGE);
 
-		drawPolygon(g, blackPolygon, SVGColor.WHITE, noiseRadius);
+		drawPolygon(g, blackPolygon, Color.WHITE, noiseRadius);
 
-		drawPolygon(g, skinPolygon, SVGColor.BLUE_VIOLET, skinNoiseRadius);
+		drawPolygon(g, skinPolygon, Color.BLUE_VIOLET, skinNoiseRadius);
 
-		//drawPolygon(g, merged, SVGColor.RED);
+		//drawPolygon(g, merged, Color.RED);
 		drawMerged(g);
 
-		/*drawComponentPolygon(g, blackSampledFeature, blackPolygon, SVGColor.WHITE);
+		/*drawComponentPolygon(g, blackSampledFeature, blackPolygon, Color.WHITE);
 
-		drawComponentPolygon(g, skinFeature, skinPolygon, SVGColor.BLUE_VIOLET);*/
+		drawComponentPolygon(g, skinFeature, skinPolygon, Color.BLUE_VIOLET);*/
 
 	}
 
 	private void drawComponentPolygon(Graphics g, Component component, Polygon p, Color color){
 
-		g.setColor(SVGColor.BLACK);
+		g.setColor(Color.BLACK);
 		g.setLineWidth(3);
 		g.drawPolygon(p);
 
@@ -459,7 +458,7 @@ public class FaceSampledMultiFilterStatic extends Application {
 
 	private void drawPolygon(Graphics g, Polygon p, Color color, int radius){
 
-		/*g.setColor(SVGColor.BLACK);
+		/*g.setColor(Color.BLACK);
 		g.setBasicStroke(3);
 		g.drawPolygon(p);
 
@@ -483,11 +482,11 @@ public class FaceSampledMultiFilterStatic extends Application {
 	}
 
 	private void drawMerged(Graphics g){
-		g.setColor(SVGColor.BLACK);
+		g.setColor(Color.BLACK);
 		g.setLineWidth(3);
 		g.drawPolygon(merged);
 
-		g.setColor(SVGColor.RED);
+		g.setColor(Color.RED);
 		g.setLineWidth(1);
 		g.drawPolygon(merged);
 

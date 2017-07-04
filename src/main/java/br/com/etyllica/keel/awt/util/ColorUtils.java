@@ -1,8 +1,8 @@
 package br.com.etyllica.keel.awt.util;
 
-import java.awt.Color;
+import br.com.etyllica.commons.math.EtyllicaMath;
 
-import br.com.etyllica.util.math.EtyllicaMath;
+import java.awt.Color;
 
 public class ColorUtils {
 

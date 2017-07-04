@@ -2,7 +2,7 @@ package examples.medium.application.area;
 
 import java.awt.Polygon;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.layer.GeometricLayer;
 

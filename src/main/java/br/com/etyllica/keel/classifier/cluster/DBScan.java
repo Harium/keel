@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.storage.kdtree.KDTree;
 import br.com.etyllica.storage.kdtree.KeyDuplicateException;
 import br.com.etyllica.storage.kdtree.KeySizeException;

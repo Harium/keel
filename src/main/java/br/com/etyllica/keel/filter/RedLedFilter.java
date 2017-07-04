@@ -1,6 +1,7 @@
 package br.com.etyllica.keel.filter;
 
-import java.awt.Color;
+
+import br.com.etyllica.commons.graphics.Color;
 
 public class RedLedFilter extends ColorPointFilter {
 

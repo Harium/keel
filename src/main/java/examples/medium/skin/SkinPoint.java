@@ -1,7 +1,6 @@
 package examples.medium.skin;
 
-import java.awt.Color;
-
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.layer.Layer;
 

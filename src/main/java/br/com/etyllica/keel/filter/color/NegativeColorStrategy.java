@@ -1,6 +1,7 @@
 package br.com.etyllica.keel.filter.color;
 
-import java.awt.Color;
+
+import br.com.etyllica.commons.graphics.Color;
 
 public class NegativeColorStrategy extends ColorStrategy {
 

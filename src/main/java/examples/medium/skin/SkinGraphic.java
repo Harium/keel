@@ -1,15 +1,14 @@
 package examples.medium.skin;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.awt.SVGColor;
-import br.com.etyllica.core.collision.CollisionDetector;
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.MouseEvent;
-import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.commons.collision.CollisionDetector;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.KeyEvent;
+import br.com.etyllica.commons.event.MouseEvent;
+import br.com.etyllica.commons.event.PointerEvent;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.layer.Layer;
 import br.com.etyllica.linear.Ellipse;
@@ -58,7 +57,7 @@ public class SkinGraphic extends Application {
 		
 		for (int j = 0; j < 256; j++) {
 			for (int i = 0; i < 256; i++) {
-				if(CollisionDetector.colideEllipsePoint(SKIN_ELLIPSE, i, j)) {
+				if (SKIN_ELLIPSE.colideEllipsePoint(i, j)) {
 					mask[j][i] = true;
 				}
 			}
@@ -77,7 +76,6 @@ public class SkinGraphic extends Application {
 		badPoint.setColor(Color.RED);
 
 		bad.add(badPoint);
-
 	}
 
 	@Override
@@ -685,7 +683,7 @@ public class SkinGraphic extends Application {
 	
 	//Draw Ellipse
 	private void drawEllipse(Graphics g) {
-		g.setColor(SVGColor.GOLD);
+		g.setColor(Color.GOLD);
 		for (int j = 0; j < 256; j++) {
 			for (int i = 0; i < 256; i++) {
 				if(mask[j][i]) {

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import br.com.etyllica.commons.math.EtyllicaMath;
 import br.com.etyllica.keel.core.ComponentModifier;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.feature.ogr.LineInterval;
 import br.com.etyllica.linear.graph.Graph;
 import br.com.etyllica.linear.graph.Node;
 import br.com.etyllica.linear.graph.WeightEdge;
-import br.com.etyllica.util.math.EtyllicaMath;
 
 public class LetterOGRModifier implements ComponentModifier<Component, Graph<Integer>> {
 

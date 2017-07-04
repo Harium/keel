@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opencv.criteria.CvTermCriteria;
 
-import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.linear.Point3D;
 
 public class PositTest {
 

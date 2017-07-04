@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.core.context.Application;
+import br.com.etyllica.commons.context.Application;
 import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.feature.Component;

@@ -1,7 +1,7 @@
 package jdt.triangulation;
 
-import br.com.etyllica.core.linear.Circle;
-import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.linear.Circle;
+import br.com.etyllica.linear.Point3D;
 import br.com.etyllica.linear.BoundingBox;
 
 /**

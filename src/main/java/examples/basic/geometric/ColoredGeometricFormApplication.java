@@ -1,8 +1,9 @@
 package examples.basic.geometric;
 
-import br.com.etyllica.core.context.Application;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.classifier.ColorClassifier;
 import br.com.etyllica.keel.classifier.PolygonClassifier;
@@ -100,11 +101,11 @@ public class ColoredGeometricFormApplication extends Application {
 
         Graphics2D g = image.createGraphics();
 
-        g.setColor(Color.WHITE);
+        g.setColor(java.awt.Color.WHITE);
 
         g.fillRect(0, 0, w, h);
 
-        g.setColor(Color.BLACK);
+        g.setColor(java.awt.Color.BLACK);
 
         g.setStroke(new BasicStroke(6f));
 
@@ -115,24 +116,24 @@ public class ColoredGeometricFormApplication extends Application {
         triangle.addPoint(400, 180);
 
         //Draw Triangle
-        g.setColor(Color.BLUE);
+        g.setColor(java.awt.Color.BLUE);
         g.fillPolygon(triangle);
 
-        g.setColor(Color.BLACK);
+        g.setColor(java.awt.Color.BLACK);
         g.drawPolygon(triangle);
 
         //Draw Circle
-        g.setColor(Color.YELLOW);
+        g.setColor(java.awt.Color.YELLOW);
         g.fillOval(440, 80, 100, 100);
 
-        g.setColor(Color.BLACK);
+        g.setColor(java.awt.Color.BLACK);
         g.drawOval(440, 80, 100, 100);
 
         //Draw Rectangle
-        g.setColor(Color.RED);
+        g.setColor(java.awt.Color.RED);
         g.fillRect(40, 140, 100, 180);
 
-        g.setColor(Color.BLACK);
+        g.setColor(java.awt.Color.BLACK);
         g.drawRect(40, 140, 100, 180);
 
         //Draw rotated Rectangle
@@ -140,10 +141,10 @@ public class ColoredGeometricFormApplication extends Application {
         transform.rotate(Math.toRadians(30), x + w / 2, y + h / 2);
         g.transform(transform);
 
-        g.setColor(Color.GREEN);
+        g.setColor(java.awt.Color.GREEN);
         g.fillRect(340, 260, 110, 180);
 
-        g.setColor(Color.BLACK);
+        g.setColor(java.awt.Color.BLACK);
         g.drawRect(340, 260, 110, 180);
 
     }

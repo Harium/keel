@@ -1,7 +1,7 @@
 package examples.filter;
 
 import br.com.etyllica.EtyllicaApplet;
-import br.com.etyllica.core.context.Application;
+import br.com.etyllica.commons.context.Application;
 import examples.filter.application.FishEyeCorrectionApplication;
 
 public class FishEyeCorrection extends EtyllicaApplet {

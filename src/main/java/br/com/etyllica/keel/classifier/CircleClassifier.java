@@ -1,6 +1,6 @@
 package br.com.etyllica.keel.classifier;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.Component;
 
 public class CircleClassifier implements Classifier<Component, Boolean> {

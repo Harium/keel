@@ -1,8 +1,7 @@
 package br.com.etyllica.keel.filter.color;
 
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.keel.core.helper.ColorHelper;
-
-import java.awt.*;
 
 public class ColorStrategy extends ToleranceStrategy {
 

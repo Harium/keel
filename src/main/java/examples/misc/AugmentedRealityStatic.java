@@ -1,12 +1,12 @@
 package examples.misc;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.KeyEvent;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.core.strategy.ComponentModifierStrategy;

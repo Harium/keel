@@ -1,13 +1,12 @@
 package examples.misc;
 
-import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.awt.SVGColor;
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.KeyEvent;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
@@ -171,16 +170,16 @@ public class FaceStatic extends Application {
 
 		g.setColor(Color.BLUE);
 
-		g.setColor(SVGColor.BLACK);
+		g.setColor(Color.BLACK);
 		g.setLineWidth(2);
 		g.drawPolygon(blackPolygon);
 		
 		g.drawRect(blackSampledFeature.getRectangle());
 		
-		g.setColor(SVGColor.WHITE);
+		g.setColor(Color.WHITE);
 		g.setLineWidth(1);
 		
-		g.setColor(SVGColor.ORANGE);
+		g.setColor(Color.ORANGE);
 		g.drawPolygon(whitePolygon);
 		
 		g.drawRect(lightDirection.getRectangle());
@@ -188,7 +187,7 @@ public class FaceStatic extends Application {
 		g.setLineWidth(2);
 		for(Component skin: skinFeatures){
 			
-			g.setColor(SVGColor.BLUE_VIOLET);
+			g.setColor(Color.BLUE_VIOLET);
 			g.drawRect(skin.getRectangle());
 			
 		}

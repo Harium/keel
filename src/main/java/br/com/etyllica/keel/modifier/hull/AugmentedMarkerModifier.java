@@ -3,7 +3,7 @@ package br.com.etyllica.keel.modifier.hull;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.Component;
 
 public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {

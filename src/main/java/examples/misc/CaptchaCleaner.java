@@ -9,8 +9,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.KeyEvent;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.core.helper.ColorHelper;

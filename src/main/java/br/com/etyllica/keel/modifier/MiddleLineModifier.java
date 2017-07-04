@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.core.ComponentModifier;
 import br.com.etyllica.keel.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.keel.feature.Component;

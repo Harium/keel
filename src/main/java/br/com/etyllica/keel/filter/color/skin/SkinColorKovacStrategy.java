@@ -1,9 +1,9 @@
 package br.com.etyllica.keel.filter.color.skin;
 
+import br.com.etyllica.commons.math.EtyllicaMath;
 import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.filter.SoftPixelStrategy;
 import br.com.etyllica.keel.filter.color.SimpleToleranceStrategy;
-import br.com.etyllica.util.math.EtyllicaMath;
 
 /**
  * Based on: http://academic.aua.am/Skhachat/Public/Papers%20on%20Face%20Detection/RGB-H-CbCr%20Skin%20Colour%20Model%20for%20Human%20Face%20Detection.pdf

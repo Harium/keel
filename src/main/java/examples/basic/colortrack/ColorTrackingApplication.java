@@ -1,12 +1,12 @@
 package examples.basic.colortrack;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.core.context.Application;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
@@ -59,11 +59,11 @@ public class ColorTrackingApplication extends Application {
 		
 		Graphics2D g = image.createGraphics();
 				
-		g.setColor(Color.WHITE);
+		g.setColor(java.awt.Color.WHITE);
 		
 		g.fillRect(0, 0, w, h);
 		
-		g.setColor(Color.BLACK);
+		g.setColor(java.awt.Color.BLACK);
 		
 		g.fillRect(40, 40, 100, 80);
 		
@@ -71,7 +71,7 @@ public class ColorTrackingApplication extends Application {
 		
 		g.fillRect(300, 200, 80, 80);
 		
-		g.setColor(Color.BLUE);
+		g.setColor(java.awt.Color.BLUE);
 		
 		g.fillRect(30, 200, 100, 80);
 		

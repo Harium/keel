@@ -1,15 +1,14 @@
 package examples.medium.application;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.awt.SVGColor;
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.KeyEvent;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.custom.AverageColorFilter;
 import br.com.etyllica.keel.feature.Component;
@@ -189,7 +188,7 @@ public class MelanomaFinderApplication extends Application {
 			g.drawCircle(point, 5);
 		}
 		
-		g.setColor(SVGColor.GHOST_WHITE);
+		g.setColor(Color.GHOST_WHITE);
 		g.drawPolygon(convexHull.getPolygon());
 	}
 

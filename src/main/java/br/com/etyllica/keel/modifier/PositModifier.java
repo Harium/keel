@@ -6,7 +6,7 @@ import java.util.List;
 import org.opencv.criteria.CvTermCriteria;
 import org.opencv.modules.calib3d.Posit;
 
-import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.linear.Point3D;
 import br.com.etyllica.keel.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.helper.RotationAxis;

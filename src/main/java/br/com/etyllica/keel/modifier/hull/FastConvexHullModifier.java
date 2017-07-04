@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.feature.hull.HullComponent;
 import br.com.etyllica.keel.helper.PointListHelper;

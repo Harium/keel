@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.opencv.OpenCv;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.modifier.PositModifier;
 

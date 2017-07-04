@@ -1,7 +1,7 @@
 package br.com.etyllica.keel.custom;
 
-import java.awt.Color;
 
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.keel.filter.ColorPointFilter;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.search.RightToLeftSearch;

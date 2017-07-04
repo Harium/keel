@@ -2,7 +2,7 @@ package br.com.etyllica.keel.modifier.edge;
 
 import java.util.List;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.feature.Component;
 

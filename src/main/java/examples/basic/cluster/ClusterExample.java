@@ -2,7 +2,7 @@ package examples.basic.cluster;
 
 
 import br.com.etyllica.Etyllica;
-import br.com.etyllica.core.context.Application;
+import br.com.etyllica.commons.context.Application;
 
 public class ClusterExample extends Etyllica {
 

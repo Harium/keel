@@ -2,7 +2,7 @@ package jdt.triangulation;
 
 import java.util.Comparator;
 
-import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.linear.Point3D;
 
 public class PointComparator implements Comparator<Point3D> {
 

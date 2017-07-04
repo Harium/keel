@@ -3,10 +3,10 @@ package br.com.etyllica.keel.modifier.hull;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.commons.math.EtyllicaMath;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.core.ComponentModifier;
 import br.com.etyllica.keel.feature.hull.HullComponent;
-import br.com.etyllica.util.math.EtyllicaMath;
 
 public class PathCompressionModifier implements ComponentModifier<HullComponent, List<Point2D>> {
 

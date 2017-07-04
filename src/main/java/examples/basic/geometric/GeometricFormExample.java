@@ -2,7 +2,7 @@ package examples.basic.geometric;
 
 
 import br.com.etyllica.Etyllica;
-import br.com.etyllica.core.context.Application;
+import br.com.etyllica.commons.context.Application;
 
 public class GeometricFormExample extends Etyllica {
 

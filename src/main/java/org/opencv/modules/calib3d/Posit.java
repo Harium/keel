@@ -7,8 +7,8 @@ import org.opencv.OpenCv;
 import org.opencv.criteria.CriteriaType;
 import org.opencv.criteria.CvTermCriteria;
 
-import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.core.linear.Point3D;
+import br.com.etyllica.linear.Point2D;
+import br.com.etyllica.linear.Point3D;
 
 public class Posit {
 

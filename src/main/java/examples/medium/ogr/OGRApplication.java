@@ -1,13 +1,13 @@
 package examples.medium.ogr;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.PointerEvent;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.core.SearchStrategy;

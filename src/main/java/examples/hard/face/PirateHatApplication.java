@@ -1,18 +1,17 @@
 package examples.hard.face;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.etyllica.awt.SVGColor;
-import br.com.etyllica.core.context.Application;
-import br.com.etyllica.core.event.KeyEvent;
-import br.com.etyllica.core.event.MouseEvent;
-import br.com.etyllica.core.event.PointerEvent;
+import br.com.etyllica.commons.context.Application;
+import br.com.etyllica.commons.event.KeyEvent;
+import br.com.etyllica.commons.event.MouseEvent;
+import br.com.etyllica.commons.event.PointerEvent;
+import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.core.linear.Point2D;
+import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
@@ -312,21 +311,21 @@ public class PirateHatApplication extends Application {
 
 				if(component.getDensity()<minDensity) {
 
-					//g.setColor(SVGColor.HONEYDEW);
-					g.setColor(SVGColor.LEMON_CHIFFON);
+					//g.setColor(Color.HONEYDEW);
+					g.setColor(Color.LEMON_CHIFFON);
 
 				} else if(component.getDensity()>maxDensity) {
 
-					g.setColor(SVGColor.DARK_GOLDENROD);
+					g.setColor(Color.DARK_GOLDENROD);
 					//g.setColor(SVGColor.LEMON_CHIFFON);
 
 				} else {
-					g.setColor(SVGColor.BLUE_VIOLET);	
+					g.setColor(Color.BLUE_VIOLET);
 				}
 
 			} else {
 
-				g.setColor(SVGColor.RED);
+				g.setColor(Color.RED);
 
 			}
 
