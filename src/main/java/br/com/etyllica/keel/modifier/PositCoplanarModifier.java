@@ -3,14 +3,13 @@ package br.com.etyllica.keel.modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.core.ComponentModifier;
 import br.com.etyllica.keel.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.helper.RotationAxis;
 import br.com.etyllica.keel.modifier.posit.CoplanarPosit;
 import br.com.etyllica.keel.modifier.posit.Pose;
-
+import com.harium.etyl.linear.Point2D;
 
 public class PositCoplanarModifier implements ComponentModifierStrategy, ComponentModifier<Component, RotationAxis> {
 

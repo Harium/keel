@@ -1,9 +1,9 @@
 package br.com.etyllica.keel.core.gesture;
 
+import com.harium.etyl.linear.Point2D;
+
 import java.awt.Polygon;
 import java.util.List;
-
-import br.com.etyllica.linear.Point2D;
 
 public class PolygonMatcher {
 

@@ -3,10 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.harium</groupId>
     <artifactId>keel</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <build>
         <plugins>
             <plugin>
@@ -19,12 +18,16 @@
             </plugin>
         </plugins>
     </build>
-
     <dependencies>
         <dependency>
-            <groupId>br.com.etyllica</groupId>
-            <artifactId>etyllica</artifactId>
-            <version>5.8.1</version>
+            <groupId>com.harium</groupId>
+            <artifactId>etyl</artifactId>
+            <version>1.0.13</version>
+        </dependency>
+        <dependency>
+            <groupId>com.harium</groupId>
+            <artifactId>kdtree</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.sarxos</groupId>
@@ -34,7 +37,7 @@
         <dependency>
             <groupId>com.github.sarxos</groupId>
             <artifactId>webcam-capture</artifactId>
-            <version>0.3.10</version>
+            <version>0.3.11</version>
         </dependency>
         <dependency>
             <groupId>com.nativelibs4java</groupId>

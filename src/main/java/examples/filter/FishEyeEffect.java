@@ -1,23 +1,24 @@
 package examples.filter;
 
-import br.com.etyllica.EtyllicaApplet;
-import br.com.etyllica.commons.context.Application;
+import com.harium.etyl.Etyl;
+import com.harium.etyl.commons.context.Application;
 import examples.filter.application.FishEyeVision;
 
-public class FishEyeEffect extends EtyllicaApplet {
+public class FishEyeEffect extends Etyl {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public FishEyeEffect() {
-		super(800, 480);
-	}
+    public FishEyeEffect() {
+        super(800, 480);
+    }
 
-	public Application startApplication() {
-		
-		initialSetup("../../");
-		
-		return new FishEyeVision(w,h);
-		
-	}	
+    public static void main(String[] args) {
+        FishEyeEffect example = new FishEyeEffect();
+        example.init();
+    }
 
+    public Application startApplication() {
+        initialSetup("../../");
+        return new FishEyeVision(w, h);
+    }
 }

@@ -1,10 +1,10 @@
 package examples.basic.cluster;
 
 
-import br.com.etyllica.Etyllica;
-import br.com.etyllica.commons.context.Application;
+import com.harium.etyl.Etyl;
+import com.harium.etyl.commons.context.Application;
 
-public class ClusterExample extends Etyllica {
+public class ClusterExample extends Etyl {
 
     private static final long serialVersionUID = 1L;
 

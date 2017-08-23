@@ -1,11 +1,11 @@
 package examples.medium;
 
 
-import br.com.etyllica.Etyllica;
-import br.com.etyllica.commons.context.Application;
+import com.harium.etyl.Etyl;
+import com.harium.etyl.commons.context.Application;
 import examples.medium.application.MelanomaFinderApplication;
 
-public class MelanomaFinder extends Etyllica {
+public class MelanomaFinder extends Etyl {
 
 	private static final long serialVersionUID = 1L;
 

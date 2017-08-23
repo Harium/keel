@@ -4,6 +4,6 @@ import java.awt.image.BufferedImage;
 
 public interface ProcessFilter<T> {
 
-	public T process(BufferedImage buffer);
+	T process(BufferedImage buffer);
 		
 }

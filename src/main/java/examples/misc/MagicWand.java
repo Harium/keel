@@ -1,15 +1,5 @@
 package examples.misc;
 
-import java.awt.image.BufferedImage;
-
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.context.UpdateIntervalListener;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.Camera;
 import br.com.etyllica.keel.awt.camera.CameraV4L4J;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
@@ -17,202 +7,211 @@ import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.search.flood.FloodFillSearch;
 import br.com.etyllica.keel.modifier.EnvelopeModifier;
-import br.com.etyllica.layer.BufferedLayer;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.context.UpdateIntervalListener;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.layer.BufferedLayer;
+import com.harium.etyl.linear.Point2D;
+
+import java.awt.image.BufferedImage;
 
 public class MagicWand extends Application implements UpdateIntervalListener {
 
-	private Camera cam;
-	private BufferedImageSource source = new BufferedImageSource();
-	
-	private FloodFillSearch cornerFilter;
+    private Camera cam;
+    private BufferedImageSource source = new BufferedImageSource();
 
-	private ColorStrategy colorStrategy;
+    private FloodFillSearch cornerFilter;
 
-	private EnvelopeModifier modifier;
+    private ColorStrategy colorStrategy;
 
-	private boolean hide = false;
-	private boolean pixels = true;
+    private EnvelopeModifier modifier;
 
-	private int xOffset = 40;
-	private int yOffset = 40;
+    private boolean hide = false;
+    private boolean pixels = true;
 
-	private Component feature;
+    private int xOffset = 40;
+    private int yOffset = 40;
 
-	private BufferedLayer mirror;
+    private Component feature;
 
-	public MagicWand(int w, int h) {
-		super(w, h);
-	}
+    private BufferedLayer mirror;
 
-	@Override
-	public void load() {
+    public MagicWand(int w, int h) {
+        super(w, h);
+    }
 
-		loadingInfo = "Loading Images";
+    @Override
+    public void load() {
 
-		cam = new CameraV4L4J();
+        loadingInfo = "Loading Images";
 
-		loading = 25;
+        cam = new CameraV4L4J();
 
-		loadingInfo = "Configuring Filter";
+        loading = 25;
 
-		int width = cam.getBufferedImage().getWidth();
+        loadingInfo = "Configuring Filter";
 
-		int height = cam.getBufferedImage().getHeight();
+        int width = cam.getBufferedImage().getWidth();
 
-		loading = 40;
+        int height = cam.getBufferedImage().getHeight();
 
-		colorStrategy = new ColorStrategy(Color.BLACK);
-		colorStrategy.setTolerance(0x10);
+        loading = 40;
 
-		modifier = new EnvelopeModifier();
+        colorStrategy = new ColorStrategy(Color.BLACK);
+        colorStrategy.setTolerance(0x10);
 
-		cornerFilter = new FloodFillSearch(width, height);
-		cornerFilter.setBorder(10);
+        modifier = new EnvelopeModifier();
 
-		cornerFilter.setPixelStrategy(colorStrategy);
+        cornerFilter = new FloodFillSearch(width, height);
+        cornerFilter.setBorder(10);
 
-		cornerFilter.setComponentModifierStrategy(modifier);
+        cornerFilter.setPixelStrategy(colorStrategy);
 
-		feature = new Component(0, 0, w, h);
+        cornerFilter.setComponentModifierStrategy(modifier);
 
-		mirror = new BufferedLayer(0, 0);
+        feature = new Component(0, 0, w, h);
 
-		reset(cam.getBufferedImage());
+        mirror = new BufferedLayer(0, 0);
 
-		updateAtFixedRate(20, this);
+        reset(cam.getBufferedImage());
 
-		loading = 100;
-	}
+        updateAtFixedRate(20, this);
 
-	@Override
-	public void timeUpdate(long now) {
+        loading = 100;
+    }
 
-		//Get the Camera image
-		mirror.setBuffer(cam.getBufferedImage());
+    @Override
+    public void timeUpdate(long now) {
 
-		//Normally the camera shows the image flipped, but we want to see something like a mirror
-		//So we flip the image
-		mirror.flipHorizontal();
-		
-		reset(mirror.getBuffer());
-	}
+        //Get the Camera image
+        mirror.setBuffer(cam.getBufferedImage());
 
-	private void reset(BufferedImage b){
+        //Normally the camera shows the image flipped, but we want to see something like a mirror
+        //So we flip the image
+        mirror.flipHorizontal();
 
-		loading = 60;
+        reset(mirror.getBuffer());
+    }
 
-		loadingInfo = "Start Filter";
-		source.setImage(b);
-		
-		feature = cornerFilter.filterFirst(source, new Component(0, 0, w, h));
+    private void reset(BufferedImage b) {
 
-		loading = 65;
-		loadingInfo = "Show Result";
+        loading = 60;
 
-		loading = 70;
-		loadingInfo = "Show Angle";
-	}
+        loadingInfo = "Start Filter";
+        source.setImage(b);
 
-	@Override
-	public void updateMouse(PointerEvent event) {
+        feature = cornerFilter.filterFirst(source, new Component(0, 0, w, h));
 
-		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)){
-			//When mouse clicks with LeftButton, the color filter tries to find
-			//the color we are clicking on
-			colorStrategy.setColor(mirror.getBuffer().getRGB((int)event.getX(), (int)event.getY()));
+        loading = 65;
+        loadingInfo = "Show Result";
 
-		}
-	}
+        loading = 70;
+        loadingInfo = "Show Angle";
+    }
 
-	@Override
-	public void updateKeyboard(KeyEvent event) {
+    @Override
+    public void updateMouse(PointerEvent event) {
 
-		if(event.isKeyDown(KeyEvent.VK_H)){
-			hide = !hide;
-		}
+        if (event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
+            //When mouse clicks with LeftButton, the color filter tries to find
+            //the color we are clicking on
+            colorStrategy.setColor(mirror.getBuffer().getRGB((int) event.getX(), (int) event.getY()));
 
-		if(event.isKeyDown(KeyEvent.VK_P)){
-			pixels = !pixels;
-		}
-	}
+        }
+    }
 
-	@Override
-	public void draw(Graphics g) {
+    @Override
+    public void updateKeyboard(KeyEvent event) {
 
-		mirror.draw(g);
+        if (event.isKeyDown(KeyEvent.VK_H)) {
+            hide = !hide;
+        }
 
-		g.setColor(Color.BLUE);
+        if (event.isKeyDown(KeyEvent.VK_P)) {
+            pixels = !pixels;
+        }
+    }
 
-		for(Point2D ponto: feature.getPoints()){
-			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
-		}
+    @Override
+    public void draw(Graphics g) {
 
-		if(feature.getPoints().size()>3){			
+        mirror.draw(g);
 
-			drawBox(g, feature);
+        g.setColor(Color.BLUE);
 
-			g.drawString("Angle = "+modifier.getAngle(), 50, 25);
+        for (Point2D ponto : feature.getPoints()) {
+            g.fillCircle(xOffset + (int) ponto.getX(), yOffset + (int) ponto.getY(), 5);
+        }
 
-			g.drawString("Points = "+feature.getPoints().size(), 50, 50);
+        if (feature.getPoints().size() > 3) {
 
-		}
+            drawBox(g, feature);
 
-	}
+            g.drawString("Angle = " + modifier.getAngle(), 50, 25);
 
-	private void drawBox(Graphics g, Component box){
+            g.drawString("Points = " + feature.getPoints().size(), 50, 50);
 
-		g.setColor(Color.RED);
+        }
 
-		Point2D a = box.getPoints().get(0);
-		Point2D b = box.getPoints().get(1);
-		Point2D c = box.getPoints().get(2);
-		Point2D d = box.getPoints().get(3);
+    }
 
-		Point2D ac = new Point2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
-		Point2D ab = new Point2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
+    private void drawBox(Graphics g, Component box) {
 
-		Point2D bd = new Point2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
-		Point2D cd = new Point2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
+        g.setColor(Color.RED);
 
-		drawLine(g, a, b);
-		drawLine(g, a, c);
+        Point2D a = box.getPoints().get(0);
+        Point2D b = box.getPoints().get(1);
+        Point2D c = box.getPoints().get(2);
+        Point2D d = box.getPoints().get(3);
 
-		drawLine(g, b, d);
-		drawLine(g, c, d);
+        Point2D ac = new Point2D((a.getX() + c.getX()) / 2, (a.getY() + c.getY()) / 2);
+        Point2D ab = new Point2D((a.getX() + b.getX()) / 2, (a.getY() + b.getY()) / 2);
 
-		drawPoint(g, a);
-		drawPoint(g, b);
-		drawPoint(g, c);
-		drawPoint(g, d);
+        Point2D bd = new Point2D((b.getX() + d.getX()) / 2, (b.getY() + d.getY()) / 2);
+        Point2D cd = new Point2D((c.getX() + d.getX()) / 2, (c.getY() + d.getY()) / 2);
 
-		g.setColor(Color.YELLOW);
-		drawLine(g, ab, cd);
-		drawPoint(g, ab);
-		drawPoint(g, cd);
+        drawLine(g, a, b);
+        drawLine(g, a, c);
 
-		g.setColor(Color.GREEN);
-		drawLine(g, ac, bd);
+        drawLine(g, b, d);
+        drawLine(g, c, d);
 
-		drawPoint(g, ac);
-		drawPoint(g, bd);
+        drawPoint(g, a);
+        drawPoint(g, b);
+        drawPoint(g, c);
+        drawPoint(g, d);
 
+        g.setColor(Color.YELLOW);
+        drawLine(g, ab, cd);
+        drawPoint(g, ab);
+        drawPoint(g, cd);
 
-		g.setColor(Color.BLACK);
-		g.drawString("A", xOffset+(int)a.getX()-20, yOffset+(int)a.getY()-10);
-		g.drawString("B", xOffset+(int)b.getX()+15, yOffset+(int)b.getY()-10);
+        g.setColor(Color.GREEN);
+        drawLine(g, ac, bd);
 
-		g.drawString("C", xOffset+(int)c.getX()-20, yOffset+(int)c.getY()+10);
-		g.drawString("D", xOffset+(int)d.getX()+15, yOffset+(int)d.getY()+10);
+        drawPoint(g, ac);
+        drawPoint(g, bd);
 
-	}
+        g.setColor(Color.BLACK);
+        g.drawString("A", xOffset + (int) a.getX() - 20, yOffset + (int) a.getY() - 10);
+        g.drawString("B", xOffset + (int) b.getX() + 15, yOffset + (int) b.getY() - 10);
 
-	private void drawLine(Graphics g, Point2D a, Point2D b){		
-		g.drawLine(xOffset+(int)a.getX(), yOffset+(int)a.getY(), xOffset+(int)b.getX(), yOffset+(int)b.getY());		
-	}
+        g.drawString("C", xOffset + (int) c.getX() - 20, yOffset + (int) c.getY() + 10);
+        g.drawString("D", xOffset + (int) d.getX() + 15, yOffset + (int) d.getY() + 10);
 
-	private void drawPoint(Graphics g, Point2D point){
-		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
-	}
+    }
+
+    private void drawLine(Graphics g, Point2D a, Point2D b) {
+        g.drawLine(xOffset + (int) a.getX(), yOffset + (int) a.getY(), xOffset + (int) b.getX(), yOffset + (int) b.getY());
+    }
+
+    private void drawPoint(Graphics g, Point2D point) {
+        g.fillCircle(xOffset + (int) point.getX(), yOffset + (int) point.getY(), 3);
+    }
 
 
 }

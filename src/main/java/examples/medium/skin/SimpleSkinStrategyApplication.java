@@ -1,11 +1,5 @@
 package examples.medium.skin;
 
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.Camera;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
@@ -15,8 +9,14 @@ import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.SkinColorFilter;
 import br.com.etyllica.keel.filter.color.skin.SkinColorKovacNewStrategy;
 import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Random;

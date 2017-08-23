@@ -1,16 +1,15 @@
 package examples.basic.colortrack;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.util.List;
-
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.ColorFilter;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class ColorTrackingApplication extends Application {
 

@@ -1,6 +1,6 @@
 package jdt.triangulation;
 
-import br.com.etyllica.linear.Point3D;
+import com.harium.etyl.linear.Point3D;
 
 /**
  * PointLineTest - simple geometry to make things easy!

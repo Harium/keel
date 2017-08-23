@@ -1,8 +1,8 @@
 package br.com.etyllica.keel.helper;
 
+import com.harium.etyl.linear.Point3D;
 import org.opencv.OpenCv;
 
-import br.com.etyllica.linear.Point3D;
 import br.com.etyllica.keel.modifier.posit.Pose;
 
 public class RotationAxis {

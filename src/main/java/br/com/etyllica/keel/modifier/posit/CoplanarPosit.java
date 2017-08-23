@@ -1,11 +1,11 @@
 package br.com.etyllica.keel.modifier.posit;
 
+import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.linear.vector.Mat3D;
+import com.harium.etyl.linear.vector.Vec3D;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.linear.vector.Mat3D;
-import br.com.etyllica.linear.vector.Vec3D;
 
 public class CoplanarPosit {
 

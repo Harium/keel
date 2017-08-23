@@ -3,7 +3,8 @@ package br.com.etyllica.keel.filter.color.skin;
 import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.filter.SoftPixelStrategy;
 import br.com.etyllica.keel.filter.color.SimpleToleranceStrategy;
-import br.com.etyllica.linear.Ellipse;
+import com.harium.etyl.linear.Ellipse;
+
 
 public class SkinColorEllipticStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
 

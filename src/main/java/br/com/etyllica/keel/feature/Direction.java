@@ -1,7 +1,6 @@
 package br.com.etyllica.keel.feature;
 
 public enum Direction {
-
 	UP,
 	UP_RIGHT,
 	UP_LEFT,
@@ -9,6 +8,5 @@ public enum Direction {
 	DOWN_RIGHT,
 	DOWN_LEFT,
 	LEFT,
-	RIGHT;	
-	
+	RIGHT
 }

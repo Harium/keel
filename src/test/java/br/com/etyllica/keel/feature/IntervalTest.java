@@ -3,8 +3,6 @@ package br.com.etyllica.keel.feature;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.etyllica.keel.feature.Interval;
-
 public class IntervalTest {
 
 	@Test

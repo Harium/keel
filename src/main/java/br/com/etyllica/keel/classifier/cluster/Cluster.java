@@ -1,9 +1,9 @@
 package br.com.etyllica.keel.classifier.cluster;
 
+import com.harium.etyl.linear.Point2D;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.etyllica.linear.Point2D;
 
 public class Cluster {
 	

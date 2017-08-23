@@ -1,15 +1,5 @@
 package examples.medium.application;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
-
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.Camera;
 import br.com.etyllica.keel.awt.camera.CameraV4L4J;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
@@ -18,225 +8,235 @@ import br.com.etyllica.keel.filter.ColorFilter;
 import br.com.etyllica.keel.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.keel.filter.validation.MinDensityValidation;
 import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
-import br.com.etyllica.layer.BufferedLayer;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.layer.BufferedLayer;
+import com.harium.etyl.linear.Point2D;
 import examples.medium.application.area.AreaDrawer;
+
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class TrackingCameraColorApplication extends Application {
 
-	private Camera cam;
-	private BufferedImageSource source = new BufferedImageSource();
-	
-	private ColorFilter blueFilter;
+    private Camera cam;
+    private BufferedImageSource source = new BufferedImageSource();
 
-	//Blue Marker	
-	private Color color = new Color(171, 112, 100);
+    private ColorFilter blueFilter;
 
-	private int tolerance = 10;
-	private int minDensity = 12;
-	private int minDimension = 10;
-	private int maxDimension = 100;
+    //Blue Marker
+    private Color color = new Color(171, 112, 100);
 
-	private MinDensityValidation densityValidation;
-	private MinDimensionValidation dimensionValidation;
+    private int tolerance = 10;
+    private int minDensity = 12;
+    private int minDimension = 10;
+    private int maxDimension = 100;
 
-	private boolean hide = false;
-	private boolean pixels = true;
+    private MinDensityValidation densityValidation;
+    private MinDimensionValidation dimensionValidation;
 
-	private int xOffset = 0;
-	private int yOffset = 0;
+    private boolean hide = false;
+    private boolean pixels = true;
 
-	private Component screen;
+    private int xOffset = 0;
+    private int yOffset = 0;
 
-	private List<Component> blueComponents;
+    private Component screen;
 
-	private BufferedLayer layer;
+    private List<Component> blueComponents;
 
-	public TrackingCameraColorApplication(int w, int h) {
-		super(w, h);
-	}
+    private BufferedLayer layer;
 
-	@Override
-	public void load() {
+    public TrackingCameraColorApplication(int w, int h) {
+        super(w, h);
+    }
 
-		loadingInfo = "Loading Images";
+    @Override
+    public void load() {
 
-		screen = setupCamera();
+        loadingInfo = "Loading Images";
 
-		densityValidation = new MinDensityValidation(minDensity);
-		dimensionValidation = new MinDimensionValidation(minDimension);
+        screen = setupCamera();
 
-		blueFilter = new ColorFilter(screen.getW(), screen.getH(), color, tolerance);
-		blueFilter.getSearchStrategy().addValidation(dimensionValidation);
-		blueFilter.getSearchStrategy().addValidation(new MaxDimensionValidation(maxDimension));
+        densityValidation = new MinDensityValidation(minDensity);
+        dimensionValidation = new MinDimensionValidation(minDimension);
 
-		blueFilter.getSearchStrategy().addValidation(densityValidation);
+        blueFilter = new ColorFilter(screen.getW(), screen.getH(), color, tolerance);
+        blueFilter.getSearchStrategy().addValidation(dimensionValidation);
+        blueFilter.getSearchStrategy().addValidation(new MaxDimensionValidation(maxDimension));
 
-		final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
+        blueFilter.getSearchStrategy().addValidation(densityValidation);
 
-		blueFilter.getSearchStrategy().setBorder(MAGIC_NUMBER);
-		blueFilter.getSearchStrategy().setStep(2);
+        final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
 
-		loadingInfo = "Configuring Filter";
+        blueFilter.getSearchStrategy().setBorder(MAGIC_NUMBER);
+        blueFilter.getSearchStrategy().setStep(2);
 
-		loading = 60;
-		reset(cam.getBufferedImage());
+        loadingInfo = "Configuring Filter";
 
-		loading = 100;
-	}
+        loading = 60;
+        reset(cam.getBufferedImage());
 
-	protected Component setupCamera() {
-		cam = new CameraV4L4J(0);
+        loading = 100;
+    }
 
-		int w = cam.getBufferedImage().getWidth();
-		int h = cam.getBufferedImage().getHeight();
+    protected Component setupCamera() {
+        cam = new CameraV4L4J(0);
 
-		screen = new Component(0, 0, w, h);
-		layer = new BufferedLayer(w, h);
+        int w = cam.getBufferedImage().getWidth();
+        int h = cam.getBufferedImage().getHeight();
 
-		return screen;
-	}
+        screen = new Component(0, 0, w, h);
+        layer = new BufferedLayer(w, h);
 
-	int bx = 0;
-	int by = 0;
-	int bRadius = 0;
+        return screen;
+    }
 
-	private void reset(BufferedImage b) {
-		layer.setBuffer(b);
-		layer.flipHorizontal();
+    int bx = 0;
+    int by = 0;
+    int bRadius = 0;
 
-		source.setImage(layer.getBuffer());
-		
-		blueComponents = blueFilter.filter(source, screen);
+    private void reset(BufferedImage b) {
+        layer.setBuffer(b);
+        layer.flipHorizontal();
 
-		if(!blueComponents.isEmpty()) {
+        source.setImage(layer.getBuffer());
 
-			bx = 0;
-			by = 0;
+        blueComponents = blueFilter.filter(source, screen);
 
-			bRadius = 0;
+        if (!blueComponents.isEmpty()) {
 
-			for(Component component: blueComponents) {
-				Point2D p = component.getCenter();
-				bx += p.getX();
-				by += p.getY();
+            bx = 0;
+            by = 0;
 
-				bRadius += (component.getW()+component.getH())/4;
-			}
+            bRadius = 0;
 
-			bx /= blueComponents.size();
-			by /= blueComponents.size();
+            for (Component component : blueComponents) {
+                Point2D p = component.getCenter();
+                bx += p.getX();
+                by += p.getY();
 
-			bRadius /= blueComponents.size();
+                bRadius += (component.getW() + component.getH()) / 4;
+            }
 
-			return;
-		}
-	}
+            bx /= blueComponents.size();
+            by /= blueComponents.size();
 
-	@Override
-	public void updateMouse(PointerEvent event) {
+            bRadius /= blueComponents.size();
 
-		if(event.isButtonDown(MouseEvent.MOUSE_BUTTON_LEFT)) {
-			color = pickColor(event.getX(), event.getY());
-			blueFilter.setColor(color);
+            return;
+        }
+    }
 
-			System.out.println(color.getRed());
-			System.out.println(color.getGreen());
-			System.out.println(color.getBlue());
-			System.out.println("---------");
-		}
-	}
+    @Override
+    public void updateMouse(PointerEvent event) {
 
-	private Color pickColor(int px, int py) {
-		return new Color(layer.getBuffer().getRGB(px, py));
-	}
+        if (event.isButtonDown(MouseEvent.MOUSE_BUTTON_LEFT)) {
+            color = pickColor(event.getX(), event.getY());
+            blueFilter.setColor(color);
 
-	@Override
-	public void updateKeyboard(KeyEvent event) {
+            System.out.println(color.getRed());
+            System.out.println(color.getGreen());
+            System.out.println(color.getBlue());
+            System.out.println("---------");
+        }
+    }
 
-		if(event.isKeyDown(KeyEvent.VK_H)){
-			hide = !hide;
-		}
+    private Color pickColor(int px, int py) {
+        return new Color(layer.getBuffer().getRGB(px, py));
+    }
 
-		if(event.isKeyDown(KeyEvent.VK_J)){
-			pixels = !pixels;
-		}
+    @Override
+    public void updateKeyboard(KeyEvent event) {
 
-		//Change Tolerance
-		if(event.isKeyUp(KeyEvent.VK_EQUALS)) {
-			tolerance++;
-			blueFilter.setTolerance(tolerance);
-		} else if(event.isKeyUp(KeyEvent.VK_MINUS)) {
-			tolerance--;
-			blueFilter.setTolerance(tolerance);
-		}
+        if (event.isKeyDown(KeyEvent.VK_H)) {
+            hide = !hide;
+        }
 
-		//Change Density
-		if(event.isKeyUp(KeyEvent.VK_P)) {
-			minDensity++;
-			densityValidation.setDensity(minDensity);
-		} else if(event.isKeyUp(KeyEvent.VK_O)) {
-			minDensity--;
-			densityValidation.setDensity(minDensity);
-		}
+        if (event.isKeyDown(KeyEvent.VK_J)) {
+            pixels = !pixels;
+        }
 
-		//Change Dimension
-		if(event.isKeyUp(KeyEvent.VK_L)) {
-			minDimension++;
-			dimensionValidation.setDimension(minDimension);
-		} else if(event.isKeyUp(KeyEvent.VK_K)) {
-			minDimension--;
-			dimensionValidation.setDimension(minDimension);
-		}
-	}
+        //Change Tolerance
+        if (event.isKeyUp(KeyEvent.VK_EQUALS)) {
+            tolerance++;
+            blueFilter.setTolerance(tolerance);
+        } else if (event.isKeyUp(KeyEvent.VK_MINUS)) {
+            tolerance--;
+            blueFilter.setTolerance(tolerance);
+        }
 
-	@Override
-	public void draw(Graphics g) {
+        //Change Density
+        if (event.isKeyUp(KeyEvent.VK_P)) {
+            minDensity++;
+            densityValidation.setDensity(minDensity);
+        } else if (event.isKeyUp(KeyEvent.VK_O)) {
+            minDensity--;
+            densityValidation.setDensity(minDensity);
+        }
 
-		if(!hide){
-			g.drawImage(layer.getBuffer(), xOffset, yOffset);
-		}
+        //Change Dimension
+        if (event.isKeyUp(KeyEvent.VK_L)) {
+            minDimension++;
+            dimensionValidation.setDimension(minDimension);
+        } else if (event.isKeyUp(KeyEvent.VK_K)) {
+            minDimension--;
+            dimensionValidation.setDimension(minDimension);
+        }
+    }
 
-		reset(cam.getBufferedImage());
-		
-		if(pixels) {
+    @Override
+    public void draw(Graphics g) {
 
-			g.setColor(color);
-			g.fillRect(0, 0, 60, 80);
+        if (!hide) {
+            g.drawImage(layer.getBuffer(), xOffset, yOffset);
+        }
 
-			g.setColor(Color.BLACK);
+        reset(cam.getBufferedImage());
 
-			g.drawString("Tol: "+Integer.toString(tolerance), 10, 80);
-			g.drawString("Den: "+Integer.toString(minDensity), 10, 100);
-			g.drawString("Dim: "+Integer.toString(minDimension), 10, 120);
+        if (pixels) {
 
-			g.setAlpha(60);
-			//drawFeaturedPoints(g, sampledFeature, Color.GREEN);
-			g.setAlpha(100);
+            g.setColor(color);
+            g.fillRect(0, 0, 60, 80);
 
-			g.setColor(Color.GREEN);
+            g.setColor(Color.BLACK);
 
-			Component c1 = null, c2 = null;
-			if(blueComponents != null) {
-				for(Component component:blueComponents) {
-					g.drawPolygon(component.getBoundingBox());
-					g.drawString(Double.toString(component.getDensity()), component.getRectangle());
+            g.drawString("Tol: " + Integer.toString(tolerance), 10, 80);
+            g.drawString("Den: " + Integer.toString(minDensity), 10, 100);
+            g.drawString("Dim: " + Integer.toString(minDimension), 10, 120);
 
-					if(c1==null) {
-						c1 = component;
-					} else if(c2 == null) {
-						c2 = component;
-					}
-				}
-			}
+            g.setAlpha(60);
+            //drawFeaturedPoints(g, sampledFeature, Color.GREEN);
+            g.setAlpha(100);
 
-			if(c1!=null&&c2!=null) {
-				AreaDrawer.drawMultiArea(g, c1.getCenter(), c2.getCenter());
-			}
+            g.setColor(Color.GREEN);
 
-			g.setAlpha(50);
-			g.fillCircle(bx, by, bRadius);
-			g.resetOpacity();
-		}
-	}
+            Component c1 = null, c2 = null;
+            if (blueComponents != null) {
+                for (Component component : blueComponents) {
+                    g.drawPolygon(component.getBoundingBox());
+                    g.drawString(Double.toString(component.getDensity()), component.getRectangle());
+
+                    if (c1 == null) {
+                        c1 = component;
+                    } else if (c2 == null) {
+                        c2 = component;
+                    }
+                }
+            }
+
+            if (c1 != null && c2 != null) {
+                AreaDrawer.drawMultiArea(g, c1.getCenter(), c2.getCenter());
+            }
+
+            g.setAlpha(50);
+            g.fillCircle(bx, by, bRadius);
+            g.resetOpacity();
+        }
+    }
 
 }

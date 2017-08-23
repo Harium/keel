@@ -1,8 +1,8 @@
 package jdt.triangulation;
 
-import java.util.Comparator;
+import com.harium.etyl.linear.Point3D;
 
-import br.com.etyllica.linear.Point3D;
+import java.util.Comparator;
 
 public class PointComparator implements Comparator<Point3D> {
 

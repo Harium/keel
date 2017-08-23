@@ -4,22 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.core.ComponentModifier;
 import br.com.etyllica.keel.core.strategy.ComponentModifierStrategy;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.feature.Direction;
 import br.com.etyllica.keel.helper.PointListHelper;
-import br.com.etyllica.linear.graph.Graph;
-import br.com.etyllica.linear.graph.Node;
-import br.com.etyllica.linear.graph.common.IntegerEdge;
-
+import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.linear.graph.Graph;
+import com.harium.etyl.linear.graph.Node;
+import com.harium.etyl.linear.graph.common.IntegerEdge;
 
 /**
  * MiddleLine modifier
  */
-
-
 public class MiddleLineModifier implements ComponentModifierStrategy, ComponentModifier<Component, Graph<Integer>> {
 
 	public MiddleLineModifier() {

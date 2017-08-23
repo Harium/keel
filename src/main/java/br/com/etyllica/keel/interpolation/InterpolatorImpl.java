@@ -1,13 +1,13 @@
 package br.com.etyllica.keel.interpolation;
 
+import com.harium.etyl.linear.Point2D;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
-
 public abstract class InterpolatorImpl implements Interpolator {
 
-	protected List<Point2D> points = new ArrayList<Point2D>();  
+	protected List<Point2D> points = new ArrayList<Point2D>();
 	
 	public InterpolatorImpl() {
 		super();

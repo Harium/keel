@@ -1,7 +1,6 @@
 package examples.hard.microscopy.cell;
 
-import java.awt.Color;
-
+import com.harium.etyl.commons.graphics.Color;
 
 public class RedBloodCell extends Cell {
 		
@@ -9,7 +8,6 @@ public class RedBloodCell extends Cell {
 		super(x, y);
 		
 		this.color = new Color(0xD0, 0xA0, 0x89);
-		
 	}
 		
 }

@@ -1,487 +1,485 @@
 package examples.hard.face;
 
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.TrackingByMultipleColorFilter;
 import br.com.etyllica.keel.image.filter.ContrastQuickFilter;
-import br.com.etyllica.layer.ImageLayer;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.layer.ImageLayer;
+import com.harium.etyl.linear.Point2D;
+
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PirateHatApplication extends Application {
 
-	private FakeCamera cam = new FakeCamera();
-	private BufferedImageSource source = new BufferedImageSource();
+    private FakeCamera cam = new FakeCamera();
+    private BufferedImageSource source = new BufferedImageSource();
 
-	private TrackingByMultipleColorFilter skinFilter;
+    private TrackingByMultipleColorFilter skinFilter;
 
-	private boolean hide = true;
-	private boolean pixels = true;
-	private boolean drawCleanedOnly = false;
-	private boolean drawBox = true;
+    private boolean hide = true;
+    private boolean pixels = true;
+    private boolean drawCleanedOnly = false;
+    private boolean drawBox = true;
 
-	private int xOffset = 0;
-	private int yOffset = 0;
+    private int xOffset = 0;
+    private int yOffset = 0;
 
-	private final int minDensity = 22;
-	private final int maxDensity = 50;
+    private final int minDensity = 22;
+    private final int maxDensity = 50;
 
 
-	private final int IMAGES_TO_LOAD = 90;	
+    private final int IMAGES_TO_LOAD = 90;
 
-	private List<Component> skinFeatures;
+    private List<Component> skinFeatures;
 
-	private Component screen;
+    private Component screen;
 
-	private ImageLayer pirateHat;
+    private ImageLayer pirateHat;
 
-	private Component overMouse = null;
+    private Component overMouse = null;
 
-	private Component biggestComponent = null;
+    private Component biggestComponent = null;
 
-	private BufferedImage image;
+    private BufferedImage image;
 
-	private Map<Component, Double> map = new HashMap<Component, Double>();
+    private Map<Component, Double> map = new HashMap<Component, Double>();
 
-	public PirateHatApplication(int w, int h) {
-		super(w, h);
-	}
+    public PirateHatApplication(int w, int h) {
+        super(w, h);
+    }
 
-	@Override
-	public void load() {
+    @Override
+    public void load() {
 
-		loadingInfo = "Loading Images";
+        loadingInfo = "Loading Images";
 
-		for(int i=1;i<=IMAGES_TO_LOAD;i++) {
-			loading = i;
+        for (int i = 1; i <= IMAGES_TO_LOAD; i++) {
+            loading = i;
 
-			cam.addImage("skin/skin"+Integer.toString(i)+".jpg");
-		}
+            cam.addImage("skin/skin" + Integer.toString(i) + ".jpg");
+        }
 
-		loadingInfo = "Configuring Filter";
+        loadingInfo = "Configuring Filter";
 
-		configureSkinFilter();
-		pirateHat = new ImageLayer("effects/piratehat.png");
+        configureSkinFilter();
+        pirateHat = new ImageLayer("effects/piratehat.png");
 
-		loading = 60;
-		reset();
+        loading = 60;
+        reset();
 
-		loading = 100;
-	}
+        loading = 100;
+    }
 
-	private void configureSkinFilter() {
+    private void configureSkinFilter() {
 
-		int width = cam.getBufferedImage().getWidth();
-		int height = cam.getBufferedImage().getHeight();
+        int width = cam.getBufferedImage().getWidth();
+        int height = cam.getBufferedImage().getHeight();
 
-		skinFilter = new TrackingByMultipleColorFilter(width, height);
+        skinFilter = new TrackingByMultipleColorFilter(width, height);
 
-		//skinFilter.addColor(new Color(0xAF, 0x80, 0x66), 0x26);
+        //skinFilter.addColor(new Color(0xAF, 0x80, 0x66), 0x26);
 
-		//F5 EA E0 D4 C6 B6 A3 90 7B 65 4E
-		//C4 C2 B0 A0 8D 7C 6A 5C 4B 3D 2F
-		//CD BA A6 93 82 70 5F 4F 41 35 2A
+        //F5 EA E0 D4 C6 B6 A3 90 7B 65 4E
+        //C4 C2 B0 A0 8D 7C 6A 5C 4B 3D 2F
+        //CD BA A6 93 82 70 5F 4F 41 35 2A
 
-		int tolerance = 0x14;
+        int tolerance = 0x14;
 
-		int highTolerance = 0x19;
+        int highTolerance = 0x19;
 
-		int lowTolerance = 0x0A;				
+        int lowTolerance = 0x0A;
 
-		skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance, tolerance, highTolerance);
+        skinFilter.addColor(new Color(0xF5, 0xC4, 0xCD), tolerance, tolerance, highTolerance);
 
-		skinFilter.addColor(new Color(0xEA, 0x90, 0x90), lowTolerance, lowTolerance, lowTolerance);
+        skinFilter.addColor(new Color(0xEA, 0x90, 0x90), lowTolerance, lowTolerance, lowTolerance);
 
-		skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance, lowTolerance, highTolerance);
+        skinFilter.addColor(new Color(0xE4, 0xC2, 0xBA), tolerance, lowTolerance, highTolerance);
 
-		skinFilter.addColor(new Color(0xE1, 0x79, 0x78), lowTolerance);
+        skinFilter.addColor(new Color(0xE1, 0x79, 0x78), lowTolerance);
 
-		skinFilter.addColor(new Color(0xE0, 0xB0, 0xB0), tolerance, tolerance, lowTolerance);
-		//skinFilter.addColor(new Color(0xE0, 0xB0, 0xA0), tolerance, tolerance, lowTolerance);
+        skinFilter.addColor(new Color(0xE0, 0xB0, 0xB0), tolerance, tolerance, lowTolerance);
+        //skinFilter.addColor(new Color(0xE0, 0xB0, 0xA0), tolerance, tolerance, lowTolerance);
 
-		skinFilter.addColor(new Color(0xd0, 0x9b, 0x8b), lowTolerance);
-		//Secundary Hue Scale
-		skinFilter.addColor(new Color(0xd0, 0x7e, 0x5f), lowTolerance);
+        skinFilter.addColor(new Color(0xd0, 0x9b, 0x8b), lowTolerance);
+        //Secundary Hue Scale
+        skinFilter.addColor(new Color(0xd0, 0x7e, 0x5f), lowTolerance);
 
-		skinFilter.addColor(new Color(0xC6, 0x8D, 0x82), lowTolerance);
+        skinFilter.addColor(new Color(0xC6, 0x8D, 0x82), lowTolerance);
 
-		skinFilter.addColor(new Color(0xB6, 0x7C, 0x70), tolerance);
+        skinFilter.addColor(new Color(0xB6, 0x7C, 0x70), tolerance);
 
-		skinFilter.addColor(new Color(0xA3, 0x6A, 0x5F), tolerance);
+        skinFilter.addColor(new Color(0xA3, 0x6A, 0x5F), tolerance);
 
-		//skinFilter.addColor(new Color(0x90, 0x5C, 0x4F), tolerance);
+        //skinFilter.addColor(new Color(0x90, 0x5C, 0x4F), tolerance);
 
-		//skinFilter.addColor(new Color(0xa4, 0x91, 0x95), tolerance), 
+        //skinFilter.addColor(new Color(0xa4, 0x91, 0x95), tolerance),
 
-		skinFilter.addColor(new Color(0xA0, 0x88, 0x88), tolerance, lowTolerance, lowTolerance);
+        skinFilter.addColor(new Color(0xA0, 0x88, 0x88), tolerance, lowTolerance, lowTolerance);
 
 
-		skinFilter.addColor(new Color(0x7B, 0x4B, 0x41), tolerance);
+        skinFilter.addColor(new Color(0x7B, 0x4B, 0x41), tolerance);
 
-		skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance, highTolerance, highTolerance);
+        skinFilter.addColor(new Color(0x65, 0x3D, 0x35), tolerance, highTolerance, highTolerance);
 
-		skinFilter.addColor(new Color(0x4E, 0x2F, 0x2A), tolerance, lowTolerance, lowTolerance);
+        skinFilter.addColor(new Color(0x4E, 0x2F, 0x2A), tolerance, lowTolerance, lowTolerance);
 
-		//Shadow and Mouth
-		skinFilter.addColor(new Color(0x6B, 0x57, 0x60), tolerance);
+        //Shadow and Mouth
+        skinFilter.addColor(new Color(0x6B, 0x57, 0x60), tolerance);
 
-		//skinFilter.addComponentStrategy(new MinDensityValidation(minDensity));
-		//skinFilter.addComponentStrategy(new MaxDensityValidation(maxDensity));
-		//skinFilter.addComponentStrategy(new MinComponentDimension(40));//Avoid small noises
-		//skinFilter.addComponentStrategy(new CountComponentPoints(180));//Avoid small noises
-		//skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
+        //skinFilter.addComponentStrategy(new MinDensityValidation(minDensity));
+        //skinFilter.addComponentStrategy(new MaxDensityValidation(maxDensity));
+        //skinFilter.addComponentStrategy(new MinComponentDimension(40));//Avoid small noises
+        //skinFilter.addComponentStrategy(new CountComponentPoints(180));//Avoid small noises
+        //skinFilter.addComponentStrategy(new MaxComponentDimension(w/2));
 
-	}
+    }
 
-	private void reset() {
+    private void reset() {
 
-		BufferedImage b = cam.getBufferedImage();
+        BufferedImage b = cam.getBufferedImage();
 
-		image = new ContrastQuickFilter(20).process(b);
+        image = new ContrastQuickFilter(20).process(b);
 
-		int w = image.getWidth();
-		int h = image.getHeight();
+        int w = image.getWidth();
+        int h = image.getHeight();
 
-		source.setImage(image);
-		
-		screen = new Component(0, 0, w, h);
+        source.setImage(image);
 
-		//Sampled
-		skinFeatures = skinFilter.filter(source, screen);
+        screen = new Component(0, 0, w, h);
 
+        //Sampled
+        skinFeatures = skinFilter.filter(source, screen);
 
-		//TODO Merge components
 
-		biggestComponent = findBiggestComponent(skinFeatures);
+        //TODO Merge components
 
-		//biggestComponent = mergeComponents(biggestComponent, skinFeatures);		
+        biggestComponent = findBiggestComponent(skinFeatures);
 
-	}
+        //biggestComponent = mergeComponents(biggestComponent, skinFeatures);
 
-	@Override
-	public void updateMouse(PointerEvent event) {
+    }
 
-		int mx = event.getX();
+    @Override
+    public void updateMouse(PointerEvent event) {
 
-		int my = event.getY();
+        int mx = event.getX();
 
-		if(!skinFeatures.isEmpty()) {
+        int my = event.getY();
 
-			for(Component component: skinFeatures) {
+        if (!skinFeatures.isEmpty()) {
 
-				if(component.colidePoint(mx, my)) {
+            for (Component component : skinFeatures) {
 
-					overMouse = component;
+                if (component.colidePoint(mx, my)) {
 
-				}
-			}
+                    overMouse = component;
 
-		}
+                }
+            }
 
-		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
+        }
 
-			if(mx<image.getWidth()&&my<image.getHeight()) {
+        if (event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
 
-				final int toleranceByClick = 0x10;  
+            if (mx < image.getWidth() && my < image.getHeight()) {
 
-				int rgb = image.getRGB(mx, my);
+                final int toleranceByClick = 0x10;
 
-				Color color = new Color(rgb);
+                int rgb = image.getRGB(mx, my);
 
-				skinFilter.addColor(color, toleranceByClick);
+                Color color = new Color(rgb);
 
-				String redString = Integer.toString(color.getRed(), 16).toUpperCase();
-				String greenString = Integer.toString(color.getGreen(), 16).toUpperCase();
-				String blueString = Integer.toString(color.getBlue(), 16).toUpperCase();
+                skinFilter.addColor(color, toleranceByClick);
 
-				System.out.println("skinFilter.addColor(new Color(0x"+redString+", 0x"+greenString+", 0x"+blueString+"), 0x10);");
+                String redString = Integer.toString(color.getRed(), 16).toUpperCase();
+                String greenString = Integer.toString(color.getGreen(), 16).toUpperCase();
+                String blueString = Integer.toString(color.getBlue(), 16).toUpperCase();
 
-				reset();
-			}
+                System.out.println("skinFilter.addColor(new Color(0x" + redString + ", 0x" + greenString + ", 0x" + blueString + "), 0x10);");
 
-		} else if (event.isButtonUp(MouseEvent.MOUSE_BUTTON_RIGHT)) {
+                reset();
+            }
 
-			configureSkinFilter();
+        } else if (event.isButtonUp(MouseEvent.MOUSE_BUTTON_RIGHT)) {
 
-			reset();
-		}
-	}
+            configureSkinFilter();
 
-	@Override
-	public void updateKeyboard(KeyEvent event) {
+            reset();
+        }
+    }
 
-		if(event.isKeyDown(KeyEvent.VK_RIGHT)){
-			cam.nextFrame();
-			reset();
-		}
+    @Override
+    public void updateKeyboard(KeyEvent event) {
 
-		else if(event.isKeyDown(KeyEvent.VK_LEFT)){
-			cam.previousFrame();
-			reset();
-		}
+        if (event.isKeyDown(KeyEvent.VK_RIGHT)) {
+            cam.nextFrame();
+            reset();
+        } else if (event.isKeyDown(KeyEvent.VK_LEFT)) {
+            cam.previousFrame();
+            reset();
+        }
 
-		if(event.isKeyDown(KeyEvent.VK_H)){
-			hide = !hide;
-		}
+        if (event.isKeyDown(KeyEvent.VK_H)) {
+            hide = !hide;
+        }
 
-		if(event.isKeyDown(KeyEvent.VK_P)){
-			pixels = !pixels;
-		}
+        if (event.isKeyDown(KeyEvent.VK_P)) {
+            pixels = !pixels;
+        }
 
-		if(event.isKeyDown(KeyEvent.VK_C)){
-			drawCleanedOnly = !drawCleanedOnly;
-		}
+        if (event.isKeyDown(KeyEvent.VK_C)) {
+            drawCleanedOnly = !drawCleanedOnly;
+        }
 
-		if(event.isKeyDown(KeyEvent.VK_B)){
-			drawBox = !drawBox;
-		}
-	}
+        if (event.isKeyDown(KeyEvent.VK_B)) {
+            drawBox = !drawBox;
+        }
+    }
 
-	@Override
-	public void draw(Graphics g) {
+    @Override
+    public void draw(Graphics g) {
 
-		g.setColor(Color.BLACK);
+        g.setColor(Color.BLACK);
 
-		if(!hide){
+        if (!hide) {
 
-			g.drawImage(image, xOffset, yOffset);
-			//g.fillRect(0, 0, 640, 480);
+            g.drawImage(image, xOffset, yOffset);
+            //g.fillRect(0, 0, 640, 480);
 
-		}
+        }
 
-		g.setColor(Color.BLUE);
-		g.setAlpha(80);
+        g.setColor(Color.BLUE);
+        g.setAlpha(80);
 
-		g.setLineWidth(2);
+        g.setLineWidth(2);
 
-		drawFeatures(skinFeatures, g);
+        drawFeatures(skinFeatures, g);
 
-		drawFeatureInfo(g);
+        drawFeatureInfo(g);
 
-	}
+    }
 
-	private void drawFeatureInfo(Graphics g) {
+    private void drawFeatureInfo(Graphics g) {
 
-		g.setColor(Color.BLACK);
+        g.setColor(Color.BLACK);
 
-		g.setFontSize(20);
+        g.setFontSize(20);
 
-		if(overMouse!=null) {
+        if (overMouse != null) {
 
-			int offsetX = 650;
+            int offsetX = 650;
 
-			g.drawStringShadow("x: "+overMouse.getX(), offsetX, 40);
+            g.drawStringShadow("x: " + overMouse.getX(), offsetX, 40);
 
-			g.drawStringShadow("y: "+overMouse.getY(), offsetX, 60);
+            g.drawStringShadow("y: " + overMouse.getY(), offsetX, 60);
 
-			g.drawStringShadow("w: "+overMouse.getW(), offsetX, 80);
+            g.drawStringShadow("w: " + overMouse.getW(), offsetX, 80);
 
-			g.drawStringShadow("h: "+overMouse.getH(), offsetX, 100);
+            g.drawStringShadow("h: " + overMouse.getH(), offsetX, 100);
 
-			g.drawStringShadow("area: "+overMouse.getArea(), offsetX, 120);
+            g.drawStringShadow("area: " + overMouse.getArea(), offsetX, 120);
 
-			g.drawStringShadow("dens: "+(int)overMouse.getDensity()+"%", offsetX, 140);
+            g.drawStringShadow("dens: " + (int) overMouse.getDensity() + "%", offsetX, 140);
 
-			if (map.containsKey(overMouse)) {
-				g.drawStringShadow("factor: "+(double)map.get(overMouse), offsetX, 160);
-			}
+            if (map.containsKey(overMouse)) {
+                g.drawStringShadow("factor: " + (double) map.get(overMouse), offsetX, 160);
+            }
 
-		}
+        }
 
-	}
+    }
 
-	private void drawFeatures(List<Component> features, Graphics g) {
+    private void drawFeatures(List<Component> features, Graphics g) {
 
-		//List<Component> features = mergeComponents(skinFeatures);
+        //List<Component> features = mergeComponents(skinFeatures);
 
-		for(Component component: features) {
+        for (Component component : features) {
 
-			if(component != overMouse) {
+            if (component != overMouse) {
 
-				if(component.getDensity()<minDensity) {
+                if (component.getDensity() < minDensity) {
 
-					//g.setColor(Color.HONEYDEW);
-					g.setColor(Color.LEMON_CHIFFON);
+                    //g.setColor(Color.HONEYDEW);
+                    g.setColor(Color.LEMON_CHIFFON);
 
-				} else if(component.getDensity()>maxDensity) {
+                } else if (component.getDensity() > maxDensity) {
 
-					g.setColor(Color.DARK_GOLDENROD);
-					//g.setColor(SVGColor.LEMON_CHIFFON);
+                    g.setColor(Color.DARK_GOLDENROD);
+                    //g.setColor(SVGColor.LEMON_CHIFFON);
 
-				} else {
-					g.setColor(Color.BLUE_VIOLET);
-				}
+                } else {
+                    g.setColor(Color.BLUE_VIOLET);
+                }
 
-			} else {
+            } else {
 
-				g.setColor(Color.RED);
+                g.setColor(Color.RED);
 
-			}
+            }
 
-			g.drawRect(component.getRectangle());
+            g.drawRect(component.getRectangle());
 
-			g.setLineWidth(1);
+            g.setLineWidth(1);
 
-			for(Point2D point: component.getPoints()) {
+            for (Point2D point : component.getPoints()) {
 
-				g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
+                g.fillRect((int) point.getX(), (int) point.getY(), 1, 1);
 
-			}
+            }
 
-		}
+        }
 
-		if(biggestComponent != null) {
-			
-			//g.drawRect(biggestComponent.getRectangle());
+        if (biggestComponent != null) {
 
-			drawPirateHat(biggestComponent, g);
-			
-		}
+            //g.drawRect(biggestComponent.getRectangle());
 
-	}
+            drawPirateHat(biggestComponent, g);
 
-	private void drawPirateHat(Component face, Graphics g) {
+        }
 
+    }
 
-		double angle = drawAndCalculateAngle(face, g);
+    private void drawPirateHat(Component face, Graphics g) {
 
-		double hatScale = 2;//The Pirate Hat has the double of the head width
 
-		double scale = ((double)face.getW()*hatScale/(double)this.w);
+        double angle = drawAndCalculateAngle(face, g);
 
-		pirateHat.setScale(scale);
-		pirateHat.setAngle(angle-90);
+        double hatScale = 2;//The Pirate Hat has the double of the head width
 
-		pirateHat.centralizeX(face.getX(), face.getX()+face.getW());
+        double scale = ((double) face.getW() * hatScale / (double) this.w);
 
-		pirateHat.setY(face.getY()-(int)((pirateHat.getH())*scale));
+        pirateHat.setScale(scale);
+        pirateHat.setAngle(angle - 90);
 
-		pirateHat.draw(g);
+        pirateHat.centralizeX(face.getX(), face.getX() + face.getW());
 
-	}
+        pirateHat.setY(face.getY() - (int) ((pirateHat.getH()) * scale));
 
-	private Component mergeComponents(Component biggestComponent, List<Component> components) {
+        pirateHat.draw(g);
 
-		components.remove(biggestComponent);
+    }
 
-		for(int i = components.size()-1; i > 0; i--) {
+    private Component mergeComponents(Component biggestComponent, List<Component> components) {
 
-			Component candidate = components.get(i);
+        components.remove(biggestComponent);
 
-			if(biggestComponent.colide(candidate)) {
+        for (int i = components.size() - 1; i > 0; i--) {
 
-				biggestComponent.merge(candidate);
+            Component candidate = components.get(i);
 
-				components.remove(i);
+            if (biggestComponent.colide(candidate)) {
 
-			}
+                biggestComponent.merge(candidate);
 
-		}
+                components.remove(i);
 
-		components.add(0, biggestComponent);
+            }
 
-		return biggestComponent;
+        }
 
-	}
+        components.add(0, biggestComponent);
 
-	private Component findBiggestComponent(List<Component> components) {
+        return biggestComponent;
 
-		if(components.isEmpty()) {
-			return null;
-		}
+    }
 
-		map.clear();
+    private Component findBiggestComponent(List<Component> components) {
 
-		Component biggestComponent = components.get(0);
+        if (components.isEmpty()) {
+            return null;
+        }
 
-		double bestMatch = 0;
+        map.clear();
 
-		for(int i=0;i<components.size(); i++) {
+        Component biggestComponent = components.get(0);
 
-			Component candidate = components.get(i);
+        double bestMatch = 0;
 
-			double area = candidate.getArea()/20;
+        for (int i = 0; i < components.size(); i++) {
 
-			double density = candidate.getDensity(); 
+            Component candidate = components.get(i);
 
-			if(density>=50||density<=20) {
-				density = density*0.60;
-			}
+            double area = candidate.getArea() / 20;
 
-			double weight = area*density;
+            double density = candidate.getDensity();
 
-			if(weight > bestMatch) {
-				biggestComponent = candidate;
-				bestMatch = weight;
-			}
+            if (density >= 50 || density <= 20) {
+                density = density * 0.60;
+            }
 
-			map.put(candidate, weight);
+            double weight = area * density;
 
-		}
+            if (weight > bestMatch) {
+                biggestComponent = candidate;
+                bestMatch = weight;
+            }
 
-		return biggestComponent;
+            map.put(candidate, weight);
 
-	}
+        }
 
-	private double drawAndCalculateAngle(Component component, Graphics g) {
+        return biggestComponent;
 
-		int upperPoints = 0, upperX = 0, upperY = 0;
+    }
 
-		int lowerPoints = 0, lowerX = 0, lowerY = 0;
+    private double drawAndCalculateAngle(Component component, Graphics g) {
 
-		int centerY = component.getY()+component.getH()/2;
+        int upperPoints = 0, upperX = 0, upperY = 0;
 
-		for(Point2D point: component.getPoints()) {
+        int lowerPoints = 0, lowerX = 0, lowerY = 0;
 
-			//Point lower
-			if(point.getY()>centerY) {
-				lowerPoints++;
-				lowerX += point.getX();
-				lowerY += point.getY();
-			} else {
-				upperPoints++;
-				upperX += point.getX();
-				upperY += point.getY();
-			}
+        int centerY = component.getY() + component.getH() / 2;
 
-		}
+        for (Point2D point : component.getPoints()) {
 
-		g.setColor(Color.BLACK);
-		g.drawLine(component.getX(), centerY, component.getX()+component.getW(), centerY);
+            //Point lower
+            if (point.getY() > centerY) {
+                lowerPoints++;
+                lowerX += point.getX();
+                lowerY += point.getY();
+            } else {
+                upperPoints++;
+                upperX += point.getX();
+                upperY += point.getY();
+            }
 
-		if(upperPoints>0&&lowerPoints>0) {
+        }
 
-			Point2D lowerPoint = new Point2D(lowerX/lowerPoints, lowerY/lowerPoints);
+        g.setColor(Color.BLACK);
+        g.drawLine(component.getX(), centerY, component.getX() + component.getW(), centerY);
 
-			Point2D upperPoint = new Point2D(upperX/upperPoints, upperY/upperPoints);
+        if (upperPoints > 0 && lowerPoints > 0) {
 
-			g.setColor(Color.BLACK);
-			g.fillCircle(lowerPoint, 5);
-			g.fillCircle(upperPoint, 5);
+            Point2D lowerPoint = new Point2D(lowerX / lowerPoints, lowerY / lowerPoints);
 
-			g.setColor(Color.BLUE);
-			g.drawCircle(lowerPoint, 5);
-			g.drawCircle(upperPoint, 5);
+            Point2D upperPoint = new Point2D(upperX / upperPoints, upperY / upperPoints);
 
-			g.drawLine(lowerPoint, upperPoint);
+            g.setColor(Color.BLACK);
+            g.fillCircle(lowerPoint, 5);
+            g.fillCircle(upperPoint, 5);
 
-			return upperPoint.angle(lowerPoint);
+            g.setColor(Color.BLUE);
+            g.drawCircle(lowerPoint, 5);
+            g.drawCircle(upperPoint, 5);
 
-		}
+            g.drawLine(lowerPoint, upperPoint);
 
-		return 0d;
+            return upperPoint.angle(lowerPoint);
 
-	}
+        }
+
+        return 0d;
+
+    }
 
 }

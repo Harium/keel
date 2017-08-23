@@ -1,8 +1,9 @@
 package jdt.triangulation;
 
-import br.com.etyllica.linear.Circle;
-import br.com.etyllica.linear.Point3D;
-import br.com.etyllica.linear.BoundingBox;
+
+import com.harium.etyl.linear.BoundingBox;
+import com.harium.etyl.linear.Circle;
+import com.harium.etyl.linear.Point3D;
 
 /**
  * This class represents a 3D triangle in a Triangulation! 

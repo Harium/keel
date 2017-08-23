@@ -1,131 +1,130 @@
 package examples.misc;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.context.UpdateIntervalListener;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.camera.CameraV4L4J;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.ColorPointFilter;
 import br.com.etyllica.keel.filter.RedLedFilter;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.context.UpdateIntervalListener;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HollowController extends Application implements UpdateIntervalListener {
 
-	private Component screen;
+    private Component screen;
 
-	public HollowController(int w, int h) {
-		super(w,h);
-	}
+    public HollowController(int w, int h) {
+        super(w, h);
+    }
 
-	private CameraV4L4J cam;
+    private CameraV4L4J cam;
 
-	private BufferedImage buf;
-	
-	private BufferedImageSource source = new BufferedImageSource();
+    private BufferedImage buf;
 
-	private RedLedFilter ledFilter;
-	
-	private ColorPointFilter activeFilter;
+    private BufferedImageSource source = new BufferedImageSource();
 
-	private List<Component> lastButtons;
+    private RedLedFilter ledFilter;
 
-	private List<Component> components;
+    private ColorPointFilter activeFilter;
 
-	@Override
-	public void load() {
+    private List<Component> lastButtons;
 
-		cam = new CameraV4L4J(0);
-		source.setImage(cam.getBufferedImage());
-		
-		final int w = cam.getBufferedImage().getWidth();
-		final int h = cam.getBufferedImage().getHeight();
+    private List<Component> components;
 
-		screen = new Component(w,h);
+    @Override
+    public void load() {
 
-		//Loading Filters
-		ledFilter = new RedLedFilter(w, h);
-		activeFilter = new ColorPointFilter(w, h, Color.WHITE);
+        cam = new CameraV4L4J(0);
+        source.setImage(cam.getBufferedImage());
 
-		lastButtons = new ArrayList<Component>(8);
+        final int w = cam.getBufferedImage().getWidth();
+        final int h = cam.getBufferedImage().getHeight();
 
-		loading = 100;
+        screen = new Component(w, h);
 
-	}
+        //Loading Filters
+        ledFilter = new RedLedFilter(w, h);
+        activeFilter = new ColorPointFilter(w, h, Color.WHITE);
 
-	public void timeUpdate(long now){
-		System.out.println("TIME UPDATE");
-	}
+        lastButtons = new ArrayList<Component>(8);
 
-	@Override
-	public void updateKeyboard(KeyEvent event){
+        loading = 100;
 
-		if(event.isKeyDown(KeyEvent.VK_R)){
-			activated = false;
-		}
-	}
+    }
 
-	private boolean activated = false;
+    public void timeUpdate(long now) {
+        System.out.println("TIME UPDATE");
+    }
 
-	@Override
-	public void draw(Graphics g) {
+    @Override
+    public void updateKeyboard(KeyEvent event) {
+        if (event.isKeyDown(KeyEvent.VK_R)) {
+            activated = false;
+        }
+    }
 
-		buf = cam.getBufferedImage();
-		source.setImage(buf);
+    private boolean activated = false;
 
-		g.drawImage(buf,0,0);
+    @Override
+    public void draw(Graphics g) {
 
-		activated = false;
-		
-		for(Component component: lastButtons){
+        buf = cam.getBufferedImage();
+        source.setImage(buf);
 
-			List<Component> active = activeFilter.filter(source, component);
+        g.drawImage(buf, 0, 0);
 
-			Color color = Color.YELLOW;
+        activated = false;
 
-			if(active!=null){
-				
-				color = Color.RED;
-				activated = true;
-				
-			}
-			g.setColor(color);
+        for (Component component : lastButtons) {
 
-			g.drawRect(component.getLayer());			
+            List<Component> active = activeFilter.filter(source, component);
 
-		}
+            Color color = Color.YELLOW;
 
-		if(!activated){
+            if (active != null) {
 
-			components = ledFilter.filter(source, screen);
+                color = Color.RED;
+                activated = true;
 
-			if(components!=null){
+            }
+            g.setColor(color);
 
-				Color color = Color.GREEN;
-				if(components.size()==8){
+            g.drawRect(component.getLayer());
 
-					lastButtons.clear();
-					lastButtons.addAll(components);
+        }
 
-					color = Color.BLUE;
-				}
+        if (!activated) {
 
-				for(Component component: components){
-					g.setColor(color);
-					g.drawRect(component.getLayer());
-					/*g.setColor(Color.WHITE);
+            components = ledFilter.filter(source, screen);
+
+            if (components != null) {
+
+                Color color = Color.GREEN;
+                if (components.size() == 8) {
+
+                    lastButtons.clear();
+                    lastButtons.addAll(components);
+
+                    color = Color.BLUE;
+                }
+
+                for (Component component : components) {
+                    g.setColor(color);
+                    g.drawRect(component.getLayer());
+                    /*g.setColor(Color.WHITE);
 					g.escreveLabelSombra(component.getMenorX(), component.getMenorY(), component.getW(), component.getH(), Integer.toString(component.getNumeroPontos()),Color.BLACK);*/
-				}
+                }
 
-			}
-		}
+            }
+        }
 
-	}
+    }
 
 }

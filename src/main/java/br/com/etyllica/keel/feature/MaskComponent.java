@@ -1,330 +1,331 @@
 package br.com.etyllica.keel.feature;
 
-import java.awt.Polygon;
 
-import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.layer.GeometricLayer;
-import br.com.etyllica.layer.Layer;
+import com.harium.etyl.commons.layer.GeometricLayer;
+import com.harium.etyl.commons.layer.Layer;
+import com.harium.etyl.linear.Point2D;
+
+import java.awt.*;
 
 public class MaskComponent implements Comparable<MaskComponent> {
 
-	protected boolean[][] mask;
+    protected boolean[][] mask;
 
-	protected int maskWidth = 640;
+    protected int maskWidth = 640;
 
-	protected int maskHeight = 480;
+    protected int maskHeight = 480;
 
-	protected int lowestX = maskWidth-1;
+    protected int lowestX = maskWidth - 1;
 
-	protected int lowestY = maskHeight-1;
+    protected int lowestY = maskHeight - 1;
 
-	protected int highestX = 0;
+    protected int highestX = 0;
 
-	protected int highestY = 0;
+    protected int highestY = 0;
 
-	private int count = 0;
+    private int count = 0;
 
-	public MaskComponent() {
-		super();
-	}
+    public MaskComponent() {
+        super();
+    }
 
-	public MaskComponent(int w, int h) {
-		super();
-		
-		this.maskWidth = w;
-		this.maskHeight = h;
+    public MaskComponent(int w, int h) {
+        super();
 
-		reset();
-	}
+        this.maskWidth = w;
+        this.maskHeight = h;
 
-	public MaskComponent(int x, int y, int w, int h) {
-		super();
+        reset();
+    }
 
-		this.maskWidth = w;
-		this.maskHeight = h;
-		
-		lowestX = x;
-		lowestY = y;
+    public MaskComponent(int x, int y, int w, int h) {
+        super();
 
-		highestX = w;
-		highestY = h;
+        this.maskWidth = w;
+        this.maskHeight = h;
 
-		mask = new boolean[w][h];
-	}
+        lowestX = x;
+        lowestY = y;
 
-	public void add(Point2D point) {
-		add((int)point.getX(), (int)point.getY());
-	}
+        highestX = w;
+        highestY = h;
 
-	public void add(int px, int py) {
+        mask = new boolean[w][h];
+    }
 
-		if(px > highestX) {
+    public void add(Point2D point) {
+        add((int) point.getX(), (int) point.getY());
+    }
 
-			highestX = px;
+    public void add(int px, int py) {
 
-		} else if(px < lowestX) {
+        if (px > highestX) {
 
-			lowestX = px;
-		}
+            highestX = px;
 
-		if(py > highestY) {
+        } else if (px < lowestX) {
 
-			highestY = py;
+            lowestX = px;
+        }
 
-		} else if(py < lowestY) {
+        if (py > highestY) {
 
-			lowestY = py;
-		}
+            highestY = py;
 
-		mask[px][py] = true;
+        } else if (py < lowestY) {
 
-		count++;
+            lowestY = py;
+        }
 
-	}
+        mask[px][py] = true;
 
-	protected void addLogic(Point2D p) {
+        count++;
 
-	}
+    }
 
-	public int getPointCount() {
-		return count;
-	}
+    protected void addLogic(Point2D p) {
 
-	public void setBounds(int lowestX, int lowestY, int width, int height) {
-		this.lowestX = lowestX;
-		this.lowestY = lowestY;
+    }
 
-		this.highestX = lowestX+width;
-		this.highestY = lowestY+height;
-	}
+    public int getPointCount() {
+        return count;
+    }
 
-	public int getLowestX() {
-		return lowestX;
-	}
+    public void setBounds(int lowestX, int lowestY, int width, int height) {
+        this.lowestX = lowestX;
+        this.lowestY = lowestY;
 
-	public void setLowestX(int lowestX) {
-		this.lowestX = lowestX;
-	}
+        this.highestX = lowestX + width;
+        this.highestY = lowestY + height;
+    }
 
-	public int getLowestY() {
-		return lowestY;
-	}
+    public int getLowestX() {
+        return lowestX;
+    }
 
-	public void setLowestY(int lowestY) {
-		this.lowestY = lowestY;
-	}
+    public void setLowestX(int lowestX) {
+        this.lowestX = lowestX;
+    }
 
-	public int getHighestX() {
-		return highestX;
-	}
+    public int getLowestY() {
+        return lowestY;
+    }
 
-	public void setHighestX(int highestX) {
-		this.highestX = highestX;
-	}
+    public void setLowestY(int lowestY) {
+        this.lowestY = lowestY;
+    }
 
-	public int getHighestY() {
-		return highestY;
-	}
+    public int getHighestX() {
+        return highestX;
+    }
 
-	public void setHighestY(int highestY) {
-		this.highestY = highestY;
-	}
+    public void setHighestX(int highestX) {
+        this.highestX = highestX;
+    }
 
-	public Polygon getBoundingBox() {
+    public int getHighestY() {
+        return highestY;
+    }
 
-		Polygon p = new Polygon();
+    public void setHighestY(int highestY) {
+        this.highestY = highestY;
+    }
 
-		p.addPoint(lowestX,lowestY);
-		p.addPoint(highestX,lowestY);
-		p.addPoint(highestX,highestY);
-		p.addPoint(lowestX,highestY);
+    public Polygon getBoundingBox() {
 
-		return p;
-	}
+        Polygon p = new Polygon();
 
-	public GeometricLayer getRectangle() {
+        p.addPoint(lowestX, lowestY);
+        p.addPoint(highestX, lowestY);
+        p.addPoint(highestX, highestY);
+        p.addPoint(lowestX, highestY);
 
-		GeometricLayer rect = new GeometricLayer(lowestX, lowestY, highestX-lowestX, highestY-lowestY);
+        return p;
+    }
 
-		return rect;
-	}
+    public GeometricLayer getRectangle() {
 
-	public double getDensity() {
-		int area = getArea();
+        GeometricLayer rect = new GeometricLayer(lowestX, lowestY, highestX - lowestX, highestY - lowestY);
 
-		if(area == 0) {
-			return 1;
-		}
+        return rect;
+    }
 
-		return (double)(count*100/area);
+    public double getDensity() {
+        int area = getArea();
 
-	}
+        if (area == 0) {
+            return 1;
+        }
 
-	public int getArea() {
-		return getW()*getH();
-	}
+        return (double) (count * 100 / area);
 
-	public Point2D getCenter() {
+    }
 
-		double countX = 0;
+    public int getArea() {
+        return getW() * getH();
+    }
 
-		double countY = 0;
+    public Point2D getCenter() {
 
-		for(int j = 0; j < maskHeight; j++) {
+        double countX = 0;
 
-			for(int i = 0; i < maskWidth; i++) {
+        double countY = 0;
 
-				if(mask[i][j]) {
+        for (int j = 0; j < maskHeight; j++) {
 
-					countX+=i;
+            for (int i = 0; i < maskWidth; i++) {
 
-					countY+=j;
+                if (mask[i][j]) {
 
-				}
+                    countX += i;
 
-			}
-		}
+                    countY += j;
 
-		Point2D center = new Point2D(countX/count, countY/count);
+                }
 
-		return center;
-	}
+            }
+        }
 
-	public Layer getLayer() {
+        Point2D center = new Point2D(countX / count, countY / count);
 
-		return new Layer(lowestX,lowestY,getW(),getH());
-	}
+        return center;
+    }
 
-	@Override
-	public int compareTo(MaskComponent component) {
+    public Layer getLayer() {
 
-		// TODO Auto-generated method stub
-		//return component.getPoints().size()*getW()-points.size()*getH();
+        return new Layer(lowestX, lowestY, getW(), getH());
+    }
 
-		double dif = component.getDensity()*component.getH()-this.getDensity()*getW();
+    @Override
+    public int compareTo(MaskComponent component) {
 
-		if(dif>0) {
-			return 1;
-		}else if(dif<0) {
-			return -1;
-		}else{
-			return 0;
-		}
+        // TODO Auto-generated method stub
+        //return component.getPoints().size()*getW()-points.size()*getH();
 
-	}
+        double dif = component.getDensity() * component.getH() - this.getDensity() * getW();
 
-	public void merge(MaskComponent component) {
+        if (dif > 0) {
+            return 1;
+        } else if (dif < 0) {
+            return -1;
+        } else {
+            return 0;
+        }
 
-		if((component.getW() != this.getW()) || (component.getW() != this.getW()))
-			return;
+    }
 
+    public void merge(MaskComponent component) {
 
-		for(int j = 0; j < component.maskHeight; j++) {
+        if ((component.getW() != this.getW()) || (component.getW() != this.getW()))
+            return;
 
-			for(int i = 0; i < component.maskWidth; i++) {
 
-				if(component.hasPoint(i,j)){
-					add(i, j);		
-				}
+        for (int j = 0; j < component.maskHeight; j++) {
 
-			}
+            for (int i = 0; i < component.maskWidth; i++) {
 
-		}
+                if (component.hasPoint(i, j)) {
+                    add(i, j);
+                }
 
-	}
+            }
 
-	public boolean colidePoint(int px, int py) {
+        }
 
-		if((px<getX())||(px>getX() + getW())){
-			return false;
-		}
+    }
 
-		if((py<getY())||(py>getY() + getH())){
-			return false;
-		}
+    public boolean colidePoint(int px, int py) {
 
-		return true;
-	}
+        if ((px < getX()) || (px > getX() + getW())) {
+            return false;
+        }
 
-	public boolean colide(MaskComponent component) {
+        if ((py < getY()) || (py > getY() + getH())) {
+            return false;
+        }
 
-		int bx = component.getX();
-		int bw = component.getW();
+        return true;
+    }
 
-		int by = component.getY();
-		int bh = component.getH();
+    public boolean colide(MaskComponent component) {
 
-		if(bx + bw < getX())	return false;
-		if(bx > getX() + getW())		return false;
+        int bx = component.getX();
+        int bw = component.getW();
 
-		if(by + bh < getY())	return false;
-		if(by > getY() + getH())		return false;
+        int by = component.getY();
+        int bh = component.getH();
 
-		return true;
+        if (bx + bw < getX()) return false;
+        if (bx > getX() + getW()) return false;
 
-	}
+        if (by + bh < getY()) return false;
+        if (by > getY() + getH()) return false;
 
-	public void mergePolygon(Polygon p) {
+        return true;
 
-		for(int i=0;i<p.npoints;i++) {
+    }
 
-			Point2D point = new Point2D(p.xpoints[i], p.ypoints[i]);
+    public void mergePolygon(Polygon p) {
 
-			add(point);
-		}
-	}
+        for (int i = 0; i < p.npoints; i++) {
 
-	public void setLocation(int x, int y) {
+            Point2D point = new Point2D(p.xpoints[i], p.ypoints[i]);
 
-		this.lowestX = x;
+            add(point);
+        }
+    }
 
-		this.lowestY = y;
+    public void setLocation(int x, int y) {
 
-		this.highestX = x+1;
+        this.lowestX = x;
 
-		this.highestY = y+1;
+        this.lowestY = y;
 
-	}
+        this.highestX = x + 1;
 
-	public int getX() {
-		return lowestX;
-	}
+        this.highestY = y + 1;
 
-	public int getY() {
-		return lowestY;
-	}
+    }
 
-	public int getW() {
-		return highestX-lowestX;
-	}
+    public int getX() {
+        return lowestX;
+    }
 
-	public int getH() {
-		return highestY-lowestY;
-	}
-		
-	public int getMaskWidth() {
-		return maskWidth;
-	}
+    public int getY() {
+        return lowestY;
+    }
 
-	public int getMaskHeight() {
-		return maskHeight;
-	}
+    public int getW() {
+        return highestX - lowestX;
+    }
 
-	public boolean hasPoint(int px, int py) {
-		return mask[px][py];
-	}
+    public int getH() {
+        return highestY - lowestY;
+    }
 
-	public void reset() {
+    public int getMaskWidth() {
+        return maskWidth;
+    }
 
-		mask = new boolean[maskWidth][maskHeight];
+    public int getMaskHeight() {
+        return maskHeight;
+    }
 
-		highestX = 0;
-		highestY = 0;
+    public boolean hasPoint(int px, int py) {
+        return mask[px][py];
+    }
 
-		lowestX = maskWidth-1;
-		lowestY = maskHeight-1;
+    public void reset() {
 
-	}
+        mask = new boolean[maskWidth][maskHeight];
+
+        highestX = 0;
+        highestY = 0;
+
+        lowestX = maskWidth - 1;
+        lowestY = maskHeight - 1;
+
+    }
 
 }
 

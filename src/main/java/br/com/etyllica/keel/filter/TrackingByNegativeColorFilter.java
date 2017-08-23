@@ -1,38 +1,37 @@
 package br.com.etyllica.keel.filter;
 
-import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.keel.core.strategy.ComponentValidationStrategy;
 import br.com.etyllica.keel.filter.color.NegativeColorStrategy;
 import br.com.etyllica.keel.filter.search.flood.FloodFillSearch;
+import com.harium.etyl.commons.graphics.Color;
 
 public class TrackingByNegativeColorFilter extends ColorPointFilter {
-	
-	public TrackingByNegativeColorFilter(int w, int h) {
-		super(w, h);
 
-		this.searchStrategy = new FloodFillSearch(w, h);
-	}
-	
-	public TrackingByNegativeColorFilter(int w, int h, Color color) {
-		super(w, h);
+    public TrackingByNegativeColorFilter(int w, int h) {
+        super(w, h);
 
-		this.searchStrategy = new FloodFillSearch(w, h);
-		
-		colorStrategy = new NegativeColorStrategy(color, 0x40);
-		
-		searchStrategy.setPixelStrategy(colorStrategy);
-				
-	}
-	
-	public TrackingByNegativeColorFilter(int w, int h, Color color, int tolerance) {
-		this(w, h, color);
+        this.searchStrategy = new FloodFillSearch(w, h);
+    }
 
-		colorStrategy.setTolerance(tolerance);
-		
-	}
-	
-	public void addValidation(ComponentValidationStrategy validation) {
-		searchStrategy.addValidation(validation);
-	}
-			
+    public TrackingByNegativeColorFilter(int w, int h, Color color) {
+        super(w, h);
+
+        this.searchStrategy = new FloodFillSearch(w, h);
+
+        colorStrategy = new NegativeColorStrategy(color, 0x40);
+
+        searchStrategy.setPixelStrategy(colorStrategy);
+    }
+
+    public TrackingByNegativeColorFilter(int w, int h, Color color, int tolerance) {
+        this(w, h, color);
+
+        colorStrategy.setTolerance(tolerance);
+
+    }
+
+    public void addValidation(ComponentValidationStrategy validation) {
+        searchStrategy.addValidation(validation);
+    }
+
 }

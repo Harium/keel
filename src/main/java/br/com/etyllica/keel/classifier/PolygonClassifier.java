@@ -1,8 +1,8 @@
 package br.com.etyllica.keel.classifier;
 
-import java.util.List;
+import com.harium.etyl.linear.Point2D;
 
-import br.com.etyllica.linear.Point2D;
+import java.util.List;
 
 public class PolygonClassifier {
 

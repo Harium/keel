@@ -6,6 +6,6 @@ import br.com.etyllica.keel.feature.Component;
 
 public interface ProcessComponentFilter<T> {
 
-	public T process(BufferedImage buffer, Component component);
+	T process(BufferedImage buffer, Component component);
 
 }

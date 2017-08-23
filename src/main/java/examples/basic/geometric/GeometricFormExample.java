@@ -1,10 +1,10 @@
 package examples.basic.geometric;
 
 
-import br.com.etyllica.Etyllica;
-import br.com.etyllica.commons.context.Application;
+import com.harium.etyl.Etyl;
+import com.harium.etyl.commons.context.Application;
 
-public class GeometricFormExample extends Etyllica {
+public class GeometricFormExample extends Etyl {
 
     private static final long serialVersionUID = 1L;
 

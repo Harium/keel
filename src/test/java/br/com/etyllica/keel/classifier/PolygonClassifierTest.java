@@ -3,8 +3,6 @@ package br.com.etyllica.keel.classifier;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.etyllica.keel.classifier.PolygonClassifier;
-
 public class PolygonClassifierTest {
 
 	@Test

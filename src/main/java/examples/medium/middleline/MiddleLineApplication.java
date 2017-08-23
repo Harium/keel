@@ -1,17 +1,16 @@
 package examples.medium.middleline;
 
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.modifier.MiddleLineModifier;
-import br.com.etyllica.linear.graph.GenericEdge;
-import br.com.etyllica.linear.graph.Graph;
-import br.com.etyllica.linear.graph.Node;
-
-import java.awt.*;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.linear.graph.GenericEdge;
+import com.harium.etyl.linear.graph.Graph;
+import com.harium.etyl.linear.graph.Node;
 
 public class MiddleLineApplication extends Application {
 
@@ -112,7 +111,6 @@ public class MiddleLineApplication extends Application {
             g.drawCircle(point, 5);
 
             lastPoint = point;
-
         }
 
         for (int i = 0; i < component.getPoints().size() - 1; i++) {

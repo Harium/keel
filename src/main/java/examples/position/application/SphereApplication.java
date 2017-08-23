@@ -1,22 +1,21 @@
-package position.application;
+package examples.position.application;
 
 
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.camera.Camera;
 import br.com.etyllica.keel.awt.camera.CameraSarxosWebcam;
-import br.com.etyllica.keel.awt.camera.CameraV4L4J;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.classifier.CircleClassifier;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.ColorFilter;
 import br.com.etyllica.keel.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
-import br.com.etyllica.layer.BufferedLayer;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.layer.BufferedLayer;
 
 import java.awt.image.BufferedImage;
 import java.util.HashSet;

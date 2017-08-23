@@ -3,9 +3,9 @@ package br.com.etyllica.keel.filter.search;
 
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.feature.Component;
+import com.harium.etyl.linear.Point2D;
 
 public class NoiseSearch extends PolygonalSearch {
 

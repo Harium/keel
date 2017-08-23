@@ -1,104 +1,104 @@
 package examples.misc;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.camera.Camera;
 import br.com.etyllica.keel.awt.camera.CameraV4L4J;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.search.TriangularSearch;
-import br.com.etyllica.layer.BufferedLayer;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.layer.BufferedLayer;
+
+import java.awt.image.BufferedImage;
 
 public class SimpleCam extends Application {
 
-	public SimpleCam(int w, int h) {
-		super(w, h);
-	}
+    public SimpleCam(int w, int h) {
+        super(w, h);
+    }
 
-	private Camera cam;
-	private BufferedImageSource source = new BufferedImageSource();
-	
-	private TriangularSearch colorFilter;
+    private Camera cam;
+    private BufferedImageSource source = new BufferedImageSource();
 
-	private ColorStrategy colorStrategy;
-	
-	private BufferedLayer mirror;
+    private TriangularSearch colorFilter;
 
-	private Component screen;
+    private ColorStrategy colorStrategy;
 
-	private Component point;
+    private BufferedLayer mirror;
 
-	@Override
-	public void load() {
-		
-		loadingInfo = "Opening Camera";
+    private Component screen;
 
-		cam = new CameraV4L4J(0);
-		
-		BufferedImage buffer = cam.getBufferedImage();
-		
-		int w = buffer.getWidth();
-		int h = buffer.getHeight();
-		
-		screen = new Component(0, 0, w, h);
+    private Component point;
 
-		loadingInfo = "Setting Filter";
+    @Override
+    public void load() {
 
-		colorFilter = new TriangularSearch(w, h);
-		colorFilter.setBorder(20);
-		
-		colorStrategy = new ColorStrategy(Color.BLACK.getRGB()); 
-		colorFilter.setPixelStrategy(colorStrategy);
+        loadingInfo = "Opening Camera";
 
-		mirror = new BufferedLayer(0, 0);
+        cam = new CameraV4L4J(0);
 
-		loading = 100;
-	}
+        BufferedImage buffer = cam.getBufferedImage();
 
-	@Override
-	public void update(long now) {
+        int w = buffer.getWidth();
+        int h = buffer.getHeight();
 
-		//Get the Camera image
-		mirror.setBuffer(cam.getBufferedImage());
-		
-		//Normally the camera shows the image flipped, but we want to see something like a mirror
-		//So we flip the image
-		mirror.flipHorizontal();
-		source.setImage(mirror.getBuffer());
+        screen = new Component(0, 0, w, h);
 
-		//Now we search for the first pixel with the desired color in the whole screen
-		point = colorFilter.filterFirst(source, screen);
-	}
+        loadingInfo = "Setting Filter";
 
-	@Override
-	public void draw(Graphics g) {
+        colorFilter = new TriangularSearch(w, h);
+        colorFilter.setBorder(20);
 
-		//Draw the mirror image
-		mirror.draw(g);
+        colorStrategy = new ColorStrategy(Color.BLACK.getRGB());
+        colorFilter.setPixelStrategy(colorStrategy);
 
-		//Set a Color to our Point
-		g.setColor(Color.CYAN);
+        mirror = new BufferedLayer(0, 0);
 
-		//Draw our tracking point with radius = 10 pixels
-		g.fillCircle(point.getX(), point.getY(), 10);
+        loading = 100;
+    }
 
-	}
+    @Override
+    public void update(long now) {
 
-	@Override
-	public void updateMouse(PointerEvent event) {
+        //Get the Camera image
+        mirror.setBuffer(cam.getBufferedImage());
 
-		if(event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)){
-			//When mouse clicks with LeftButton, the color filter tries to find
-			//the color we are clicking on
-			colorStrategy.setColor(mirror.getBuffer().getRGB((int)event.getX(), (int)event.getY()));						
-		}
+        //Normally the camera shows the image flipped, but we want to see something like a mirror
+        //So we flip the image
+        mirror.flipHorizontal();
+        source.setImage(mirror.getBuffer());
 
-	}
+        //Now we search for the first pixel with the desired color in the whole screen
+        point = colorFilter.filterFirst(source, screen);
+    }
+
+    @Override
+    public void draw(Graphics g) {
+
+        //Draw the mirror image
+        mirror.draw(g);
+
+        //Set a Color to our Point
+        g.setColor(Color.CYAN);
+
+        //Draw our tracking point with radius = 10 pixels
+        g.fillCircle(point.getX(), point.getY(), 10);
+
+    }
+
+    @Override
+    public void updateMouse(PointerEvent event) {
+
+        if (event.isButtonUp(MouseEvent.MOUSE_BUTTON_LEFT)) {
+            //When mouse clicks with LeftButton, the color filter tries to find
+            //the color we are clicking on
+            colorStrategy.setColor(mirror.getBuffer().getRGB((int) event.getX(), (int) event.getY()));
+        }
+
+    }
 
 }

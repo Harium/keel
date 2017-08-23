@@ -1,15 +1,5 @@
 package examples.misc;
 
-import java.awt.Polygon;
-import java.awt.image.BufferedImage;
-
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.ui.UI;
-import br.com.etyllica.ui.spinner.IntegerSpinner;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
@@ -19,444 +9,452 @@ import br.com.etyllica.keel.filter.search.CornerSearch;
 import br.com.etyllica.keel.filter.search.CrossSearch;
 import br.com.etyllica.keel.filter.search.NoiseSearch;
 import br.com.etyllica.keel.modifier.hull.FastConvexHullModifier;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.ui.UI;
+import com.harium.etyl.ui.spinner.IntegerSpinner;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class FaceSampledMultiFilterStatic extends Application {
 
-	private FakeCamera cam = new FakeCamera();
-	private BufferedImageSource source = new BufferedImageSource();
+    private FakeCamera cam = new FakeCamera();
+    private BufferedImageSource source = new BufferedImageSource();
 
-	private CrossSearch blackFilter = new CrossSearch();
-	
-	private ColorStrategy blackColorStrategy = new ColorStrategy(Color.BLACK);
+    private CrossSearch blackFilter = new CrossSearch();
 
-	private CornerSearch skinFilter;
-	
-	private SkinColorStrategy skinColorStrategy = new SkinColorStrategy();
+    private ColorStrategy blackColorStrategy = new ColorStrategy(Color.BLACK);
 
-	private NoiseSearch quickFilter;
+    private CornerSearch skinFilter;
 
-	private NoiseSearch quickMergeFilter;
+    private SkinColorStrategy skinColorStrategy = new SkinColorStrategy();
 
-	private boolean hide = false;
-	private boolean pixels = true;
-	private boolean drawCleanedOnly = false;
-	private boolean drawBox = true;
+    private NoiseSearch quickFilter;
 
-	private int xOffset = 0;
-	private int yOffset = 0;
+    private NoiseSearch quickMergeFilter;
 
-	private final int IMAGES_TO_LOAD = 50;	
+    private boolean hide = false;
+    private boolean pixels = true;
+    private boolean drawCleanedOnly = false;
+    private boolean drawBox = true;
 
-	private Component blackSampledFeature;
-	private Component skinFeature;
+    private int xOffset = 0;
+    private int yOffset = 0;
 
-	private Polygon blackPolygon = new Polygon();
-	private Polygon skinPolygon = new Polygon();
+    private final int IMAGES_TO_LOAD = 50;
 
-	private Polygon merged = new Polygon();
+    private Component blackSampledFeature;
+    private Component skinFeature;
 
-	private final int DEFAULT_STEP = 4;
+    private Polygon blackPolygon = new Polygon();
+    private Polygon skinPolygon = new Polygon();
 
-	private final int DEFAULT_BORDER = DEFAULT_STEP*2;
+    private Polygon merged = new Polygon();
 
-	//private final int NOISE_RADIUS = DEFAULT_STEP*5;
+    private final int DEFAULT_STEP = 4;
 
-	private int noiseRadius = 50;
-	private int minNeighboor = 3;
-	private int maxNeighboor = 5;
+    private final int DEFAULT_BORDER = DEFAULT_STEP * 2;
 
-	private int tolerance = 50;
+    //private final int NOISE_RADIUS = DEFAULT_STEP*5;
 
-	private int skinNoiseRadius = 45;
-	private int skinMinNeighboor = 1;
-	private int skinMaxNeighboor = 6;
+    private int noiseRadius = 50;
+    private int minNeighboor = 3;
+    private int maxNeighboor = 5;
 
-	private int skinTolerance = 5;
+    private int tolerance = 50;
 
-	private IntegerSpinner skinMinNeighboorSpinner;
+    private int skinNoiseRadius = 45;
+    private int skinMinNeighboor = 1;
+    private int skinMaxNeighboor = 6;
 
-	private Component allPoints;
-	
-	private Component screen;
+    private int skinTolerance = 5;
 
-	public FaceSampledMultiFilterStatic(int w, int h) {
-		super(w, h);
-	}
+    private IntegerSpinner skinMinNeighboorSpinner;
 
-	@Override
-	public void load() {
+    private Component allPoints;
 
-		loadingInfo = "Loading Images";
+    private Component screen;
 
-		for(int i=1;i<=IMAGES_TO_LOAD;i++){
-			loading = i;
-			cam.addImage("skin/skin"+Integer.toString(i)+".jpg");
-		}
-		
-		int w = cam.getBufferedImage().getWidth();
-		
-		int h = cam.getBufferedImage().getHeight();
-		
-		screen = new Component(0, 0, w, h);
+    public FaceSampledMultiFilterStatic(int w, int h) {
+        super(w, h);
+    }
 
-		loadingInfo = "Configuring Filter";
-		
-		//border: 4 and step: 4
-		blackFilter.setBorder(DEFAULT_BORDER);
-		blackFilter.setStep(DEFAULT_STEP);
-		blackFilter.setPixelStrategy(blackColorStrategy);
-		
-		blackColorStrategy.setTolerance(tolerance);		
-		
-		
-		skinFilter = new CornerSearch(w, h);
-		skinFilter.setBorder(DEFAULT_BORDER);
-		skinFilter.setStep(DEFAULT_STEP);
-		
-		skinColorStrategy.setTolerance(tolerance-45);
-		
-		skinFilter.setPixelStrategy(skinColorStrategy);
+    @Override
+    public void load() {
 
-		quickFilter = new NoiseSearch(w, h);
-		
-		quickMergeFilter = new NoiseSearch(w, h);
-		quickMergeFilter.setComponentModifierStrategy(new FastConvexHullModifier());
-		
-		loading = 60;
-		reset(cam.getBufferedImage());
+        loadingInfo = "Loading Images";
 
-		IntegerSpinner skinMinNeighboorSpinner = new IntegerSpinner(640, 0, 160, 40);
-		skinMinNeighboorSpinner.setMinValue(0);
-		skinMinNeighboorSpinner.setMaxValue(20);
-		skinMinNeighboorSpinner.setValue(1);
-		UI.add(skinMinNeighboorSpinner);
+        for (int i = 1; i <= IMAGES_TO_LOAD; i++) {
+            loading = i;
+            cam.addImage("skin/skin" + Integer.toString(i) + ".jpg");
+        }
 
-		loading = 100;
-	}
+        int w = cam.getBufferedImage().getWidth();
 
-	private void reset(BufferedImage b){
-		source.setImage(b);
-		/*int w = b.getWidth();
+        int h = cam.getBufferedImage().getHeight();
+
+        screen = new Component(0, 0, w, h);
+
+        loadingInfo = "Configuring Filter";
+
+        //border: 4 and step: 4
+        blackFilter.setBorder(DEFAULT_BORDER);
+        blackFilter.setStep(DEFAULT_STEP);
+        blackFilter.setPixelStrategy(blackColorStrategy);
+
+        blackColorStrategy.setTolerance(tolerance);
+
+
+        skinFilter = new CornerSearch(w, h);
+        skinFilter.setBorder(DEFAULT_BORDER);
+        skinFilter.setStep(DEFAULT_STEP);
+
+        skinColorStrategy.setTolerance(tolerance - 45);
+
+        skinFilter.setPixelStrategy(skinColorStrategy);
+
+        quickFilter = new NoiseSearch(w, h);
+
+        quickMergeFilter = new NoiseSearch(w, h);
+        quickMergeFilter.setComponentModifierStrategy(new FastConvexHullModifier());
+
+        loading = 60;
+        reset(cam.getBufferedImage());
+
+        IntegerSpinner skinMinNeighboorSpinner = new IntegerSpinner(640, 0, 160, 40);
+        skinMinNeighboorSpinner.setMinValue(0);
+        skinMinNeighboorSpinner.setMaxValue(20);
+        skinMinNeighboorSpinner.setValue(1);
+        UI.add(skinMinNeighboorSpinner);
+
+        loading = 100;
+    }
+
+    private void reset(BufferedImage b) {
+        source.setImage(b);
+        /*int w = b.getWidth();
 		int h = b.getHeight();*/
 
-		blackColorStrategy.setTolerance(tolerance);
+        blackColorStrategy.setTolerance(tolerance);
 
-		quickFilter.setRadius(noiseRadius);
-		quickFilter.setMinNeighboors(minNeighboor);
-		quickFilter.setMaxNeighboors(maxNeighboor);
-		//quickFilter.setRadius(20);
+        quickFilter.setRadius(noiseRadius);
+        quickFilter.setMinNeighboors(minNeighboor);
+        quickFilter.setMaxNeighboors(maxNeighboor);
+        //quickFilter.setRadius(20);
 
-		//Sampled
-		blackSampledFeature = blackFilter.filter(source, screen).get(0);
-		blackPolygon.reset();
-		quickFilter.filter(source, blackSampledFeature).get(0);
-		blackPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
+        //Sampled
+        blackSampledFeature = blackFilter.filter(source, screen).get(0);
+        blackPolygon.reset();
+        quickFilter.filter(source, blackSampledFeature).get(0);
+        blackPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
 
-		quickFilter.setRadius(skinNoiseRadius);
-		quickFilter.setMinNeighboors(skinMinNeighboor);
-		quickFilter.setMaxNeighboors(skinMaxNeighboor);
+        quickFilter.setRadius(skinNoiseRadius);
+        quickFilter.setMinNeighboors(skinMinNeighboor);
+        quickFilter.setMaxNeighboors(skinMaxNeighboor);
 
-		skinColorStrategy.setTolerance(skinTolerance);
+        skinColorStrategy.setTolerance(skinTolerance);
 
-		skinFeature = skinFilter.filter(source, screen).get(0);
-		skinPolygon.reset();
-		quickFilter.filter(source, skinFeature).get(0);
-		skinPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
-
-		
-		quickMergeFilter.setRadius(noiseRadius);
-		quickMergeFilter.setMinNeighboors(1);
-		quickMergeFilter.setMaxNeighboors(2);
-
-		mergeAll();
-
-	}
-
-	private void mergeAll(){
-
-		allPoints = new Component(0, 0);
-		allPoints.mergePolygon(skinPolygon);
-		allPoints.mergePolygon(blackPolygon);
-
-		merged.reset();
-		quickMergeFilter.filter(null, allPoints).get(0);
-		merged = new Polygon(quickMergeFilter.getPolygon().xpoints, quickMergeFilter.getPolygon().ypoints, quickMergeFilter.getPolygon().npoints);
-
-	}
-
-	@Override
-	public void updateKeyboard(KeyEvent event) {
-
-		//System.out.println("updateKeyBoard "+event.getKey()+" "+event.getState());
-
-		if(event.isKeyDown(KeyEvent.VK_RIGHT_ARROW)){
-			cam.nextFrame();
-			reset(cam.getBufferedImage());
-		}
-
-		else if(event.isKeyDown(KeyEvent.VK_LEFT_ARROW)){
-			cam.previousFrame();
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_Y)){
-			hide = !hide;
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_P)){
-			pixels = !pixels;
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_U)){
-			drawCleanedOnly = !drawCleanedOnly;
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_I)){
-			drawBox = !drawBox;
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_A)){
-			noiseRadius++;			
-			System.out.println("RadiusHull = "+noiseRadius);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_S)){
-			noiseRadius--;
-			System.out.println("RadiusHull = "+noiseRadius);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_Z)){
-			tolerance++;
-			System.out.println("tolerance = "+tolerance);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_X)){
-			tolerance--;
-			System.out.println("tolerance = "+tolerance);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_D)){
-			minNeighboor++;
-			System.out.println("minNeighboor = "+minNeighboor);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_F)){
-			minNeighboor--;
-			System.out.println("minNeighboor = "+minNeighboor);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_C)){
-			maxNeighboor++;
-			System.out.println("maxNeighboor = "+maxNeighboor);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_V)){
-			maxNeighboor--;
-			System.out.println("maxNeighboor = "+maxNeighboor);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_G)){
-			skinNoiseRadius++;
-			System.out.println("skinNoiseRadius = "+skinNoiseRadius);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_H)){
-			skinNoiseRadius--;
-			System.out.println("skinNoiseRadius = "+skinNoiseRadius);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_B)){
-			skinTolerance++;
-			System.out.println("skinTolerance = "+skinTolerance);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_N)){
-			skinTolerance--;
-			System.out.println("skinTolerance = "+skinTolerance);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_J)){
-			skinMinNeighboor++;
-			System.out.println("skinMinNeighboor = "+skinMinNeighboor);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_K)){
-			skinMinNeighboor--;
-			System.out.println("skinMinNeighboor = "+skinMinNeighboor);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_M)){
-			skinMaxNeighboor++;
-			System.out.println("skinMaxNeighboor = "+skinMaxNeighboor);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_VIRGULA)){
-			skinMaxNeighboor--;
-			System.out.println("skinMaxNeighboor = "+skinMaxNeighboor);
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_SPACE)){
-			System.out.println("------------------------------");
-			System.out.println("noiseRadius = "+noiseRadius+";");
-			System.out.println("tolerance = "+tolerance+";");
-			System.out.println("minNeighboor = "+minNeighboor+";");
-			System.out.println("maxNeighboor = "+maxNeighboor+";");
-			System.out.println(" ");
-			System.out.println("skinNoiseRadius = "+skinNoiseRadius+";");
-			System.out.println("skinTolerance = "+skinTolerance+";");
-			System.out.println("skinMinNeighboor = "+skinMinNeighboor+";");
-			System.out.println("skinMaxNeighboor = "+skinMaxNeighboor+";");
-			System.out.println("------------------------------");
-		}
-
-		//Presets
-		if(event.isKeyDown(KeyEvent.VK_1)){
-
-			noiseRadius = 117;
-			tolerance = 50;
-			minNeighboor = 16;
-			maxNeighboor = 30;
-
-			skinNoiseRadius = 55;
-			skinTolerance = 5;
-			skinMinNeighboor = 4;
-			skinMaxNeighboor = 8;
-
-			reset(cam.getBufferedImage());
-		}
-
-		if(event.isKeyDown(KeyEvent.VK_2)){
-
-			noiseRadius = 117;
-			tolerance = 68;
-			minNeighboor = 7;
-			maxNeighboor = 12;
-
-			skinNoiseRadius = 54;
-			skinTolerance = 0;
-			skinMinNeighboor = 7;
-			skinMaxNeighboor = 9;
-
-			reset(cam.getBufferedImage());
-		}
+        skinFeature = skinFilter.filter(source, screen).get(0);
+        skinPolygon.reset();
+        quickFilter.filter(source, skinFeature).get(0);
+        skinPolygon = new Polygon(quickFilter.getPolygon().xpoints, quickFilter.getPolygon().ypoints, quickFilter.getPolygon().npoints);
 
 
-		if(event.isKeyDown(KeyEvent.VK_3)){
+        quickMergeFilter.setRadius(noiseRadius);
+        quickMergeFilter.setMinNeighboors(1);
+        quickMergeFilter.setMaxNeighboors(2);
 
-			noiseRadius = 117;
-			tolerance = 60;
-			minNeighboor = 7;
-			maxNeighboor = 29;
+        mergeAll();
 
-			skinNoiseRadius = 54;
-			skinTolerance = 0;
-			skinMinNeighboor = 6;
-			skinMaxNeighboor = 9;
-			reset(cam.getBufferedImage());
-		}
+    }
 
-		if(event.isKeyDown(KeyEvent.VK_4)){
+    private void mergeAll() {
 
-			noiseRadius = 55;
-			tolerance = 75;
-			minNeighboor = 4;
-			maxNeighboor = 29;
+        allPoints = new Component(0, 0);
+        allPoints.mergePolygon(skinPolygon);
+        allPoints.mergePolygon(blackPolygon);
 
-			skinNoiseRadius = 66;
-			skinTolerance = 15;
-			skinMinNeighboor = 7;
-			skinMaxNeighboor = 19;
-			reset(cam.getBufferedImage());
+        merged.reset();
+        quickMergeFilter.filter(null, allPoints).get(0);
+        merged = new Polygon(quickMergeFilter.getPolygon().xpoints, quickMergeFilter.getPolygon().ypoints, quickMergeFilter.getPolygon().npoints);
 
-		}
+    }
 
-		if(event.isKeyDown(KeyEvent.VK_5)){
-			noiseRadius = 49;
-			tolerance = 154;
-			minNeighboor = 3;
-			maxNeighboor = 27;
+    @Override
+    public void updateKeyboard(KeyEvent event) {
 
-			skinNoiseRadius = 34;
-			skinTolerance = 21;
-			skinMinNeighboor = 5;
-			skinMaxNeighboor = 24;
-			reset(cam.getBufferedImage());
-		}
+        //System.out.println("updateKeyBoard "+event.getKey()+" "+event.getState());
 
-		if(event.isKeyDown(KeyEvent.VK_6)){
-			noiseRadius = 55;
-			tolerance = 79;
-			minNeighboor = 4;
-			maxNeighboor = 29;
+        if (event.isKeyDown(KeyEvent.VK_RIGHT_ARROW)) {
+            cam.nextFrame();
+            reset(cam.getBufferedImage());
+        } else if (event.isKeyDown(KeyEvent.VK_LEFT_ARROW)) {
+            cam.previousFrame();
+            reset(cam.getBufferedImage());
+        }
 
-			skinNoiseRadius = 66;
-			skinTolerance = 15;
-			skinMinNeighboor = 8;
-			skinMaxNeighboor = 19;
-		}
-	}
+        if (event.isKeyDown(KeyEvent.VK_Y)) {
+            hide = !hide;
+        }
 
-	@Override
-	public void draw(Graphics g) {
+        if (event.isKeyDown(KeyEvent.VK_P)) {
+            pixels = !pixels;
+        }
 
-		if(!hide){
-			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
-		}
+        if (event.isKeyDown(KeyEvent.VK_U)) {
+            drawCleanedOnly = !drawCleanedOnly;
+        }
 
-		//drawPolygon(g, lightDirection, whitePolygon, Color.ORANGE);
+        if (event.isKeyDown(KeyEvent.VK_I)) {
+            drawBox = !drawBox;
+        }
 
-		drawPolygon(g, blackPolygon, Color.WHITE, noiseRadius);
+        if (event.isKeyDown(KeyEvent.VK_A)) {
+            noiseRadius++;
+            System.out.println("RadiusHull = " + noiseRadius);
+            reset(cam.getBufferedImage());
+        }
 
-		drawPolygon(g, skinPolygon, Color.BLUE_VIOLET, skinNoiseRadius);
+        if (event.isKeyDown(KeyEvent.VK_S)) {
+            noiseRadius--;
+            System.out.println("RadiusHull = " + noiseRadius);
+            reset(cam.getBufferedImage());
+        }
 
-		//drawPolygon(g, merged, Color.RED);
-		drawMerged(g);
+        if (event.isKeyDown(KeyEvent.VK_Z)) {
+            tolerance++;
+            System.out.println("tolerance = " + tolerance);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_X)) {
+            tolerance--;
+            System.out.println("tolerance = " + tolerance);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_D)) {
+            minNeighboor++;
+            System.out.println("minNeighboor = " + minNeighboor);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_F)) {
+            minNeighboor--;
+            System.out.println("minNeighboor = " + minNeighboor);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_C)) {
+            maxNeighboor++;
+            System.out.println("maxNeighboor = " + maxNeighboor);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_V)) {
+            maxNeighboor--;
+            System.out.println("maxNeighboor = " + maxNeighboor);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_G)) {
+            skinNoiseRadius++;
+            System.out.println("skinNoiseRadius = " + skinNoiseRadius);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_H)) {
+            skinNoiseRadius--;
+            System.out.println("skinNoiseRadius = " + skinNoiseRadius);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_B)) {
+            skinTolerance++;
+            System.out.println("skinTolerance = " + skinTolerance);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_N)) {
+            skinTolerance--;
+            System.out.println("skinTolerance = " + skinTolerance);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_J)) {
+            skinMinNeighboor++;
+            System.out.println("skinMinNeighboor = " + skinMinNeighboor);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_K)) {
+            skinMinNeighboor--;
+            System.out.println("skinMinNeighboor = " + skinMinNeighboor);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_M)) {
+            skinMaxNeighboor++;
+            System.out.println("skinMaxNeighboor = " + skinMaxNeighboor);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_VIRGULA)) {
+            skinMaxNeighboor--;
+            System.out.println("skinMaxNeighboor = " + skinMaxNeighboor);
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_SPACE)) {
+            System.out.println("------------------------------");
+            System.out.println("noiseRadius = " + noiseRadius + ";");
+            System.out.println("tolerance = " + tolerance + ";");
+            System.out.println("minNeighboor = " + minNeighboor + ";");
+            System.out.println("maxNeighboor = " + maxNeighboor + ";");
+            System.out.println(" ");
+            System.out.println("skinNoiseRadius = " + skinNoiseRadius + ";");
+            System.out.println("skinTolerance = " + skinTolerance + ";");
+            System.out.println("skinMinNeighboor = " + skinMinNeighboor + ";");
+            System.out.println("skinMaxNeighboor = " + skinMaxNeighboor + ";");
+            System.out.println("------------------------------");
+        }
+
+        //Presets
+        if (event.isKeyDown(KeyEvent.VK_1)) {
+
+            noiseRadius = 117;
+            tolerance = 50;
+            minNeighboor = 16;
+            maxNeighboor = 30;
+
+            skinNoiseRadius = 55;
+            skinTolerance = 5;
+            skinMinNeighboor = 4;
+            skinMaxNeighboor = 8;
+
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_2)) {
+
+            noiseRadius = 117;
+            tolerance = 68;
+            minNeighboor = 7;
+            maxNeighboor = 12;
+
+            skinNoiseRadius = 54;
+            skinTolerance = 0;
+            skinMinNeighboor = 7;
+            skinMaxNeighboor = 9;
+
+            reset(cam.getBufferedImage());
+        }
+
+
+        if (event.isKeyDown(KeyEvent.VK_3)) {
+
+            noiseRadius = 117;
+            tolerance = 60;
+            minNeighboor = 7;
+            maxNeighboor = 29;
+
+            skinNoiseRadius = 54;
+            skinTolerance = 0;
+            skinMinNeighboor = 6;
+            skinMaxNeighboor = 9;
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_4)) {
+
+            noiseRadius = 55;
+            tolerance = 75;
+            minNeighboor = 4;
+            maxNeighboor = 29;
+
+            skinNoiseRadius = 66;
+            skinTolerance = 15;
+            skinMinNeighboor = 7;
+            skinMaxNeighboor = 19;
+            reset(cam.getBufferedImage());
+
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_5)) {
+            noiseRadius = 49;
+            tolerance = 154;
+            minNeighboor = 3;
+            maxNeighboor = 27;
+
+            skinNoiseRadius = 34;
+            skinTolerance = 21;
+            skinMinNeighboor = 5;
+            skinMaxNeighboor = 24;
+            reset(cam.getBufferedImage());
+        }
+
+        if (event.isKeyDown(KeyEvent.VK_6)) {
+            noiseRadius = 55;
+            tolerance = 79;
+            minNeighboor = 4;
+            maxNeighboor = 29;
+
+            skinNoiseRadius = 66;
+            skinTolerance = 15;
+            skinMinNeighboor = 8;
+            skinMaxNeighboor = 19;
+        }
+    }
+
+    @Override
+    public void draw(Graphics g) {
+
+        if (!hide) {
+            g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
+        }
+
+        //drawPolygon(g, lightDirection, whitePolygon, Color.ORANGE);
+
+        drawPolygon(g, blackPolygon, Color.WHITE, noiseRadius);
+
+        drawPolygon(g, skinPolygon, Color.BLUE_VIOLET, skinNoiseRadius);
+
+        //drawPolygon(g, merged, Color.RED);
+        drawMerged(g);
 
 		/*drawComponentPolygon(g, blackSampledFeature, blackPolygon, Color.WHITE);
 
 		drawComponentPolygon(g, skinFeature, skinPolygon, Color.BLUE_VIOLET);*/
 
-	}
+    }
 
-	private void drawComponentPolygon(Graphics g, Component component, Polygon p, Color color){
+    private void drawComponentPolygon(Graphics g, Component component, Polygon p, Color color) {
 
-		g.setColor(Color.BLACK);
-		g.setLineWidth(3);
-		g.drawPolygon(p);
+        g.setColor(Color.BLACK);
+        g.setLineWidth(3);
+        g.drawPolygon(p);
 
-		g.setColor(color);
-		g.setLineWidth(1);
-		g.drawPolygon(p);
+        g.setColor(color);
+        g.setLineWidth(1);
+        g.drawPolygon(p);
 
-		for(Point2D ponto: component.getPoints()){
+        for (Point2D ponto : component.getPoints()) {
 
-			g.setColor(color);
-			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
+            g.setColor(color);
+            g.fillCircle(xOffset + (int) ponto.getX(), yOffset + (int) ponto.getY(), 5);
 
-			g.setColor(Color.WHITE);
-			g.drawCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), noiseRadius);
+            g.setColor(Color.WHITE);
+            g.drawCircle(xOffset + (int) ponto.getX(), yOffset + (int) ponto.getY(), noiseRadius);
 
-		}
+        }
 
-	}
+    }
 
-	private void drawPolygon(Graphics g, Polygon p, Color color, int radius){
+    private void drawPolygon(Graphics g, Polygon p, Color color, int radius) {
 
 		/*g.setColor(Color.BLACK);
 		g.setBasicStroke(3);
@@ -466,53 +464,53 @@ public class FaceSampledMultiFilterStatic extends Application {
 		g.setBasicStroke(1);
 		g.drawPolygon(p);*/
 
-		for(int i=0;i<p.npoints;i++){
+        for (int i = 0; i < p.npoints; i++) {
 
-			Point2D ponto = new Point2D(p.xpoints[i], p.ypoints[i]);
+            Point2D ponto = new Point2D(p.xpoints[i], p.ypoints[i]);
 
-			g.setColor(color);
-			g.fillCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), 5);
+            g.setColor(color);
+            g.fillCircle(xOffset + (int) ponto.getX(), yOffset + (int) ponto.getY(), 5);
 
-			if(i%3==0){
-				g.setColor(Color.WHITE);
-				g.drawCircle(xOffset+(int)ponto.getX(), yOffset+(int)ponto.getY(), radius);
-			}
-		}
+            if (i % 3 == 0) {
+                g.setColor(Color.WHITE);
+                g.drawCircle(xOffset + (int) ponto.getX(), yOffset + (int) ponto.getY(), radius);
+            }
+        }
 
-	}
+    }
 
-	private void drawMerged(Graphics g){
-		g.setColor(Color.BLACK);
-		g.setLineWidth(3);
-		g.drawPolygon(merged);
+    private void drawMerged(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.setLineWidth(3);
+        g.drawPolygon(merged);
 
-		g.setColor(Color.RED);
-		g.setLineWidth(1);
-		g.drawPolygon(merged);
+        g.setColor(Color.RED);
+        g.setLineWidth(1);
+        g.drawPolygon(merged);
 
-		int px = 0, py = 0, pr = 0; 
-		int pn = merged.npoints;
+        int px = 0, py = 0, pr = 0;
+        int pn = merged.npoints;
 
-		if(pn==0){
-			pn=1;
-		}
+        if (pn == 0) {
+            pn = 1;
+        }
 
-		for(int i=0;i<merged.npoints;i++){
+        for (int i = 0; i < merged.npoints; i++) {
 
-			px += merged.xpoints[i];
-			py += merged.ypoints[i];
+            px += merged.xpoints[i];
+            py += merged.ypoints[i];
 
-		}
+        }
 
-		//g.setColor(Color.BLACK);
-		//g.fillOvalCenter(xOffset+px/pn, yOffset+py/pn, 80, 100);
+        //g.setColor(Color.BLACK);
+        //g.fillOvalCenter(xOffset+px/pn, yOffset+py/pn, 80, 100);
 
-		g.setColor(Color.BLACK);
-		g.fillCircle(xOffset+px/pn, yOffset+py/pn, 20);
+        g.setColor(Color.BLACK);
+        g.fillCircle(xOffset + px / pn, yOffset + py / pn, 20);
 
-		g.setColor(Color.WHITE);
-		g.fillCircle(xOffset+px/pn, yOffset+py/pn, 10);
+        g.setColor(Color.WHITE);
+        g.fillCircle(xOffset + px / pn, yOffset + py / pn, 10);
 
-	}
+    }
 
 }

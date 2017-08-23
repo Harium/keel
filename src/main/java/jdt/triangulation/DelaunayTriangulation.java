@@ -1,5 +1,8 @@
 package jdt.triangulation;
 
+import com.harium.etyl.linear.BoundingBox;
+import com.harium.etyl.linear.Point3D;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -7,8 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import br.com.etyllica.linear.Point3D;
-import br.com.etyllica.linear.BoundingBox;
 
 /**
  *
@@ -17,7 +18,7 @@ import br.com.etyllica.linear.BoundingBox;
  * <br>
  * The class main properties are the following:<br>
  * - fast point location. (O(n^0.5)), practical runtime is often very fast. <br>
- * - handles degenerate cases and none general position input (ignores duplicate points). <br>
+ * - handles degenerate cases and none general examples.position input (ignores duplicate points). <br>
  * - save & load from\to text file in TSIN format. <br>
  * - 3D support: including z value approximation. <br>
  * - standard java (1.5 generic) iterators for the vertices and triangles. <br>

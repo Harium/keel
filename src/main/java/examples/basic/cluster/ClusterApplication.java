@@ -1,13 +1,13 @@
 package examples.basic.cluster;
 
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.classifier.cluster.Cluster;
 import br.com.etyllica.keel.classifier.cluster.DBScan;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
 
 import java.util.HashSet;
 import java.util.List;

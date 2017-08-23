@@ -1,9 +1,5 @@
 package examples.basic.geometric;
 
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.feature.hull.HullComponent;
@@ -12,6 +8,10 @@ import br.com.etyllica.keel.filter.search.flood.SoftFloodFillSearch;
 import br.com.etyllica.keel.modifier.hull.FastConvexHullModifier;
 import br.com.etyllica.keel.modifier.hull.HullModifier;
 import br.com.etyllica.keel.modifier.hull.PathCompressionModifier;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -175,7 +175,7 @@ public class GeometricFormApplication extends Application {
             g.setColor(Color.CYAN);
 
 			/*for(Point2D point: component.getPoints()) {		
-				g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
+                g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
 			}*/
 
             g.drawStringShadow(geometryForm.get(i), component.getRectangle());
@@ -186,9 +186,6 @@ public class GeometricFormApplication extends Application {
                 g.setColor(Color.BLACK);
                 g.drawCircle(point, 5);
             }
-
         }
-
     }
-
 }

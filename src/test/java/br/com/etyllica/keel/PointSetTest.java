@@ -3,11 +3,10 @@ package br.com.etyllica.keel;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.harium.etyl.linear.Point2D;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import br.com.etyllica.linear.Point2D;
 
 public class PointSetTest {
 

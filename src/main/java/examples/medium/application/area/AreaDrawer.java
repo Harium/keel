@@ -1,9 +1,9 @@
 package examples.medium.application.area;
 
-import java.awt.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
 
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
+import java.awt.Color;
 
 public class AreaDrawer {
 	

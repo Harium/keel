@@ -3,10 +3,10 @@ package br.com.etyllica.keel.modifier.hull;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.commons.math.EtyllicaMath;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.core.ComponentModifier;
 import br.com.etyllica.keel.feature.hull.HullComponent;
+import com.harium.etyl.commons.math.EtylMath;
+import com.harium.etyl.linear.Point2D;
 
 public class PathCompressionModifier implements ComponentModifier<HullComponent, List<Point2D>> {
 
@@ -47,7 +47,7 @@ public class PathCompressionModifier implements ComponentModifier<HullComponent,
 
 			double angle = lastNeedle.angle(point);
 
-			if ((EtyllicaMath.diffMod(angle, lastAngle) >= minAngle) && (i <= points.size()-1)) {
+			if ((EtylMath.diffMod(angle, lastAngle) >= minAngle) && (i <= points.size()-1)) {
 				lastNeedle = points.get(i-1);
 				list.add(lastNeedle);
 				lastAngle = lastNeedle.angle(points.get(i));

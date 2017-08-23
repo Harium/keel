@@ -3,8 +3,6 @@ package br.com.etyllica.keel.custom;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.feature.hull.HullComponent;
@@ -13,6 +11,8 @@ import br.com.etyllica.keel.filter.search.flood.SoftFloodFillSearch;
 import br.com.etyllica.keel.modifier.hull.FastConvexHullModifier;
 import br.com.etyllica.keel.modifier.hull.HullModifier;
 import br.com.etyllica.keel.modifier.hull.PathCompressionModifier;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.linear.Point2D;
 
 public class PolygonFilter {
 

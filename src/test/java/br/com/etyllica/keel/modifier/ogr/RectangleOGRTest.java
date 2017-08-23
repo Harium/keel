@@ -1,12 +1,10 @@
 package br.com.etyllica.keel.modifier.ogr;
 
+import com.harium.etyl.linear.graph.Graph;
+import com.harium.etyl.linear.graph.Node;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import br.com.etyllica.keel.modifier.ogr.RectangularOGR;
-import br.com.etyllica.linear.graph.Graph;
-import br.com.etyllica.linear.graph.Node;
 
 public class RectangleOGRTest {
 	
@@ -210,7 +208,5 @@ public class RectangleOGRTest {
 		
 		Assert.assertEquals(9, lastRightNode.getPoint().getX(), 0);
 		Assert.assertEquals(3, lastRightNode.getPoint().getY(), 0);
-		
 	}
-	
 }

@@ -8,12 +8,12 @@ import br.com.etyllica.keel.feature.Component;
 
 public interface SearchStrategy {
 
-	public Component filterFirst(ImageSource source, Component component);
+	Component filterFirst(ImageSource source, Component component);
 	
-	public List<Component> filter(ImageSource source, Component component);
+	List<Component> filter(ImageSource source, Component component);
 		
-	public void setup(int w, int h);
+	void setup(int w, int h);
 	
-	public void setStep(int step);
+	void setStep(int step);
 	
 }

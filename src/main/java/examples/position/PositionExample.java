@@ -1,11 +1,10 @@
-package position;
+package examples.position;
 
-import br.com.etyllica.Etyllica;
-import br.com.etyllica.commons.context.Application;
-import examples.basic.circle.CircleApplication;
-import position.application.SphereApplication;
+import com.harium.etyl.Etyl;
+import com.harium.etyl.commons.context.Application;
+import examples.position.application.SphereApplication;
 
-public class PositionExample extends Etyllica {
+public class PositionExample extends Etyl {
 
     private static final long serialVersionUID = 1L;
 

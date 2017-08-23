@@ -1,9 +1,9 @@
 package br.com.etyllica.keel.filter.color.skin;
 
-import br.com.etyllica.commons.math.EtyllicaMath;
 import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.filter.SoftPixelStrategy;
 import br.com.etyllica.keel.filter.color.SimpleToleranceStrategy;
+import com.harium.etyl.commons.math.EtylMath;
 
 /**
  * Based on: Jure Kovač, Peter Peer, and Franc Solina - Human Skin Colour Clustering for Face Detection
@@ -36,8 +36,8 @@ public class SkinColorKovacNewStrategy extends SimpleToleranceStrategy implement
         final int G_MIN = 40 - tolerance / 3;//Default is 40
         final int B_MIN = 20 - tolerance / 4;//Default is 20
 
-        final double RG_MOD = EtyllicaMath.diffMod(R, G);
-        final double RB_MOD = EtyllicaMath.diffMod(R, B);
+        final double RG_MOD = EtylMath.diffMod(R, G);
+        final double RB_MOD = EtylMath.diffMod(R, B);
         final double R_MIN_MOD = R - Math.min(G, B);
 
         //Standard illumination

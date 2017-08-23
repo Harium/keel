@@ -4,11 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.custom.AverageColorFilter;
 import br.com.etyllica.keel.feature.Component;
@@ -18,7 +13,12 @@ import br.com.etyllica.keel.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.keel.filter.validation.MinDensityValidation;
 import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
 import br.com.etyllica.keel.modifier.hull.FastConvexHullModifier;
-import br.com.etyllica.layer.BufferedLayer;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.layer.BufferedLayer;
+import com.harium.etyl.linear.Point2D;
 
 public class MelanomaFinderApplication extends Application {
 

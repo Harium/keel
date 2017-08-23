@@ -5,17 +5,17 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.CameraV4L4J;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.search.CrossSearch;
 import br.com.etyllica.keel.modifier.hull.FastConvexHullModifier;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
 
 public class FaceSampledReal extends Application {
 
@@ -51,7 +51,7 @@ public class FaceSampledReal extends Application {
 		
 		screen = new Component(0, 0, cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 
-		ColorStrategy colorStrategy = new ColorStrategy(Color.BLACK); 
+		ColorStrategy colorStrategy = new ColorStrategy(Color.BLACK);
 		colorFilter.setPixelStrategy(colorStrategy);
 		
 		final int MAGIC_NUMBER = 3;//Higher = Faster and less precise

@@ -1,234 +1,234 @@
 package examples.medium.application;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
-
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.ColorFilter;
 import br.com.etyllica.keel.filter.validation.MinDensityValidation;
 import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
+
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class TrackingShadingColorApplication extends Application {
 
-	private FakeCamera cam;
-	private BufferedImageSource source = new BufferedImageSource();
+    private FakeCamera cam;
+    private BufferedImageSource source = new BufferedImageSource();
 
-	private ColorFilter blueFilter;
+    private ColorFilter blueFilter;
 
-	//Blue Marker
-	private Color darkColor = new Color(34,40,52);
-	private Color color = new Color(54, 71, 79);
+    //Blue Marker
+    private Color darkColor = new Color(34, 40, 52);
+    private Color color = new Color(54, 71, 79);
 
-	private int tolerance = 10;
-	private int minDensity = 12;
-	private int minDimension = 10;
+    private int tolerance = 10;
+    private int minDensity = 12;
+    private int minDimension = 10;
 
-	private MinDensityValidation densityValidation;
-	private MinDimensionValidation dimensionValidation;
+    private MinDensityValidation densityValidation;
+    private MinDimensionValidation dimensionValidation;
 
-	private boolean hide = false;
-	private boolean markers = true;
-	private boolean pixels = true;
+    private boolean hide = false;
+    private boolean markers = true;
+    private boolean pixels = true;
 
-	private int xOffset = 0;
-	private int yOffset = 0;
+    private int xOffset = 0;
+    private int yOffset = 0;
 
-	private Component screen;
+    private Component screen;
 
-	private List<Component> blueComponents;
+    private List<Component> blueComponents;
 
-	public TrackingShadingColorApplication(int w, int h) {
-		super(w, h);
-	}
+    public TrackingShadingColorApplication(int w, int h) {
+        super(w, h);
+    }
 
-	@Override
-	public void load() {
+    @Override
+    public void load() {
 
-		loadingInfo = "Loading Images";
+        loadingInfo = "Loading Images";
 
-		screen = setupCamera();
+        screen = setupCamera();
 
-		densityValidation = new MinDensityValidation(minDensity);
-		dimensionValidation = new MinDimensionValidation(minDimension);
+        densityValidation = new MinDensityValidation(minDensity);
+        dimensionValidation = new MinDimensionValidation(minDimension);
 
-		blueFilter = new ColorFilter(screen.getW(), screen.getH(), color, tolerance);
-		blueFilter.getSearchStrategy().addValidation(dimensionValidation);
-		blueFilter.getSearchStrategy().addValidation(densityValidation);
+        blueFilter = new ColorFilter(screen.getW(), screen.getH(), color, tolerance);
+        blueFilter.getSearchStrategy().addValidation(dimensionValidation);
+        blueFilter.getSearchStrategy().addValidation(densityValidation);
 
-		final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
+        final int MAGIC_NUMBER = 3;//Higher = Faster and less precise
 
-		blueFilter.getSearchStrategy().setBorder(MAGIC_NUMBER);
-		blueFilter.getSearchStrategy().setStep(2);
+        blueFilter.getSearchStrategy().setBorder(MAGIC_NUMBER);
+        blueFilter.getSearchStrategy().setStep(2);
 
-		loadingInfo = "Configuring Filter";
+        loadingInfo = "Configuring Filter";
 
-		loading = 60;
-		reset(cam.getBufferedImage());
+        loading = 60;
+        reset(cam.getBufferedImage());
 
-		loading = 100;
-	}
+        loading = 100;
+    }
 
-	protected Component setupCamera() {
-		cam = new FakeCamera();
+    protected Component setupCamera() {
+        cam = new FakeCamera();
 
-		for(int i=1;i<=3;i++) {
-			cam.addImage("dumbbells/dumbbells"+Integer.toString(i)+".png");	
-		}
+        for (int i = 1; i <= 3; i++) {
+            cam.addImage("dumbbells/dumbbells" + Integer.toString(i) + ".png");
+        }
 
-		int w = cam.getBufferedImage().getWidth();
-		int h = cam.getBufferedImage().getHeight();
+        int w = cam.getBufferedImage().getWidth();
+        int h = cam.getBufferedImage().getHeight();
 
-		screen = new Component(0, 0, w, h);
+        screen = new Component(0, 0, w, h);
 
-		return screen;
-	}
+        return screen;
+    }
 
-	int bx = 0;
-	int by = 0;
-	int bRadius = 0;
+    int bx = 0;
+    int by = 0;
+    int bRadius = 0;
 
-	private void reset(BufferedImage b){
-		source.setImage(b);
-		
-		blueComponents = blueFilter.filter(source, screen);
+    private void reset(BufferedImage b) {
+        source.setImage(b);
 
-		if(!blueComponents.isEmpty()) {
+        blueComponents = blueFilter.filter(source, screen);
 
-			bx = 0;
-			by = 0;
+        if (!blueComponents.isEmpty()) {
 
-			bRadius = 0;
+            bx = 0;
+            by = 0;
 
-			for(Component component: blueComponents) {
-				Point2D p = component.getCenter();
-				bx += p.getX();
-				by += p.getY();
+            bRadius = 0;
 
-				bRadius += (component.getW()+component.getH())/4;
-			}
+            for (Component component : blueComponents) {
+                Point2D p = component.getCenter();
+                bx += p.getX();
+                by += p.getY();
 
-			bx /= blueComponents.size();
-			by /= blueComponents.size();
+                bRadius += (component.getW() + component.getH()) / 4;
+            }
 
-			bRadius /= blueComponents.size();
+            bx /= blueComponents.size();
+            by /= blueComponents.size();
 
-			return;
-		}
-	}
+            bRadius /= blueComponents.size();
 
-	@Override
-	public void updateMouse(PointerEvent event) {
+            return;
+        }
+    }
 
-		if(event.isButtonDown(MouseEvent.MOUSE_BUTTON_LEFT)) {
-			color = pickColor(event.getX(), event.getY());
-			blueFilter.setColor(color);
+    @Override
+    public void updateMouse(PointerEvent event) {
 
-			System.out.println(color.getRed());
-			System.out.println(color.getGreen());
-			System.out.println(color.getBlue());
-			System.out.println("---------");
-		}
-	}
+        if (event.isButtonDown(MouseEvent.MOUSE_BUTTON_LEFT)) {
+            color = pickColor(event.getX(), event.getY());
+            blueFilter.setColor(color);
 
-	private Color pickColor(int px, int py) {
-		return new Color(cam.getBufferedImage().getRGB(px, py));
-	}
+            System.out.println(color.getRed());
+            System.out.println(color.getGreen());
+            System.out.println(color.getBlue());
+            System.out.println("---------");
+        }
+    }
 
-	@Override
-	public void updateKeyboard(KeyEvent event) {
+    private Color pickColor(int px, int py) {
+        return new Color(cam.getBufferedImage().getRGB(px, py));
+    }
 
-		if(event.isKeyDown(KeyEvent.VK_H)){
-			hide = !hide;
-		}
+    @Override
+    public void updateKeyboard(KeyEvent event) {
 
-		if(event.isKeyDown(KeyEvent.VK_P)){
-			markers = !markers;
-		}
+        if (event.isKeyDown(KeyEvent.VK_H)) {
+            hide = !hide;
+        }
 
-		//Change Tolerance
-		if(event.isKeyUp(KeyEvent.VK_EQUALS)) {
-			tolerance++;
-			blueFilter.setTolerance(tolerance);
-		} else if(event.isKeyUp(KeyEvent.VK_MINUS)) {
-			tolerance--;
-			blueFilter.setTolerance(tolerance);
-		}
+        if (event.isKeyDown(KeyEvent.VK_P)) {
+            markers = !markers;
+        }
 
-		//Change Density
-		if(event.isKeyUp(KeyEvent.VK_P)) {
-			minDensity++;
-			densityValidation.setDensity(minDensity);
-		} else if(event.isKeyUp(KeyEvent.VK_O)) {
-			minDensity--;
-			densityValidation.setDensity(minDensity);
-		}
+        //Change Tolerance
+        if (event.isKeyUp(KeyEvent.VK_EQUALS)) {
+            tolerance++;
+            blueFilter.setTolerance(tolerance);
+        } else if (event.isKeyUp(KeyEvent.VK_MINUS)) {
+            tolerance--;
+            blueFilter.setTolerance(tolerance);
+        }
 
-		//Change Dimension
-		if(event.isKeyUp(KeyEvent.VK_L)) {
-			minDimension++;
-			dimensionValidation.setDimension(minDimension);
-		} else if(event.isKeyUp(KeyEvent.VK_K)) {
-			minDimension--;
-			dimensionValidation.setDimension(minDimension);
-		}
+        //Change Density
+        if (event.isKeyUp(KeyEvent.VK_P)) {
+            minDensity++;
+            densityValidation.setDensity(minDensity);
+        } else if (event.isKeyUp(KeyEvent.VK_O)) {
+            minDensity--;
+            densityValidation.setDensity(minDensity);
+        }
 
-		if(event.isKeyUp(KeyEvent.VK_RIGHT_ARROW)) {
-			cam.nextFrame();
-		} else if(event.isKeyUp(KeyEvent.VK_LEFT_ARROW)) {
-			cam.previousFrame();
-		}
-	}
+        //Change Dimension
+        if (event.isKeyUp(KeyEvent.VK_L)) {
+            minDimension++;
+            dimensionValidation.setDimension(minDimension);
+        } else if (event.isKeyUp(KeyEvent.VK_K)) {
+            minDimension--;
+            dimensionValidation.setDimension(minDimension);
+        }
 
-	@Override
-	public void draw(Graphics g) {
+        if (event.isKeyUp(KeyEvent.VK_RIGHT_ARROW)) {
+            cam.nextFrame();
+        } else if (event.isKeyUp(KeyEvent.VK_LEFT_ARROW)) {
+            cam.previousFrame();
+        }
+    }
 
-		if(!hide){
-			g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
-		}
+    @Override
+    public void draw(Graphics g) {
 
-		g.setColor(color);
-		g.fillRect(0, 0, 60, 80);
+        if (!hide) {
+            g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
+        }
 
-		g.setColor(Color.BLACK);
+        g.setColor(color);
+        g.fillRect(0, 0, 60, 80);
 
-		if(markers) {
+        g.setColor(Color.BLACK);
 
-			reset(cam.getBufferedImage());
+        if (markers) {
 
-			g.drawString("Tol: "+Integer.toString(tolerance), 10, 80);
-			g.drawString("Den: "+Integer.toString(minDensity), 10, 100);
-			g.drawString("Dim: "+Integer.toString(minDimension), 10, 120);
+            reset(cam.getBufferedImage());
 
-			g.setAlpha(60);
-			//drawFeaturedPoints(g, sampledFeature, Color.GREEN);
-			g.setAlpha(100);
+            g.drawString("Tol: " + Integer.toString(tolerance), 10, 80);
+            g.drawString("Den: " + Integer.toString(minDensity), 10, 100);
+            g.drawString("Dim: " + Integer.toString(minDimension), 10, 120);
 
-			g.setColor(Color.GREEN);
+            g.setAlpha(60);
+            //drawFeaturedPoints(g, sampledFeature, Color.GREEN);
+            g.setAlpha(100);
 
-			if(blueComponents != null) {
-				for(Component component:blueComponents) {
-					g.drawPolygon(component.getBoundingBox());
-					g.drawString(Double.toString(component.getDensity()), component.getRectangle());
+            g.setColor(Color.GREEN);
+
+            if (blueComponents != null) {
+                for (Component component : blueComponents) {
+                    g.drawPolygon(component.getBoundingBox());
+                    g.drawString(Double.toString(component.getDensity()), component.getRectangle());
 
 					/*for(Point2D point: component.getPoints()) {
-						g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);	
+                        g.fillRect((int)point.getX(), (int)point.getY(), 1, 1);
 					}*/
-				}
-			}
+                }
+            }
 
-			g.setAlpha(50);
-			g.fillCircle(bx, by, bRadius);
-			g.resetOpacity();
+            g.setAlpha(50);
+            g.fillCircle(bx, by, bRadius);
+            g.resetOpacity();
 
-		}
-	}
+        }
+    }
 }

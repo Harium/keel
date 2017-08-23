@@ -2,12 +2,12 @@ package br.com.etyllica.keel.custom;
 
 import java.util.List;
 
-import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.search.flood.FloodFillSearch;
 import br.com.etyllica.keel.modifier.EnvelopeModifier;
+import com.harium.etyl.commons.graphics.Color;
 
 public class BarCodeFilter extends CustomFilter {
 	

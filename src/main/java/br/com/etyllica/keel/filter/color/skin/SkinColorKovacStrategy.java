@@ -1,9 +1,10 @@
 package br.com.etyllica.keel.filter.color.skin;
 
-import br.com.etyllica.commons.math.EtyllicaMath;
+
 import br.com.etyllica.keel.core.helper.ColorHelper;
 import br.com.etyllica.keel.filter.SoftPixelStrategy;
 import br.com.etyllica.keel.filter.color.SimpleToleranceStrategy;
+import com.harium.etyl.commons.math.EtylMath;
 
 /**
  * Based on: http://academic.aua.am/Skhachat/Public/Papers%20on%20Face%20Detection/RGB-H-CbCr%20Skin%20Colour%20Model%20for%20Human%20Face%20Detection.pdf
@@ -39,7 +40,7 @@ public class SkinColorKovacStrategy extends SimpleToleranceStrategy implements S
 
         boolean individual = (r > R_MAX && g > G_MAX && b > B_MAX);
         boolean interval = max(r, g, b) - min(r, g, b) > 15;
-        boolean dif = EtyllicaMath.diffMod(r, g) > 15 && r > g && r > b;
+        boolean dif = EtylMath.diffMod(r, g) > 15 && r > g && r > b;
 
         return individual && interval && dif;
     }

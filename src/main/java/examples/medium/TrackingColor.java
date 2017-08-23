@@ -1,11 +1,12 @@
 package examples.medium;
 
 
-import br.com.etyllica.Etyllica;
-import br.com.etyllica.commons.context.Application;
+import com.harium.etyl.Etyl;
+import com.harium.etyl.commons.context.Application;
+import examples.medium.application.TrackingCameraColorApplication;
 import examples.medium.application.area.TrackingMultiAreaWithCameraApplication;
 
-public class TrackingColor extends Etyllica {
+public class TrackingColor extends Etyl {
 
 	private static final long serialVersionUID = 1L;
 
@@ -14,10 +15,8 @@ public class TrackingColor extends Etyllica {
 	}
 	
 	public static void main(String[] args) {
-		
 		TrackingColor finder = new TrackingColor();
-		finder.init();	
-		
+		finder.init();
 	}
 
 	public Application startApplication() {
@@ -26,7 +25,6 @@ public class TrackingColor extends Etyllica {
 		
 		//return new TrackingCameraColorApplication(w,h);
 		return new TrackingMultiAreaWithCameraApplication(w,h);
-		
 	}	
 
 }

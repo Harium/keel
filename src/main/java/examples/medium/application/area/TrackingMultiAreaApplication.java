@@ -1,12 +1,5 @@
 package examples.medium.application.area;
 
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.commons.event.MouseEvent;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.Camera;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
@@ -17,6 +10,13 @@ import br.com.etyllica.keel.filter.search.flood.SoftFloodFillSearch;
 import br.com.etyllica.keel.filter.validation.MaxDimensionValidation;
 import br.com.etyllica.keel.filter.validation.MinDensityValidation;
 import br.com.etyllica.keel.filter.validation.MinDimensionValidation;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.commons.event.MouseEvent;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -314,7 +314,6 @@ public class TrackingMultiAreaApplication extends Application {
                     g.drawPolygon(component.getBoundingBox());
                     g.drawStringShadow(component.getW() + "x" + component.getH(), component.getRectangle());
                     g.drawStringShadow(Double.toString(component.getDensity()), component.getX(), component.getY() + 25, component.getW(), component.getH());
-
                 }
             }
 
@@ -328,7 +327,7 @@ public class TrackingMultiAreaApplication extends Application {
                     Polygon polygon = area.getPolygons()[i];
 
                     if (areaOver != i) {
-						/*g.setColor(Color.GREEN);
+                        /*g.setColor(Color.GREEN);
 						g.drawRect(area.getLayers()[i]);*/
 
                         g.setColor(Color.BLUE);

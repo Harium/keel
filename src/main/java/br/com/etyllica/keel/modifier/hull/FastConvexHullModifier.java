@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.feature.hull.HullComponent;
 import br.com.etyllica.keel.helper.PointListHelper;
+import com.harium.etyl.linear.Point2D;
 
 /**
  * Found at http://code.google.com/p/convex-hull/source/browse/Convex+Hull/src/algorithms/FastConvexHull.java?r=4
@@ -31,8 +31,8 @@ public class FastConvexHullModifier implements HullModifier<HullComponent> {
 		
 		Component polygon = new Component();
 		
-		for(Point2D ponto: convexPolygon) {
-			polygon.add(ponto);
+		for(Point2D point: convexPolygon) {
+			polygon.add(point);
 		}
 		
 		return polygon;

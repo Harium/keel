@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.PointerEvent;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.core.SearchStrategy;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.ColorFilter;
 import br.com.etyllica.keel.modifier.ogr.LetterOGRModifier;
-import br.com.etyllica.layer.BufferedLayer;
-import br.com.etyllica.linear.graph.Graph;
-import br.com.etyllica.linear.graph.Node;
-import br.com.etyllica.linear.graph.WeightEdge;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.PointerEvent;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.layer.BufferedLayer;
+import com.harium.etyl.linear.graph.Graph;
+import com.harium.etyl.linear.graph.Node;
+import com.harium.etyl.linear.graph.WeightEdge;
 
 public class OGRApplication extends Application {
 

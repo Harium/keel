@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import br.com.etyllica.core.graphics.Graphics;
+import com.harium.etyl.core.graphics.Graphics;
 import examples.hard.microscopy.cell.RedBloodCell;
 
 public class BloodSampleNeubauerApplication extends EmptyNeubauerApplication {

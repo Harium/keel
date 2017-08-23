@@ -1,163 +1,161 @@
 package examples.misc;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.util.List;
-
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.event.KeyEvent;
-import br.com.etyllica.core.graphics.Graphics;
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.awt.camera.FakeCamera;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.custom.BarCodeFilter;
 import br.com.etyllica.keel.feature.Component;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.event.KeyEvent;
+import com.harium.etyl.core.graphics.Graphics;
+import com.harium.etyl.linear.Point2D;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 public class BarCodeExample extends Application {
 
-	private FakeCamera cam = new FakeCamera();
-	private BufferedImageSource source = new BufferedImageSource();
+    private FakeCamera cam = new FakeCamera();
+    private BufferedImageSource source = new BufferedImageSource();
 
-	private BarCodeFilter filter = new BarCodeFilter((int)w, (int)h);
+    private BarCodeFilter filter = new BarCodeFilter((int) w, (int) h);
 
-	private boolean hide = false;
-	private boolean pixels = true;
+    private boolean hide = false;
+    private boolean pixels = true;
 
-	private int xOffset = 40;
-	private int yOffset = 40;
+    private int xOffset = 40;
+    private int yOffset = 40;
 
-	private List<Component> result;
-	
-	private Component screen; 
+    private List<Component> result;
 
-	public BarCodeExample(int w, int h) {
-		super(w, h);
-	}
+    private Component screen;
 
-	@Override
-	public void load() {
+    public BarCodeExample(int w, int h) {
+        super(w, h);
+    }
 
-		screen = new Component(0, 0, w, h);
-		
-		filter.setBorder(2);
+    @Override
+    public void load() {
 
-		loadingInfo = "Loading Images";
+        screen = new Component(0, 0, w, h);
 
-		cam.addImage("wand/wand6.png");
+        filter.setBorder(2);
 
-		loading = 25;
-		loadingInfo = "Configuring Filter";
-		
-		filter = new BarCodeFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
+        loadingInfo = "Loading Images";
 
-		reset(cam.getBufferedImage());
+        cam.addImage("wand/wand6.png");
 
-		loading = 100;
-	}
-	
-	private void reset(BufferedImage b){
-		
-		loading = 65;
-		loadingInfo = "Show Result";
+        loading = 25;
+        loadingInfo = "Configuring Filter";
 
-		source.setImage(b);
-		result = filter.filter(source, screen);
+        filter = new BarCodeFilter(cam.getBufferedImage().getWidth(), cam.getBufferedImage().getHeight());
 
-		loading = 70;
-		loadingInfo = "Show Angle";
-		
-	}
+        reset(cam.getBufferedImage());
 
-	@Override
-	public void updateKeyboard(KeyEvent event) {
+        loading = 100;
+    }
 
-		if(event.isKeyDown(KeyEvent.VK_RIGHT_ARROW)){
-			cam.nextFrame();
-			reset(cam.getBufferedImage());
-		}
+    private void reset(BufferedImage b) {
 
-		else if(event.isKeyDown(KeyEvent.VK_LEFT_ARROW)){
-			cam.previousFrame();
-			reset(cam.getBufferedImage());
-		}
+        loading = 65;
+        loadingInfo = "Show Result";
 
-		if(event.isKeyDown(KeyEvent.VK_H)){
-			hide = !hide;
-		}
+        source.setImage(b);
+        result = filter.filter(source, screen);
 
-		if(event.isKeyDown(KeyEvent.VK_P)){
-			pixels = !pixels;
-		}
+        loading = 70;
+        loadingInfo = "Show Angle";
 
-	}
+    }
 
-	@Override
-	public void draw(Graphics g) {
+    @Override
+    public void updateKeyboard(KeyEvent event) {
 
-		g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
-		
-		g.drawImage(cam.getBufferedImage(), xOffset, yOffset+200);
+        if (event.isKeyDown(KeyEvent.VK_RIGHT_ARROW)) {
+            cam.nextFrame();
+            reset(cam.getBufferedImage());
+        } else if (event.isKeyDown(KeyEvent.VK_LEFT_ARROW)) {
+            cam.previousFrame();
+            reset(cam.getBufferedImage());
+        }
 
-		int offset = 1;
-		for(Component feature: result){
+        if (event.isKeyDown(KeyEvent.VK_H)) {
+            hide = !hide;
+        }
 
-			drawBox(g, feature, offset%2*20);
-			
-			offset++;
+        if (event.isKeyDown(KeyEvent.VK_P)) {
+            pixels = !pixels;
+        }
 
-		}
+    }
 
-	}
+    @Override
+    public void draw(Graphics g) {
 
-	private void drawBox(Graphics g, Component box, int downOffset){
+        g.drawImage(cam.getBufferedImage(), xOffset, yOffset);
 
-		g.setColor(Color.RED);
+        g.drawImage(cam.getBufferedImage(), xOffset, yOffset + 200);
 
-		Point2D a = box.getPoints().get(0);
-		Point2D b = box.getPoints().get(1);
-		Point2D c = box.getPoints().get(2);
-		Point2D d = box.getPoints().get(3);
+        int offset = 1;
+        for (Component feature : result) {
 
-		Point2D ac = new Point2D((a.getX()+c.getX())/2, (a.getY()+c.getY())/2);
-		Point2D ab = new Point2D((a.getX()+b.getX())/2, (a.getY()+b.getY())/2);
+            drawBox(g, feature, offset % 2 * 20);
 
-		Point2D bd = new Point2D((b.getX()+d.getX())/2, (b.getY()+d.getY())/2);
-		Point2D cd = new Point2D((c.getX()+d.getX())/2, (c.getY()+d.getY())/2);
+            offset++;
 
-		drawLine(g, a, b);
-		drawLine(g, a, c);
+        }
 
-		drawLine(g, b, d);
-		drawLine(g, c, d);
+    }
 
-		drawPoint(g, a);
-		drawPoint(g, b);
-		drawPoint(g, c);
-		drawPoint(g, d);
+    private void drawBox(Graphics g, Component box, int downOffset) {
 
-		g.setColor(Color.YELLOW);
-		drawLine(g, ab, cd);
-		drawPoint(g, ab);
-		drawPoint(g, cd);
+        g.setColor(Color.RED);
 
-		g.setColor(Color.GREEN);
-		drawLine(g, ac, bd);
+        Point2D a = box.getPoints().get(0);
+        Point2D b = box.getPoints().get(1);
+        Point2D c = box.getPoints().get(2);
+        Point2D d = box.getPoints().get(3);
 
-		drawPoint(g, ac);
-		drawPoint(g, bd);
+        Point2D ac = new Point2D((a.getX() + c.getX()) / 2, (a.getY() + c.getY()) / 2);
+        Point2D ab = new Point2D((a.getX() + b.getX()) / 2, (a.getY() + b.getY()) / 2);
 
-		g.setColor(Color.BLACK);
+        Point2D bd = new Point2D((b.getX() + d.getX()) / 2, (b.getY() + d.getY()) / 2);
+        Point2D cd = new Point2D((c.getX() + d.getX()) / 2, (c.getY() + d.getY()) / 2);
 
-		g.drawString(Integer.toString((int)(d.getX()-a.getX())), xOffset+(int)d.getX()-12, yOffset+(int)d.getY()+20+downOffset);
+        drawLine(g, a, b);
+        drawLine(g, a, c);
 
-	}
+        drawLine(g, b, d);
+        drawLine(g, c, d);
 
-	private void drawLine(Graphics g, Point2D a, Point2D b){		
-		g.drawLine(xOffset+(int)a.getX(), yOffset+(int)a.getY(), xOffset+(int)b.getX(), yOffset+(int)b.getY());		
-	}
+        drawPoint(g, a);
+        drawPoint(g, b);
+        drawPoint(g, c);
+        drawPoint(g, d);
 
-	private void drawPoint(Graphics g, Point2D point){
-		g.fillCircle(xOffset+(int)point.getX(), yOffset+(int)point.getY(), 3);
-	}
+        g.setColor(Color.YELLOW);
+        drawLine(g, ab, cd);
+        drawPoint(g, ab);
+        drawPoint(g, cd);
+
+        g.setColor(Color.GREEN);
+        drawLine(g, ac, bd);
+
+        drawPoint(g, ac);
+        drawPoint(g, bd);
+
+        g.setColor(Color.BLACK);
+
+        g.drawString(Integer.toString((int) (d.getX() - a.getX())), xOffset + (int) d.getX() - 12, yOffset + (int) d.getY() + 20 + downOffset);
+
+    }
+
+    private void drawLine(Graphics g, Point2D a, Point2D b) {
+        g.drawLine(xOffset + (int) a.getX(), yOffset + (int) a.getY(), xOffset + (int) b.getX(), yOffset + (int) b.getY());
+    }
+
+    private void drawPoint(Graphics g, Point2D point) {
+        g.fillCircle(xOffset + (int) point.getX(), yOffset + (int) point.getY(), 3);
+    }
 
 }

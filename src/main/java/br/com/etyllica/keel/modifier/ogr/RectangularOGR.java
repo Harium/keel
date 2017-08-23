@@ -3,12 +3,12 @@ package br.com.etyllica.keel.modifier.ogr;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.etyllica.linear.Point2D;
 import br.com.etyllica.keel.feature.ogr.LineInterval;
 import br.com.etyllica.keel.feature.ogr.OGR;
-import br.com.etyllica.linear.graph.Graph;
-import br.com.etyllica.linear.graph.Node;
-import br.com.etyllica.linear.graph.common.IntegerEdge;
+import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.linear.graph.Graph;
+import com.harium.etyl.linear.graph.Node;
+import com.harium.etyl.linear.graph.common.IntegerEdge;
 
 public class RectangularOGR implements OGR<Integer> {
 

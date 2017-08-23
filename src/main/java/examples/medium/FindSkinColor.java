@@ -1,13 +1,13 @@
 package examples.medium;
 
 
-import br.com.etyllica.Etyllica;
-import br.com.etyllica.commons.context.Application;
+import com.harium.etyl.Etyl;
+import com.harium.etyl.commons.context.Application;
 import examples.medium.skin.SimpleFaceFinderApplication;
 import examples.medium.skin.SimpleSkinStrategyApplication;
 import examples.medium.skin.SkinStrategyCameraApplication;
 
-public class FindSkinColor extends Etyllica {
+public class FindSkinColor extends Etyl {
 
 	private static final long serialVersionUID = 1L;
 

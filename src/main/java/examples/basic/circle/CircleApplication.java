@@ -1,15 +1,15 @@
 package examples.basic.circle;
 
 
-import br.com.etyllica.awt.AWTGraphics;
-import br.com.etyllica.commons.context.Application;
-import br.com.etyllica.commons.graphics.Color;
-import br.com.etyllica.core.graphics.Graphics;
 import br.com.etyllica.keel.awt.source.BufferedImageSource;
 import br.com.etyllica.keel.classifier.CircleClassifier;
 import br.com.etyllica.keel.core.source.ImageSource;
 import br.com.etyllica.keel.feature.Component;
 import br.com.etyllica.keel.filter.ColorFilter;
+import com.harium.etyl.awt.AWTGraphics;
+import com.harium.etyl.commons.context.Application;
+import com.harium.etyl.commons.graphics.Color;
+import com.harium.etyl.core.graphics.Graphics;
 
 import java.awt.image.BufferedImage;
 import java.util.HashSet;

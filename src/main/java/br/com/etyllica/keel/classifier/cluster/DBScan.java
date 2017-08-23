@@ -1,5 +1,10 @@
 package br.com.etyllica.keel.classifier.cluster;
 
+import com.harium.etyl.linear.Point2D;
+import com.harium.storage.kdtree.KDTree;
+import com.harium.storage.kdtree.KeyDuplicateException;
+import com.harium.storage.kdtree.KeySizeException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,11 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import br.com.etyllica.linear.Point2D;
-import br.com.etyllica.storage.kdtree.KDTree;
-import br.com.etyllica.storage.kdtree.KeyDuplicateException;
-import br.com.etyllica.storage.kdtree.KeySizeException;
 
 /**
  * Forked from: http://alvinalexander.com/java/jwarehouse/commons-math3-3.6.1/src/main/java/org/apache/commons/math3/ml/clustering/DBSCANClusterer.java.shtml

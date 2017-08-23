@@ -1,42 +1,42 @@
 package br.com.etyllica.keel.feature;
 
-import java.awt.Color;
+import com.harium.etyl.commons.graphics.Color;
 
 public class Wand extends Component {
 
-	public Wand(Component component) {
-		super(component.getW(), component.getH());
-		this.points = component.getPoints();		
-	}
+    public Wand(Component component) {
+        super(component.getW(), component.getH());
+        this.points = component.getPoints();
+    }
 
-	private Color color = Color.BLUE;
-	
-	private double angle;
-	
-	private double distance;
+    private Color color = Color.BLUE;
 
-	public Color getColor() {
-		return color;
-	}
+    private double angle;
 
-	public void setColor(Color color) {
-		this.color = color;
-	}
+    private double distance;
 
-	public double getAngle() {
-		return angle;
-	}
+    public Color getColor() {
+        return color;
+    }
 
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
+    public void setColor(Color color) {
+        this.color = color;
+    }
 
-	public double getDistance() {
-		return distance;
-	}
+    public double getAngle() {
+        return angle;
+    }
 
-	public void setDistance(double distance) {
-		this.distance = distance;
-	}
-		
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
 }

@@ -1,8 +1,7 @@
 package br.com.etyllica.keel.feature.trail;
 
 import com.badlogic.gdx.math.Vector3;
-
-import br.com.etyllica.linear.Point3D;
+import com.harium.etyl.linear.Point3D;
 
 public class TripleAxisTrail {
 

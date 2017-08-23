@@ -1,8 +1,8 @@
 package br.com.etyllica.keel.filter;
 
-import br.com.etyllica.commons.graphics.Color;
 import br.com.etyllica.keel.filter.color.ColorStrategy;
 import br.com.etyllica.keel.filter.search.flood.FloodFillSearch;
+import com.harium.etyl.commons.graphics.Color;
 
 public class HardColorFilter extends ColorFilter {
 	
