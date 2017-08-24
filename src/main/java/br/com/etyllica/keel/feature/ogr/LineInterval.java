@@ -47,5 +47,24 @@ public class LineInterval {
 		
 		return (start >= interval.start && start < interval.start+interval.length)||(interval.start >= start && interval.start < start+length);
 	}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		LineInterval that = (LineInterval) o;
+
+		if (height != that.height) return false;
+		if (start != that.start) return false;
+		return length == that.length;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = height;
+		result = 31 * result + start;
+		result = 31 * result + length;
+		return result;
+	}
 }

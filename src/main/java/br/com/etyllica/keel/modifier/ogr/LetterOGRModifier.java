@@ -37,7 +37,6 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
         List<LineInterval> lastLine = null;
 
         for (int i = 0; i < map.size(); i++) {
-
             List<LineInterval> line = map.get(i);
 
             if (graph.isEmpty()) {
@@ -75,12 +74,13 @@ public class LetterOGRModifier implements ComponentModifier<Component, Graph<Int
         }
 
         LineInterval firstInterval = line.get(0);
-        Node<Integer> root = addCenterNode(activeNodes, graph, firstInterval);
 
         if (line.size() > 1) {
             for (int l = 1; l < line.size(); l++) {
                 addCenterNode(activeNodes, graph, line.get(l));
             }
+        } else if (line.size() == 1) {
+            addCenterNode(activeNodes, graph, firstInterval);
         }
     }
 

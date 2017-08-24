@@ -19,11 +19,8 @@ public class OGRExample extends Etyl {
     }
 
     public Application startApplication() {
-
-        initialSetup("../");
-
+        initialSetup("");
         return new OGRApplication(w, h);
-
     }
 
 }

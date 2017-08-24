@@ -30,7 +30,7 @@ public class SkinColorCRStrategy extends SimpleToleranceStrategy implements Soft
 	}
 
 	public static boolean isSkin(int rgb, int tolerance) {
-		boolean kovacRule = SkinColorKovacStrategy.isSkin(rgb);
+		//boolean kovacRule = SkinColorKovacStrategy.isSkin(rgb);
 
 		final int R = ColorHelper.getRed(rgb);
 		final int G = ColorHelper.getGreen(rgb);
@@ -40,7 +40,7 @@ public class SkinColorCRStrategy extends SimpleToleranceStrategy implements Soft
 		final int CB = (int)(-0.16874 * R - 0.33126 * G + 0.50000 * B);
 		final int CR = (int)( 0.50000 * R - 0.41869 * G - 0.08131 * B);
 
-		return CR>1;
+		return CR > 1;
 	}
 
 	@Override
