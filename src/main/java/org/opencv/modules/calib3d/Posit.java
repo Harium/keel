@@ -2,13 +2,12 @@ package org.opencv.modules.calib3d;
 
 import java.util.List;
 
+import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.linear.Point3D;
 import org.opencv.CvStatus;
 import org.opencv.OpenCv;
 import org.opencv.criteria.CriteriaType;
 import org.opencv.criteria.CvTermCriteria;
-
-import br.com.etyllica.core.linear.Point2D;
-import br.com.etyllica.core.linear.Point3D;
 
 public class Posit {
 
@@ -55,8 +54,8 @@ public class Posit {
 
 	};
 
-	public CvStatus icvPOSIT( List<Point3D> points, List<Point2D> imagePoints,
-			double focalLength, CvTermCriteria criteria ) {
+	public CvStatus icvPOSIT(List<Point3D> points, List<Point2D> imagePoints,
+							 double focalLength, CvTermCriteria criteria ) {
 		
 		CvPOSITObject pObject = icvCreatePOSITObject(points);
 		
