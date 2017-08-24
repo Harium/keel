@@ -1,8 +1,8 @@
 package com.harium.keel.filter.search;
 
-import java.awt.Color;
 import java.util.List;
 
+import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.core.BooleanMaskSearch;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Component;

@@ -1,7 +1,6 @@
 package com.harium.keel.filter.search;
 
-import java.awt.Polygon;
-
+import com.harium.etyl.linear.Polygon;
 import com.harium.keel.core.BooleanMaskSearch;
 
 public abstract class PolygonalSearch extends BooleanMaskSearch {

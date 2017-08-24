@@ -17,9 +17,7 @@ public class PositTest {
 
     @Before
     public void setUp() {
-
         posit = new Posit();
-
     }
 
     @Test
@@ -59,7 +57,6 @@ public class PositTest {
         double[] expectedTranslation = {0, 0, 40.02681933541206};
 
         Assert.assertArrayEquals(expectedTranslation, posit.getTranslation(), 0.01);
-
     }
 
 }

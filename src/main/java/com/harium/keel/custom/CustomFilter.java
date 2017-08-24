@@ -5,40 +5,40 @@ import com.harium.keel.core.strategy.ComponentValidationStrategy;
 import com.harium.keel.core.strategy.PixelStrategy;
 import com.harium.keel.core.strategy.SearchFilter;
 
-public abstract class CustomFilter extends SearchFilter{
+public abstract class CustomFilter extends SearchFilter {
 
-	protected PixelStrategy colorStrategy;
-	
-	protected ComponentValidationStrategy componentStrategy;
-	
-	protected ComponentModifierStrategy modifierStrategy;
+    protected PixelStrategy colorStrategy;
 
-	public CustomFilter(){
-		super();
-	}
-	
-	public PixelStrategy getPixelStrategy() {
-		return colorStrategy;
-	}
+    protected ComponentValidationStrategy componentStrategy;
 
-	public void setPixelStrategy(PixelStrategy colorStrategy) {
-		this.colorStrategy = colorStrategy;
-	}
+    protected ComponentModifierStrategy modifierStrategy;
 
-	public ComponentValidationStrategy getComponentStrategy() {
-		return componentStrategy;
-	}
+    public CustomFilter() {
+        super();
+    }
 
-	public void setComponentStrategy(ComponentValidationStrategy componentStrategy) {
-		this.componentStrategy = componentStrategy;
-	}
+    public PixelStrategy getPixelStrategy() {
+        return colorStrategy;
+    }
 
-	public ComponentModifierStrategy getModifierStrategy() {
-		return modifierStrategy;
-	}
+    public void setPixelStrategy(PixelStrategy colorStrategy) {
+        this.colorStrategy = colorStrategy;
+    }
 
-	public void setModifierStrategy(ComponentModifierStrategy modifierStrategy) {
-		this.modifierStrategy = modifierStrategy;
-	}
-	
+    public ComponentValidationStrategy getComponentStrategy() {
+        return componentStrategy;
+    }
+
+    public void setComponentStrategy(ComponentValidationStrategy componentStrategy) {
+        this.componentStrategy = componentStrategy;
+    }
+
+    public ComponentModifierStrategy getModifierStrategy() {
+        return modifierStrategy;
+    }
+
+    public void setModifierStrategy(ComponentModifierStrategy modifierStrategy) {
+        this.modifierStrategy = modifierStrategy;
+    }
+
 }

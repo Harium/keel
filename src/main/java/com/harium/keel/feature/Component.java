@@ -4,10 +4,8 @@ import com.harium.etyl.commons.layer.GeometricLayer;
 import com.harium.etyl.commons.layer.Layer;
 import com.harium.etyl.linear.Point2D;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class Component extends ColorComponent implements Feature, Comparable<Component> {
 
@@ -171,28 +169,6 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
         this.highestY = highestY;
     }
 
-    public Polygon getBoundingBox() {
-        Polygon p = new Polygon();
-
-        p.addPoint(lowestX, lowestY);
-        p.addPoint(highestX, lowestY);
-        p.addPoint(highestX, highestY);
-        p.addPoint(lowestX, highestY);
-
-        return p;
-    }
-
-    public Polygon getPolygon() {
-
-        Polygon p = new Polygon();
-
-        for (Point2D point : points) {
-            p.addPoint((int) point.getX(), (int) point.getY());
-        }
-
-        return p;
-    }
-
     public GeometricLayer getRectangle() {
         GeometricLayer rect = new GeometricLayer(lowestX, lowestY, highestX - lowestX, highestY - lowestY);
         return rect;
@@ -285,16 +261,6 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 
         return true;
 
-    }
-
-    public void mergePolygon(Polygon p) {
-
-        for (int i = 0; i < p.npoints; i++) {
-
-            Point2D point = new Point2D(p.xpoints[i], p.ypoints[i]);
-
-            add(point);
-        }
     }
 
     public void setLocation(int x, int y) {

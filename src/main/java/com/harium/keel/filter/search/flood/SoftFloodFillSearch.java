@@ -4,7 +4,6 @@ import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Component;
 import com.harium.etyl.linear.Point2D;
 
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -85,7 +84,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
     }
 
     protected boolean verifyNext(Point2D p, int x, int y, int width,
-                                 int height, BufferedImage bimg) {
+                                 int height, ImageSource bimg) {
 
         int px = (int) p.getX();
         int py = (int) p.getY();
@@ -112,7 +111,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
         addNeighbor(queue, (int) p.getX(), (int) p.getY() - step, lastColor);
     }
 
-    private boolean verifyPixel(int px, int py, int rgb, int lastRGB, BufferedImage bimg) {
+    private boolean verifyPixel(int px, int py, int rgb, int lastRGB, ImageSource bimg) {
 
         if (verifySinglePixel(px, py, rgb, lastRGB)) {
             if (minNeighbors > 0 && maxNeighbors > 0) {
@@ -143,7 +142,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
         return (!mask.isTouched(px, py) && mask.isValid(px, py));
     }
 
-    private boolean verifyNeighbors(int px, int py, int rgb, BufferedImage bimg) {
+    private boolean verifyNeighbors(int px, int py, int rgb, ImageSource bimg) {
 
         int verified = 0;
         int baseColor = rgb;
