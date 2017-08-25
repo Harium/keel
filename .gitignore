@@ -1,14 +1,17 @@
-# Pre-Compiled Files #
-/bin
 *.class
-.classpath
-.project
 
-# intelliJ Files
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# IntelliJ Files #
+.idea
 *.iml
-.idea/*
-
-# Automatic generated Files#
-*.applet
-*.html
-
+target/
