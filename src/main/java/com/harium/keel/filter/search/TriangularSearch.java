@@ -11,7 +11,7 @@ public class TriangularSearch extends BooleanMaskSearch {
     }
 
     @Override
-    public boolean filterFirst(int x, int y, int width, int height, ImageSource source) {
+    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Component component) {
         if (!mask[x][y] && pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
             int lwidth = findHorizontalLimit(source, x, y, w);
             int lheight = findVerticalLimit(source, x, y, h);
@@ -25,7 +25,7 @@ public class TriangularSearch extends BooleanMaskSearch {
     }
 
     @Override
-    public boolean filter(int x, int y, int width, int height, ImageSource source) {
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
         if (!mask[x][y] && pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
             int lwidth = findHorizontalLimit(source, x, y, w);
             int lheight = findVerticalLimit(source, x, y, h);

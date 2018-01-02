@@ -1,6 +1,7 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.linear.Point2D;
+import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Component;
 
@@ -24,7 +25,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
     }
 
     @Override
-    public boolean filter(int x, int y, int width, int height, ImageSource source) {
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
         int rgb = source.getRGB(x, y);
 
         if (verifySinglePixel(x, y, rgb, UNDEFINED_COLOR)) {
@@ -37,7 +38,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 
             //Mark as touched
             addPoint(found, firstPoint);
-            addNeighbors(queue, firstPoint, rgb);//Add reference to its color
+            addNeighbors(queue, firstPoint, rgb, component);//Add reference to its color
 
             //For each neighbor
             while (!queue.isEmpty()) {
@@ -45,9 +46,9 @@ public class SoftFloodFillSearch extends FloodFillSearch {
                 //Queue.pop();
                 Point2D p = queue.remove();
 
-                if (verifyNext(p, x, y, width, height, source)) {
+                if (verifyNext(p, x, y, component.getW(), component.getH(), source)) {
                     addPoint(found, p);
-                    addNeighbors(queue, p);
+                    addNeighbors(queue, p, component);
                 } else {
                     mask.setTouched(x, y);
                 }
@@ -83,17 +84,17 @@ public class SoftFloodFillSearch extends FloodFillSearch {
         return false;
     }
 
-    protected void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor) {
-        addNeighbor(queue, (int) p.getX() + step, (int) p.getY(), lastColor);
-        addNeighbor(queue, (int) p.getX() - step, (int) p.getY(), lastColor);
-        addNeighbor(queue, (int) p.getX(), (int) p.getY() + step, lastColor);
-        addNeighbor(queue, (int) p.getX(), (int) p.getY() - step, lastColor);
+    protected void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor, Component component) {
+        addNeighbor(queue, (int) p.getX() + step, (int) p.getY(), lastColor, component);
+        addNeighbor(queue, (int) p.getX() - step, (int) p.getY(), lastColor, component);
+        addNeighbor(queue, (int) p.getX(), (int) p.getY() + step, lastColor, component);
+        addNeighbor(queue, (int) p.getX(), (int) p.getY() - step, lastColor, component);
     }
 
-    private boolean verifyPixel(int px, int py, int rgb, int lastRGB, ImageSource bimg) {
+    private boolean verifyPixel(int px, int py, int rgb, int lastRGB, ImageSource source) {
         if (verifySinglePixel(px, py, rgb, lastRGB)) {
             if (minNeighbors > 0 && maxNeighbors > 0) {
-                if (!verifyNeighbors(px, py, rgb, bimg)) {
+                if (!verifyNeighbors(px, py, rgb, source)) {
                     return false;
                 }
             }

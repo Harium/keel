@@ -16,8 +16,6 @@ public class FloodFillSearch extends ComponentFilter {
     protected int minNeighbors = 1;
     protected int maxNeighbors = 9;
 
-    protected Component boundary;
-
     protected DynamicMask mask;
 
     public FloodFillSearch(int w, int h) {
@@ -58,12 +56,12 @@ public class FloodFillSearch extends ComponentFilter {
     }
 
     @Override
-    public boolean filterFirst(int x, int y, int width, int height, ImageSource source) {
-        return filter(x, y, width, height, source);
+    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Component component) {
+        return filter(x, y, width, height, source, component);
     }
 
     @Override
-    public boolean filter(int x, int y, int width, int height, ImageSource source) {
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
         int rgb = source.getRGB(x, y);
 
         if (verifySinglePixel(x, y, rgb)) {
@@ -76,7 +74,7 @@ public class FloodFillSearch extends ComponentFilter {
 
             //Mark as touched
             addPoint(found, firstPoint);
-            addNeighbors(queue, firstPoint);
+            addNeighbors(queue, firstPoint, component);
 
             //For each neighbor
             while (!queue.isEmpty()) {
@@ -84,9 +82,9 @@ public class FloodFillSearch extends ComponentFilter {
                 //Queue.pop();
                 Point2D p = queue.remove();
 
-                if (verifyNext(p, x, y, width, height, source)) {
+                if (verifyNext(p, x, y, width, height, source, component)) {
                     addPoint(found, p);
-                    addNeighbors(queue, p);
+                    addNeighbors(queue, p, component);
                 } else {
                     mask.setTouched(x, y);
                 }
@@ -103,7 +101,7 @@ public class FloodFillSearch extends ComponentFilter {
     }
 
     protected boolean verifyNext(Point2D p, int x, int y, int width,
-                                 int height, ImageSource source) {
+                                 int height, ImageSource source, Component component) {
 
         int px = (int) p.getX();
         int py = (int) p.getY();
@@ -113,7 +111,7 @@ public class FloodFillSearch extends ComponentFilter {
         if ((px >= x) && (px < x + width &&
                 (py >= y) && (py < y + height))) {
 
-            if (verifyPixel(px, py, rgb, source)) {
+            if (verifyPixel(px, py, rgb, source, component)) {
                 return true;
             }
         }
@@ -125,17 +123,17 @@ public class FloodFillSearch extends ComponentFilter {
         component.add(p);
     }
 
-    protected void addNeighbors(Queue<Point2D> queue, Point2D p) {
-        addNeighbor(queue, (int) p.getX() + step, (int) p.getY(), p.getColor());
-        addNeighbor(queue, (int) p.getX() - step, (int) p.getY(), p.getColor());
-        addNeighbor(queue, (int) p.getX(), (int) p.getY() + step, p.getColor());
-        addNeighbor(queue, (int) p.getX(), (int) p.getY() - step, p.getColor());
+    protected void addNeighbors(Queue<Point2D> queue, Point2D p, Component component) {
+        addNeighbor(queue, (int) p.getX() + step, (int) p.getY(), p.getColor(), component);
+        addNeighbor(queue, (int) p.getX() - step, (int) p.getY(), p.getColor(), component);
+        addNeighbor(queue, (int) p.getX(), (int) p.getY() + step, p.getColor(), component);
+        addNeighbor(queue, (int) p.getX(), (int) p.getY() - step, p.getColor(), component);
     }
 
     //It also prevents same pixel be included in a better list of neighbors
     //May have to be changed to let multiple touch
-    protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color) {
-        if (!inBoundary(px, py)) {
+    protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color, Component component) {
+        if (!inBoundary(px, py, component)) {
             return;
         }
 
@@ -144,10 +142,9 @@ public class FloodFillSearch extends ComponentFilter {
         }
     }
 
-    protected boolean verifyPixel(int px, int py, int rgb, ImageSource source) {
-
+    protected boolean verifyPixel(int px, int py, int rgb, ImageSource source, Component component) {
         if (verifySinglePixel(px, py, rgb)) {
-            if (!verifyNeighbors(px, py, source)) {
+            if (!verifyNeighbors(px, py, source, component)) {
                 return false;
             }
             return true;
@@ -170,12 +167,12 @@ public class FloodFillSearch extends ComponentFilter {
         return (!mask.isTouched(px, py) && mask.isValid(px, py));
     }
 
-    protected boolean verifyNeighbors(int px, int py, ImageSource source) {
+    protected boolean verifyNeighbors(int px, int py, ImageSource source, Component component) {
         int count = 0;
 
         for (int y = py - step; y <= py + step; y += step) {
             for (int x = px - step; x <= px + step; x += step) {
-                if (!inBoundary(x, y)) {
+                if (!inBoundary(x, y, component)) {
                     continue;
                 }
 
@@ -190,8 +187,8 @@ public class FloodFillSearch extends ComponentFilter {
         return count >= minNeighbors && count <= maxNeighbors;
     }
 
-    public boolean inBoundary(int px, int py) {
-        return boundary.intersects(px, py);
+    protected boolean inBoundary(int x, int y, Component component) {
+        return component.intersects(x, y);
     }
 
     public int getMinNeighbors() {

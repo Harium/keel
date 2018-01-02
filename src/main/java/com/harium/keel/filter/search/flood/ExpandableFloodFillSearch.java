@@ -22,11 +22,11 @@ public class ExpandableFloodFillSearch extends FloodFillSearch {
     }
 
     @Override
-    public boolean inBoundary(int px, int py) {
+    protected boolean inBoundary(int px, int py, Component component) {
         return px > step || px <= getW() - step || py > step || py <= getH() - step;
     }
 
-    public boolean filter(int x, int y, int width, int height, ImageSource source) {
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
         int rgb = source.getRGB(x, y);
 
         if (verifySinglePixel(x, y, rgb)) {
@@ -39,7 +39,7 @@ public class ExpandableFloodFillSearch extends FloodFillSearch {
 
             //Mark as touched
             addPoint(found, firstPoint);
-            addNeighbors(queue, firstPoint);
+            addNeighbors(queue, firstPoint, component);
 
             //For each neighbor
             while (!queue.isEmpty()) {
@@ -47,9 +47,9 @@ public class ExpandableFloodFillSearch extends FloodFillSearch {
                 //Queue.pop();
                 Point2D p = queue.remove();
 
-                if (verifyNext(p, x, y, getW(), getH(), source)) {
+                if (verifyNext(p, x, y, getW(), getH(), source, component)) {
                     addPoint(found, p);
-                    addNeighbors(queue, p);
+                    addNeighbors(queue, p, component);
                 } else {
                     mask.setTouched(x, y);
                 }

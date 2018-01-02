@@ -31,7 +31,7 @@ public class LeftToRightSearchStrategy extends SearchStrategyImpl implements Sea
                 }
 
                 // Filter returns true to stop early
-                if (filter.filterFirst(x, y, width, height, source)) {
+                if (filter.filterFirst(i, j, width, height, source, component)) {
                     return filter.getLastComponent();
                 }
             }
@@ -56,7 +56,7 @@ public class LeftToRightSearchStrategy extends SearchStrategyImpl implements Sea
                 }
 
                 // Filter returns true to stop early
-                if (filter.filter(x, y, width, height, source)) {
+                if (filter.filter(i, j, width, height, source, component)) {
                     return filter.getResults();
                 }
             }

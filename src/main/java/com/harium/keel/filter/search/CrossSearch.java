@@ -19,11 +19,11 @@ public class CrossSearch extends SearchFilter {
         this.pixelStrategy = pixelStrategy;
     }
 
-    public boolean filterFirst(int x, int y, int width, int height, ImageSource source) {
-        return filter(x, y, width, height, source);
+    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Component component) {
+        return filter(x, y, width, height, source, component);
     }
 
-    public boolean filter(int x, int y, int width, int height, ImageSource source) {
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
         Component holder;
 
         if (results.isEmpty()) {

@@ -126,9 +126,9 @@ public abstract class SearchFilter {
         return searchStrategy.filterFirst(source, component);
     }
 
-    public abstract boolean filter(int x, int y, int width, int height, ImageSource source);
+    public abstract boolean filter(int x, int y, int width, int height, ImageSource source, Component component);
 
-    public abstract boolean filterFirst(int x, int y, int width, int height, ImageSource source);
+    public abstract boolean filterFirst(int x, int y, int width, int height, ImageSource source, Component component);
 
     public Component getLastComponent() {
         return lastComponent;

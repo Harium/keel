@@ -1,8 +1,8 @@
 package com.harium.keel.filter.search.strategy;
 
-import com.harium.keel.core.strategy.SearchStrategy;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.SearchFilter;
+import com.harium.keel.core.strategy.SearchStrategy;
 import com.harium.keel.feature.Component;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class RightToLeftSearch extends SearchStrategyImpl implements SearchStrat
                 }
 
                 // Filter returns true to stop early
-                if (filter.filterFirst(x, y, width, height, source)) {
+                if (filter.filterFirst(i, j, width, height, source, component)) {
                     return filter.getLastComponent();
                 }
             }
@@ -56,7 +56,7 @@ public class RightToLeftSearch extends SearchStrategyImpl implements SearchStrat
                     continue;
                 }
                 // Filter returns true to stop early
-                if (filter.filter(x, y, width, height, source)) {
+                if (filter.filter(i, j, width, height, source, component)) {
                     return filter.getResults();
                 }
             }
