@@ -1,220 +1,205 @@
 package com.harium.keel.filter.search;
 
-import java.util.List;
-
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.PixelStrategy;
 import com.harium.keel.core.strategy.SearchFilter;
 import com.harium.keel.feature.Component;
 import com.harium.keel.feature.Cross;
 
-public class CrossSearch extends SearchFilter{
+public class CrossSearch extends SearchFilter {
 
-	private Cross cross = new Cross();
+    private Cross cross = new Cross();
 
-	public CrossSearch() {
-		super();
-	}
+    public CrossSearch() {
+        super();
+    }
 
-	public CrossSearch(PixelStrategy colorValidator) {
-		super();
-	}
+    public CrossSearch(PixelStrategy pixelStrategy) {
+        super();
+        this.pixelStrategy = pixelStrategy;
+    }
 
-	@Override
-	public Component filterFirst(ImageSource bimg, Component component){
+    public boolean filterFirst(int x, int y, int width, int height, ImageSource source) {
+        return filter(x, y, width, height, source);
+    }
 
-		return filter(bimg, component).get(0);
+    public boolean filter(int x, int y, int width, int height, ImageSource source) {
+        Component holder;
 
-	}
+        if (results.isEmpty()) {
+            holder = new Component(width, height);
+            results.add(holder);
+        } else {
+            holder = results.get(0);
+        }
 
-	public List<Component> filter(ImageSource bimg, Component component) {
-		super.setup(component.getW(), component.getH());
+        if (pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
 
-		int w = bimg.getWidth();
-		int h = bimg.getHeight();
+            setCross(x, y, source);
 
-		Component holder = new Component(w,h);
+            if (isCorner(cross)) {
+                holder.add(x, y);
+            }
+        }
 
-		int i,j;
 
-		//TODO Swap i,j
-		for(j=border;j<h-border*2;j+=step){
+        return false;
+    }
 
-			for(i=border;i<w-border*2;i+=step){
+    private void setCross(int i, int j, ImageSource b) {
 
-				if(pixelStrategy.validateColor(bimg.getRGB(i, j), i, j)){
+        cross.setUp(b.getRGB(i, j - step));
+        cross.setDown(b.getRGB(i, j + step));
+        cross.setLeft(b.getRGB(i - step, j));
+        cross.setRight(b.getRGB(i + step, j));
+        cross.setCenter(b.getRGB(i, j));
 
-					setCross(i,j,bimg);
+        cross.setLowerLeft(b.getRGB(i - step, j + step));
+        cross.setUpperLeft(b.getRGB(i - step, j - step));
 
-					if(isCorner(cross)){
-						holder.add(i, j);
-					}
+        cross.setLowerRight(b.getRGB(i + step, j + step));
+        cross.setUpperRight(b.getRGB(i + step, j - step));
 
-				}
+    }
 
-			}
+    private boolean isCorner(Cross cross) {
 
-		}
+        if (rightUpperCorner(cross)) {
+            return true;
+        } else if (leftUpperCorner(cross)) {
+            return true;
+        } else if (leftLowerCorner(cross)) {
+            return true;
+        } else if (rightLowerCorner(cross)) {
+            return true;
+        } else if (diagonalLeftCorner(cross)) {
+            return true;
+        } else if (diagonalRightCorner(cross)) {
+            return true;
+        } else if (diagonalUpCorner(cross)) {
+            return true;
+        } else if (diagonalDownCorner(cross)) {
+            return true;
+        }
 
-		result.add(holder);
+        //Hard Alias
+        else if (upHardCorner(cross)) {
+            return true;
+        } else if (downHardCorner(cross)) {
+            return true;
+        } else if (leftHardCorner(cross)) {
+            return true;
+        } else if (rightHardCorner(cross)) {
+            return true;
+        }
 
-		return result;
-	}
+        return false;
+    }
 
-	private void setCross(int i, int j , ImageSource b){
+    private boolean leftUpperCorner(Cross cross) {
+        boolean result = validateCross(cross, "FFF FTT FT(T|F)");
 
-		cross.setUp(b.getRGB(i, j-step));
-		cross.setDown(b.getRGB(i, j+step));
-		cross.setLeft(b.getRGB(i-step, j));
-		cross.setRight(b.getRGB(i+step, j));
-		cross.setCenter(b.getRGB(i, j));
+        return result;
+    }
 
-		cross.setLowerLeft(b.getRGB(i-step, j+step));
-		cross.setUpperLeft(b.getRGB(i-step, j-step));
+    private boolean rightUpperCorner(Cross cross) {
+        boolean result = validateCross(cross, "FFF TTF (T|F)TF");
 
-		cross.setLowerRight(b.getRGB(i+step, j+step));
-		cross.setUpperRight(b.getRGB(i+step, j-step));
+        return result;
+    }
 
-	}
+    private boolean leftLowerCorner(Cross cross) {
 
-	private boolean isCorner(Cross cross){
+        boolean result = validateCross(cross, "FT(T|F) FTT FFF");
 
-		if(rightUpperCorner(cross)){
-			return true;
-		}else if(leftUpperCorner(cross)){
-			return true;
-		}else if(leftLowerCorner(cross)){
-			return true;
-		}else if(rightLowerCorner(cross)){
-			return true;
-		}else if(diagonalLeftCorner(cross)){
-			return true;
-		}else if(diagonalRightCorner(cross)){
-			return true;
-		}else if(diagonalUpCorner(cross)){
-			return true;
-		}else if(diagonalDownCorner(cross)){
-			return true;
-		}
+        return result;
+    }
 
-		//Hard Alias 
-		else if(upHardCorner(cross)){
-			return true;
-		}else if(downHardCorner(cross)){
-			return true;
-		}else if(leftHardCorner(cross)){
-			return true;
-		}else if(rightHardCorner(cross)){
-			return true;
-		}
+    private boolean rightLowerCorner(Cross cross) {
+        boolean result = validateCross(cross, "(T|F)TF TTF FFF");
+        return result;
+    }
 
-		return false;
-	}
+    private boolean diagonalUpCorner(Cross cross) {
+        return validateCross(cross, "FFF FTF TTT");
+    }
 
-	private boolean leftUpperCorner(Cross cross){
-		boolean result = validateCross(cross, "FFF FTT FT(T|F)");
+    private boolean diagonalLeftCorner(Cross cross) {
+        return validateCross(cross, "FFT FTT FFT");
+    }
 
-		return result;
-	}
+    private boolean diagonalRightCorner(Cross cross) {
+        return validateCross(cross, "TFF TTF TFF");
+    }
 
-	private boolean rightUpperCorner(Cross cross){                                
-		boolean result = validateCross(cross, "FFF TTF (T|F)TF");
+    private boolean diagonalDownCorner(Cross cross) {
+        return validateCross(cross, "TTT FTF FFF");
+    }
 
-		return result;
-	}
+    private boolean upHardCorner(Cross cross) {
+        return validateCross(cross, "FFF FTT TTT");
+    }
 
-	private boolean leftLowerCorner(Cross cross){
+    private boolean downHardCorner(Cross cross) {
+        return validateCross(cross, "TTT TTF FFF");
+    }
 
-		boolean result = validateCross(cross, "FT(T|F) FTT FFF");
+    private boolean leftHardCorner(Cross cross) {
+        return validateCross(cross, "FFT FTT FFF");
+    }
 
-		return result;
-	}
+    private boolean rightHardCorner(Cross cross) {
+        return validateCross(cross, "TFF TTF TTF");
+    }
 
-	private boolean rightLowerCorner(Cross cross){
-		boolean result = validateCross(cross, "(T|F)TF TTF FFF");
-		return result;
-	}
+    public boolean validateCross(Cross cross, String pattern) {
 
-	private boolean diagonalUpCorner(Cross cross){
-		return validateCross(cross, "FFF FTF TTT");
-	}
+        boolean result = getCrossString(cross).matches(pattern.replaceAll(" ", ""));
 
-	private boolean diagonalLeftCorner(Cross cross){
-		return validateCross(cross, "FFT FTT FFT");
-	}
+        return result;
 
-	private boolean diagonalRightCorner(Cross cross){
-		return validateCross(cross, "TFF TTF TFF");
-	}
+    }
 
-	private boolean diagonalDownCorner(Cross cross){
-		return validateCross(cross, "TTT FTF FFF");
-	}
+    public boolean validateCross(int j, int i, Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight) {
 
-	private boolean upHardCorner(Cross cross){
-		return validateCross(cross, "FFF FTT TTT");
-	}
+        boolean result = pixelStrategy.validateColor(cross.getUpperLeft(), j - 1, i - 1) == upperLeft &&
+                pixelStrategy.validateColor(cross.getUp(), j, i - 1) == up &&
+                pixelStrategy.validateColor(cross.getUpperRight(), j + 1, i - 1) == upperRight &&
+                pixelStrategy.validateColor(cross.getLeft(), j - 1, i) == left &&
+                pixelStrategy.validateColor(cross.getCenter(), j, i) == center &&
+                pixelStrategy.validateColor(cross.getRight(), j + 1, i) == right &&
+                pixelStrategy.validateColor(cross.getLowerLeft(), j - 1, i + 1) == lowerLeft &&
+                pixelStrategy.validateColor(cross.getDown(), j, i + 1) == down &&
+                pixelStrategy.validateColor(cross.getLowerRight(), j + 1, i + 1) == lowerRight;
 
-	private boolean downHardCorner(Cross cross){
-		return validateCross(cross, "TTT TTF FFF");
-	}
+        return result;
+    }
 
-	private boolean leftHardCorner(Cross cross){
-		return validateCross(cross, "FFT FTT FFF");
-	}
+    public String getCrossString(Cross cross) {
 
-	private boolean rightHardCorner(Cross cross){
-		return validateCross(cross, "TFF TTF TTF");
-	}
+        StringBuilder builder = new StringBuilder();
 
-	public boolean validateCross(Cross cross, String pattern){
+        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperLeft(), 0, 0)));
+        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUp(), 0, 0)));
+        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperRight(), 0, 0)));
+        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLeft(), 0, 0)));
+        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getCenter(), 0, 0)));
+        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getRight(), 0, 0)));
+        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerLeft(), 0, 0)));
+        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getDown(), 0, 0)));
+        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerRight(), 0, 0)));
 
-		boolean result = getCrossString(cross).matches(pattern.replaceAll(" ", ""));
+        return builder.toString();
+    }
 
-		return result;
+    private char booleanToChar(boolean b) {
 
-	}
+        if (b) {
+            return 'T';
+        }
 
-	public boolean validateCross(int j, int i, Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight){
+        return 'F';
 
-		boolean result = pixelStrategy.validateColor(cross.getUpperLeft(), j-1, i-1)==upperLeft&&
-				pixelStrategy.validateColor(cross.getUp(), j, i-1)==up&&
-				pixelStrategy.validateColor(cross.getUpperRight(), j+1, i-1)==upperRight&&
-				pixelStrategy.validateColor(cross.getLeft(), j-1, i)==left&&
-				pixelStrategy.validateColor(cross.getCenter(), j, i)==center&&
-				pixelStrategy.validateColor(cross.getRight(), j+1, i)==right&&
-				pixelStrategy.validateColor(cross.getLowerLeft(), j-1, i+1)==lowerLeft&&
-				pixelStrategy.validateColor(cross.getDown(), j, i+1)==down&&
-				pixelStrategy.validateColor(cross.getLowerRight(), j+1, i+1)==lowerRight;
-
-		return result;
-	}	
-
-	public String getCrossString(Cross cross) {
-
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperLeft(), 0, 0)));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUp(), 0, 0)));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperRight(), 0, 0)));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLeft(), 0, 0)));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getCenter(), 0, 0)));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getRight(), 0, 0)));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerLeft(), 0, 0)));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getDown(), 0, 0)));
-		builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerRight(), 0, 0)));
-
-		return builder.toString();
-	}
-
-	private char booleanToChar(boolean b){
-
-		if(b){
-			return 'T';
-		}
-
-		return 'F';
-
-	}
+    }
 
 }
