@@ -1,7 +1,10 @@
-Keel
-========
+Keel [![Build Status](https://travis-ci.org/Harium/keel.svg?branch=master)](https://travis-ci.org/Harium/keel)
+====
 
-Keel is a Java Image Processing Library built over [Etyllica](https://github.com/yuripourre/etyllica/).
+Keel is an Image Processing Library made in pure Java.
+
+### Main Goal
+Port widely known algorithms to Java and create a tool (in pure java) to help programmers to work with image processing/computer vision.
 
 Comparing to other computer vision libraries it is:
 
@@ -10,11 +13,22 @@ Comparing to other computer vision libraries it is:
 - easier to debug
 - probably slower
 
-### Main Goal:
-The main goal is port widely known algorithms to Java and create a tool to help Java programmers to work with image processing/computer vision.
+### Maven
+```
+<dependency>
+    <groupId>com.harium.keel</groupId>
+    <artifactId>core</artifactId>
+    <version>1.1.0</version>
+</dependency>
+```
+
+### Gradle
+```
+compile 'com.harium.keel:core:1.1.0'
+```
 
 
-### Related Projects:
+### Related Projects
 - [Motion Slide](https://github.com/yuripourre/motion-slide/) - Experiments using Motion Tracking.
 - [LuvMotion](https://github.com/yuripourre/luvmotion/) - Augmented Reality experiments.
 - [Drone4](https://github.com/yuripourre/drone4) - A Virtual Environment to test robotic algorithms.
