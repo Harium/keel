@@ -14,7 +14,7 @@ public class LeftToRightSearchStrategy extends SearchStrategyImpl implements Sea
     }
 
     public Component filterFirst(final ImageSource source, final Component component) {
-        filter.setup(component.getW(), component.getH());
+        filter.setup(source, component);
 
         int x = component.getX() + filter.getBorder();
         int y = component.getY() + filter.getBorder();
@@ -41,7 +41,7 @@ public class LeftToRightSearchStrategy extends SearchStrategyImpl implements Sea
     }
 
     public List<Component> filter(final ImageSource source, final Component component) {
-        filter.setup(component.getW(), component.getH());
+        filter.setup(source, component);
 
         int x = component.getX() + filter.getBorder();
         int y = component.getY() + filter.getBorder();

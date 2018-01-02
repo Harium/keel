@@ -51,7 +51,7 @@ public abstract class SearchFilter {
         this.validations.add(componentStrategy);
     }
 
-    public void setup(int w, int h) {
+    public void setup(ImageSource source, Component component) {
         results = new ArrayList<Component>();
     }
 

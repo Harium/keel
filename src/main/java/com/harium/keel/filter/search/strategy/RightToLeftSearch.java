@@ -14,7 +14,7 @@ public class RightToLeftSearch extends SearchStrategyImpl implements SearchStrat
     }
 
     public Component filterFirst(ImageSource source, Component component) {
-        filter.setup(component.getW(), component.getH());
+        filter.setup(source, component);
 
         int x = component.getX() + filter.getBorder();
         int y = component.getY() + filter.getBorder();
@@ -41,7 +41,7 @@ public class RightToLeftSearch extends SearchStrategyImpl implements SearchStrat
 
     @Override
     public List<Component> filter(ImageSource source, Component component) {
-        filter.setup(component.getW(), component.getH());
+        filter.setup(source, component);
 
         int x = component.getX() + filter.getBorder();
         int y = component.getY() + filter.getBorder();

@@ -1,7 +1,9 @@
 package com.harium.keel.core;
 
+import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.PixelStrategy;
 import com.harium.keel.core.strategy.SearchFilter;
+import com.harium.keel.feature.Component;
 
 
 public abstract class ComponentFilter extends SearchFilter {
@@ -24,10 +26,12 @@ public abstract class ComponentFilter extends SearchFilter {
     }
 
     @Override
-    public void setup(int w, int h) {
+    public void setup(ImageSource source, Component component) {
+        int w = component.getW();
+        int h = component.getH();
         this.w = w;
         this.h = h;
-        super.setup(w, h);
+        super.setup(source, component);
     }
 
     public int getW() {

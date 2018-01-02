@@ -41,8 +41,11 @@ public class FloodFillSearch extends ComponentFilter {
         this.maxNeighbors = maxNeighbors;
     }
 
-    public void setup(int w, int h, ImageSource source) {
-        super.setup(w, h);
+    public void setup(ImageSource source, Component component) {
+        super.setup(source, component);
+
+        int w = component.getW();
+        int h = component.getH();
         updateMask(w, h, source);
     }
 
