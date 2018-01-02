@@ -1,13 +1,13 @@
 package com.harium.keel.classifier;
 
-import com.harium.keel.feature.Component;
 import com.harium.etyl.linear.Point2D;
+import com.harium.keel.feature.Component;
 
 public class CircleClassifier implements Classifier<Component, Boolean> {
 
-	private int step = 2;
+    private int step = 2;
     private int iterations = 4;
-    private double radiusTolerance = 0.05;
+    private double radiusTolerance = 0.1;
 
     public CircleClassifier() {
     }
@@ -17,16 +17,22 @@ public class CircleClassifier implements Classifier<Component, Boolean> {
     }
 
     public Boolean classify(Component feature) {
-        int difRadius = feature.getW() - feature.getH();
-        if (difRadius < 0) {
-            difRadius = -difRadius;
+
+        float difRadius;
+        int dimension;
+
+        if (feature.getW() > feature.getH()) {
+            difRadius = feature.getW() / (float) feature.getH();
+            dimension = feature.getW();
+        } else {
+            difRadius = feature.getH() / (float) feature.getW();
+            dimension = feature.getH();
         }
 
-        int dimension = Math.max(feature.getW(), feature.getH());
         int radius = dimension / 2;
 
         //If component is not circular with tolerance = radiusTolerance
-        if ((difRadius > 0) && (radius / difRadius > radius * radiusTolerance)) {
+        if (difRadius > 1 + radiusTolerance) {
             return false;
         }
 
@@ -43,7 +49,7 @@ public class CircleClassifier implements Classifier<Component, Boolean> {
             double dxi = Math.cos(angle);
             double dyi = Math.sin(angle);
 
-            for (int r = 0; r < radius; r+= step) {
+            for (int r = 0; r < radius; r += step) {
                 double dx = r * dxi;
                 double dy = r * dyi;
 
@@ -65,5 +71,13 @@ public class CircleClassifier implements Classifier<Component, Boolean> {
 
     public void setIterations(int iterations) {
         this.iterations = iterations;
+    }
+
+    public double getRadiusTolerance() {
+        return radiusTolerance;
+    }
+
+    public void setRadiusTolerance(double radiusTolerance) {
+        this.radiusTolerance = radiusTolerance;
     }
 }
