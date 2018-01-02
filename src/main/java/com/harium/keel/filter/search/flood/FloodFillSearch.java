@@ -195,25 +195,23 @@ public class FloodFillSearch extends ComponentFilter {
     }
 
     protected boolean verifyNeighbors(int px, int py, ImageSource source) {
+        int count = 0;
 
-        int verified = 0;
-
-        //TODO Swap i,j
-        for (int j = py - step; j <= py + step; j += step) {
-            for (int i = px - step; i <= px + step; i += step) {
-                if (!inBoundary(i, j)) {
+        for (int y = py - step; y <= py + step; y += step) {
+            for (int x = px - step; x <= px + step; x += step) {
+                if (!inBoundary(x, y)) {
                     continue;
                 }
 
-                if (mask.isValid(i, j)) {
-                    verified++;
-                } else if (pixelStrategy.validateColor(source.getRGB(i, j), i, j)) {
-                    verified++;
+                if (mask.isValid(x, y)) {
+                    count++;
+                } else if (pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
+                    count++;
                 }
             }
         }
 
-        return verified >= minNeighbors && verified <= maxNeighbors;
+        return count >= minNeighbors && count <= maxNeighbors;
     }
 
     public boolean inBoundary(int px, int py) {

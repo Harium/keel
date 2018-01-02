@@ -1,8 +1,8 @@
 package com.harium.keel.filter.search.flood;
 
+import com.harium.etyl.linear.Point2D;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Component;
-import com.harium.etyl.linear.Point2D;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -93,8 +93,8 @@ public class SoftFloodFillSearch extends FloodFillSearch {
         //Get color from previous pixel
         int lastColor = p.getColor();
 
-        if ((px >= x) && (px < x + width &&
-                (py >= y) && (py < y + height))) {
+        if ((px >= x) && (px < x + width - border &&
+                (py >= y) && (py < y + height - border))) {
 
             if (verifyPixel(px, py, rgb, lastColor, bimg)) {
                 p.setColor(rgb);
@@ -112,7 +112,6 @@ public class SoftFloodFillSearch extends FloodFillSearch {
     }
 
     private boolean verifyPixel(int px, int py, int rgb, int lastRGB, ImageSource bimg) {
-
         if (verifySinglePixel(px, py, rgb, lastRGB)) {
             if (minNeighbors > 0 && maxNeighbors > 0) {
                 if (!verifyNeighbors(px, py, rgb, bimg)) {
@@ -147,11 +146,11 @@ public class SoftFloodFillSearch extends FloodFillSearch {
         int verified = 0;
         int baseColor = rgb;
 
-        for (int i = py - step; i <= py + step; i += step) {
-            for (int j = px - step; j <= px + step; j += step) {
+        for (int y = py - step; y <= py + step; y += step) {
+            for (int x = px - step; x <= px + step; x += step) {
 
-                int currentColor = bimg.getRGB(i, j);
-                if (mask.isValid(j, i) || pixelStrategy.strongValidateColor(baseColor, j, i, currentColor)) {
+                int currentColor = bimg.getRGB(x, y);
+                if (mask.isValid(x, y) || pixelStrategy.strongValidateColor(baseColor, x, y, currentColor)) {
                     verified++;
                     if (verified >= minNeighbors) {
                         return true;
