@@ -1,6 +1,5 @@
-package com.harium.keel.source;
+package com.harium.keel.core.source;
 
-import com.harium.keel.core.source.MatrixSource;
 import com.harium.etyl.commons.graphics.Color;
 import org.junit.Assert;
 import org.junit.Before;
