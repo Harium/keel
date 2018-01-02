@@ -41,6 +41,22 @@ public abstract class CustomFilter {
         this.validationStrategy = validationStrategy;
     }
 
+    public int getBorder() {
+        return filter.getBorder();
+    }
+
+    public void setBorder(int border) {
+        filter.setBorder(border);
+    }
+
+    public int getStep() {
+        return filter.getStep();
+    }
+
+    public void setStep(int step) {
+        filter.setStep(step);
+    }
+
     public ComponentModifierStrategy getModifierStrategy() {
         return modifierStrategy;
     }

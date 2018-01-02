@@ -7,7 +7,6 @@ import com.harium.keel.filter.search.flood.SoftFloodFillSearch;
 public class ColorFilter extends SoftFloodFillSearch {
 
     protected int tolerance = 0x40;
-    private int color;
 
     public ColorFilter(int w, int h) {
         this(w, h, Color.BLACK);
@@ -43,4 +42,5 @@ public class ColorFilter extends SoftFloodFillSearch {
     public int getColor() {
         return getColorStrategy().getColor();
     }
+
 }
