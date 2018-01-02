@@ -1,36 +1,44 @@
 package com.harium.keel.custom;
 
+import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
 import com.harium.keel.core.strategy.ComponentValidationStrategy;
 import com.harium.keel.core.strategy.PixelStrategy;
 import com.harium.keel.core.strategy.SearchFilter;
+import com.harium.keel.feature.Component;
 
-public abstract class CustomFilter extends SearchFilter {
+import java.util.List;
 
-    protected PixelStrategy colorStrategy;
+public abstract class CustomFilter {
 
-    protected ComponentValidationStrategy componentStrategy;
+    protected SearchFilter filter;
 
+    protected ComponentValidationStrategy validationStrategy;
     protected ComponentModifierStrategy modifierStrategy;
 
     public CustomFilter() {
         super();
     }
 
+    public CustomFilter(SearchFilter filter) {
+        super();
+        this.filter = filter;
+    }
+
     public PixelStrategy getPixelStrategy() {
-        return colorStrategy;
+        return filter.getPixelStrategy();
     }
 
     public void setPixelStrategy(PixelStrategy colorStrategy) {
-        this.colorStrategy = colorStrategy;
+        filter.setPixelStrategy(colorStrategy);
     }
 
-    public ComponentValidationStrategy getComponentStrategy() {
-        return componentStrategy;
+    public ComponentValidationStrategy getValidationStrategy() {
+        return validationStrategy;
     }
 
-    public void setComponentStrategy(ComponentValidationStrategy componentStrategy) {
-        this.componentStrategy = componentStrategy;
+    public void setValidationStrategy(ComponentValidationStrategy validationStrategy) {
+        this.validationStrategy = validationStrategy;
     }
 
     public ComponentModifierStrategy getModifierStrategy() {
@@ -39,6 +47,30 @@ public abstract class CustomFilter extends SearchFilter {
 
     public void setModifierStrategy(ComponentModifierStrategy modifierStrategy) {
         this.modifierStrategy = modifierStrategy;
+    }
+
+    public void addValidation(ComponentValidationStrategy validation) {
+        filter.addValidation(validation);
+    }
+
+    public SearchFilter getSearchStrategy() {
+        return filter;
+    }
+
+    public void setSearchStrategy(SearchFilter searchStrategy) {
+        this.filter = searchStrategy;
+    }
+
+    public void clearValidations() {
+        filter.getValidations().clear();
+    }
+
+    public List<Component> filter(ImageSource source, Component component) {
+        return filter.filter(source, component);
+    }
+
+    public Component filterFirst(ImageSource source, Component component) {
+        return filter.filterFirst(source, component);
     }
 
 }

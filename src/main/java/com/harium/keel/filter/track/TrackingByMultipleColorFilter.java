@@ -1,14 +1,11 @@
-package com.harium.keel.filter;
+package com.harium.keel.filter.track;
 
-import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.custom.CustomFilter;
 import com.harium.keel.filter.color.MultipleColorStrategy;
 import com.harium.keel.filter.search.flood.FloodFillSearch;
 import com.harium.etyl.commons.graphics.Color;
 
-import java.util.List;
-
-public class TrackingByMultipleColorFilter extends TrackingFilter {
+public class TrackingByMultipleColorFilter extends CustomFilter {
 
     private static int DEFAULT_TOLERANCE = 0x40;
     private MultipleColorStrategy colorStrategy;
@@ -17,8 +14,7 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
         super(new FloodFillSearch(w, h));
 
         colorStrategy = new MultipleColorStrategy();
-
-        this.searchStrategy.setPixelStrategy(colorStrategy);
+        setPixelStrategy(new MultipleColorStrategy());
     }
 
     public TrackingByMultipleColorFilter(int w, int h, Color color, int tolerance) {
@@ -29,20 +25,6 @@ public class TrackingByMultipleColorFilter extends TrackingFilter {
 
     public TrackingByMultipleColorFilter(int w, int h, Color color) {
         this(w, h, color, DEFAULT_TOLERANCE);
-    }
-
-    @Override
-    public List<Component> filter(ImageSource bimg, Component component) {
-        //Setup happens on filter
-        //searchStrategy.setup();
-        return searchStrategy.filter(bimg, component);
-    }
-
-    @Override
-    public Component filterFirst(ImageSource bimg, Component component) {
-        //Setup happens on filter
-        //searchStrategy.setup();
-        return searchStrategy.filterFirst(bimg, component);
     }
 
     public void addColor(Color color, int tolerance) {

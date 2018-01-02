@@ -5,7 +5,6 @@ import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Component;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public class SoftFloodFillSearch extends FloodFillSearch {
@@ -25,62 +24,42 @@ public class SoftFloodFillSearch extends FloodFillSearch {
     }
 
     @Override
-    public List<Component> filter(ImageSource source, Component component) {
-        super.setup(component.getW(), component.getH(), source);
+    public boolean filter(int x, int y, int width, int height, ImageSource source) {
+        int rgb = source.getRGB(x, y);
 
-        this.boundary = component;
+        if (verifySinglePixel(x, y, rgb, UNDEFINED_COLOR)) {
 
-        int x = component.getX() + border;
-        int y = component.getY() + border;
+            //Clear Queue
+            Queue<Point2D> queue = new LinkedList<Point2D>();
+            Component found = new Component();
 
-        int width = getComponentWidth(component);
-        int height = getComponentHeight(component);
+            Point2D firstPoint = new Point2D(x, y);
 
-        for (int j = y; j < y + height; j += step) {
-            for (int i = x; i < x + width; i += step) {
-                if (!component.isInside(i, j)) {
-                    continue;
+            //Mark as touched
+            addPoint(found, firstPoint);
+            addNeighbors(queue, firstPoint, rgb);//Add reference to its color
+
+            //For each neighbor
+            while (!queue.isEmpty()) {
+
+                //Queue.pop();
+                Point2D p = queue.remove();
+
+                if (verifyNext(p, x, y, width, height, source)) {
+                    addPoint(found, p);
+                    addNeighbors(queue, p);
+                } else {
+                    mask.setTouched(x, y);
                 }
+            }
 
-                //Found some valid pixel
-                int rgb = source.getRGB(i, j);
-
-                if (verifySinglePixel(i, j, rgb, UNDEFINED_COLOR)) {
-
-                    //Clear Queue
-                    Queue<Point2D> queue = new LinkedList<Point2D>();
-                    Component found = new Component();
-
-                    Point2D firstPoint = new Point2D(i, j);
-
-                    //Mark as touched
-                    addPoint(found, firstPoint);
-                    addNeighbors(queue, firstPoint, rgb);//Add reference to its color
-
-                    //For each neighbor
-                    while (!queue.isEmpty()) {
-
-                        //Queue.pop();
-                        Point2D p = queue.remove();
-
-                        if (verifyNext(p, x, y, width, height, source)) {
-                            addPoint(found, p);
-                            addNeighbors(queue, p);
-                        } else {
-                            mask.setTouched(i, j);
-                        }
-                    }
-
-                    if (this.validate(found)) {
-                        result.add(componentModifierStrategy.modifyComponent(found));
-                    }
-                }
-
-                mask.setTouched(i, j);
+            if (this.validate(found)) {
+                results.add(componentModifierStrategy.modifyComponent(found));
             }
         }
 
-        return result;
+        mask.setTouched(x, y);
+        return false;
     }
 
     protected boolean verifyNext(Point2D p, int x, int y, int width,

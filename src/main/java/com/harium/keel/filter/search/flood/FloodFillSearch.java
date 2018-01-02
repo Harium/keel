@@ -1,24 +1,20 @@
 package com.harium.keel.filter.search.flood;
 
+import com.harium.etyl.linear.Point2D;
 import com.harium.keel.core.ComponentFilter;
 import com.harium.keel.core.mask.DynamicArrayMask;
 import com.harium.keel.core.mask.DynamicMask;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Component;
 import com.harium.keel.filter.color.ColorStrategy;
-import com.harium.etyl.linear.Point2D;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public class FloodFillSearch extends ComponentFilter {
 
     protected int minNeighbors = 1;
-
     protected int maxNeighbors = 9;
-
-    private Component lastComponent;
 
     protected Component boundary;
 
@@ -42,18 +38,7 @@ public class FloodFillSearch extends ComponentFilter {
         super(w, h, new ColorStrategy());
 
         this.minNeighbors = minNeighbors;
-
         this.maxNeighbors = maxNeighbors;
-    }
-
-    public Component filterFirst(ImageSource source, Component component) {
-        List<Component> list = filter(source, component);
-
-        if (!list.isEmpty()) {
-            lastComponent = list.get(0);
-        }
-
-        return lastComponent;
     }
 
     public void setup(int w, int h, ImageSource source) {
@@ -69,61 +54,49 @@ public class FloodFillSearch extends ComponentFilter {
         mask.update(source);
     }
 
-    public List<Component> filter(final ImageSource source, final Component component) {
-        this.setup(component.getW(), component.getH());
+    @Override
+    public boolean filterFirst(int x, int y, int width, int height, ImageSource source) {
+        return filter(x, y, width, height, source);
+    }
 
-        boundary = component;
+    @Override
+    public boolean filter(int x, int y, int width, int height, ImageSource source) {
+        int rgb = source.getRGB(x, y);
 
-        int x = component.getX() + border;
-        int y = component.getY() + border;
+        if (verifySinglePixel(x, y, rgb)) {
 
-        int width = getComponentWidth(component);
-        int height = getComponentHeight(component);
+            //Clear Queue
+            Queue<Point2D> queue = new LinkedList<Point2D>();
+            Component found = new Component();
 
-        for (int j = y; j < y + height; j += step) {
-            for (int i = x; i < x + width; i += step) {
-                if (!component.isInside(i, j)) {
-                    continue;
-                }
+            Point2D firstPoint = new Point2D(x, y, rgb);
 
-                int rgb = source.getRGB(i, j);
+            //Mark as touched
+            addPoint(found, firstPoint);
+            addNeighbors(queue, firstPoint);
 
-                if (verifySinglePixel(i, j, rgb)) {
+            //For each neighbor
+            while (!queue.isEmpty()) {
 
-                    //Clear Queue
-                    Queue<Point2D> queue = new LinkedList<Point2D>();
-                    Component found = new Component();
+                //Queue.pop();
+                Point2D p = queue.remove();
 
-                    Point2D firstPoint = new Point2D(i, j, rgb);
-
-                    //Mark as touched
-                    addPoint(found, firstPoint);
-                    addNeighbors(queue, firstPoint);
-
-                    //For each neighbor
-                    while (!queue.isEmpty()) {
-
-                        //Queue.pop();
-                        Point2D p = queue.remove();
-
-                        if (verifyNext(p, i, j, width, height, source)) {
-                            addPoint(found, p);
-                            addNeighbors(queue, p);
-                        } else {
-                            mask.setTouched(i, j);
-                        }
-                    }
-
-                    if (this.validate(found)) {
-                        result.add(componentModifierStrategy.modifyComponent(found));
-                    }
+                if (verifyNext(p, x, y, width, height, source)) {
+                    addPoint(found, p);
+                    addNeighbors(queue, p);
                 } else {
-                    mask.setTouched(i, j);
+                    mask.setTouched(x, y);
                 }
             }
+
+            if (this.validate(found)) {
+                results.add(componentModifierStrategy.modifyComponent(found));
+            }
+        } else {
+            mask.setTouched(x, y);
         }
 
-        return result;
+        return false;
     }
 
     protected boolean verifyNext(Point2D p, int x, int y, int width,

@@ -1115,7 +1115,7 @@ public class DelaunayTriangulation {
 		// Getting one of the neigh
 		Triangle triangle = find(point);
 
-		// Validating find result.
+		// Validating find results.
 		if (!triangle.isCorner(point)) {
 			System.err.println("findConnectedTriangles: Could not find connected vertices since the first found triangle doesn't" +
 					" share the given point.");

@@ -1,136 +1,140 @@
 package com.harium.keel.core.strategy;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.harium.keel.core.SearchStrategy;
+import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Component;
 import com.harium.keel.filter.dummy.DummyColorFilter;
 import com.harium.keel.filter.dummy.DummyComponentModifier;
+import com.harium.keel.filter.search.strategy.LeftToRightSearchStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public abstract class SearchFilter implements SearchStrategy {
+public abstract class SearchFilter {
 
-	protected int step = 1;
-	
-	protected int border = 1;
-		
-	protected PixelStrategy pixelStrategy;
-			
-	protected ComponentModifierStrategy componentModifierStrategy;
-	
-	protected Component lastComponent = new Component(0, 0, 1, 1);
-	
-	protected List<Component> result = new ArrayList<Component>();
-	
-	protected List<ComponentValidationStrategy> validations = new ArrayList<ComponentValidationStrategy>();
-	
-	public SearchFilter() {
-		super();
-		
-		this.pixelStrategy = new DummyColorFilter();
-				
-		this.componentModifierStrategy = new DummyComponentModifier();
-	}
-	
-	public SearchFilter(PixelStrategy colorStrategy) {
-		super();
-		
-		this.pixelStrategy = colorStrategy;
-		
-		this.componentModifierStrategy = new DummyComponentModifier();
-	}
-	
-	public SearchFilter(PixelStrategy colorStrategy, ComponentValidationStrategy componentStrategy) {
-		super();
-		
-		this.pixelStrategy = colorStrategy;
-		
-		this.validations.add(componentStrategy);
-		
-		this.componentModifierStrategy = new DummyComponentModifier();
-	}
-	
-	@Override
-	public void setup(int w, int h) {
-		result = new ArrayList<Component>();
-	}
+    protected int step = 1;
+    protected int border = 1;
 
-	public PixelStrategy getPixelStrategy() {
-		return pixelStrategy;
-	}
+    protected SearchStrategy searchStrategy;
+    protected PixelStrategy pixelStrategy;
+    protected ComponentModifierStrategy componentModifierStrategy;
 
-	public void setPixelStrategy(PixelStrategy colorStrategy) {
-		this.pixelStrategy = colorStrategy;
-	}
+    protected Component lastComponent = new Component(0, 0, 1, 1);
 
-	public List<ComponentValidationStrategy> getValidations() {
-		return validations;
-	}
+    protected List<Component> results = new ArrayList<Component>();
 
-	public void addValidation(ComponentValidationStrategy validation) {
-		this.validations.add(validation);
-	}
-	
-	public void setComponentStrategy(List<ComponentValidationStrategy> validations) {
-		this.validations = validations;
-	}
-	
-	public ComponentModifierStrategy getComponentModifierStrategy() {
-		return componentModifierStrategy;
-	}
+    protected List<ComponentValidationStrategy> validations = new ArrayList<ComponentValidationStrategy>();
 
-	public void setComponentModifierStrategy(ComponentModifierStrategy componentModifierStrategy) {
-		this.componentModifierStrategy = componentModifierStrategy;
-	}
+    public SearchFilter() {
+        super();
 
-	public int getStep() {
-		return step;
-	}
+        this.pixelStrategy = new DummyColorFilter();
+        this.searchStrategy = new LeftToRightSearchStrategy(this);
+        this.componentModifierStrategy = new DummyComponentModifier();
+    }
 
-	public void setStep(int step) {
-		this.step = step;
-	}
+    public SearchFilter(PixelStrategy colorStrategy) {
+        super();
 
-	public int getBorder() {
-		return border;
-	}
+        this.pixelStrategy = colorStrategy;
+        this.searchStrategy = new LeftToRightSearchStrategy(this);
+        this.componentModifierStrategy = new DummyComponentModifier();
+    }
 
-	public void setBorder(int border) {
-		this.border = border;
-	}
-	
-	protected boolean validate(Component component) {
-		
-		for(ComponentValidationStrategy validation : validations) {
-			if (!validation.validate(component)) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	protected int getComponentWidth(Component component) {
-		int width = component.getW();
-		
-		if(width < 0) {
-			width = -width;
-		}
-		
-		width -= border*2;
-		return width;
-	}
+    public SearchFilter(PixelStrategy colorStrategy, ComponentValidationStrategy componentStrategy) {
+        super();
 
-	protected int getComponentHeight(Component component) {
-		int height = component.getH();
-		
-		if(height < 0) {
-			height = -height;
-		}
-		
-		height -= border*2;
-		return height;
-	}
-	
+        this.pixelStrategy = colorStrategy;
+        this.searchStrategy = new LeftToRightSearchStrategy(this);
+        this.componentModifierStrategy = new DummyComponentModifier();
+
+        this.validations.add(componentStrategy);
+    }
+
+    public void setup(int w, int h) {
+        results = new ArrayList<Component>();
+    }
+
+    public PixelStrategy getPixelStrategy() {
+        return pixelStrategy;
+    }
+
+    public void setPixelStrategy(PixelStrategy colorStrategy) {
+        this.pixelStrategy = colorStrategy;
+    }
+
+    public SearchStrategy getSearchStrategy() {
+        return searchStrategy;
+    }
+
+    public void setSearchStrategy(SearchStrategy searchStrategy) {
+        this.searchStrategy = searchStrategy;
+    }
+
+    public List<ComponentValidationStrategy> getValidations() {
+        return validations;
+    }
+
+    public void addValidation(ComponentValidationStrategy validation) {
+        this.validations.add(validation);
+    }
+
+    public void setComponentStrategy(List<ComponentValidationStrategy> validations) {
+        this.validations = validations;
+    }
+
+    public ComponentModifierStrategy getComponentModifierStrategy() {
+        return componentModifierStrategy;
+    }
+
+    public void setComponentModifierStrategy(ComponentModifierStrategy componentModifierStrategy) {
+        this.componentModifierStrategy = componentModifierStrategy;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+
+    public int getBorder() {
+        return border;
+    }
+
+    public void setBorder(int border) {
+        this.border = border;
+    }
+
+    protected boolean validate(Component component) {
+
+        for (ComponentValidationStrategy validation : validations) {
+            if (!validation.validate(component)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public List<Component> filter(ImageSource source, Component component) {
+        return searchStrategy.filter(source, component);
+    }
+
+    public Component filterFirst(ImageSource source, Component component) {
+        return searchStrategy.filterFirst(source, component);
+    }
+
+    public abstract boolean filter(int x, int y, int width, int height, ImageSource source);
+
+    public abstract boolean filterFirst(int x, int y, int width, int height, ImageSource source);
+
+    public Component getLastComponent() {
+        return lastComponent;
+    }
+
+    public List<Component> getResults() {
+        return results;
+    }
 }

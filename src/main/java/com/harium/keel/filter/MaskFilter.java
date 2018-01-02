@@ -1,14 +1,13 @@
 package com.harium.keel.filter;
 
-import java.util.List;
-
+import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.custom.CustomFilter;
 import com.harium.keel.filter.color.mask.ImageMaskStrategy;
 import com.harium.keel.filter.search.ColoredPointSearch;
 import com.harium.keel.filter.search.flood.SoftFloodFillSearch;
 
-public class MaskFilter extends TrackingFilter {
+public class MaskFilter extends CustomFilter {
 
 	protected int tolerance = 0x40;
 	protected ImageMaskStrategy maskStrategy;
@@ -18,26 +17,17 @@ public class MaskFilter extends TrackingFilter {
 	}
 	
 	public MaskFilter(int w, int h, int tolerance) {
-		super(new ColoredPointSearch(w, h));
+		super(new ColoredPointSearch(w, h, Color.BLACK));
 		this.tolerance = tolerance;
-		
-		this.searchStrategy = new SoftFloodFillSearch(w, h);
+
+		filter = new SoftFloodFillSearch(w, h);
 		maskStrategy = new ImageMaskStrategy();
-		searchStrategy.setPixelStrategy(maskStrategy);
+		setPixelStrategy(maskStrategy);
 	}
 	
 	public MaskFilter(ImageSource source) {
 		this(source.getWidth(), source.getHeight());
-		
 		maskStrategy.setMask(source);
-	}
-
-	public Component filterFirst(ImageSource bimg, Component component) {
-		return searchStrategy.filterFirst(bimg, component);
-	}
-	
-	public List<Component> filter(ImageSource bimg, Component component) {
-		return searchStrategy.filter(bimg, component);
 	}
 
 	public void setTolerance(int tolerance) {
