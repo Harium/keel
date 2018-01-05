@@ -1,6 +1,10 @@
-package com.harium.keel.core.strategy;
+package com.harium.keel.core;
 
 import com.harium.keel.core.source.ImageSource;
+import com.harium.keel.core.strategy.ComponentModifierStrategy;
+import com.harium.keel.core.strategy.ComponentValidationStrategy;
+import com.harium.keel.core.strategy.PixelStrategy;
+import com.harium.keel.core.strategy.SearchStrategy;
 import com.harium.keel.feature.Component;
 import com.harium.keel.filter.dummy.DummyColorFilter;
 import com.harium.keel.filter.dummy.DummyComponentModifier;
@@ -10,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class SearchFilter {
+public abstract class Filter {
 
     protected int step = 1;
     protected int border = 1;
@@ -25,7 +29,7 @@ public abstract class SearchFilter {
 
     protected List<ComponentValidationStrategy> validations = new ArrayList<ComponentValidationStrategy>();
 
-    public SearchFilter() {
+    public Filter() {
         super();
 
         this.pixelStrategy = new DummyColorFilter();
@@ -33,7 +37,7 @@ public abstract class SearchFilter {
         this.componentModifierStrategy = new DummyComponentModifier();
     }
 
-    public SearchFilter(PixelStrategy colorStrategy) {
+    public Filter(PixelStrategy colorStrategy) {
         super();
 
         this.pixelStrategy = colorStrategy;
@@ -41,7 +45,7 @@ public abstract class SearchFilter {
         this.componentModifierStrategy = new DummyComponentModifier();
     }
 
-    public SearchFilter(PixelStrategy colorStrategy, ComponentValidationStrategy componentStrategy) {
+    public Filter(PixelStrategy colorStrategy, ComponentValidationStrategy componentStrategy) {
         super();
 
         this.pixelStrategy = colorStrategy;

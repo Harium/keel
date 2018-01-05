@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.harium.keel.core.BooleanMaskSearch;
 import com.harium.keel.filter.search.TriangularSearch;
 
-public class BooleanMaskSearchFilterTest {
+public class BooleanMaskSearchTest {
 
 	private BooleanMaskSearch filter;
 

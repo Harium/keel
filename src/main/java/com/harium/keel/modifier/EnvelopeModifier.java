@@ -1,11 +1,11 @@
 package com.harium.keel.modifier;
 
-import com.harium.keel.core.ComponentModifier;
+import com.harium.keel.core.Modifier;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
 import com.harium.keel.feature.Component;
 import com.harium.etyl.linear.Point2D;
 
-public class EnvelopeModifier implements ComponentModifierStrategy, ComponentModifier<Component, Component> {
+public class EnvelopeModifier implements ComponentModifierStrategy, Modifier<Component, Component> {
 
 	protected double distance = 0;
 

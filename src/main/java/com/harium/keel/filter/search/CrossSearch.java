@@ -2,11 +2,11 @@ package com.harium.keel.filter.search;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.PixelStrategy;
-import com.harium.keel.core.strategy.SearchFilter;
+import com.harium.keel.core.Filter;
 import com.harium.keel.feature.Component;
 import com.harium.keel.feature.Cross;
 
-public class CrossSearch extends SearchFilter {
+public class CrossSearch extends Filter {
 
     private Cross cross = new Cross();
 

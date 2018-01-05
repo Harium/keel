@@ -1,7 +1,7 @@
 package com.harium.keel.core;
 
 
-public interface ComponentModifier<C, T> {
+public interface Modifier<C, T> {
 	
 	T modify(C component);
 	

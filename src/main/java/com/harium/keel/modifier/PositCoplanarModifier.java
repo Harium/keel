@@ -3,7 +3,7 @@ package com.harium.keel.modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.harium.keel.core.ComponentModifier;
+import com.harium.keel.core.Modifier;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
 import com.harium.keel.feature.Component;
 import com.harium.keel.helper.RotationAxis;
@@ -11,7 +11,7 @@ import com.harium.keel.modifier.posit.CoplanarPosit;
 import com.harium.keel.modifier.posit.Pose;
 import com.harium.etyl.linear.Point2D;
 
-public class PositCoplanarModifier implements ComponentModifierStrategy, ComponentModifier<Component, RotationAxis> {
+public class PositCoplanarModifier implements ComponentModifierStrategy, Modifier<Component, RotationAxis> {
 
 	private int w, h;
 	

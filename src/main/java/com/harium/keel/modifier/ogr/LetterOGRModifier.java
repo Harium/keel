@@ -1,6 +1,6 @@
 package com.harium.keel.modifier.ogr;
 
-import com.harium.keel.core.ComponentModifier;
+import com.harium.keel.core.Modifier;
 import com.harium.keel.feature.Component;
 import com.harium.keel.feature.ogr.LineInterval;
 import com.harium.etyl.commons.math.EtylMath;
@@ -10,7 +10,7 @@ import com.harium.etyl.linear.graph.WeightEdge;
 
 import java.util.*;
 
-public class LetterOGRModifier implements ComponentModifier<Component, Graph<Integer>> {
+public class LetterOGRModifier implements Modifier<Component, Graph<Integer>> {
 
     public LetterOGRModifier() {
         super();

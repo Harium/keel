@@ -1,11 +1,11 @@
 package com.harium.keel.modifier.trim;
 
-import com.harium.keel.core.ComponentModifier;
+import com.harium.keel.core.Modifier;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
 import com.harium.keel.feature.Component;
 import com.harium.etyl.linear.Point2D;
 
-public class VerticalTrimModifier implements ComponentModifierStrategy, ComponentModifier<Component, Component> {
+public class VerticalTrimModifier implements ComponentModifierStrategy, Modifier<Component, Component> {
 
     int threshold = 10;
 

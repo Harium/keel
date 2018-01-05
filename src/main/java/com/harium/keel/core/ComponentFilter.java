@@ -2,11 +2,10 @@ package com.harium.keel.core;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.PixelStrategy;
-import com.harium.keel.core.strategy.SearchFilter;
 import com.harium.keel.feature.Component;
 
 
-public abstract class ComponentFilter extends SearchFilter {
+public abstract class ComponentFilter extends Filter {
 
     protected int w;
     protected int h;

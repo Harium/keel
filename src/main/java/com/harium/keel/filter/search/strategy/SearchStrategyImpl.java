@@ -1,13 +1,13 @@
 package com.harium.keel.filter.search.strategy;
 
-import com.harium.keel.core.strategy.SearchFilter;
+import com.harium.keel.core.Filter;
 import com.harium.keel.feature.Component;
 
 public class SearchStrategyImpl {
 
-    protected SearchFilter filter;
+    protected Filter filter;
 
-    public SearchStrategyImpl(SearchFilter filter) {
+    public SearchStrategyImpl(Filter filter) {
         this.filter = filter;
     }
 

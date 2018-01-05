@@ -4,14 +4,14 @@ import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
 import com.harium.keel.core.strategy.ComponentValidationStrategy;
 import com.harium.keel.core.strategy.PixelStrategy;
-import com.harium.keel.core.strategy.SearchFilter;
+import com.harium.keel.core.Filter;
 import com.harium.keel.feature.Component;
 
 import java.util.List;
 
 public abstract class CustomFilter {
 
-    protected SearchFilter filter;
+    protected Filter filter;
 
     protected ComponentValidationStrategy validationStrategy;
     protected ComponentModifierStrategy modifierStrategy;
@@ -20,7 +20,7 @@ public abstract class CustomFilter {
         super();
     }
 
-    public CustomFilter(SearchFilter filter) {
+    public CustomFilter(Filter filter) {
         super();
         this.filter = filter;
     }
@@ -69,11 +69,11 @@ public abstract class CustomFilter {
         filter.addValidation(validation);
     }
 
-    public SearchFilter getSearchStrategy() {
+    public Filter getSearchStrategy() {
         return filter;
     }
 
-    public void setSearchStrategy(SearchFilter searchStrategy) {
+    public void setSearchStrategy(Filter searchStrategy) {
         this.filter = searchStrategy;
     }
 

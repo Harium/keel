@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.harium.keel.core.ComponentModifier;
+import com.harium.keel.core.Modifier;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
 import com.harium.keel.feature.Component;
 import com.harium.keel.feature.Direction;
@@ -17,7 +17,7 @@ import com.harium.etyl.linear.graph.common.IntegerEdge;
 /**
  * MiddleLine modifier
  */
-public class MiddleLineModifier implements ComponentModifierStrategy, ComponentModifier<Component, Graph<Integer>> {
+public class MiddleLineModifier implements ComponentModifierStrategy, Modifier<Component, Graph<Integer>> {
 
 	public MiddleLineModifier() {
 		super();

@@ -3,12 +3,12 @@ package com.harium.keel.modifier.hull;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.harium.keel.core.ComponentModifier;
+import com.harium.keel.core.Modifier;
 import com.harium.keel.feature.hull.HullComponent;
 import com.harium.etyl.commons.math.EtylMath;
 import com.harium.etyl.linear.Point2D;
 
-public class PathCompressionModifier implements ComponentModifier<HullComponent, List<Point2D>> {
+public class PathCompressionModifier implements Modifier<HullComponent, List<Point2D>> {
 
 	private double minAngle = 5;
 

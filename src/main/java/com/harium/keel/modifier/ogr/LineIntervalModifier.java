@@ -1,6 +1,6 @@
 package com.harium.keel.modifier.ogr;
 
-import com.harium.keel.core.ComponentModifier;
+import com.harium.keel.core.Modifier;
 import com.harium.keel.feature.Component;
 import com.harium.keel.feature.ogr.LineInterval;
 
@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LineIntervalModifier implements ComponentModifier<Component, List<LineInterval>> {
+public class LineIntervalModifier implements Modifier<Component, List<LineInterval>> {
 
     private int step = 1;
 
