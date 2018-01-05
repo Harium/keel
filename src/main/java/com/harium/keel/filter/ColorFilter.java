@@ -1,7 +1,7 @@
 package com.harium.keel.filter;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.keel.filter.color.ColorStrategy;
+import com.harium.keel.filter.color.RGBColorStrategy;
 import com.harium.keel.filter.search.flood.SoftFloodFillSearch;
 
 public class ColorFilter extends SoftFloodFillSearch {
@@ -14,7 +14,7 @@ public class ColorFilter extends SoftFloodFillSearch {
 
     public ColorFilter(int w, int h, Color color) {
         super(w, h);
-        pixelStrategy = new ColorStrategy(color, tolerance);
+        pixelStrategy = new RGBColorStrategy(color, tolerance);
     }
 
     public ColorFilter(int w, int h, Color color, int tolerance) {
@@ -35,8 +35,8 @@ public class ColorFilter extends SoftFloodFillSearch {
         getColorStrategy().setColor(color);
     }
 
-    ColorStrategy getColorStrategy() {
-        return (ColorStrategy) pixelStrategy;
+    RGBColorStrategy getColorStrategy() {
+        return (RGBColorStrategy) pixelStrategy;
     }
 
     public int getColor() {

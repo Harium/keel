@@ -1,7 +1,7 @@
 package com.harium.keel.filter;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.keel.filter.color.ColorStrategy;
+import com.harium.keel.filter.color.RGBColorStrategy;
 import com.harium.keel.filter.search.flood.ExpandableFloodFillSearch;
 
 public class ExpandableColorFilter extends ColorPointFilter {
@@ -16,7 +16,7 @@ public class ExpandableColorFilter extends ColorPointFilter {
         super(w, h);
 
         filter = new ExpandableFloodFillSearch(w, h);
-        setPixelStrategy(new ColorStrategy(color, tolerance));
+        setPixelStrategy(new RGBColorStrategy(color, tolerance));
     }
 
     public ExpandableColorFilter(int w, int h, Color color, int tolerance) {

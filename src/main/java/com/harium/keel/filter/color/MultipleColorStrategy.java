@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MultipleColorStrategy implements PixelStrategy {
 
-    protected List<ColorStrategy> colors = new ArrayList<ColorStrategy>();
+    protected List<RGBColorStrategy> colors = new ArrayList<RGBColorStrategy>();
 
     public MultipleColorStrategy() {
         super();
@@ -19,7 +19,7 @@ public class MultipleColorStrategy implements PixelStrategy {
 
         boolean result = false;
 
-        for (ColorStrategy strategy : colors) {
+        for (RGBColorStrategy strategy : colors) {
             if (strategy.validateColor(rgb, j, i)) {
                 result = true;
                 break;
@@ -35,15 +35,15 @@ public class MultipleColorStrategy implements PixelStrategy {
     }
 
     public void addColor(Color color, int tolerance) {
-        colors.add(new ColorStrategy(color, tolerance));
+        colors.add(new RGBColorStrategy(color, tolerance));
     }
 
     public void addColor(Color color, int maxTolerance, int minTolerance) {
-        colors.add(new ColorStrategy(color, maxTolerance, minTolerance));
+        colors.add(new RGBColorStrategy(color, maxTolerance, minTolerance));
     }
 
     public void addColor(Color color, int redTolerance, int greenTolerance, int blueTolerance) {
-        colors.add(new ColorStrategy(color, redTolerance, greenTolerance, blueTolerance));
+        colors.add(new RGBColorStrategy(color, redTolerance, greenTolerance, blueTolerance));
     }
 
 }

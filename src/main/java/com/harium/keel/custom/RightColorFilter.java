@@ -3,7 +3,6 @@ package com.harium.keel.custom;
 
 import com.harium.keel.filter.ColorFilter;
 import com.harium.keel.filter.ColorPointFilter;
-import com.harium.keel.filter.color.ColorStrategy;
 import com.harium.keel.filter.search.strategy.RightToLeftSearch;
 import com.harium.etyl.commons.graphics.Color;
 

@@ -2,7 +2,7 @@ package com.harium.keel.filter.color;
 
 import com.harium.keel.core.strategy.PixelStrategy;
 
-public abstract class ToleranceStrategy implements PixelStrategy {
+public abstract class RGBToleranceStrategy implements PixelStrategy {
 
     protected int maxToleranceRed = 0x42;
 
@@ -16,17 +16,17 @@ public abstract class ToleranceStrategy implements PixelStrategy {
 
     protected int minToleranceBlue = 0x42;
 
-    public ToleranceStrategy() {
+    public RGBToleranceStrategy() {
         super();
     }
 
-    public ToleranceStrategy(int tolerance) {
+    public RGBToleranceStrategy(int tolerance) {
         super();
 
         setTolerance(tolerance);
     }
 
-    public ToleranceStrategy(int maxTolerance, int minTolerance) {
+    public RGBToleranceStrategy(int maxTolerance, int minTolerance) {
         super();
 
         setTolerance(maxTolerance, minTolerance);

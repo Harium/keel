@@ -3,7 +3,7 @@ package com.harium.keel.filter.color;
 
 import com.harium.etyl.commons.graphics.Color;
 
-public class NegativeColorStrategy extends ColorStrategy {
+public class NegativeColorStrategy extends RGBColorStrategy {
 
     public NegativeColorStrategy() {
         super();

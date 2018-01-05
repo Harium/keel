@@ -6,7 +6,7 @@ import com.harium.keel.core.mask.DynamicArrayMask;
 import com.harium.keel.core.mask.DynamicMask;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Component;
-import com.harium.keel.filter.color.ColorStrategy;
+import com.harium.keel.filter.color.RGBColorStrategy;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -19,13 +19,13 @@ public class FloodFillSearch extends ComponentFilter {
     protected DynamicMask mask;
 
     public FloodFillSearch(int w, int h) {
-        super(w, h, new ColorStrategy());
+        super(w, h, new RGBColorStrategy());
 
         mask = new DynamicArrayMask(w, h);
     }
 
     public FloodFillSearch(int w, int h, int minNeighbors) {
-        super(w, h, new ColorStrategy());
+        super(w, h, new RGBColorStrategy());
 
         mask = new DynamicArrayMask(w, h);
 
@@ -33,7 +33,7 @@ public class FloodFillSearch extends ComponentFilter {
     }
 
     public FloodFillSearch(int w, int h, int minNeighbors, int maxNeighbors) {
-        super(w, h, new ColorStrategy());
+        super(w, h, new RGBColorStrategy());
 
         this.minNeighbors = minNeighbors;
         this.maxNeighbors = maxNeighbors;

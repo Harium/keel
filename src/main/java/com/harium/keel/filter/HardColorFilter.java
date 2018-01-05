@@ -1,6 +1,6 @@
 package com.harium.keel.filter;
 
-import com.harium.keel.filter.color.ColorStrategy;
+import com.harium.keel.filter.color.RGBColorStrategy;
 import com.harium.keel.filter.search.flood.FloodFillSearch;
 import com.harium.etyl.commons.graphics.Color;
 
@@ -14,13 +14,13 @@ public class HardColorFilter extends FloodFillSearch {
 
     public HardColorFilter(int w, int h, Color color) {
         super(w, h);
-        pixelStrategy = new ColorStrategy(color, tolerance);
+        pixelStrategy = new RGBColorStrategy(color, tolerance);
     }
 
     public HardColorFilter(int w, int h, Color color, int tolerance) {
         this(w, h, color);
         this.tolerance = tolerance;
-        ((ColorStrategy) pixelStrategy).setTolerance(tolerance);
+        ((RGBColorStrategy) pixelStrategy).setTolerance(tolerance);
     }
 				
 }

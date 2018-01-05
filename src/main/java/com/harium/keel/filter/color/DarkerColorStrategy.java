@@ -3,7 +3,7 @@ package com.harium.keel.filter.color;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.etyl.commons.graphics.Color;
 
-public class DarkerColorStrategy extends ColorStrategy {
+public class DarkerColorStrategy extends RGBColorStrategy {
 
 	public DarkerColorStrategy(Color color, int tolerance) {
 		super(color, tolerance);		

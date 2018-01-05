@@ -1,7 +1,7 @@
 package com.harium.keel.filter.search;
 
 import com.harium.keel.feature.Cross;
-import com.harium.keel.filter.color.ColorStrategy;
+import com.harium.keel.filter.color.RGBColorStrategy;
 import com.harium.etyl.commons.graphics.Color;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class CrossSearchTest {
     public void setUp() {
         filter = new CrossSearch();
 
-        ColorStrategy colorStrategy = new ColorStrategy(Color.BLACK);
+        RGBColorStrategy colorStrategy = new RGBColorStrategy(Color.BLACK);
 
         //Looking for Black Pixels
         filter.setPixelStrategy(colorStrategy);

@@ -2,9 +2,9 @@ package com.harium.keel.filter.color.mask;
 
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.filter.color.ToleranceStrategy;
+import com.harium.keel.filter.color.RGBToleranceStrategy;
 
-public class ImageMaskStrategy extends ToleranceStrategy {
+public class ImageMaskStrategy extends RGBToleranceStrategy {
 
 	private ImageSource mask;
 

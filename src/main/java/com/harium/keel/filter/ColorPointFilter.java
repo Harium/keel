@@ -2,7 +2,7 @@ package com.harium.keel.filter;
 
 import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.custom.CustomFilter;
-import com.harium.keel.filter.color.ColorStrategy;
+import com.harium.keel.filter.color.RGBColorStrategy;
 import com.harium.keel.filter.search.ColoredPointSearch;
 
 public class ColorPointFilter extends CustomFilter {
@@ -33,8 +33,8 @@ public class ColorPointFilter extends CustomFilter {
         getColorStrategy().setColor(color);
     }
 
-    public ColorStrategy getColorStrategy() {
-        return ((ColorStrategy) filter.getPixelStrategy());
+    public RGBColorStrategy getColorStrategy() {
+        return ((RGBColorStrategy) filter.getPixelStrategy());
     }
 
 }
