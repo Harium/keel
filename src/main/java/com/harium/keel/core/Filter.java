@@ -59,6 +59,8 @@ public abstract class Filter {
         results = new ArrayList<Component>();
     }
 
+    public void postFilter(ImageSource source, Component component) {}
+
     public PixelStrategy getPixelStrategy() {
         return pixelStrategy;
     }

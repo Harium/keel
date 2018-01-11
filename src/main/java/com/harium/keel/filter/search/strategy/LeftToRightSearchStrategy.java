@@ -34,11 +34,13 @@ public class LeftToRightSearchStrategy extends SearchStrategyImpl implements Sea
 
                 // Filter returns true to stop early
                 if (filter.filterFirst(i, j, width, height, source, bounds)) {
+                    filter.postFilter(source, component);
                     return filter.getLastComponent();
                 }
             }
         }
 
+        filter.postFilter(source, component);
         return filter.getLastComponent();
     }
 
@@ -61,11 +63,13 @@ public class LeftToRightSearchStrategy extends SearchStrategyImpl implements Sea
 
                 // Filter returns true to stop early
                 if (filter.filter(i, j, width, height, source, bounds)) {
+                    filter.postFilter(source, component);
                     return filter.getResults();
                 }
             }
         }
 
+        filter.postFilter(source, component);
         return filter.getResults();
     }
 
