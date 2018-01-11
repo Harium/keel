@@ -13,21 +13,30 @@ public class YCbCrColorStrategy implements ColorStrategy, PixelStrategy {
     private int cb;
     private int cr;
 
-    private int chromaTolerance;
+    private int chromaBTolerance;
+    private int chromaRTolerance;
     private int lumaTolerance;
 
     public YCbCrColorStrategy(int tolerance) {
-        this.chromaTolerance = tolerance;
-        this.lumaTolerance = tolerance;
+        this(tolerance, tolerance, tolerance);
     }
 
-    public YCbCrColorStrategy(int chromaTolerance, int lumaTolerance) {
-        this.chromaTolerance = chromaTolerance;
+    public YCbCrColorStrategy(int lumaTolerance, int chromaTolerance) {
+        this(chromaTolerance, chromaTolerance, lumaTolerance);
+    }
+
+    public YCbCrColorStrategy(int lumaTolerance, int chromaBTolerance,int chromaRTolerance) {
+        this.chromaBTolerance = chromaBTolerance;
+        this.chromaRTolerance = chromaRTolerance;
         this.lumaTolerance = lumaTolerance;
     }
 
-    public YCbCrColorStrategy(Color color, int chromaTolerance, int lumaTolerance) {
-        this(chromaTolerance, lumaTolerance);
+    public YCbCrColorStrategy(Color color, int lumaTolerance, int chromaTolerance) {
+        this(color, chromaTolerance, chromaTolerance, lumaTolerance);
+    }
+
+    public YCbCrColorStrategy(Color color, int lumaTolerance, int chromaBTolerance,int chromaRTolerance) {
+        this(lumaTolerance, chromaBTolerance, chromaRTolerance);
         setColor(color);
     }
 
@@ -61,7 +70,7 @@ public class YCbCrColorStrategy implements ColorStrategy, PixelStrategy {
         int diffCB = (int) EtylMath.diffMod(rcB, cb);
         int diffCR = (int) EtylMath.diffMod(rcR, cr);
 
-        return (diffY < lumaTolerance && diffCB < chromaTolerance && diffCR < chromaTolerance);
+        return (diffY < lumaTolerance && diffCB < chromaBTolerance && diffCR < chromaRTolerance);
     }
 
     @Override
@@ -78,6 +87,30 @@ public class YCbCrColorStrategy implements ColorStrategy, PixelStrategy {
         int diffCB = (int) EtylMath.diffMod(rcB, cb);
         int diffCR = (int) EtylMath.diffMod(rcR, cr);
 
-        return (diffY < lumaTolerance * weakFactor && diffCB < chromaTolerance * weakFactor && diffCR < chromaTolerance * weakFactor);
+        return (diffY < lumaTolerance * weakFactor && diffCB < chromaBTolerance * weakFactor && diffCR < chromaRTolerance * weakFactor);
+    }
+
+    public int getChromaBTolerance() {
+        return chromaBTolerance;
+    }
+
+    public void setChromaBTolerance(int chromaBTolerance) {
+        this.chromaBTolerance = chromaBTolerance;
+    }
+
+    public int getChromaRTolerance() {
+        return chromaRTolerance;
+    }
+
+    public void setChromaRTolerance(int chromaRTolerance) {
+        this.chromaRTolerance = chromaRTolerance;
+    }
+
+    public int getLumaTolerance() {
+        return lumaTolerance;
+    }
+
+    public void setLumaTolerance(int lumaTolerance) {
+        this.lumaTolerance = lumaTolerance;
     }
 }
