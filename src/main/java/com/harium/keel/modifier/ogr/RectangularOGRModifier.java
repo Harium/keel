@@ -1,6 +1,6 @@
 package com.harium.keel.modifier.ogr;
 
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.keel.feature.ogr.OGR;
 import com.harium.keel.modifier.hull.HullModifier;
 import com.harium.etyl.linear.Point2D;
@@ -19,9 +19,9 @@ public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
         ogr = new RectangularOGR();
     }
 
-    public Component modifyComponent(Component component) {
+    public PointFeature modifyComponent(PointFeature component) {
 
-        Component box = new Component();
+        PointFeature box = new PointFeature();
 
         for (Point2D point : modify(component)) {
             box.add(point);
@@ -30,7 +30,7 @@ public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
         return box;
     }
 
-    public List<Point2D> modify(Component component) {
+    public List<Point2D> modify(PointFeature component) {
 
         boolean[][] mask = component.generateMask();
 

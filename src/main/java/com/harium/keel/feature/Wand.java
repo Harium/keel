@@ -2,9 +2,9 @@ package com.harium.keel.feature;
 
 import com.harium.etyl.commons.graphics.Color;
 
-public class Wand extends Component {
+public class Wand extends PointFeature {
 
-    public Wand(Component component) {
+    public Wand(PointFeature component) {
         super(component.getW(), component.getH());
         this.points = component.getPoints();
     }

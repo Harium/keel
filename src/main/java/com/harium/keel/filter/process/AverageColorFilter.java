@@ -4,7 +4,7 @@ import com.harium.etyl.commons.graphics.Color;
 import com.harium.etyl.linear.Point2D;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
 
@@ -49,11 +49,11 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
     }
 
     @Override
-    public Color process(ImageSource source, Component component) {
+    public Color process(ImageSource source, PointFeature component) {
         return filter(source, component);
     }
 
-    public static Color filter(ImageSource source, Component component) {
+    public static Color filter(ImageSource source, PointFeature component) {
 
         int averageRed = 0;
         int averageBlue = 0;

@@ -1,7 +1,7 @@
 package com.harium.keel.modifier.edge;
 
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.etyl.linear.Point2D;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class CannyEdgeModifier implements EdgeModifier {
         contrastNormalized = false;
     }
 
-    public List<Point2D> modify(ImageSource source, Component component) {
+    public List<Point2D> modify(ImageSource source, PointFeature component) {
         width = component.getW();
         height = component.getH();
         picsize = width * height;
@@ -89,7 +89,7 @@ public class CannyEdgeModifier implements EdgeModifier {
         }
     }
 
-    private void readLuminance(ImageSource source, Component component) {
+    private void readLuminance(ImageSource source, PointFeature component) {
 
         int width = component.getW();
         int height = component.getH();

@@ -1,10 +1,10 @@
 package com.harium.keel.filter.color.skin;
 
 import com.harium.keel.core.helper.ColorHelper;
-import com.harium.keel.filter.SoftPixelStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.filter.color.SimpleToleranceStrategy;
 
-public class SkinColorStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
+public class SkinColorStrategy extends SimpleToleranceStrategy implements SelectionStrategy {
 
     public SkinColorStrategy() {
         super();
@@ -45,7 +45,7 @@ public class SkinColorStrategy extends SimpleToleranceStrategy implements SoftPi
     }
 
     @Override
-    public boolean strongValidateColor(int baseColor, int j, int i, int rgb) {
+    public boolean softValidateColor(int baseColor, int j, int i, int rgb) {
         return validateColor(rgb, j, i);
     }
 

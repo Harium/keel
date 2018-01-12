@@ -14,13 +14,13 @@ public class HardColorFilter extends FloodFillSearch {
 
     public HardColorFilter(int w, int h, Color color) {
         super(w, h);
-        pixelStrategy = new RGBColorStrategy(color, tolerance);
+        selectionStrategy = new RGBColorStrategy(color, tolerance);
     }
 
     public HardColorFilter(int w, int h, Color color, int tolerance) {
         this(w, h, color);
         this.tolerance = tolerance;
-        ((RGBColorStrategy) pixelStrategy).setTolerance(tolerance);
+        ((RGBColorStrategy) selectionStrategy).setTolerance(tolerance);
     }
 				
 }

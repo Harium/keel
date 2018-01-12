@@ -1,14 +1,14 @@
 package com.harium.keel.filter.color.skin;
 
-import com.harium.keel.core.helper.ColorHelper;
-import com.harium.keel.filter.SoftPixelStrategy;
-import com.harium.keel.filter.color.SimpleToleranceStrategy;
 import com.harium.etyl.commons.math.EtylMath;
+import com.harium.keel.core.helper.ColorHelper;
+import com.harium.keel.core.strategy.SelectionStrategy;
+import com.harium.keel.filter.color.SimpleToleranceStrategy;
 
 /**
  * Based on: Jure Kovač, Peter Peer, and Franc Solina - Human Skin Colour Clustering for Face Detection
  */
-public class SkinColorKovacNewStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
+public class SkinColorKovacNewStrategy extends SimpleToleranceStrategy implements SelectionStrategy {
 
     public SkinColorKovacNewStrategy() {
         super();
@@ -89,7 +89,7 @@ public class SkinColorKovacNewStrategy extends SimpleToleranceStrategy implement
     }
 
     @Override
-    public boolean strongValidateColor(int baseColor, int rgb, int j, int i) {
+    public boolean softValidateColor(int baseColor, int rgb, int j, int i) {
         return validateColor(rgb, j, i);
     }
 

@@ -2,9 +2,9 @@ package com.harium.keel.filter.color;
 
 import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.core.helper.ColorHelper;
-import com.harium.keel.core.strategy.PixelStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 
-public class AvgColorStrategy implements ColorStrategy, PixelStrategy {
+public class AvgColorStrategy implements ColorStrategy, SelectionStrategy {
     float weakFactor = 2;
 
     private int color;
@@ -63,7 +63,7 @@ public class AvgColorStrategy implements ColorStrategy, PixelStrategy {
     }
 
     @Override
-    public boolean strongValidateColor(int rgb, int j, int i, int reference) {
+    public boolean softValidateColor(int rgb, int j, int i, int reference) {
         int avg = avgColor(reference);
         int avgRGB = avgColor(rgb);
 

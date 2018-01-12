@@ -2,10 +2,10 @@ package com.harium.keel.modifier;
 
 import com.harium.keel.core.Modifier;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.etyl.linear.Point2D;
 
-public class EnvelopeModifier implements ComponentModifierStrategy, Modifier<Component, Component> {
+public class EnvelopeModifier implements ComponentModifierStrategy, Modifier<PointFeature, PointFeature> {
 
 	protected double distance = 0;
 
@@ -17,9 +17,9 @@ public class EnvelopeModifier implements ComponentModifierStrategy, Modifier<Com
 		super();
 	}
 
-	public Component modifyComponent(Component component) {
+	public PointFeature modifyComponent(PointFeature component) {
 
-		Component box = modify(component);
+		PointFeature box = modify(component);
 
 		Point2D a = box.getPoints().get(0);
 		Point2D b = box.getPoints().get(1);
@@ -51,7 +51,7 @@ public class EnvelopeModifier implements ComponentModifierStrategy, Modifier<Com
 		return box;
 	}
 
-	public Component modify(Component component) {
+	public PointFeature modify(PointFeature component) {
 
 		//System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
 
@@ -80,7 +80,7 @@ public class EnvelopeModifier implements ComponentModifierStrategy, Modifier<Com
 
 		}
 
-		Component box = new Component(component.getW(), component.getH());
+		PointFeature box = new PointFeature(component.getW(), component.getH());
 
 		box.add(a);
 		box.add(b);

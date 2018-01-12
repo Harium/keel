@@ -3,7 +3,7 @@ package com.harium.keel.filter.track;
 import com.harium.keel.filter.SkinColorFilter;
 import com.harium.keel.filter.color.skin.SkinColorStrategy;
 import com.harium.keel.filter.search.flood.FloodFillSearch;
-import com.harium.keel.filter.validation.MinCountPoints;
+import com.harium.keel.filter.validation.point.MinCountPoints;
 
 public class TrackingBySkinFilter extends SkinColorFilter {
 	
@@ -16,7 +16,7 @@ public class TrackingBySkinFilter extends SkinColorFilter {
 		colorStrategy = new SkinColorStrategy(tolerance);
 		
 		//Set SkinColorStrategy as the Color Strategy
-		filter.setPixelStrategy(colorStrategy);
+		filter.setSelectionStrategy(colorStrategy);
 		
 		//Reduce Noise
 		filter.addValidation(new MinCountPoints(10));

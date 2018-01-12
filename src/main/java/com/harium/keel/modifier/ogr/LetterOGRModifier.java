@@ -1,7 +1,7 @@
 package com.harium.keel.modifier.ogr;
 
 import com.harium.keel.core.Modifier;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.keel.feature.ogr.LineInterval;
 import com.harium.etyl.commons.math.EtylMath;
 import com.harium.etyl.linear.graph.Graph;
@@ -10,13 +10,13 @@ import com.harium.etyl.linear.graph.WeightEdge;
 
 import java.util.*;
 
-public class LetterOGRModifier implements Modifier<Component, Graph<Integer>> {
+public class LetterOGRModifier implements Modifier<PointFeature, Graph<Integer>> {
 
     public LetterOGRModifier() {
         super();
     }
 
-    public Graph<Integer> modify(Component component) {
+    public Graph<Integer> modify(PointFeature component) {
         Graph<Integer> graph = modify(component.generateMask());
         graph.moveNodes(component.getX(), component.getY());
 

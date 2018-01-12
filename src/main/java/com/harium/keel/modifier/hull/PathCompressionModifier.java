@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.harium.keel.core.Modifier;
-import com.harium.keel.feature.hull.HullComponent;
+import com.harium.keel.feature.hull.HullFeature;
 import com.harium.etyl.commons.math.EtylMath;
 import com.harium.etyl.linear.Point2D;
 
-public class PathCompressionModifier implements Modifier<HullComponent, List<Point2D>> {
+public class PathCompressionModifier implements Modifier<HullFeature, List<Point2D>> {
 
 	private double minAngle = 5;
 
@@ -23,7 +23,7 @@ public class PathCompressionModifier implements Modifier<HullComponent, List<Poi
 	}
 	
 	@Override
-	public List<Point2D> modify(HullComponent component) {
+	public List<Point2D> modify(HullFeature component) {
 		List<Point2D> points = component.getPoints();
 				
 		List<Point2D> list = new ArrayList<Point2D>();

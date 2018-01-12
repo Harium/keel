@@ -1,9 +1,10 @@
-package com.harium.keel.filter.validation;
+package com.harium.keel.filter.validation.point;
 
-import com.harium.keel.core.strategy.ComponentValidationStrategy;
-import com.harium.keel.feature.Component;
+import com.harium.keel.core.strategy.FeatureValidationStrategy;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
-public class MaxDimensionValidation implements ComponentValidationStrategy {
+public class MaxDimensionValidation implements FeatureValidationStrategy<PointFeature> {
 
 	private int dimension = 180;
 	
@@ -17,7 +18,7 @@ public class MaxDimensionValidation implements ComponentValidationStrategy {
 	}
 	
 	@Override
-	public boolean validate(Component component) {
+	public boolean validate(PointFeature component) {
 		int w = component.getW();
 		int h = component.getH();
 		return w <= dimension && h <= dimension;

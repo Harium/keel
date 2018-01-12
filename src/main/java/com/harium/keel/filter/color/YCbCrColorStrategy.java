@@ -3,9 +3,9 @@ package com.harium.keel.filter.color;
 import com.harium.etyl.commons.graphics.Color;
 import com.harium.etyl.commons.math.EtylMath;
 import com.harium.keel.core.helper.ColorHelper;
-import com.harium.keel.core.strategy.PixelStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 
-public class YCbCrColorStrategy implements ColorStrategy, PixelStrategy {
+public class YCbCrColorStrategy implements ColorStrategy, SelectionStrategy {
 
     private float weakFactor = 2;
     private int color;
@@ -74,7 +74,7 @@ public class YCbCrColorStrategy implements ColorStrategy, PixelStrategy {
     }
 
     @Override
-    public boolean strongValidateColor(int rgb, int j, int i, int reference) {
+    public boolean softValidateColor(int rgb, int j, int i, int reference) {
         int r = ColorHelper.getRed(rgb);
         int g = ColorHelper.getGreen(rgb);
         int b = ColorHelper.getBlue(rgb);

@@ -3,7 +3,7 @@ package com.harium.keel.filter.search;
 import com.harium.etyl.linear.Polygon;
 import com.harium.keel.core.BooleanMaskSearch;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 
 public abstract class PolygonalSearch extends BooleanMaskSearch {
 
@@ -16,8 +16,8 @@ public abstract class PolygonalSearch extends BooleanMaskSearch {
     }
 
     @Override
-    public void setup(ImageSource source, Component component) {
-        super.setup(source, component);
+    public void setup(ImageSource source, PointFeature feature) {
+        super.setup(source, feature);
         polygon.reset();
     }
 

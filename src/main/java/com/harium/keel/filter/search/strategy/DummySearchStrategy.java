@@ -1,25 +1,28 @@
 package com.harium.keel.filter.search.strategy;
 
-import com.harium.keel.core.strategy.SearchStrategy;
-import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.Filter;
-import com.harium.keel.feature.Component;
+import com.harium.keel.core.source.ImageSource;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
 
-public class DummySearchStrategy extends SearchStrategyImpl implements SearchStrategy {
+public class DummySearchStrategy extends PointFeatureSearchStrategy {
 
     public DummySearchStrategy(Filter filter) {
         super(filter);
     }
 
     @Override
-    public Component filterFirst(ImageSource source, Component component) {
+    public PointFeature filterFirst(ImageSource source, Feature component) {
+        if(filter.getResults().isEmpty()) {
+            return null;
+        }
         return filter.getResults().get(0);
     }
 
     @Override
-    public List<Component> filter(ImageSource source, Component component) {
+    public List<PointFeature> filter(ImageSource source, Feature component) {
         return filter.getResults();
     }
 }

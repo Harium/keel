@@ -1,14 +1,14 @@
 package com.harium.keel.filter.color.skin;
 
 import com.harium.keel.core.helper.ColorHelper;
-import com.harium.keel.filter.SoftPixelStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.filter.color.SimpleToleranceStrategy;
 
 /**
  * Based on: Nusirwan Anwar bin Abdul Rahman, Kit Chong Wei and John See
  * RGB-H-CbCr Skin Colour Model for Human Face Detection
  */
-public class SkinColorRGBHCbCrStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
+public class SkinColorRGBHCbCrStrategy extends SimpleToleranceStrategy implements SelectionStrategy {
 
     public SkinColorRGBHCbCrStrategy() {
         super();
@@ -53,7 +53,7 @@ public class SkinColorRGBHCbCrStrategy extends SimpleToleranceStrategy implement
     }
 
     @Override
-    public boolean strongValidateColor(int baseColor, int rgb, int j, int i) {
+    public boolean softValidateColor(int baseColor, int rgb, int j, int i) {
         return validateColor(rgb, j, i);
     }
 

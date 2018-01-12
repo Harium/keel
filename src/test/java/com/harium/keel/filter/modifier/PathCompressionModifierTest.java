@@ -1,6 +1,6 @@
 package com.harium.keel.filter.modifier;
 
-import com.harium.keel.feature.hull.HullComponent;
+import com.harium.keel.feature.hull.HullFeature;
 import com.harium.keel.modifier.hull.PathCompressionModifier;
 import com.harium.etyl.linear.Point2D;
 import org.junit.Assert;
@@ -13,20 +13,20 @@ public class PathCompressionModifierTest {
 
     private PathCompressionModifier modifier;
 
-    private HullComponent heavyTriangle;
+    private HullFeature heavyTriangle;
 
-    private HullComponent heavyLine;
+    private HullFeature heavyLine;
 
     @Before
     public void setUp() {
         modifier = new PathCompressionModifier();
 
-        heavyLine = new HullComponent();
+        heavyLine = new HullFeature();
         heavyLine.addLogic(new Point2D(10, 0));
         heavyLine.addLogic(new Point2D(5, 0));
         heavyLine.addLogic(new Point2D(0, 0));
 
-        heavyTriangle = new HullComponent();
+        heavyTriangle = new HullFeature();
         heavyTriangle.addLogic(new Point2D(10, 0));
         heavyTriangle.addLogic(new Point2D(5, 0));
         heavyTriangle.addLogic(new Point2D(0, 0));

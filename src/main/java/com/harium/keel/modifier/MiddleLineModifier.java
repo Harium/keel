@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.harium.keel.core.Modifier;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.keel.feature.Direction;
 import com.harium.keel.helper.PointListHelper;
 import com.harium.etyl.linear.Point2D;
@@ -17,18 +17,18 @@ import com.harium.etyl.linear.graph.common.IntegerEdge;
 /**
  * MiddleLine modifier
  */
-public class MiddleLineModifier implements ComponentModifierStrategy, Modifier<Component, Graph<Integer>> {
+public class MiddleLineModifier implements ComponentModifierStrategy, Modifier<PointFeature, Graph<Integer>> {
 
 	public MiddleLineModifier() {
 		super();
 	}
 
 	@Override
-	public Component modifyComponent(Component component) {
+	public PointFeature modifyComponent(PointFeature component) {
 
 		Graph<Integer> g = modify(component);
 
-		Component polygon = new Component(0, 0);
+		PointFeature polygon = new PointFeature(0, 0);
 
 		for(Node<Integer> node: g.getNodes()) {
 			polygon.add(node.getPoint());
@@ -38,7 +38,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, Modifier<C
 
 	}
 
-	public Graph<Integer> modify(Component component) {
+	public Graph<Integer> modify(PointFeature component) {
 
 		List<Point2D> points = component.getPoints();
 		

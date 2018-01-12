@@ -1,6 +1,6 @@
 package com.harium.keel.modifier.hull;
 
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.etyl.linear.Point2D;
 
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ import static java.lang.Math.sqrt;
 public class JarvisMarchModifier implements HullModifier<List<Point2D>> {
 
     @Override
-    public Component modifyComponent(Component component) {
+    public PointFeature modifyComponent(PointFeature component) {
 
         List<Point2D> convexPolygon = modify(component);
 
-        Component poly = new Component(0, 0);
+        PointFeature poly = new PointFeature(0, 0);
 
         poly.setPoints(convexPolygon);
 
@@ -45,7 +45,7 @@ public class JarvisMarchModifier implements HullModifier<List<Point2D>> {
      * @param points in double[][]
      * @return double[][] with points of the convex hull
      */
-    public List<Point2D> modify(Component component) {
+    public List<Point2D> modify(PointFeature component) {
 
         List<Point2D> points = component.getPoints();
 

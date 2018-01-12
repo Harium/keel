@@ -1,12 +1,12 @@
 package com.harium.keel.filter.color;
 
-import com.harium.keel.core.strategy.PixelStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.etyl.commons.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultipleColorStrategy implements PixelStrategy {
+public class MultipleColorStrategy implements SelectionStrategy {
 
     protected List<RGBColorStrategy> colors = new ArrayList<RGBColorStrategy>();
 
@@ -30,7 +30,7 @@ public class MultipleColorStrategy implements PixelStrategy {
     }
 
     @Override
-    public boolean strongValidateColor(int rgb, int j, int i, int reference) {
+    public boolean softValidateColor(int rgb, int j, int i, int reference) {
         return validateColor(rgb, j, i);
     }
 

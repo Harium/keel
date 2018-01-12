@@ -17,7 +17,7 @@ public class TrackingByDarkerColorFilter extends ColorPointFilter {
         super(w, h);
 
         filter = new FloodFillSearch(w, h);
-        filter.setPixelStrategy(new DarkerColorStrategy(color, 0x40));
+        filter.setSelectionStrategy(new DarkerColorStrategy(color, 0x40));
     }
 
     public TrackingByDarkerColorFilter(int w, int h, Color color, int tolerance) {

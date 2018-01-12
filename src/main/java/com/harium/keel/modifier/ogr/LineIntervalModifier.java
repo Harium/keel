@@ -1,7 +1,7 @@
 package com.harium.keel.modifier.ogr;
 
 import com.harium.keel.core.Modifier;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.keel.feature.ogr.LineInterval;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LineIntervalModifier implements Modifier<Component, List<LineInterval>> {
+public class LineIntervalModifier implements Modifier<PointFeature, List<LineInterval>> {
 
     private int step = 1;
 
@@ -54,7 +54,7 @@ public class LineIntervalModifier implements Modifier<Component, List<LineInterv
         return intervals;
     }
 
-    public List<LineInterval> modify(Component component) {
+    public List<LineInterval> modify(PointFeature component) {
         boolean[][] mask = component.generateMask();
         return modify(mask);
     }

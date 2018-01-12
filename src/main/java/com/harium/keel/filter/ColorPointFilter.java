@@ -34,7 +34,7 @@ public class ColorPointFilter extends CustomFilter {
     }
 
     public RGBColorStrategy getColorStrategy() {
-        return ((RGBColorStrategy) filter.getPixelStrategy());
+        return ((RGBColorStrategy) filter.getSelectionStrategy());
     }
 
 }

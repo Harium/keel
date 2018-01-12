@@ -1,50 +1,40 @@
 package com.harium.keel.filter.modifier;
 
-import com.harium.keel.feature.Component;
-import com.harium.keel.modifier.PositModifier;
+import com.badlogic.gdx.math.Quaternion;
 import com.harium.etyl.linear.Point2D;
+import com.harium.keel.feature.PointFeature;
+import com.harium.keel.modifier.PositModifier;
 import org.junit.Assert;
 import org.junit.Before;
-import org.opencv.OpenCv;
+import org.junit.Test;
 
 public class PositModiferTest {
 
+    private static final double EPSILON = 0.01;
     private PositModifier modifier;
 
     @Before
     public void setUp() {
-
-        double focalLength = 760;
-
+        double focalLength = 100;
         modifier = new PositModifier(focalLength, 0);
     }
 
-
+    //Ignore Test
+    //@Test
     public void testModifier() {
-        Component imageComponent = new Component(200, 200);
+        PointFeature imageComponent = new PointFeature(200, 200);
 
         imageComponent.add(new Point2D(0, 0));
+        imageComponent.add(new Point2D(100, 0));
+        imageComponent.add(new Point2D(100, 100));
+        imageComponent.add(new Point2D(0, 100));
 
         modifier.modifyComponent(imageComponent);
+        Quaternion quaternion = modifier.calculateQuaternion();
 
-        double axisX = modifier.getRotationX();
-
-        double axisY = modifier.getRotationY();
-
-        double axisZ = modifier.getRotationZ();
-
-        double length = Math.sqrt(OpenCv.cvSqr(axisX) + OpenCv.cvSqr(axisY) + OpenCv.cvSqr(axisZ));
-
-        Assert.assertEquals(1, length, 0.001);
-
-        System.out.println("Rotation Angle: " + modifier.getAngle());
-
-        System.out.println("Rotation X Axis: " + axisX);
-
-        System.out.println("Rotation Y Axis: " + axisY);
-
-        System.out.println("Rotation Z Axis: " + axisZ);
-
+        Assert.assertEquals(1, quaternion.getPitch(), EPSILON);
+        Assert.assertEquals(1, quaternion.getYaw(), EPSILON);
+        Assert.assertEquals(1, quaternion.getRoll(), EPSILON);
     }
 
 }

@@ -5,7 +5,8 @@ import com.harium.keel.core.ComponentFilter;
 import com.harium.keel.core.mask.DynamicArrayMask;
 import com.harium.keel.core.mask.DynamicMask;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 import com.harium.keel.filter.color.RGBColorStrategy;
 
 import java.util.LinkedList;
@@ -39,11 +40,11 @@ public class FloodFillSearch extends ComponentFilter {
         this.maxNeighbors = maxNeighbors;
     }
 
-    public void setup(ImageSource source, Component component) {
-        super.setup(source, component);
+    public void setup(ImageSource source, Feature feature) {
+        super.setup(source, feature);
 
-        int w = component.getW();
-        int h = component.getH();
+        int w = feature.getWidth();
+        int h = feature.getHeight();
         updateMask(w, h, source);
     }
 
@@ -56,19 +57,19 @@ public class FloodFillSearch extends ComponentFilter {
     }
 
     @Override
-    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Component component) {
+    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Feature component) {
         return filter(x, y, width, height, source, component);
     }
 
     @Override
-    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Feature component) {
         int rgb = source.getRGB(x, y);
 
         if (verifySinglePixel(x, y, rgb)) {
 
             //Clear Queue
             Queue<Point2D> queue = new LinkedList<Point2D>();
-            Component found = new Component();
+            PointFeature found = new PointFeature();
 
             Point2D firstPoint = new Point2D(x, y, rgb);
 
@@ -101,7 +102,7 @@ public class FloodFillSearch extends ComponentFilter {
     }
 
     protected boolean verifyNext(Point2D p, int x, int y, int width,
-                                 int height, ImageSource source, Component component) {
+                                 int height, ImageSource source, Feature component) {
 
         int px = (int) p.getX();
         int py = (int) p.getY();
@@ -118,12 +119,12 @@ public class FloodFillSearch extends ComponentFilter {
         return false;
     }
 
-    protected void addPoint(Component component, Point2D p) {
+    protected void addPoint(PointFeature component, Point2D p) {
         mask.setTouched((int) p.getX(), (int) p.getY());
         component.add(p);
     }
 
-    protected void addNeighbors(Queue<Point2D> queue, Point2D p, Component component) {
+    protected void addNeighbors(Queue<Point2D> queue, Point2D p, Feature component) {
         addNeighbor(queue, (int) p.getX() + step, (int) p.getY(), p.getColor(), component);
         addNeighbor(queue, (int) p.getX() - step, (int) p.getY(), p.getColor(), component);
         addNeighbor(queue, (int) p.getX(), (int) p.getY() + step, p.getColor(), component);
@@ -132,7 +133,7 @@ public class FloodFillSearch extends ComponentFilter {
 
     //It also prevents same pixel be included in a better list of neighbors
     //May have to be changed to let multiple touch
-    protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color, Component component) {
+    protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color, Feature component) {
         if (!inBoundary(px, py, component)) {
             return;
         }
@@ -142,7 +143,7 @@ public class FloodFillSearch extends ComponentFilter {
         }
     }
 
-    protected boolean verifyPixel(int px, int py, int rgb, ImageSource source, Component component) {
+    protected boolean verifyPixel(int px, int py, int rgb, ImageSource source, Feature component) {
         if (verifySinglePixel(px, py, rgb)) {
             if (!verifyNeighbors(px, py, source, component)) {
                 return false;
@@ -157,7 +158,7 @@ public class FloodFillSearch extends ComponentFilter {
     protected boolean verifySinglePixel(int px, int py, int rgb) {
 
         if (mask.isUnknown(px, py)) {
-            if (pixelStrategy.validateColor(rgb, px, py)) {
+            if (selectionStrategy.validateColor(rgb, px, py)) {
                 mask.setValid(px, py);
             } else {
                 mask.setInvalid(px, py);
@@ -167,7 +168,7 @@ public class FloodFillSearch extends ComponentFilter {
         return (!mask.isTouched(px, py) && mask.isValid(px, py));
     }
 
-    protected boolean verifyNeighbors(int px, int py, ImageSource source, Component component) {
+    protected boolean verifyNeighbors(int px, int py, ImageSource source, Feature component) {
         int count = 0;
 
         for (int y = py - step; y <= py + step; y += step) {
@@ -178,7 +179,7 @@ public class FloodFillSearch extends ComponentFilter {
 
                 if (mask.isValid(x, y)) {
                     count++;
-                } else if (pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
+                } else if (selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
                     count++;
                 }
             }
@@ -187,8 +188,8 @@ public class FloodFillSearch extends ComponentFilter {
         return count >= minNeighbors && count <= maxNeighbors;
     }
 
-    protected boolean inBoundary(int x, int y, Component component) {
-        return component.intersects(x, y);
+    protected boolean inBoundary(int x, int y, Feature component) {
+        return component.isInside(x, y);
     }
 
     public int getMinNeighbors() {

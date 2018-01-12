@@ -5,7 +5,7 @@ import com.harium.etyl.commons.layer.GeometricLayer;
 import com.harium.etyl.commons.layer.Layer;
 import com.harium.etyl.linear.Point2D;
 
-public class MaskComponent implements Comparable<MaskComponent> {
+public class MaskFeature implements Comparable<MaskFeature> {
 
     protected boolean[][] mask;
 
@@ -23,11 +23,11 @@ public class MaskComponent implements Comparable<MaskComponent> {
 
     private int count = 0;
 
-    public MaskComponent() {
+    public MaskFeature() {
         super();
     }
 
-    public MaskComponent(int w, int h) {
+    public MaskFeature(int w, int h) {
         super();
 
         this.maskWidth = w;
@@ -36,7 +36,7 @@ public class MaskComponent implements Comparable<MaskComponent> {
         reset();
     }
 
-    public MaskComponent(int x, int y, int w, int h) {
+    public MaskFeature(int x, int y, int w, int h) {
         super();
 
         this.maskWidth = w;
@@ -183,7 +183,7 @@ public class MaskComponent implements Comparable<MaskComponent> {
     }
 
     @Override
-    public int compareTo(MaskComponent component) {
+    public int compareTo(MaskFeature component) {
 
         // TODO Auto-generated method stub
         //return component.getPoints().size()*getW()-points.size()*getH();
@@ -200,7 +200,7 @@ public class MaskComponent implements Comparable<MaskComponent> {
 
     }
 
-    public void merge(MaskComponent component) {
+    public void merge(MaskFeature component) {
 
         if ((component.getW() != this.getW()) || (component.getW() != this.getW()))
             return;
@@ -233,7 +233,7 @@ public class MaskComponent implements Comparable<MaskComponent> {
         return true;
     }
 
-    public boolean colide(MaskComponent component) {
+    public boolean colide(MaskFeature component) {
 
         int bx = component.getX();
         int bw = component.getW();

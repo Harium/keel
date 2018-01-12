@@ -14,7 +14,7 @@ public class BarCodeFilter extends CustomFilter {
         modifierStrategy = new EnvelopeModifier();
 
         filter = new FloodFillSearch(w, h);
-        filter.setPixelStrategy(pixelStrategy);
+        filter.setSelectionStrategy(pixelStrategy);
         filter.setComponentModifierStrategy(modifierStrategy);
     }
 
