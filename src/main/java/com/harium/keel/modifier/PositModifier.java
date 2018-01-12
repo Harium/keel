@@ -1,7 +1,7 @@
 package com.harium.keel.modifier;
 
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.keel.helper.RotationAxis;
 import com.harium.etyl.linear.Point3D;
 import org.opencv.criteria.CvTermCriteria;
@@ -26,7 +26,7 @@ public class PositModifier extends RotationAxis implements ComponentModifierStra
     }
 
     @Override
-    public Component modifyComponent(Component component) {
+    public PointFeature modifyComponent(PointFeature component) {
         List<Point3D> objPoints = new ArrayList<Point3D>();
 
         // A Point equivalent

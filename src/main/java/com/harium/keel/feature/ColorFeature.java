@@ -1,6 +1,6 @@
 package com.harium.keel.feature;
 
-public class ColorComponent {
+public class ColorFeature {
 
 	protected int avgR = 0;
 	protected int avgG = 0;

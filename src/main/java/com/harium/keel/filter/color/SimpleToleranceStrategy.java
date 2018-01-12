@@ -1,8 +1,8 @@
 package com.harium.keel.filter.color;
 
-import com.harium.keel.core.strategy.PixelStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 
-public abstract class SimpleToleranceStrategy implements PixelStrategy {
+public abstract class SimpleToleranceStrategy implements SelectionStrategy {
 
     protected int tolerance = 0x42;
 
@@ -25,7 +25,7 @@ public abstract class SimpleToleranceStrategy implements PixelStrategy {
     }
 
     @Override
-    public boolean strongValidateColor(int rgb, int j, int i, int reference) {
+    public boolean softValidateColor(int rgb, int j, int i, int reference) {
         return validateColor(rgb, j, i);
     }
 

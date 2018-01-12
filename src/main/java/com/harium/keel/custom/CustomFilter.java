@@ -2,42 +2,43 @@ package com.harium.keel.custom;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
-import com.harium.keel.core.strategy.ComponentValidationStrategy;
-import com.harium.keel.core.strategy.PixelStrategy;
+import com.harium.keel.core.strategy.FeatureValidationStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.core.Filter;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
 
-public abstract class CustomFilter {
+public abstract class CustomFilter<T> {
 
-    protected Filter filter;
+    protected Filter<T> filter;
 
-    protected ComponentValidationStrategy validationStrategy;
+    protected FeatureValidationStrategy validationStrategy;
     protected ComponentModifierStrategy modifierStrategy;
 
     public CustomFilter() {
         super();
     }
 
-    public CustomFilter(Filter filter) {
+    public CustomFilter(Filter<T> filter) {
         super();
         this.filter = filter;
     }
 
-    public PixelStrategy getPixelStrategy() {
-        return filter.getPixelStrategy();
+    public SelectionStrategy getPixelStrategy() {
+        return filter.getSelectionStrategy();
     }
 
-    public void setPixelStrategy(PixelStrategy colorStrategy) {
-        filter.setPixelStrategy(colorStrategy);
+    public void setPixelStrategy(SelectionStrategy colorStrategy) {
+        filter.setSelectionStrategy(colorStrategy);
     }
 
-    public ComponentValidationStrategy getValidationStrategy() {
+    public FeatureValidationStrategy getValidationStrategy() {
         return validationStrategy;
     }
 
-    public void setValidationStrategy(ComponentValidationStrategy validationStrategy) {
+    public void setValidationStrategy(FeatureValidationStrategy validationStrategy) {
         this.validationStrategy = validationStrategy;
     }
 
@@ -65,7 +66,7 @@ public abstract class CustomFilter {
         this.modifierStrategy = modifierStrategy;
     }
 
-    public void addValidation(ComponentValidationStrategy validation) {
+    public void addValidation(FeatureValidationStrategy validation) {
         filter.addValidation(validation);
     }
 
@@ -81,12 +82,12 @@ public abstract class CustomFilter {
         filter.getValidations().clear();
     }
 
-    public List<Component> filter(ImageSource source, Component component) {
-        return filter.filter(source, component);
+    public T filterFirst(ImageSource source, Feature component) {
+        return filter.filterFirst(source, component);
     }
 
-    public Component filterFirst(ImageSource source, Component component) {
-        return filter.filterFirst(source, component);
+    public List<T> filter(ImageSource source, Feature component) {
+        return filter.filter(source, component);
     }
 
 }

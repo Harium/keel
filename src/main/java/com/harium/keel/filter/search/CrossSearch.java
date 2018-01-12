@@ -1,12 +1,13 @@
 package com.harium.keel.filter.search;
 
-import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.core.strategy.PixelStrategy;
 import com.harium.keel.core.Filter;
-import com.harium.keel.feature.Component;
+import com.harium.keel.core.source.ImageSource;
+import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.feature.Cross;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
-public class CrossSearch extends Filter {
+public class CrossSearch extends Filter<PointFeature> {
 
     private Cross cross = new Cross();
 
@@ -14,27 +15,26 @@ public class CrossSearch extends Filter {
         super();
     }
 
-    public CrossSearch(PixelStrategy pixelStrategy) {
+    public CrossSearch(SelectionStrategy selectionStrategy) {
         super();
-        this.pixelStrategy = pixelStrategy;
+        this.selectionStrategy = selectionStrategy;
     }
 
-    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Component component) {
-        return filter(x, y, width, height, source, component);
-    }
-
-    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
-        Component holder;
-
+    @Override
+    public void setup(ImageSource source, Feature feature) {
         if (results.isEmpty()) {
-            holder = new Component(width, height);
-            results.add(holder);
-        } else {
-            holder = results.get(0);
+            results.add(new PointFeature(feature.getWidth(), feature.getHeight()));
         }
+    }
 
-        if (pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
+    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Feature feature) {
+        return filter(x, y, width, height, source, feature);
+    }
 
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Feature feature) {
+        PointFeature holder = results.get(0);
+
+        if (selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
             setCross(x, y, source);
 
             if (isCorner(cross)) {
@@ -42,12 +42,10 @@ public class CrossSearch extends Filter {
             }
         }
 
-
         return false;
     }
 
     private void setCross(int i, int j, ImageSource b) {
-
         cross.setUp(b.getRGB(i, j - step));
         cross.setDown(b.getRGB(i, j + step));
         cross.setLeft(b.getRGB(i - step, j));
@@ -162,15 +160,15 @@ public class CrossSearch extends Filter {
 
     public boolean validateCross(int j, int i, Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight) {
 
-        boolean result = pixelStrategy.validateColor(cross.getUpperLeft(), j - 1, i - 1) == upperLeft &&
-                pixelStrategy.validateColor(cross.getUp(), j, i - 1) == up &&
-                pixelStrategy.validateColor(cross.getUpperRight(), j + 1, i - 1) == upperRight &&
-                pixelStrategy.validateColor(cross.getLeft(), j - 1, i) == left &&
-                pixelStrategy.validateColor(cross.getCenter(), j, i) == center &&
-                pixelStrategy.validateColor(cross.getRight(), j + 1, i) == right &&
-                pixelStrategy.validateColor(cross.getLowerLeft(), j - 1, i + 1) == lowerLeft &&
-                pixelStrategy.validateColor(cross.getDown(), j, i + 1) == down &&
-                pixelStrategy.validateColor(cross.getLowerRight(), j + 1, i + 1) == lowerRight;
+        boolean result = selectionStrategy.validateColor(cross.getUpperLeft(), j - 1, i - 1) == upperLeft &&
+                selectionStrategy.validateColor(cross.getUp(), j, i - 1) == up &&
+                selectionStrategy.validateColor(cross.getUpperRight(), j + 1, i - 1) == upperRight &&
+                selectionStrategy.validateColor(cross.getLeft(), j - 1, i) == left &&
+                selectionStrategy.validateColor(cross.getCenter(), j, i) == center &&
+                selectionStrategy.validateColor(cross.getRight(), j + 1, i) == right &&
+                selectionStrategy.validateColor(cross.getLowerLeft(), j - 1, i + 1) == lowerLeft &&
+                selectionStrategy.validateColor(cross.getDown(), j, i + 1) == down &&
+                selectionStrategy.validateColor(cross.getLowerRight(), j + 1, i + 1) == lowerRight;
 
         return result;
     }
@@ -179,15 +177,15 @@ public class CrossSearch extends Filter {
 
         StringBuilder builder = new StringBuilder();
 
-        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperLeft(), 0, 0)));
-        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUp(), 0, 0)));
-        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getUpperRight(), 0, 0)));
-        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLeft(), 0, 0)));
-        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getCenter(), 0, 0)));
-        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getRight(), 0, 0)));
-        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerLeft(), 0, 0)));
-        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getDown(), 0, 0)));
-        builder.append(booleanToChar(pixelStrategy.validateColor(cross.getLowerRight(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getUpperLeft(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getUp(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getUpperRight(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getLeft(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getCenter(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getRight(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getLowerLeft(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getDown(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getLowerRight(), 0, 0)));
 
         return builder.toString();
     }

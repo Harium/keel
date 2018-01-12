@@ -3,67 +3,51 @@ package com.harium.keel.filter.search.strategy;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.Filter;
 import com.harium.keel.core.strategy.SearchStrategy;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
 
-public class RightToLeftSearch extends SearchStrategyImpl implements SearchStrategy {
+public class RightToLeftSearch<T> extends SearchStrategyImpl<T> {
 
-    public RightToLeftSearch(Filter filter) {
+    public RightToLeftSearch(Filter<T> filter) {
         super(filter);
     }
 
-    public Component filterFirst(ImageSource source, Component component) {
+    public T filterFirst(ImageSource source, Feature component) {
         filter.setup(source, component);
-        filter.getLastComponent().reset();
+        Feature bounds = getBounds(component);
 
-        int x = component.getX() + filter.getBorder();
-        int y = component.getY() + filter.getBorder();
-
-        int width = getComponentWidth(component);
-        int height = getComponentHeight(component);
-
-        Component bounds = new Component();
-        bounds.setBounds(x, y, width, height);
-
-        for (int j = y; j < y + height; j += filter.getStep()) {
-            for (int i = x + width; i > x; i -= filter.getStep()) {
-
-                if (!bounds.isInside(i, j)) {
+        for (int j = bounds.getY(); j < bounds.getY() + bounds.getHeight(); j += filter.getStep()) {
+            for (int i = bounds.getX()+bounds.getWidth(); i > bounds.getX(); i -= filter.getStep()) {
+                        if (!bounds.isInside(i, j)) {
                     continue;
                 }
 
                 // Filter returns true to stop early
-                if (filter.filterFirst(i, j, width, height, source, bounds)) {
+                if (filter.filterFirst(i, j, bounds.getWidth(), bounds.getHeight(), source, bounds)) {
                     filter.postFilter(source, component);
-                    return filter.getLastComponent();
+                    return first();
                 }
             }
         }
 
         filter.postFilter(source, component);
-        return filter.getLastComponent();
+        return first();
     }
 
     @Override
-    public List<Component> filter(ImageSource source, Component component) {
+    public List<T> filter(ImageSource source, Feature component) {
         filter.setup(source, component);
+        Feature bounds = getBounds(component);
 
-        int x = component.getX() + filter.getBorder();
-        int y = component.getY() + filter.getBorder();
-
-        int width = getComponentWidth(component);
-        int height = getComponentHeight(component);
-
-        Component bounds = new Component(x, y, width, height);
-
-        for (int j = y; j < y + height; j += filter.getStep()) {
-            for (int i = x + width; i > x; i -= filter.getStep()) {
+        for (int j = bounds.getY(); j < bounds.getY() + bounds.getHeight(); j += filter.getStep()) {
+            for (int i = bounds.getX()+bounds.getWidth(); i > bounds.getX(); i -= filter.getStep()) {
                 if (!bounds.isInside(i, j)) {
                     continue;
                 }
                 // Filter returns true to stop early
-                if (filter.filter(i, j, width, height, source, bounds)) {
+                if (filter.filter(i, j, bounds.getWidth(), bounds.getHeight(), source, bounds)) {
                     filter.postFilter(source, component);
                     return filter.getResults();
                 }

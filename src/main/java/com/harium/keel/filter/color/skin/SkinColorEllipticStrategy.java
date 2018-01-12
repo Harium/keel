@@ -1,12 +1,12 @@
 package com.harium.keel.filter.color.skin;
 
-import com.harium.keel.core.helper.ColorHelper;
-import com.harium.keel.filter.SoftPixelStrategy;
-import com.harium.keel.filter.color.SimpleToleranceStrategy;
 import com.harium.etyl.linear.Ellipse;
+import com.harium.keel.core.helper.ColorHelper;
+import com.harium.keel.core.strategy.SelectionStrategy;
+import com.harium.keel.filter.color.SimpleToleranceStrategy;
 
 
-public class SkinColorEllipticStrategy extends SimpleToleranceStrategy implements SoftPixelStrategy {
+public class SkinColorEllipticStrategy extends SimpleToleranceStrategy implements SelectionStrategy {
 
     public static final Ellipse SKIN_ELLIPSE = new Ellipse(140, 140, 133, 32, 316);
     public static final Ellipse SKIN_STRONG_ELLIPSE = new Ellipse(140, 140, 123, 18, 316);
@@ -25,7 +25,7 @@ public class SkinColorEllipticStrategy extends SimpleToleranceStrategy implement
     }
 
     @Override
-    public boolean strongValidateColor(int baseColor, int rgb, int j, int i) {
+    public boolean softValidateColor(int baseColor, int rgb, int j, int i) {
         return inEllipse(SKIN_STRONG_ELLIPSE, rgb);
     }
 

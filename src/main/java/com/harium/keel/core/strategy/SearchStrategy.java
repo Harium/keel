@@ -1,13 +1,14 @@
 package com.harium.keel.core.strategy;
 
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
 
 
-public interface SearchStrategy {
-    Component filterFirst(ImageSource source, Component component);
+public interface SearchStrategy<T> {
+    T filterFirst(ImageSource source, Feature component);
 
-    List<Component> filter(ImageSource source, Component component);
+    List<T> filter(ImageSource source, Feature component);
 }

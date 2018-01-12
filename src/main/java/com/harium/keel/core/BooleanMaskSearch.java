@@ -1,8 +1,9 @@
 package com.harium.keel.core;
 
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.core.strategy.PixelStrategy;
-import com.harium.keel.feature.Component;
+import com.harium.keel.core.strategy.SelectionStrategy;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
 
 public abstract class BooleanMaskSearch extends ComponentFilter {
@@ -15,8 +16,8 @@ public abstract class BooleanMaskSearch extends ComponentFilter {
         resetMask(w, h);
     }
 
-    public BooleanMaskSearch(int w, int h, PixelStrategy pixelStrategy) {
-        super(w, h, pixelStrategy);
+    public BooleanMaskSearch(int w, int h, SelectionStrategy selectionStrategy) {
+        super(w, h, selectionStrategy);
 
         resetMask(w, h);
 
@@ -65,8 +66,8 @@ public abstract class BooleanMaskSearch extends ComponentFilter {
     }
 
     @Override
-    public void setup(ImageSource source, Component component) {
-        super.setup(source, component);
+    public void setup(ImageSource source, Feature feature) {
+        super.setup(source, feature);
         resetMask();
     }
 }

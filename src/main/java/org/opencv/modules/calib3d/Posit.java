@@ -12,14 +12,12 @@ import org.opencv.criteria.CvTermCriteria;
 public class Posit {
 
 	private double[] rotation;
-	
 	private double[] translation;
 
 	public Posit(){
 		super();
-		
+
 		rotation = new double[3*3];
-		
 		translation = new double[1*3];
 	}
 
@@ -28,9 +26,7 @@ public class Posit {
 		int N;
 
 		double[] inv_matr;
-
 		double[] obj_vecs;
-
 		double[] img_vecs;
 
 		public CvPOSITObject(int n){
@@ -52,7 +48,7 @@ public class Posit {
 			img_vecs = new double[img_vec_size];
 		}
 
-	};
+	}
 
 	public CvStatus icvPOSIT(List<Point3D> points, List<Point2D> imagePoints,
 							 double focalLength, CvTermCriteria criteria ) {
@@ -188,10 +184,10 @@ public class Posit {
 		return CvStatus.CV_NO_ERR;
 	}
 		
-	private CvPOSITObject icvCreatePOSITObject( List<Point3D> points ) {
+	private CvPOSITObject icvCreatePOSITObject( List<Point3D> objPoints ) {
 
-		int numPoints = points.size();
-		
+		int numPoints = objPoints.size();
+
 		/* check bad arguments */
 		if( numPoints < 4 )
 			return null;
@@ -207,9 +203,9 @@ public class Posit {
 \****************************************************************************************/
 		for( i = 0; i < numPoints - 1; i++ ) {
 			
-			pObject.obj_vecs[i] = points.get(i + 1).getX() - points.get(0).getX();
-			pObject.obj_vecs[N + i] = points.get(i + 1).getY() - points.get(0).getY();
-			pObject.obj_vecs[2 * N + i] = points.get(i + 1).getZ() - points.get(0).getZ();
+			pObject.obj_vecs[i] = objPoints.get(i + 1).getX() - objPoints.get(0).getX();
+			pObject.obj_vecs[N + i] = objPoints.get(i + 1).getY() - objPoints.get(0).getY();
+			pObject.obj_vecs[2 * N + i] = objPoints.get(i + 1).getZ() - objPoints.get(0).getZ();
 			
 		}
 		/****************************************************************************************\

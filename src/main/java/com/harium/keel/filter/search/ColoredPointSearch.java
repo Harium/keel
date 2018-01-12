@@ -7,7 +7,7 @@ public class ColoredPointSearch extends PointSearch {
 
     public ColoredPointSearch(int w, int h, Color color) {
         super(w, h);
-        pixelStrategy = new RGBColorStrategy(color.getRGB());
+        selectionStrategy = new RGBColorStrategy(color.getRGB());
     }
 
 }

@@ -44,7 +44,7 @@ public class RGBColorStrategy extends RGBToleranceStrategy implements ColorStrat
     }
 
     @Override
-    public boolean strongValidateColor(int rgb, int j, int i, int reference) {
+    public boolean softValidateColor(int rgb, int j, int i, int reference) {
         int weakFactor = 2;
         return ColorHelper.isColor(rgb, reference, minToleranceRed / weakFactor, maxToleranceRed / weakFactor, minToleranceGreen / weakFactor, maxToleranceGreen / weakFactor, minToleranceBlue / weakFactor, maxToleranceBlue / weakFactor);
     }

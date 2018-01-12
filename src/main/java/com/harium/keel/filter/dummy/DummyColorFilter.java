@@ -1,8 +1,8 @@
 package com.harium.keel.filter.dummy;
 
-import com.harium.keel.filter.SoftPixelStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 
-public class DummyColorFilter implements SoftPixelStrategy {
+public class DummyColorFilter implements SelectionStrategy {
 
 	@Override
 	public boolean validateColor(int rgb, int j, int i) {
@@ -11,7 +11,7 @@ public class DummyColorFilter implements SoftPixelStrategy {
 	}
 
 	@Override
-	public boolean strongValidateColor(int baseColor, int j, int i, int rgb) {
+	public boolean softValidateColor(int baseColor, int j, int i, int rgb) {
 		// TODO Auto-generated method stub
 		return false;
 	}

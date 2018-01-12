@@ -1,14 +1,18 @@
 package com.harium.keel.core;
 
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.core.strategy.PixelStrategy;
-import com.harium.keel.feature.Component;
+import com.harium.keel.core.strategy.SelectionStrategy;
+import com.harium.keel.feature.PointFeature;
+
+import java.util.ArrayList;
 
 
-public abstract class ComponentFilter extends Filter {
+public abstract class ComponentFilter extends Filter<PointFeature> {
 
     protected int w;
     protected int h;
+
+    protected PointFeature lastComponent = new PointFeature(0, 0, 1, 1);
 
     public ComponentFilter(int w, int h) {
         super();
@@ -17,20 +21,21 @@ public abstract class ComponentFilter extends Filter {
         this.h = h;
     }
 
-    public ComponentFilter(int w, int h, PixelStrategy colorStrategy) {
+    public ComponentFilter(int w, int h, SelectionStrategy colorStrategy) {
         super(colorStrategy);
 
         this.w = w;
         this.h = h;
     }
 
-    @Override
-    public void setup(ImageSource source, Component component) {
-        int w = component.getW();
-        int h = component.getH();
+    public void setup(ImageSource source, PointFeature feature) {
+        int w = feature.getW();
+        int h = feature.getH();
         this.w = w;
         this.h = h;
-        super.setup(source, component);
+
+        results = new ArrayList<>();
+        lastComponent.reset();
     }
 
     public int getW() {
@@ -47,5 +52,9 @@ public abstract class ComponentFilter extends Filter {
 
     public void setH(int h) {
         this.h = h;
+    }
+
+    public PointFeature getLastComponent() {
+        return lastComponent;
     }
 }

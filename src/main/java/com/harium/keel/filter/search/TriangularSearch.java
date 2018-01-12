@@ -2,7 +2,8 @@ package com.harium.keel.filter.search;
 
 import com.harium.keel.core.BooleanMaskSearch;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
 public class TriangularSearch extends BooleanMaskSearch {
 
@@ -11,8 +12,8 @@ public class TriangularSearch extends BooleanMaskSearch {
     }
 
     @Override
-    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Component component) {
-        if (!mask[x][y] && pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
+    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Feature component) {
+        if (!mask[x][y] && selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
             int lwidth = findHorizontalLimit(source, x, y, w);
             int lheight = findVerticalLimit(source, x, y, h);
 
@@ -25,12 +26,12 @@ public class TriangularSearch extends BooleanMaskSearch {
     }
 
     @Override
-    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
-        if (!mask[x][y] && pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Feature component) {
+        if (!mask[x][y] && selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
             int lwidth = findHorizontalLimit(source, x, y, w);
             int lheight = findVerticalLimit(source, x, y, h);
 
-            Component holder = new Component(x, y, x + lwidth, y + lheight);
+            PointFeature holder = new PointFeature(x, y, x + lwidth, y + lheight);
             updateMask(x, y, lwidth, lheight, true);
 
             results.add(holder);
@@ -45,7 +46,7 @@ public class TriangularSearch extends BooleanMaskSearch {
 
         for (int ni = i; ni < w; ni++) {
 
-            if (!mask[ni][j] && pixelStrategy.validateColor(bimg.getRGB(ni, j), ni, j)) {
+            if (!mask[ni][j] && selectionStrategy.validateColor(bimg.getRGB(ni, j), ni, j)) {
                 totalWidth++;
             } else {
                 break;
@@ -62,7 +63,7 @@ public class TriangularSearch extends BooleanMaskSearch {
 
         for (int nj = j; nj < h; nj++) {
 
-            if (!mask[i][nj] && pixelStrategy.validateColor(bimg.getRGB(i, nj), i, nj)) {
+            if (!mask[i][nj] && selectionStrategy.validateColor(bimg.getRGB(i, nj), i, nj)) {
                 totalHeight++;
             } else {
                 break;

@@ -2,7 +2,8 @@ package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.linear.Point2D;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -22,18 +23,18 @@ public class ExpandableFloodFillSearch extends FloodFillSearch {
     }
 
     @Override
-    protected boolean inBoundary(int px, int py, Component component) {
+    protected boolean inBoundary(int px, int py, Feature component) {
         return px > step || px <= getW() - step || py > step || py <= getH() - step;
     }
 
-    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Feature component) {
         int rgb = source.getRGB(x, y);
 
         if (verifySinglePixel(x, y, rgb)) {
 
             //Clear Queue
             Queue<Point2D> queue = new LinkedList<Point2D>();
-            Component found = new Component();
+            PointFeature found = new PointFeature();
 
             Point2D firstPoint = new Point2D(x, y, rgb);
 

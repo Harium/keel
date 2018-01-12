@@ -1,9 +1,9 @@
 package com.harium.keel.classifier;
 
 import com.harium.etyl.linear.Point2D;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 
-public class CircleClassifier implements Classifier<Component, Boolean> {
+public class CircleClassifier implements Classifier<PointFeature, Boolean> {
 
     private int step = 2;
     private int iterations = 4;
@@ -16,7 +16,7 @@ public class CircleClassifier implements Classifier<Component, Boolean> {
         this.iterations = iterations;
     }
 
-    public Boolean classify(Component feature) {
+    public Boolean classify(PointFeature feature) {
 
         float difRadius;
         int dimension;

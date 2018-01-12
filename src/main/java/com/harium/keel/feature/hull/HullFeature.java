@@ -2,15 +2,15 @@ package com.harium.keel.feature.hull;
 
 import com.harium.etyl.linear.Point2D;
 import com.harium.etyl.linear.Polygon;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
 
-public class HullComponent extends Component {
+public class HullFeature extends PointFeature {
 
     private Polygon polygon;
 
-    public HullComponent() {
+    public HullFeature() {
         super();
         polygon = new Polygon();
     }

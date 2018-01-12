@@ -2,7 +2,8 @@ package com.harium.keel.filter.search;
 
 import com.harium.keel.core.BooleanMaskSearch;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
 public class PointSearch extends BooleanMaskSearch {
 
@@ -11,9 +12,9 @@ public class PointSearch extends BooleanMaskSearch {
     }
 
     @Override
-    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
-        if (!mask[x][y] && pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
-            Component holder = new Component(x, y, 1, 1);
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Feature component) {
+        if (!mask[x][y] && selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
+            PointFeature holder = new PointFeature(x, y, 1, 1);
             results.add(holder);
             return true;
         }
@@ -21,8 +22,8 @@ public class PointSearch extends BooleanMaskSearch {
     }
 
     @Override
-    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Component component) {
-        if (!mask[x][y] && pixelStrategy.validateColor(source.getRGB(x, y), x, y)) {
+    public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Feature component) {
+        if (!mask[x][y] && selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
             lastComponent.setBounds(x, y, 1, 1);
             return true;
 

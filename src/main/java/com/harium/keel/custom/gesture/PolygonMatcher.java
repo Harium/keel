@@ -1,4 +1,4 @@
-package com.harium.keel.core.gesture;
+package com.harium.keel.custom.gesture;
 
 import com.harium.etyl.linear.Point2D;
 

@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.harium.keel.feature.Component;
-import com.harium.keel.feature.hull.HullComponent;
+import com.harium.keel.feature.PointFeature;
+import com.harium.keel.feature.hull.HullFeature;
 import com.harium.keel.helper.PointListHelper;
 import com.harium.etyl.linear.Point2D;
 
@@ -14,14 +14,14 @@ import com.harium.etyl.linear.Point2D;
  * Found at http://code.google.com/p/convex-hull/source/browse/Convex+Hull/src/algorithms/FastConvexHull.java?r=4
  *
  */
-public class FastConvexHullModifier implements HullModifier<HullComponent> {
+public class FastConvexHullModifier implements HullModifier<HullFeature> {
 
 	public FastConvexHullModifier() {
 		super();
 	}
 
 	@Override
-	public Component modifyComponent(Component component) {
+	public PointFeature modifyComponent(PointFeature component) {
 		
 		if(component.getPointCount() < 3) {
 			return component;
@@ -29,7 +29,7 @@ public class FastConvexHullModifier implements HullModifier<HullComponent> {
 		
 		List<Point2D> convexPolygon = quickHullList(component.getPoints());
 		
-		Component polygon = new Component();
+		PointFeature polygon = new PointFeature();
 		
 		for(Point2D point: convexPolygon) {
 			polygon.add(point);
@@ -38,8 +38,8 @@ public class FastConvexHullModifier implements HullModifier<HullComponent> {
 		return polygon;
 	}
 
-	public HullComponent modify(Component component) {
-		HullComponent result = new HullComponent();
+	public HullFeature modify(PointFeature component) {
+		HullFeature result = new HullFeature();
 		
 		if(component.getPointCount() < 3) {
 			result.addAll(component.getPoints());

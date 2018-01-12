@@ -2,10 +2,10 @@ package com.harium.keel.modifier.trim;
 
 import com.harium.keel.core.Modifier;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.etyl.linear.Point2D;
 
-public class VerticalTrimModifier implements ComponentModifierStrategy, Modifier<Component, Component> {
+public class VerticalTrimModifier implements ComponentModifierStrategy, Modifier<PointFeature, PointFeature> {
 
     int threshold = 10;
 
@@ -19,7 +19,7 @@ public class VerticalTrimModifier implements ComponentModifierStrategy, Modifier
     }
 
     @Override
-    public Component modify(Component component) {
+    public PointFeature modify(PointFeature component) {
         boolean[][] mask = component.generateMask();
 
         int columns = -1;
@@ -57,7 +57,7 @@ public class VerticalTrimModifier implements ComponentModifierStrategy, Modifier
     }
 
     @Override
-    public Component modifyComponent(Component component) {
+    public PointFeature modifyComponent(PointFeature component) {
         return modify(component);
     }
 }

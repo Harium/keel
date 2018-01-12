@@ -7,7 +7,7 @@ import com.harium.etyl.linear.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Component extends ColorComponent implements Feature, Comparable<Component> {
+public class PointFeature extends ColorFeature implements FeatureArea, Comparable<PointFeature> {
 
     private Point2D center = null;
 
@@ -22,12 +22,12 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
     protected double sumX;
     protected double sumY;
 
-    public Component() {
+    public PointFeature() {
         //Inverted to adapt the size adding points
         this(Integer.MAX_VALUE, Integer.MAX_VALUE, 0, 0);
     }
 
-    public Component(int w, int h) {
+    public PointFeature(int w, int h) {
         super();
 
         highestX = w;
@@ -37,7 +37,7 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
         lowestY = 0;
     }
 
-    public Component(int x, int y, int w, int h) {
+    public PointFeature(int x, int y, int w, int h) {
         super();
 
         lowestX = x;
@@ -47,7 +47,7 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
         highestY = h;
     }
 
-    public Component(List<Point2D> list) {
+    public PointFeature(List<Point2D> list) {
         this();
         addAll(list);
     }
@@ -210,7 +210,7 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
     }
 
     @Override
-    public int compareTo(Component component) {
+    public int compareTo(PointFeature component) {
 
         //return component.getPoints().size()*getW()-points.size()*getH();
 
@@ -226,7 +226,7 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
 
     }
 
-    public void merge(Component component) {
+    public void merge(PointFeature component) {
         for (Point2D point : component.getPoints()) {
             add(point);
         }
@@ -245,7 +245,7 @@ public class Component extends ColorComponent implements Feature, Comparable<Com
         return true;
     }
 
-    public boolean colide(Component component) {
+    public boolean colide(PointFeature component) {
 
         int bx = component.getX();
         int bw = component.getW();

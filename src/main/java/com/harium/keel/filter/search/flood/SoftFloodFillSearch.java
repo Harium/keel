@@ -1,9 +1,9 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.linear.Point2D;
-import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -25,14 +25,14 @@ public class SoftFloodFillSearch extends FloodFillSearch {
     }
 
     @Override
-    public boolean filter(int x, int y, int width, int height, ImageSource source, Component component) {
+    public boolean filter(int x, int y, int width, int height, ImageSource source, Feature component) {
         int rgb = source.getRGB(x, y);
 
         if (verifySinglePixel(x, y, rgb, UNDEFINED_COLOR)) {
 
             //Clear Queue
             Queue<Point2D> queue = new LinkedList<Point2D>();
-            Component found = new Component();
+            PointFeature found = new PointFeature();
 
             Point2D firstPoint = new Point2D(x, y);
 
@@ -46,7 +46,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
                 //Queue.pop();
                 Point2D p = queue.remove();
 
-                if (verifyNext(p, x, y, component.getW(), component.getH(), source)) {
+                if (verifyNext(p, x, y, component.getWidth(), component.getHeight(), source)) {
                     addPoint(found, p);
                     addNeighbors(queue, p, component);
                 } else {
@@ -84,7 +84,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
         return false;
     }
 
-    protected void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor, Component component) {
+    protected void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor, Feature component) {
         addNeighbor(queue, (int) p.getX() + step, (int) p.getY(), lastColor, component);
         addNeighbor(queue, (int) p.getX() - step, (int) p.getY(), lastColor, component);
         addNeighbor(queue, (int) p.getX(), (int) p.getY() + step, lastColor, component);
@@ -107,10 +107,10 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 
     protected boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {
         if (mask.isUnknown(px, py)) {
-            if (pixelStrategy.validateColor(rgb, px, py)) {
+            if (selectionStrategy.validateColor(rgb, px, py)) {
                 mask.setValid(px, py);
             } else if (lastRGB != UNDEFINED_COLOR) {
-                if (pixelStrategy.strongValidateColor(lastRGB, px, py, rgb)) {
+                if (selectionStrategy.softValidateColor(lastRGB, px, py, rgb)) {
                     mask.setValid(px, py);
                 }
             } else {
@@ -130,7 +130,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
             for (int x = px - step; x <= px + step; x += step) {
 
                 int currentColor = bimg.getRGB(x, y);
-                if (mask.isValid(x, y) || pixelStrategy.strongValidateColor(baseColor, x, y, currentColor)) {
+                if (mask.isValid(x, y) || selectionStrategy.softValidateColor(baseColor, x, y, currentColor)) {
                     verified++;
                     if (verified >= minNeighbors) {
                         return true;

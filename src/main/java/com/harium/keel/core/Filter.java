@@ -2,10 +2,11 @@ package com.harium.keel.core;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
-import com.harium.keel.core.strategy.ComponentValidationStrategy;
-import com.harium.keel.core.strategy.PixelStrategy;
+import com.harium.keel.core.strategy.FeatureValidationStrategy;
 import com.harium.keel.core.strategy.SearchStrategy;
-import com.harium.keel.feature.Component;
+import com.harium.keel.core.strategy.SelectionStrategy;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 import com.harium.keel.filter.dummy.DummyColorFilter;
 import com.harium.keel.filter.dummy.DummyComponentModifier;
 import com.harium.keel.filter.search.strategy.LeftToRightSearchStrategy;
@@ -14,59 +15,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class Filter {
+public abstract class Filter<T> {
 
     protected int step = 1;
     protected int border = 1;
 
-    protected SearchStrategy searchStrategy;
-    protected PixelStrategy pixelStrategy;
+    protected SearchStrategy<T> searchStrategy;
+    protected SelectionStrategy selectionStrategy;
     protected ComponentModifierStrategy componentModifierStrategy;
 
-    protected Component lastComponent = new Component(0, 0, 1, 1);
-
-    protected List<Component> results = new ArrayList<Component>();
-
-    protected List<ComponentValidationStrategy> validations = new ArrayList<ComponentValidationStrategy>();
+    protected List<T> results = new ArrayList<>();
+    protected List<FeatureValidationStrategy<T>> validations = new ArrayList<>();
 
     public Filter() {
         super();
 
-        this.pixelStrategy = new DummyColorFilter();
+        this.selectionStrategy = new DummyColorFilter();
         this.searchStrategy = new LeftToRightSearchStrategy(this);
         this.componentModifierStrategy = new DummyComponentModifier();
     }
 
-    public Filter(PixelStrategy colorStrategy) {
+    public Filter(SelectionStrategy colorStrategy) {
         super();
 
-        this.pixelStrategy = colorStrategy;
+        this.selectionStrategy = colorStrategy;
         this.searchStrategy = new LeftToRightSearchStrategy(this);
         this.componentModifierStrategy = new DummyComponentModifier();
     }
 
-    public Filter(PixelStrategy colorStrategy, ComponentValidationStrategy componentStrategy) {
+    public Filter(SelectionStrategy colorStrategy, FeatureValidationStrategy componentStrategy) {
         super();
 
-        this.pixelStrategy = colorStrategy;
+        this.selectionStrategy = colorStrategy;
         this.searchStrategy = new LeftToRightSearchStrategy(this);
         this.componentModifierStrategy = new DummyComponentModifier();
 
         this.validations.add(componentStrategy);
     }
 
-    public void setup(ImageSource source, Component component) {
-        results = new ArrayList<Component>();
+    public void setup(ImageSource source, Feature feature) {
     }
 
-    public void postFilter(ImageSource source, Component component) {}
-
-    public PixelStrategy getPixelStrategy() {
-        return pixelStrategy;
+    public void postFilter(ImageSource source, Feature feature) {
     }
 
-    public void setPixelStrategy(PixelStrategy colorStrategy) {
-        this.pixelStrategy = colorStrategy;
+    public SelectionStrategy getSelectionStrategy() {
+        return selectionStrategy;
+    }
+
+    public void setSelectionStrategy(SelectionStrategy colorStrategy) {
+        this.selectionStrategy = colorStrategy;
     }
 
     public SearchStrategy getSearchStrategy() {
@@ -77,15 +75,15 @@ public abstract class Filter {
         this.searchStrategy = searchStrategy;
     }
 
-    public List<ComponentValidationStrategy> getValidations() {
+    public List<FeatureValidationStrategy<T>> getValidations() {
         return validations;
     }
 
-    public void addValidation(ComponentValidationStrategy validation) {
+    public void addValidation(FeatureValidationStrategy validation) {
         this.validations.add(validation);
     }
 
-    public void setComponentStrategy(List<ComponentValidationStrategy> validations) {
+    public void setComponentStrategy(List<FeatureValidationStrategy<T>> validations) {
         this.validations = validations;
     }
 
@@ -113,10 +111,9 @@ public abstract class Filter {
         this.border = border;
     }
 
-    protected boolean validate(Component component) {
-
-        for (ComponentValidationStrategy validation : validations) {
-            if (!validation.validate(component)) {
+    protected boolean validate(T feature) {
+        for (FeatureValidationStrategy validation : validations) {
+            if (!validation.validate(feature)) {
                 return false;
             }
         }
@@ -124,23 +121,19 @@ public abstract class Filter {
         return true;
     }
 
-    public List<Component> filter(ImageSource source, Component component) {
+    public List<T> filter(ImageSource source, Feature component) {
         return searchStrategy.filter(source, component);
     }
 
-    public Component filterFirst(ImageSource source, Component component) {
+    public T filterFirst(ImageSource source, Feature component) {
         return searchStrategy.filterFirst(source, component);
     }
 
-    public abstract boolean filter(int x, int y, int width, int height, ImageSource source, Component component);
+    public abstract boolean filter(int x, int y, int width, int height, ImageSource source, Feature component);
 
-    public abstract boolean filterFirst(int x, int y, int width, int height, ImageSource source, Component component);
+    public abstract boolean filterFirst(int x, int y, int width, int height, ImageSource source, Feature component);
 
-    public Component getLastComponent() {
-        return lastComponent;
-    }
-
-    public List<Component> getResults() {
+    public List<T> getResults() {
         return results;
     }
 }

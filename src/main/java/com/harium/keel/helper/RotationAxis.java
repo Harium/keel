@@ -1,185 +1,103 @@
 package com.harium.keel.helper;
 
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector3;
 import com.harium.etyl.linear.Point3D;
-import org.opencv.OpenCv;
-
 import com.harium.keel.modifier.posit.Pose;
+import org.opencv.OpenCv;
 
 public class RotationAxis {
 
-	protected double error = 0;
-	
-	protected double angle = 0;
-	
-	protected double rotationX = 0;
-	
-	protected double rotationY = 0;
-	
-	protected double rotationZ = 0;
-	
-	protected double x = 0;
-	
-	protected double y = 0;
-	
-	protected double z = 0;
-		
-	public RotationAxis(){
-		super();
-	}
-	
-	public RotationAxis(Pose pose){
-		super();
-				
-		this.error = pose.getBestError();
-		
-		this.computeTranslationValues(pose.getBestTranslation());
-		
-		this.computeRotationValues(pose.getBestRotation());
-		
-	}
-	
-	protected void computeTranslationValues(double[] translation){
-		
-		this.x = translation[0];
-		
-		//Y as Normal
-		this.y = translation[2];
-		
-		this.z = translation[1];
-		
-	}
-	
-	protected void computeRotationValues(double[] rotation) {
-		
-		this.angle = Math.toDegrees(Math.acos(( rotation[0+3*0] + rotation[1+3*1] + rotation[2+3*2] - 1)/2));
-		
-		double norm = Math.sqrt(OpenCv.cvSqr(rotation[2+3*1] - rotation[1+3*2])+OpenCv.cvSqr(rotation[0+3*2] - rotation[2+3*0])+OpenCv.cvSqr(rotation[1+3*0] - rotation[0+3*1]));
-		
-		this.rotationX = (rotation[2+3*1] - rotation[1+3*2])/norm;
-		this.rotationX = -this.rotationX;
+    Matrix4 matrix;
+    protected double error = 0;
 
-		//Using Y as Normal
-		this.rotationY = (rotation[1+3*0] - rotation[0+3*1])/norm;
-		
-		this.rotationZ = (rotation[2+3*0] - rotation[0+3*2])/norm;
-		this.rotationZ = -this.rotationZ;
-		
-		
-		//this.rotationX = -Math.asin(-rotation[1+3*2]);
-	    //this.rotationY = -Math.atan2(rotation[0+3*2], rotation[2+3*2]);
-	    //this.rotationZ = Math.atan2(rotation[1+3*0], rotation[1+3*1]);
-	    	
-	}
-	
-	public void computeRotationValues(double[][] rotation){
-		
-		this.angle = Math.toDegrees(Math.acos(( rotation[0][0] + rotation[1][1] + rotation[2][2] - 1)/2));
-		
-		double norm = Math.sqrt(OpenCv.cvSqr(rotation[2][1] - rotation[1][2])+OpenCv.cvSqr(rotation[0][2] - rotation[2][0])+OpenCv.cvSqr(rotation[1][0] - rotation[0][1]));
-		
-		this.rotationX = (rotation[2][1] - rotation[1][2])/norm;
-		this.rotationX = -this.rotationX;
+    public RotationAxis() {
+        super();
+        matrix = new Matrix4();
+    }
 
-		//Using Y as Normal
-		this.rotationY = (rotation[1][0] - rotation[0][1])/norm;
+    public RotationAxis(Pose pose) {
+        super();
+        this.error = pose.getBestError();
 
-		this.rotationZ = (rotation[2][0] - rotation[0][2])/norm;
-		this.rotationZ = -this.rotationZ;
-		
-		//this.rotationX = -Math.asin(-rotation[1][2]);
-	    //this.rotationY = -Math.atan2(rotation[0][2], rotation[2][2]);
-	    //this.rotationZ = Math.atan2(rotation[1][0], rotation[1][1]);
-		
-	}
-	
-	public Point3D transformPoint(Point3D point) {
-		
-		double m[] = rotationMatrix();
-		
-		double rx = m[0]*point.getX()+m[1]*point.getY()+m[2]*point.getZ();//+m[3]*0;
-		
-		//Swap py and pz to reflect rotations
-		double ry = m[4]*point.getX()+m[5]*point.getY()+m[6]*point.getZ();//+m[7]*0;
-		
-		double rz = m[8]*point.getX()+m[9]*point.getY()+m[10]*point.getZ();//+m[11]*0;
-		
-		//double pw = m[12]*point.getX()+m[13]*point.getY()+m[14]*point.getZ()+m[15]*0;
+        this.computeRotationValues(pose.getBestRotation());
+        this.computeTranslationValues(pose.getBestTranslation());
+    }
 
-		return new Point3D(rx, -ry, rz);
-						
-	}
-	
-	private double[] rotationMatrix() {
-		
-		double m[] = new double[16];
-		
-		double s = Math.sin(Math.toRadians(angle));
-		double c = Math.cos(Math.toRadians(angle));
-		double d = 1-c;
-		
-		double x = -rotationX;
-		double y = rotationY;
-		double z = -rotationZ;
-		
-		//First line
-		m[0] = x*x*d+c;
-		m[1] = x*y*d-z*s;
-		m[2] = x*z*d+y*s;
-		m[3] = 0;
-		
-		m[4] = y*x*d+z*s;
-		m[5] = y*y*d+c;
-		m[6] = y*z*d-x*s;
-		m[7] = 0;
-		
-		m[8] = z*x*d-y*s;
-		m[9] = z*y*d+x*s;
-		m[10] = z*z*d+c;
-		m[11] = 0;
-		
-		m[12] = 0;
-		m[13] = 0;
-		m[14] = 0;
-		m[15] = 1;
-		
-		return m;
-		
-	}
-	
-	public double getAngle() {
-		return angle;
-	}
+    protected void computeTranslationValues(double[] translation) {
+        float x = (float) translation[0];
+        float y = (float) translation[1];
+        float z = (float) translation[2];
 
-	public double getRotationX() {
-		return rotationX;
-	}
+        matrix.translate(x, y, z);
+    }
 
-	public double getRotationY() {
-		return rotationY;
-	}
+    protected void computeRotationValues(double[] rotation) {
+        float[] f = new float[16];
+        f[0] = (float)rotation[0];
+        f[1] = (float)rotation[1];
+        f[2] = (float)rotation[2];
+        f[3] = 0;
+        f[4] = (float)rotation[3];
+        f[5] = (float)rotation[4];
+        f[6] = (float)rotation[5];
+        f[7] = 0;
+        f[8] = (float)rotation[6];
+        f[9] = (float)rotation[7];
+        f[10] = (float)rotation[8];
+        f[11] = 0;
+        f[12] = 0;
+        f[13] = 0;
+        f[14] = 0;
+        f[15] = 1;
+        matrix = new Matrix4(f);
+    }
 
-	public double getRotationZ() {
-		return rotationZ;
-	}
-		
-	public double getX() {
-		return x;
-	}
+    public void computeRotationValues(double[][] rotation) {
+        float[] f = new float[16];
+        f[0] = (float)rotation[0][0];
+        f[1] = (float)rotation[0][1];
+        f[2] = (float)rotation[0][2];
+        f[3] = 0;
+        f[4] = (float)rotation[1][0];
+        f[5] = (float)rotation[1][1];
+        f[6] = (float)rotation[1][2];
+        f[7] = 0;
+        f[8] = (float)rotation[2][0];
+        f[9] = (float)rotation[2][1];
+        f[10] = (float)rotation[2][2];
+        f[11] = 0;
+        f[12] = 0;
+        f[13] = 0;
+        f[14] = 0;
+        f[15] = 1;
 
-	public double getY() {
-		return y;
-	}
+        matrix = new Matrix4(f);
+    }
 
-	public double getZ() {
-		return z;
-	}
+    public Point3D transform(Point3D point) {
+        Vector3 vector = new Vector3((float)point.getX(), (float)point.getY(), (float)point.getZ());
+        vector.mul(matrix);
 
-	public double getError() {
-		return error;
-	}
+        return new Point3D(vector.x, vector.y, vector.z);
+    }
 
-	public void setError(double error) {
-		this.error = error;
-	}
-	
+    public double getError() {
+        return error;
+    }
+
+    public void setError(double error) {
+        this.error = error;
+    }
+
+    public Quaternion calculateQuaternion() {
+        Quaternion quaternion = new Quaternion();
+        quaternion.setFromMatrix(matrix);
+        return quaternion;
+    }
+
+    public Matrix4 getMatrix() {
+        return matrix;
+    }
 }

@@ -19,7 +19,7 @@ public class CrossSearchTest {
         RGBColorStrategy colorStrategy = new RGBColorStrategy(Color.BLACK);
 
         //Looking for Black Pixels
-        filter.setPixelStrategy(colorStrategy);
+        filter.setSelectionStrategy(colorStrategy);
     }
 
     @Test

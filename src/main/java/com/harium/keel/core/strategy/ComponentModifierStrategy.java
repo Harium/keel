@@ -1,9 +1,9 @@
 package com.harium.keel.core.strategy;
 
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 
 public interface ComponentModifierStrategy {
 
-	Component modifyComponent(Component component);
+	PointFeature modifyComponent(PointFeature component);
 	
 }

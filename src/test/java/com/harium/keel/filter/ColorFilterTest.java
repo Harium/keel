@@ -2,9 +2,9 @@ package com.harium.keel.filter;
 
 import com.harium.etyl.commons.graphics.Color;
 import com.harium.etyl.util.PathHelper;
-import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.IntArraySource;
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.Feature;
+import com.harium.keel.feature.PointFeature;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,8 +33,8 @@ public class ColorFilterTest {
         int[] dataBuffInt = converted.getRGB(0, 0, WIDTH, HEIGHT, null, 0, WIDTH);
         IntArraySource source = new IntArraySource(WIDTH, HEIGHT, dataBuffInt);
 
-        Component bounds = new Component(0, 0, WIDTH, HEIGHT);
-        List<Component> features = filter.filter(source, bounds);
+        Feature bounds = new Feature(0, 0, WIDTH, HEIGHT);
+        List<PointFeature> features = filter.filter(source, bounds);
 
         Assert.assertEquals(6, features.size());
     }

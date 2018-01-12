@@ -1,6 +1,6 @@
 package com.harium.keel.modifier.hull;
 
-import com.harium.keel.feature.Component;
+import com.harium.keel.feature.PointFeature;
 import com.harium.etyl.linear.Point2D;
 
 import java.util.ArrayList;
@@ -14,9 +14,9 @@ public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {
         super();
     }
 
-    public Component modifyComponent(Component component) {
+    public PointFeature modifyComponent(PointFeature component) {
 
-        Component box = new Component();
+        PointFeature box = new PointFeature();
 
         for (Point2D point : modify(component)) {
             box.add(point);
@@ -32,7 +32,7 @@ public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {
         return box;
     }
 
-    public List<Point2D> modify(Component component) {
+    public List<Point2D> modify(PointFeature component) {
 
         Point2D center = component.getCenter();
 
