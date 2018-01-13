@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class Filter<T> {
+public abstract class Filter<I, T> {
 
     protected int step = 1;
-    protected int border = 1;
+    protected int border = 0;
 
-    protected SearchStrategy<T> searchStrategy;
+    protected SearchStrategy<I, T> searchStrategy;
     protected SelectionStrategy selectionStrategy;
     protected ComponentModifierStrategy componentModifierStrategy;
 
@@ -35,28 +35,28 @@ public abstract class Filter<T> {
         this.componentModifierStrategy = new DummyComponentModifier();
     }
 
-    public Filter(SelectionStrategy colorStrategy) {
+    public Filter(SelectionStrategy selectionStrategy) {
         super();
 
-        this.selectionStrategy = colorStrategy;
+        this.selectionStrategy = selectionStrategy;
         this.searchStrategy = new LeftToRightSearchStrategy(this);
         this.componentModifierStrategy = new DummyComponentModifier();
     }
 
-    public Filter(SelectionStrategy colorStrategy, FeatureValidationStrategy componentStrategy) {
+    public Filter(SelectionStrategy selectionStrategy, FeatureValidationStrategy validationStrategy) {
         super();
 
-        this.selectionStrategy = colorStrategy;
+        this.selectionStrategy = selectionStrategy;
         this.searchStrategy = new LeftToRightSearchStrategy(this);
         this.componentModifierStrategy = new DummyComponentModifier();
 
-        this.validations.add(componentStrategy);
+        this.validations.add(validationStrategy);
     }
 
-    public void setup(ImageSource source, Feature feature) {
+    public void setup(ImageSource source, I feature) {
     }
 
-    public void postFilter(ImageSource source, Feature feature) {
+    public void postFilter(ImageSource source, I feature) {
     }
 
     public SelectionStrategy getSelectionStrategy() {
@@ -121,17 +121,17 @@ public abstract class Filter<T> {
         return true;
     }
 
-    public List<T> filter(ImageSource source, Feature component) {
-        return searchStrategy.filter(source, component);
+    public List<T> filter(ImageSource source, I feature) {
+        return searchStrategy.filter(source, feature);
     }
 
-    public T filterFirst(ImageSource source, Feature component) {
-        return searchStrategy.filterFirst(source, component);
+    public T filterFirst(ImageSource source, I feature) {
+        return searchStrategy.filterFirst(source, feature);
     }
 
-    public abstract boolean filter(int x, int y, int width, int height, ImageSource source, Feature component);
+    public abstract boolean filter(int x, int y, int width, int height, ImageSource source, I component);
 
-    public abstract boolean filterFirst(int x, int y, int width, int height, ImageSource source, Feature component);
+    public abstract boolean filterFirst(int x, int y, int width, int height, ImageSource source, I component);
 
     public List<T> getResults() {
         return results;

@@ -5,11 +5,11 @@ import com.harium.keel.core.strategy.SearchStrategy;
 import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;
 
-public abstract class SearchStrategyImpl<T> implements SearchStrategy<T> {
+public abstract class SearchStrategyImpl<I, T> implements SearchStrategy<I, T> {
 
-    protected Filter<T> filter;
+    protected Filter<I, T> filter;
 
-    public SearchStrategyImpl(Filter<T> filter) {
+    public SearchStrategyImpl(Filter<I, T> filter) {
         this.filter = filter;
     }
 

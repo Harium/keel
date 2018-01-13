@@ -23,8 +23,8 @@ public class PathCompressionModifier implements Modifier<HullFeature, List<Point
 	}
 	
 	@Override
-	public List<Point2D> modify(HullFeature component) {
-		List<Point2D> points = component.getPoints();
+	public List<Point2D> modify(HullFeature feature) {
+		List<Point2D> points = feature.getPoints();
 				
 		List<Point2D> list = new ArrayList<Point2D>();
 		

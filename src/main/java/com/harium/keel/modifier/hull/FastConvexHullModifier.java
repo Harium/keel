@@ -38,15 +38,15 @@ public class FastConvexHullModifier implements HullModifier<HullFeature> {
 		return polygon;
 	}
 
-	public HullFeature modify(PointFeature component) {
+	public HullFeature modify(PointFeature feature) {
 		HullFeature result = new HullFeature();
 		
-		if(component.getPointCount() < 3) {
-			result.addAll(component.getPoints());
+		if(feature.getPointCount() < 3) {
+			result.addAll(feature.getPoints());
 			return result;
 		}
 		
-		List<Point2D> list = PointListHelper.cloneList(component.getPoints());
+		List<Point2D> list = PointListHelper.cloneList(feature.getPoints());
 		
 		ArrayList<Point2D> orderedList = quickHullList(list);
 		

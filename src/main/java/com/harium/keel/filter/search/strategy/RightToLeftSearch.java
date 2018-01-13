@@ -8,9 +8,9 @@ import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
 
-public class RightToLeftSearch<T> extends SearchStrategyImpl<T> {
+public class RightToLeftSearch<T> extends SearchStrategyImpl<Feature, T> {
 
-    public RightToLeftSearch(Filter<T> filter) {
+    public RightToLeftSearch(Filter<Feature, T> filter) {
         super(filter);
     }
 

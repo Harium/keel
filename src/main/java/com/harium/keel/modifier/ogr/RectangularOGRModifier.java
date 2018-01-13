@@ -30,9 +30,9 @@ public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
         return box;
     }
 
-    public List<Point2D> modify(PointFeature component) {
+    public List<Point2D> modify(PointFeature feature) {
 
-        boolean[][] mask = component.generateMask();
+        boolean[][] mask = feature.generateMask();
 
         Graph<Integer> graph = ogr.findGraph(mask);
 
@@ -43,7 +43,7 @@ public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
         if (graph.getNodes().size() != 4) {
 
             for (int i = graph.getNodes().size(); i < 4; i++) {
-                graph.addNode(component.getCenter());
+                graph.addNode(feature.getCenter());
             }
 
         }
@@ -71,7 +71,7 @@ public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
         list.add(d);
 
         for (Point2D point : list) {
-            point.setOffset(component.getX(), component.getY());
+            point.setOffset(feature.getX(), feature.getY());
         }
 
         return list;

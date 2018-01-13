@@ -7,8 +7,8 @@ import com.harium.keel.feature.PointFeature;
 import java.util.List;
 
 
-public interface SearchStrategy<T> {
-    T filterFirst(ImageSource source, Feature component);
+public interface SearchStrategy<I, T> {
+    T filterFirst(ImageSource source, I feature);
 
-    List<T> filter(ImageSource source, Feature component);
+    List<T> filter(ImageSource source, I feature);
 }

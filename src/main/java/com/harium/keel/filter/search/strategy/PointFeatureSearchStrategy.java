@@ -1,9 +1,10 @@
 package com.harium.keel.filter.search.strategy;
 
 import com.harium.keel.core.Filter;
+import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;
 
-public abstract class PointFeatureSearchStrategy extends SearchStrategyImpl<PointFeature> {
+public abstract class PointFeatureSearchStrategy extends SearchStrategyImpl<Feature, PointFeature> {
 
     public PointFeatureSearchStrategy(Filter filter) {
         super(filter);

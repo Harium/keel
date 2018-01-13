@@ -1,13 +1,13 @@
 package com.harium.keel.filter.search;
 
-import com.harium.keel.core.Filter;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.feature.Cross;
 import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;
+import com.harium.keel.filter.BaseFilter;
 
-public class CrossSearch extends Filter<PointFeature> {
+public class CrossSearch extends BaseFilter<PointFeature> {
 
     private Cross cross = new Cross();
 

@@ -189,7 +189,7 @@ public class FloodFillSearch extends ComponentFilter {
     }
 
     protected boolean inBoundary(int x, int y, Feature component) {
-        return component.isInside(x, y);
+        return component.contains(x, y);
     }
 
     public int getMinNeighbors() {

@@ -31,7 +31,6 @@ public class DynamicArrayMask implements DynamicMask {
 
     @Override
     public boolean isUnknown(int px, int py) {
-
         int status = mask[px][py];
 
         return DynamicPixel.isUnknown(status);
@@ -39,7 +38,6 @@ public class DynamicArrayMask implements DynamicMask {
 
     @Override
     public boolean isValid(int px, int py) {
-
         int status = mask[px][py];
 
         return DynamicPixel.isValid(status);
@@ -47,7 +45,6 @@ public class DynamicArrayMask implements DynamicMask {
 
     @Override
     public boolean isTouched(int px, int py) {
-
         int status = mask[px][py];
 
         return DynamicPixel.isTouched(status);

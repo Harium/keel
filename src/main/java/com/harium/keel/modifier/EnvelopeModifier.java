@@ -51,16 +51,16 @@ public class EnvelopeModifier implements ComponentModifierStrategy, Modifier<Poi
 		return box;
 	}
 
-	public PointFeature modify(PointFeature component) {
+	public PointFeature modify(PointFeature feature) {
 
 		//System.out.println("Degenerating "+component.getPoints().size()+" points into 4.");
 
-		Point2D a = component.getPoints().get(0); //Lower X
-		Point2D b = component.getPoints().get(0); //Lower equal Y
-		Point2D c = component.getPoints().get(0); //Higher Y
-		Point2D d = component.getPoints().get(0); //Higher equal X
+		Point2D a = feature.getPoints().get(0); //Lower X
+		Point2D b = feature.getPoints().get(0); //Lower equal Y
+		Point2D c = feature.getPoints().get(0); //Higher Y
+		Point2D d = feature.getPoints().get(0); //Higher equal X
 
-		for(Point2D point: component.getPoints()) {
+		for(Point2D point: feature.getPoints()) {
 
 			if(point.getX()<a.getX()) {
 				a = point;
@@ -80,7 +80,7 @@ public class EnvelopeModifier implements ComponentModifierStrategy, Modifier<Poi
 
 		}
 
-		PointFeature box = new PointFeature(component.getW(), component.getH());
+		PointFeature box = new PointFeature(feature.getW(), feature.getH());
 
 		box.add(a);
 		box.add(b);

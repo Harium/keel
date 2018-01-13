@@ -10,7 +10,7 @@ import com.harium.keel.filter.search.flood.SoftFloodFillSearch;
 
 import java.util.List;
 
-public class SkinColorFilter extends CustomFilter<PointFeature> {
+public class SkinColorFilter extends CustomFilter<Feature, PointFeature> {
 
     protected SimpleToleranceStrategy colorStrategy;
 

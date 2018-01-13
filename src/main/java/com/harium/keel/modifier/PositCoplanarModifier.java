@@ -38,8 +38,8 @@ public class PositCoplanarModifier implements ComponentModifierStrategy, Modifie
         return component;
     }
 
-    public RotationAxis modify(PointFeature component) {
-        List<Point2D> points = component.getPoints();
+    public RotationAxis modify(PointFeature feature) {
+        List<Point2D> points = feature.getPoints();
         List<Point2D> imagePoints = ajustPoints(points);
 
         Pose pose = posit.pose(imagePoints);

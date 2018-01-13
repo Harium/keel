@@ -3,11 +3,12 @@ package com.harium.keel.core;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.feature.PointFeature;
+import com.harium.keel.filter.BaseFilter;
 
 import java.util.ArrayList;
 
 
-public abstract class ComponentFilter extends Filter<PointFeature> {
+public abstract class ComponentFilter extends BaseFilter<PointFeature> {
 
     protected int w;
     protected int h;

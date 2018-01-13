@@ -9,17 +9,23 @@ public class MatrixSourceTest {
 
     private MatrixSource checkerSource;
 
-    private final int SOURCE_WIDTH = 2;
-    private final int SOURCE_HEIGHT = 2;
+    private static final int SOURCE_WIDTH = 2;
+    private static final int SOURCE_HEIGHT = 2;
 
     @Before
     public void setUp() {
-        checkerSource = new MatrixSource(SOURCE_WIDTH, SOURCE_HEIGHT);
-        checkerSource.getMatrix()[0][0] = Color.BLACK.getRGB();
-        checkerSource.getMatrix()[1][0] = Color.WHITE.getRGB();
-        checkerSource.getMatrix()[0][1] = Color.WHITE.getRGB();
-        checkerSource.getMatrix()[1][1] = Color.BLACK.getRGB();
+        checkerSource = buildChecker();
     }
+
+    public static MatrixSource buildChecker() {
+        int[][] matrix = new int[SOURCE_HEIGHT][SOURCE_WIDTH];
+        matrix[0][0] = Color.BLACK.getRGB();
+        matrix[1][0] = Color.WHITE.getRGB();
+        matrix[0][1] = Color.WHITE.getRGB();
+        matrix[1][1] = Color.BLACK.getRGB();
+        return new MatrixSource(matrix);
+    }
+
 
     @Test
     public void testGetRgb() {

@@ -10,9 +10,9 @@ import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
 
-public abstract class CustomFilter<T> {
+public abstract class CustomFilter<I, T> {
 
-    protected Filter<T> filter;
+    protected Filter<I, T> filter;
 
     protected FeatureValidationStrategy validationStrategy;
     protected ComponentModifierStrategy modifierStrategy;
@@ -21,7 +21,7 @@ public abstract class CustomFilter<T> {
         super();
     }
 
-    public CustomFilter(Filter<T> filter) {
+    public CustomFilter(Filter<I, T> filter) {
         super();
         this.filter = filter;
     }
@@ -82,12 +82,12 @@ public abstract class CustomFilter<T> {
         filter.getValidations().clear();
     }
 
-    public T filterFirst(ImageSource source, Feature component) {
-        return filter.filterFirst(source, component);
+    public T filterFirst(ImageSource source, I feature) {
+        return filter.filterFirst(source, feature);
     }
 
-    public List<T> filter(ImageSource source, Feature component) {
-        return filter.filter(source, component);
+    public List<T> filter(ImageSource source, I feature) {
+        return filter.filter(source, feature);
     }
 
 }

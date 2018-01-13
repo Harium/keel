@@ -19,41 +19,41 @@ public class VerticalTrimModifier implements ComponentModifierStrategy, Modifier
     }
 
     @Override
-    public PointFeature modify(PointFeature component) {
-        boolean[][] mask = component.generateMask();
+    public PointFeature modify(PointFeature feature) {
+        boolean[][] mask = feature.generateMask();
 
         int columns = -1;
 
-        for (int x = component.getX(); x < component.getW(); x++) {
+        for (int x = feature.getX(); x < feature.getW(); x++) {
             int count = 0;
 
-            for (int y = component.getY(); y < component.getH(); y++) {
+            for (int y = feature.getY(); y < feature.getH(); y++) {
                 if (mask[y][x]) {
                     count++;
                 }
             }
 
             //Count pixels
-            if (count < component.getH() / threshold) {
+            if (count < feature.getH() / threshold) {
                 //Trim first line
                 columns++;
             } else {
-                System.out.println("Count: " + count + " vs " + component.getH() / threshold);
+                System.out.println("Count: " + count + " vs " + feature.getH() / threshold);
                 break;
             }
         }
 
         if (columns >= 0) {
             //Remove columns
-            for (int i = component.getPoints().size() - 1; i >= 0; i--) {
-                Point2D point = component.getPoints().get(i);
+            for (int i = feature.getPoints().size() - 1; i >= 0; i--) {
+                Point2D point = feature.getPoints().get(i);
                 if (point.getX() <= columns) {
-                    component.getPoints().remove(i);
+                    feature.getPoints().remove(i);
                 }
             }
         }
 
-        return component;
+        return feature;
     }
 
     @Override

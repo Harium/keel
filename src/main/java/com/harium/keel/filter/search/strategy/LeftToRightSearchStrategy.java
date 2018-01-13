@@ -3,13 +3,12 @@ package com.harium.keel.filter.search.strategy;
 import com.harium.keel.core.Filter;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Feature;
-import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
 
-public class LeftToRightSearchStrategy<T> extends SearchStrategyImpl<T> {
+public class LeftToRightSearchStrategy<T> extends SearchStrategyImpl<Feature, T> {
 
-    public LeftToRightSearchStrategy(Filter<T> filter) {
+    public LeftToRightSearchStrategy(Filter<Feature, T> filter) {
         super(filter);
     }
 
@@ -34,7 +33,6 @@ public class LeftToRightSearchStrategy<T> extends SearchStrategyImpl<T> {
         filter.postFilter(source, component);
         return first();
     }
-
 
 
     public List<T> filter(final ImageSource source, final Feature component) {

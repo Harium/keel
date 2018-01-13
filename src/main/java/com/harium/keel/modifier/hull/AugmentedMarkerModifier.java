@@ -32,16 +32,16 @@ public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {
         return box;
     }
 
-    public List<Point2D> modify(PointFeature component) {
+    public List<Point2D> modify(PointFeature feature) {
 
-        Point2D center = component.getCenter();
+        Point2D center = feature.getCenter();
 
         Point2D a = center; //Lower X
         Point2D b = center; //Lower equal Y
         Point2D c = center; //Higher Y
         Point2D d = center; //Higher equal X
 
-        for (Point2D point : component.getPoints()) {
+        for (Point2D point : feature.getPoints()) {
 
             //Verify A region
             if (point.getY() < a.getY()) {

@@ -304,12 +304,12 @@ public class PointFeature extends ColorFeature implements FeatureArea, Comparabl
         return true;
     }
 
-    public static boolean intersects(int x, int y, int cx, int cy, int cw, int ch) {
+    public static boolean contains(int x, int y, int cx, int cy, int cw, int ch) {
         return (x >= cx && x < cx + cw && y >= cy && y < cy + ch);
     }
 
-    public boolean intersects(int x, int y) {
-        return intersects(x, y, getX(), getY(), getW(), getH());
+    public boolean contains(int x, int y) {
+        return contains(x, y, getX(), getY(), getW(), getH());
     }
 
 }

@@ -45,9 +45,9 @@ public class JarvisMarchModifier implements HullModifier<List<Point2D>> {
      * @param points in double[][]
      * @return double[][] with points of the convex hull
      */
-    public List<Point2D> modify(PointFeature component) {
+    public List<Point2D> modify(PointFeature feature) {
 
-        List<Point2D> points = component.getPoints();
+        List<Point2D> points = feature.getPoints();
 
         if (points.size() < 4) {
             return points;

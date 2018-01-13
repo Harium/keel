@@ -26,7 +26,7 @@ public class HullFeature extends PointFeature {
     }
 
     @Override
-    public boolean intersects(int x, int y) {
+    public boolean contains(int x, int y) {
         return isInside(x, y);
     }
 

@@ -16,9 +16,9 @@ public class LetterOGRModifier implements Modifier<PointFeature, Graph<Integer>>
         super();
     }
 
-    public Graph<Integer> modify(PointFeature component) {
-        Graph<Integer> graph = modify(component.generateMask());
-        graph.moveNodes(component.getX(), component.getY());
+    public Graph<Integer> modify(PointFeature feature) {
+        Graph<Integer> graph = modify(feature.generateMask());
+        graph.moveNodes(feature.getX(), feature.getY());
 
         return graph;
     }

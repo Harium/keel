@@ -61,8 +61,12 @@ public class Feature extends ColorFeature implements FeatureArea {
     }
 
     @Override
-    public boolean isInside(int x, int y) {
+    public boolean isInside(int px, int py) {
         return true;
+    }
+
+    public boolean contains(int px, int py) {
+        return px >= x && px < x + width && py >= y && py < y + height;
     }
 
     public int getX() {

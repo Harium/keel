@@ -38,9 +38,9 @@ public class MiddleLineModifier implements ComponentModifierStrategy, Modifier<P
 
 	}
 
-	public Graph<Integer> modify(PointFeature component) {
+	public Graph<Integer> modify(PointFeature feature) {
 
-		List<Point2D> points = component.getPoints();
+		List<Point2D> points = feature.getPoints();
 		
 		List<Point2D> list = PointListHelper.cloneList(points);
 

@@ -54,8 +54,8 @@ public class LineIntervalModifier implements Modifier<PointFeature, List<LineInt
         return intervals;
     }
 
-    public List<LineInterval> modify(PointFeature component) {
-        boolean[][] mask = component.generateMask();
+    public List<LineInterval> modify(PointFeature feature) {
+        boolean[][] mask = feature.generateMask();
         return modify(mask);
     }
 
