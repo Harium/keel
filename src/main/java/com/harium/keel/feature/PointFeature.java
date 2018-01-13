@@ -7,7 +7,7 @@ import com.harium.etyl.linear.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PointFeature extends ColorFeature implements FeatureArea, Comparable<PointFeature> {
+public class PointFeature extends Feature implements Comparable<PointFeature> {
 
     private Point2D center = null;
 
