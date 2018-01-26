@@ -1,6 +1,6 @@
 package com.harium.keel.core.source;
 
-public class MatrixSource implements ImageSource {
+public class MatrixSource extends ImageSourceImpl {
 
     private int w = 0;
     private int h = 0;

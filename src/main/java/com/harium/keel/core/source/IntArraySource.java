@@ -1,6 +1,6 @@
 package com.harium.keel.core.source;
 
-public class IntArraySource implements ImageSource {
+public class IntArraySource extends ImageSourceImpl {
 
     int w, h;
     int[] array;

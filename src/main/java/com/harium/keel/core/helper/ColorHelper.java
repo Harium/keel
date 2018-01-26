@@ -83,8 +83,9 @@ public class ColorHelper {
     }
 
     public static int getRGB(int red, int green, int blue) {
-
-        int rgb = red;
+        int alpha = 0xff;
+        int rgb = alpha;
+        rgb = (rgb << 8) + red;
         rgb = (rgb << 8) + green;
         rgb = (rgb << 8) + blue;
 
