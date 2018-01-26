@@ -18,15 +18,14 @@ Comparing to other computer vision libraries it is:
 <dependency>
     <groupId>com.harium.keel</groupId>
     <artifactId>core</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.2</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-compile 'com.harium.keel:core:1.2.0'
+compile 'com.harium.keel:core:1.2.2'
 ```
-
 
 ### Related Projects
 - [Motion Slide](https://github.com/yuripourre/motion-slide/) - Experiments using Motion Tracking.
@@ -34,13 +33,13 @@ compile 'com.harium.keel:core:1.2.0'
 - [Drone4](https://github.com/yuripourre/drone4) - A Virtual Environment to test robotic algorithms.
 - [Emerald Lab](https://github.com/yuripourre/emerald-lab) - A Microscope Simulator.
 
-### Filters
+### Image Filters
 
 #### FishEye
 ![Image Distorted with FishEye Lens](https://raw.githubusercontent.com/yuripourre/e-motion/master/screenshots/fish_eye.jpg)
 
-### Wiki:
-- For more details, see the [wiki](https://github.com/yuripourre/e-motion/wiki/) or some [examples](https://github.com/yuripourre/e-motion/wiki/Examples).
+### Wiki
+- For more details, see the [wiki](https://github.com/yuripourre/e-motion/wiki/) or some [examples](https://github.com/Harium/keel/wiki/Examples).
 
 ### License:
 - [LGPL](https://www.gnu.org/licenses/lgpl-3.0.en.html)
