@@ -12,7 +12,7 @@ public class MatrixSource extends ImageSourceImpl {
         this.w = w;
         this.h = h;
 
-        matrix = new int[w][h];
+        matrix = new int[h][w];
     }
 
     public MatrixSource(int[][] matrix) {
@@ -27,7 +27,7 @@ public class MatrixSource extends ImageSourceImpl {
     }
 
     public int getRGB(int x, int y) {
-        return matrix[x][y];
+        return matrix[y][x];
     }
 
     @Override

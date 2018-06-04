@@ -1,9 +1,14 @@
-package com.harium.keel.effect;
+package com.harium.keel.core.effect;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
 
-public class BlackWhiteAverageEffect implements Effect {
+/**
+ * Black and white effect based on relative luminance
+ * Reference: https://en.wikipedia.org/wiki/Relative_luminance
+ */
+
+public class BlackWhiteEffect implements Effect {
 
     @Override
     public ImageSource apply(ImageSource input) {
@@ -18,8 +23,9 @@ public class BlackWhiteAverageEffect implements Effect {
                 int g = input.getG(i, j);
                 int b = input.getB(i, j);
 
-                int avg = ((r + g + b) / 3);
-                int rgb = avg;
+                // Maximum value would be 255
+                int lum = (int) (.2126 * r + .7152 * g + .0722 * b);
+                int rgb = (lum << 16 | lum << 8 | lum);
                 output[j][i] = rgb;
             }
         }

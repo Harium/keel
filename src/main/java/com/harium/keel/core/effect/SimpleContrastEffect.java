@@ -1,4 +1,4 @@
-package com.harium.keel.effect;
+package com.harium.keel.core.effect;
 
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;

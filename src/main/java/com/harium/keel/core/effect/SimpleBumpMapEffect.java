@@ -1,8 +1,8 @@
-package com.harium.keel.effect;
+package com.harium.keel.core.effect;
 
 import com.badlogic.gdx.math.Vector3;
-import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.core.helper.ColorHelper;
+import com.harium.keel.core.helper.VectorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
 
@@ -24,7 +24,8 @@ public class SimpleBumpMapEffect implements Effect {
 
         int[][] output = new int[h][w];
 
-        int border = 1;
+        final int border = 1;
+        final float SCALE = 255;
 
         Vector3 s = new Vector3(1, 0, 0);
         Vector3 t = new Vector3(0, 1, 0);
@@ -33,18 +34,18 @@ public class SimpleBumpMapEffect implements Effect {
             for (int x = 0; x < w; x++) {
 
                 if (x < border || x == w - border || y < border || y == h - border) {
-                    output[y][x] = Color.BLUE.getRGB();
+                    output[y][x] = VectorHelper.Z_NORMAL;
                     continue;
                 }
 
                 float dh = input.getR(x + 1, y) - input.getR(x - 1, y);
                 float dv = input.getR(x, y + 1) - input.getR(x, y - 1);
 
-                s.set(1, 0, dh);
-                t.set(0, 1, dv);
+                s.set(SCALE, 0, dh);
+                t.set(0, SCALE, dv);
 
                 Vector3 cross = s.crs(t).nor();
-                int rgb = vectorToColor(cross);
+                int rgb = VectorHelper.vectorToColor(cross);
                 output[y][x] = rgb;
             }
         }
@@ -52,12 +53,4 @@ public class SimpleBumpMapEffect implements Effect {
         return new MatrixSource(output);
     }
 
-    static int vectorToColor(Vector3 cross) {
-        int r = (int) ((cross.x + 1) * 255) / 2;
-        int g = (int) ((cross.y + 1) * 255) / 2;
-        int b = (int) ((cross.z + 1) * 255) / 2;
-
-        int rgb = ColorHelper.getRGB(r, g, b);
-        return rgb;
-    }
 }

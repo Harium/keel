@@ -26,7 +26,6 @@ public class MatrixSourceTest {
         return new MatrixSource(matrix);
     }
 
-
     @Test
     public void testGetRgb() {
         Assert.assertEquals(Color.BLACK.getRGB(), checkerSource.getRGB(0, 0));

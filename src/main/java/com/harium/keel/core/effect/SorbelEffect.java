@@ -1,4 +1,4 @@
-package com.harium.keel.effect;
+package com.harium.keel.core.effect;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
