@@ -34,6 +34,7 @@ public class SimpleBumpMapEffect implements Effect {
 
                 if (x < border || x == w - border || y < border || y == h - border) {
                     output[y][x] = Color.BLUE.getRGB();
+                    continue;
                 }
 
                 float dh = input.getR(x + 1, y) - input.getR(x - 1, y);
@@ -42,7 +43,7 @@ public class SimpleBumpMapEffect implements Effect {
                 s.set(1, 0, dh);
                 t.set(0, 1, dv);
 
-                Vector3 cross = s.crs(t);
+                Vector3 cross = s.crs(t).nor();
                 int rgb = vectorToColor(cross);
                 output[y][x] = rgb;
             }
