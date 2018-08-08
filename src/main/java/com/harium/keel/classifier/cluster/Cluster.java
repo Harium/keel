@@ -1,6 +1,6 @@
 package com.harium.keel.classifier.cluster;
 
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 
 import java.util.ArrayList;
 import java.util.List;

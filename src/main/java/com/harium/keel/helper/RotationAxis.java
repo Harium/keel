@@ -3,7 +3,7 @@ package com.harium.keel.helper;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
-import com.harium.etyl.linear.Point3D;
+import com.harium.etyl.geometry.Point3D;
 import com.harium.keel.modifier.posit.Pose;
 import org.opencv.OpenCv;
 

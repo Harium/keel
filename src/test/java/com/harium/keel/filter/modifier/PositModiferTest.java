@@ -1,7 +1,7 @@
 package com.harium.keel.filter.modifier;
 
 import com.badlogic.gdx.math.Quaternion;
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 import com.harium.keel.feature.PointFeature;
 import com.harium.keel.modifier.PositModifier;
 import org.junit.Assert;

@@ -1,40 +1,18 @@
 package jdt.triangulation;
 
-import com.harium.etyl.linear.Point3D;
+import com.badlogic.gdx.math.Vector3;
+import com.harium.etyl.geometry.Triangle;
 
 /**
  * PointLineTest - simple geometry to make things easy!
- * Forked from jdt Triangulation 
+ * Forked from jdt Triangulation: https://code.google.com/archive/p/jdt/
  */
 public class PointLineTest {
-	
-	public final static int ONSEGMENT = 0;
-
-	/**
-	 * +
-	 * a---------b
-	 * */
-	public final static int LEFT = 1;
-
-	/**
-	 * a---------b
-	 * +
-	 * */
-	public final static int RIGHT = 2;
-	/** 
-	 * + a---------b 
-	 * */
-	public final static int INFRONTOFA = 3;
-	/** 
-	 * a---------b +
-	 * */
-	public final static int BEHINDB = 4;
-	public final static int ERROR = 5;
-	
+		
 	/**
 	 * tests the relation between this point (as a 2D [x,y] point) and a 2D
 	 * segment a,b (the Z values are ignored), returns one of the following:
-	 * LEFT, RIGHT, INFRONTOFA, BEHINDB, ONSEGMENT
+	 * LEFT, RIGHT, INFRONT_OF_A, BEHIND_B, ON_SEGMENT
 	 * 
 	 * @param a
 	 *            the first point of the segment.
@@ -43,47 +21,61 @@ public class PointLineTest {
 	 * @return the value (flag) of the relation between this point and the a,b
 	 *         line-segment.
 	 */
-	public static int pointLineTest(Point3D a, Point3D b, Point3D c) {
+	public static PointLinePosition pointLineTest(Vector3 a, Vector3 b, Vector3 c) {
 
-		double dx = b.getX() - a.getX();
-		double dy = b.getY() - a.getY();
-		double res = dy * (c.getX() - a.getX()) - dx * (c.getY() - a.getY());
+		double dx = b.x - a.x;
+		double dy = b.y - a.y;
+		double res = dy * (c.x - a.x) - dx * (c.y - a.y);
 
 		if (res < 0)
-			return PointLineTest.LEFT;
+			return PointLinePosition.LEFT;
 		if (res > 0)
-			return PointLineTest.RIGHT;
+			return PointLinePosition.RIGHT;
 
 		if (dx > 0) {
-			if (c.getX() < a.getX())
-				return PointLineTest.INFRONTOFA;
-			if (b.getX() < c.getX())
-				return PointLineTest.BEHINDB;
-			return PointLineTest.ONSEGMENT;
+			if (c.x < a.x)
+				return PointLinePosition.INFRONT_OF_A;
+			if (b.x < c.x)
+				return PointLinePosition.BEHIND_B;
+			return PointLinePosition.ON_SEGMENT;
 		}
 		if (dx < 0) {
-			if (c.getX() > a.getX())
-				return PointLineTest.INFRONTOFA;
-			if (b.getX() > c.getX())
-				return PointLineTest.BEHINDB;
-			return PointLineTest.ONSEGMENT;
+			if (c.x > a.x)
+				return PointLinePosition.INFRONT_OF_A;
+			if (b.x > c.x)
+				return PointLinePosition.BEHIND_B;
+			return PointLinePosition.ON_SEGMENT;
 		}
 		if (dy > 0) {
-			if (c.getY() < a.getY())
-				return PointLineTest.INFRONTOFA;
-			if (b.getY() < c.getY())
-				return PointLineTest.BEHINDB;
-			return PointLineTest.ONSEGMENT;
+			if (c.y < a.y)
+				return PointLinePosition.INFRONT_OF_A;
+			if (b.y < c.y)
+				return PointLinePosition.BEHIND_B;
+			return PointLinePosition.ON_SEGMENT;
 		}
 		if (dy < 0) {
-			if (c.getY() > a.getY())
-				return PointLineTest.INFRONTOFA;
-			if (b.getY() > c.getY())
-				return PointLineTest.BEHINDB;
-			return PointLineTest.ONSEGMENT;
+			if (c.y > a.y)
+				return PointLinePosition.INFRONT_OF_A;
+			if (b.y > c.y)
+				return PointLinePosition.BEHIND_B;
+			return PointLinePosition.ON_SEGMENT;
 		}
 		System.out.println("Error, pointLineTest with a=b");
-		return PointLineTest.ERROR;
+		return PointLinePosition.ERROR;
+	}
+
+	public static boolean isClockwise(Triangle triangle) {
+		return isClockwise(triangle.getA(), triangle.getB(), triangle.getC());
+	}
+
+	public static boolean isClockwise(Vector3 a, Vector3 b, Vector3 c) {
+		PointLinePosition res = PointLineTest.pointLineTest(a, b, c);
+
+		return (res == PointLinePosition.ON_SEGMENT) ||
+				(res == PointLinePosition.LEFT) ||
+				(res == PointLinePosition.INFRONT_OF_A) ||
+				(res == PointLinePosition.BEHIND_B);
 	}
 	
 }
+

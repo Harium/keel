@@ -1,6 +1,6 @@
 package com.harium.keel.filter.color.skin;
 
-import com.harium.etyl.linear.Ellipse;
+import com.harium.etyl.geometry.Ellipse;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.filter.color.SimpleToleranceStrategy;

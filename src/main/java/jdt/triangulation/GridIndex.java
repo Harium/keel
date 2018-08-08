@@ -1,8 +1,9 @@
 package jdt.triangulation;
 
+import com.badlogic.gdx.math.Vector3;
 import com.harium.etyl.commons.math.Vector2i;
-import com.harium.etyl.linear.BoundingBox;
-import com.harium.etyl.linear.Point3D;
+import com.harium.etyl.geometry.BoundingBox;
+import com.harium.etyl.geometry.Point3D;
 
 import java.util.Iterator;
 
@@ -226,9 +227,9 @@ public class GridIndex {
      * @param y_index vertical cell index
      * @return Point at the center of the cell at (x_index, y_index)
      */
-    private Point3D middleOfCell(int x_index, int y_index) {
-        double middleXCell = indexRegion.minX() + x_index * x_size + x_size / 2;
-        double middleYCell = indexRegion.minY() + y_index * y_size + y_size / 2;
-        return new Point3D(middleXCell, middleYCell);
+    private Vector3 middleOfCell(int x_index, int y_index) {
+        float middleXCell = (float) (indexRegion.minX() + x_index * x_size + x_size / 2);
+        float middleYCell = (float) (indexRegion.minY() + y_index * y_size + y_size / 2);
+        return new Vector3(middleXCell, middleYCell, 0);
     }
 }

@@ -3,7 +3,7 @@ package com.harium.keel.modifier;
 import com.harium.keel.core.strategy.ComponentModifierStrategy;
 import com.harium.keel.feature.PointFeature;
 import com.harium.keel.helper.RotationAxis;
-import com.harium.etyl.linear.Point3D;
+import com.harium.etyl.geometry.Point3D;
 import org.opencv.criteria.CvTermCriteria;
 import org.opencv.modules.calib3d.Posit;
 

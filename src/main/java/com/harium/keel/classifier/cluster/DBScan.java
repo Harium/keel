@@ -1,9 +1,7 @@
 package com.harium.keel.classifier.cluster;
 
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 import com.harium.storage.kdtree.KDTree;
-import com.harium.storage.kdtree.KeyDuplicateException;
-import com.harium.storage.kdtree.KeySizeException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,18 +75,10 @@ public class DBScan {
 
         KDTree<Point2D> tree = new KDTree<Point2D>(2);
         
-        //Populate the kdTree
+        // Populate the kdTree
         for (final Point2D point : points) {
         	double[] key = {point.getX(), point.getY()};
-        	try {
-				tree.insert(key, point);
-			} catch (KeySizeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (KeyDuplicateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	tree.insert(key, point);
         }
                 
         for (final Point2D point : points) {
@@ -164,12 +154,7 @@ public class DBScan {
     	double[] key = {point.getX(), point.getY()};
         final List<Point2D> neighbors = new ArrayList<Point2D>();
         
-        try {
-			neighbors.addAll(points.nearestEuclidean(key, eps));
-		} catch (KeySizeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        neighbors.addAll(points.nearestEuclidean(key, eps));
         
         return neighbors; 
     }

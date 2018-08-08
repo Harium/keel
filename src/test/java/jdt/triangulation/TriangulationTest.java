@@ -1,6 +1,6 @@
 package jdt.triangulation;
 
-import com.harium.etyl.linear.Point3D;
+import com.badlogic.gdx.math.Vector3;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,12 +19,12 @@ public class TriangulationTest {
 
     @Test
     public void triangulationTest() {
-        Point3D pointA = new Point3D(0, 1);
-        Point3D pointB = new Point3D(2, 0);
-        Point3D pointC = new Point3D(2, 2);
-        Point3D pointD = new Point3D(4, 1);
+        Vector3 pointA = new Vector3(0, 1, 0);
+        Vector3 pointB = new Vector3(2, 0, 0);
+        Vector3 pointC = new Vector3(2, 2, 0);
+        Vector3 pointD = new Vector3(4, 1, 0);
 
-        List<Point3D> pointCloud = new ArrayList<Point3D>();
+        List<Vector3> pointCloud = new ArrayList<Vector3>();
         pointCloud.add(pointA);
         pointCloud.add(pointB);
         pointCloud.add(pointC);
@@ -37,19 +37,19 @@ public class TriangulationTest {
 
     @Test
     public void findTest() {
-        Point3D pointA = new Point3D(0, 0);
-        Point3D pointB = new Point3D(2, 2);
-        Point3D pointC = new Point3D(4, 0);
+        Vector3 pointA = new Vector3(0, 0, 0);
+        Vector3 pointB = new Vector3(2, 2, 0);
+        Vector3 pointC = new Vector3(4, 0, 0);
 
-        List<Point3D> pointCloud = new ArrayList<Point3D>();
+        List<Vector3> pointCloud = new ArrayList<Vector3>();
         pointCloud.add(pointA);
         pointCloud.add(pointB);
         pointCloud.add(pointC);
 
         triangulation.triangulate(pointCloud);
 
-        Point3D pointX = new Point3D(1.3, 1);
-        Point3D pointY = new Point3D(4, 2);
+        Vector3 pointX = new Vector3(1.3f, 1, 0);
+        Vector3 pointY = new Vector3(4, 2, 0);
 
         Triangle triangle = triangulation.find(pointX);
         Assert.assertFalse(triangle.isHalfplane());
@@ -61,11 +61,11 @@ public class TriangulationTest {
     @Test
     public void findConnectedVerticesTest() {
 
-        Point3D pointA = new Point3D(0, 0);
-        Point3D pointB = new Point3D(2, 2);
-        Point3D pointC = new Point3D(4, 0);
+        Vector3 pointA = new Vector3(0, 0, 0);
+        Vector3 pointB = new Vector3(2, 2, 0);
+        Vector3 pointC = new Vector3(4, 0, 0);
 
-        List<Point3D> pointCloud = new ArrayList<Point3D>();
+        List<Vector3> pointCloud = new ArrayList<Vector3>();
         pointCloud.add(pointA);
         pointCloud.add(pointB);
         pointCloud.add(pointC);

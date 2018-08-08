@@ -16,8 +16,8 @@ public class TrailAxisTest {
     @Test
     public void testDelta() {
 
-        double firstValue = -2;
-        double secondValue = -10;
+        float firstValue = -2;
+        float secondValue = -10;
 
         Assert.assertEquals(0, axis.getDelta(), 0);
 

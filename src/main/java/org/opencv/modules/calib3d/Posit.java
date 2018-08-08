@@ -2,8 +2,8 @@ package org.opencv.modules.calib3d;
 
 import java.util.List;
 
-import com.harium.etyl.linear.Point2D;
-import com.harium.etyl.linear.Point3D;
+import com.harium.etyl.geometry.Point2D;
+import com.harium.etyl.geometry.Point3D;
 import org.opencv.CvStatus;
 import org.opencv.OpenCv;
 import org.opencv.criteria.CriteriaType;

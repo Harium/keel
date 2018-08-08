@@ -3,7 +3,7 @@ package com.harium.keel;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

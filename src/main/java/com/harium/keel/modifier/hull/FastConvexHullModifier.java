@@ -8,7 +8,7 @@ import java.util.List;
 import com.harium.keel.feature.PointFeature;
 import com.harium.keel.feature.hull.HullFeature;
 import com.harium.keel.helper.PointListHelper;
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 
 /**
  * Found at http://code.google.com/p/convex-hull/source/browse/Convex+Hull/src/algorithms/FastConvexHull.java?r=4

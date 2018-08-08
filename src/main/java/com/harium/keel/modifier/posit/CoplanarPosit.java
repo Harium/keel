@@ -1,8 +1,8 @@
 package com.harium.keel.modifier.posit;
 
-import com.harium.etyl.linear.Point2D;
-import com.harium.etyl.linear.vector.Mat3D;
-import com.harium.etyl.linear.vector.Vec3D;
+import com.harium.etyl.geometry.Point2D;
+import com.harium.keel.modifier.posit.geometry.Mat3D;
+import com.harium.keel.modifier.posit.geometry.Vec3D;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,8 @@
 package com.harium.keel.feature.hull;
 
-import com.harium.etyl.linear.Point2D;
-import com.harium.etyl.linear.Polygon;
+import com.badlogic.gdx.math.Vector2;
+import com.harium.etyl.geometry.Point2D;
+import com.harium.etyl.geometry.Polygon;
 import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class HullFeature extends PointFeature {
 
     @Override
     public void addLogic(Point2D point) {
-        polygon.add(point.getX(), point.getY());
+        polygon.add((float)point.getX(), (float)point.getY());
     }
 
     @Override
@@ -45,13 +46,15 @@ public class HullFeature extends PointFeature {
     @Override
     public List<Point2D> getPoints() {
         if (points.isEmpty()) {
-            points.addAll(polygon.asList());
+            for(Vector2 p:polygon.asList()) {
+                points.add(new Point2D(p.x, p.y));
+            }
         }
 
         return points;
     }
 
-    public List<Point2D> asList() {
+    public List<Vector2> asList() {
         return polygon.asList();
     }
 }
