@@ -1,31 +1,32 @@
 package jdt.triangulation;
 
-import com.harium.etyl.linear.Point3D;
+import com.badlogic.gdx.math.Vector3;
+import com.harium.etyl.geometry.Point3D;
 
 import java.util.Comparator;
 
-public class PointComparator implements Comparator<Point3D> {
+public class PointComparator implements Comparator<Vector3> {
 
 	public PointComparator() {
 		super();
 	}
 
 	/** compare between two points. */
-	public int compare(Point3D o1, Point3D o2) {
+	public int compare(Vector3 o1, Vector3 o2) {
 		int ans = 0;
 
 		if (o1 != null && o2 != null) {
-			Point3D d1 = o1;
-			Point3D d2 = o2;
+			Vector3 d1 = o1;
+			Vector3 d2 = o2;
 
-			if (d1.getX() > d2.getX())
+			if (d1.x > d2.x)
 				return 1;
-			if (d1.getX() < d2.getX())
+			if (d1.x < d2.x)
 				return -1;
 			// x1 == x2
-			if (d1.getY() > d2.getY())
+			if (d1.y > d2.y)
 				return 1;
-			if (d1.getY() < d2.getY())
+			if (d1.y < d2.y)
 				return -1;
 		} else {
 			if (o1 == null && o2 == null)
@@ -43,11 +44,11 @@ public class PointComparator implements Comparator<Point3D> {
 		return false;
 	}
 
-	public static boolean isLess(Point3D a, Point3D b) {
-		return (a.getX() < b.getX()) || ((a.getX() == b.getX()) && (a.getY() < b.getY()));
+	public static boolean isLess(Vector3 a, Vector3 b) {
+		return (a.x < b.x) || ((a.x == b.x) && (a.y < b.y));
 	}
 
-	public static boolean isGreater(Point3D a, Point3D b) {
-		return (a.getX() > b.getX()) || ((a.getX() == b.getX()) && (a.getY() > b.getY()));
+	public static boolean isGreater(Vector3 a, Vector3 b) {
+		return (a.x > b.x) || ((a.x == b.x) && (a.y > b.y));
 	}
 }

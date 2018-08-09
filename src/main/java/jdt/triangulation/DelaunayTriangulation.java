@@ -1,14 +1,11 @@
 package jdt.triangulation;
 
-import com.harium.etyl.linear.BoundingBox;
-import com.harium.etyl.linear.Point3D;
+import com.badlogic.gdx.math.Vector3;
+import com.harium.etyl.geometry.BoundingBox;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
+
+import static jdt.triangulation.PointLinePosition.ON_SEGMENT;
 
 
 /**
@@ -44,8 +41,8 @@ import java.util.TreeSet;
 public class DelaunayTriangulation {
 
 	// the first and last points (used only for first step construction)
-	private Point3D firstP;
-	private Point3D lastP;
+	private Vector3 firstP;
+	private Vector3 lastP;
 
 	// for degenerate case!
 	private boolean allCollinear;
@@ -71,7 +68,7 @@ public class DelaunayTriangulation {
 	private int modCount = 0, modCount2 = 0;
 
 	// the Bounding Box, {{x0,y0,z0} , {x1,y1,z1}}
-	private Point3D bbMin, bbMax;
+	private Vector3 bbMin, bbMax;
 
 	/**
 	 * Index for faster point location searches
@@ -120,10 +117,10 @@ public class DelaunayTriangulation {
 	/**
 	 * insert the point to this Delaunay Triangulation. Note: if p is null or
 	 * already exist in this triangulation p is ignored.
-	 * @param vertices 
+	 * @param vertices
 	 * @param p new vertex to be inserted the triangulation.
 	 */
-	public void insertPoint(Set<Point3D> vertices, Point3D p) {
+	public void insertPoint(Set<Vector3> vertices, Vector3 p) {
 
 		modCount++;
 		updateBoundingBox(p);
@@ -149,9 +146,9 @@ public class DelaunayTriangulation {
 	/**
 	 * Deletes the given point from this.
 	 * @param pointToDelete The given point to delete.
-	 * 
+	 *
 	 * Implementation of the Mostafavia, Gold & Dakowicz algorithm (2002).
-	 * 
+	 *
 	 * By Eyal Roth & Doron Ganel (2009).
 	 */
 	/*public void deletePoint(Point3D pointToDelete) {
@@ -207,12 +204,12 @@ public class DelaunayTriangulation {
 	 * @return a point from the trangulation that is close to pointToDelete
 	 * By Eyal Roth & Doron Ganel (2009).
 	 */
-	public Point3D findClosePoint(Point3D pointToDelete) {
+	public Vector3 findClosePoint(Vector3 pointToDelete) {
 		Triangle triangle = find(pointToDelete);
-		Point3D p1 = triangle.p1();
-		Point3D p2 = triangle.p2();
-		double d1 = p1.distanceXY(pointToDelete);
-		double d2 = p2.distanceXY(pointToDelete);
+		Vector3 p1 = triangle.p1();
+		Vector3 p2 = triangle.p2();
+		double d1 = distanceXY(p1, pointToDelete);
+		double d2 = distanceXY(p2, pointToDelete);
 		if(triangle.isHalfplane()) {
 			if(d1<=d2) {
 				return p1;
@@ -221,9 +218,9 @@ public class DelaunayTriangulation {
 				return p2;
 			}
 		} else {
-			Point3D p3 = triangle.p3();
+			Vector3 p3 = triangle.p3();
 
-			double d3 = p3.distanceXY(pointToDelete);
+			double d3 = distanceXY(p3, pointToDelete);
 
 			if(d1<=d2 && d1<=d3) {
 				return p1;
@@ -235,6 +232,10 @@ public class DelaunayTriangulation {
 				return p3;
 			}
 		}
+	}
+
+	private float distanceXY(Vector3 p, Vector3 q) {
+		return p.dst(q);
 	}
 
 	//updates the trangulation after the triangles to be deleted and
@@ -575,30 +576,30 @@ public class DelaunayTriangulation {
 	 * Calculates a Voronoi cell for a given neighborhood
 	 * in this triangulation. A neighborhood is defined by a triangle
 	 * and one of its corner points.
-	 *  
+	 *
 	 * By Udi Schneider
-	 * 
-	 * @param triangle a triangle in the neighborhood  
+	 *
+	 * @param triangle a triangle in the neighborhood
 	 * @param p corner point whose surrounding neighbors will be checked
 	 * @return set of Points representing the cell polygon
 	 */
-	public Point3D[] calcVoronoiCell(Triangle triangle, Point3D p) {
-		// handle any full triangle 
+	public Vector3[] calcVoronoiCell(Triangle triangle, Vector3 p) {
+		// handle any full triangle
 		if (!triangle.isHalfplane()) {
 
 			// get all neighbors of given corner point
 			List<Triangle> neighbors = findTriangleNeighborhood(triangle, p);
 
 			Iterator<Triangle> itn = neighbors.iterator();
-			Point3D[] vertices = new Point3D[neighbors.size()];
+			Vector3[] vertices = new Vector3[neighbors.size()];
 
 			// for each neighbor, including the given triangle, add
 			// center of circumscribed circle to cell polygon
 			int index = 0;
 			while (itn.hasNext()) {
-				Triangle tmp = itn.next();									
-				vertices[index++] = tmp.circumcircle().getCenter();				
-			}			
+				Triangle tmp = itn.next();
+				vertices[index++] = tmp.circumcircle().getCenter();
+			}
 
 			return vertices;
 		}
@@ -607,66 +608,67 @@ public class DelaunayTriangulation {
 		// in this case, the cell is a single line
 		// which is the perpendicular bisector of the half plane line
 		else {
-			// local friendly alias			
+			// local friendly alias
 			Triangle halfplane = triangle;
 			// third point of triangle adjacent to this half plane
 			// (the point not shared with the half plane)
-			Point3D third = null;
+			Vector3 third = null;
 			// triangle adjacent to the half plane
 			Triangle neighbor = null;
 
 			// find the neighbor triangle
 			if (!halfplane.next_12().isHalfplane()) {
-				neighbor = halfplane.next_12();				
+				neighbor = halfplane.next_12();
 			}
 			else if (!halfplane.next_23().isHalfplane()) {
-				neighbor = halfplane.next_23();				
+				neighbor = halfplane.next_23();
 			}
 			else if (!halfplane.next_23().isHalfplane()) {
-				neighbor = halfplane.next_31();				
+				neighbor = halfplane.next_31();
 			}
 
 			// find third point of neighbor triangle
 			// (the one which is not shared with current half plane)
 			// this is used in determining half plane orientation
-			if (!neighbor.p1().equals(halfplane.p1()) && !neighbor.p1().equals(halfplane.p2()) ) 
-				third = neighbor.p1();  
-			if (!neighbor.p2().equals(halfplane.p1()) && !neighbor.p2().equals(halfplane.p2()) ) 
+			if (!neighbor.p1().equals(halfplane.p1()) && !neighbor.p1().equals(halfplane.p2()) )
+				third = neighbor.p1();
+			if (!neighbor.p2().equals(halfplane.p1()) && !neighbor.p2().equals(halfplane.p2()) )
 				third = neighbor.p2();
-			if (!neighbor.p3().equals(halfplane.p1()) && !neighbor.p3().equals(halfplane.p2()) ) 
+			if (!neighbor.p3().equals(halfplane.p1()) && !neighbor.p3().equals(halfplane.p2()) )
 				third = neighbor.p3();
 
 			// delta (slope) of half plane edge
-			double halfplane_delta = (halfplane.p1().getY() - halfplane.p2().getY()) /
-					(halfplane.p1().getX() - halfplane.p2().getX());
+			float halfplane_delta = (halfplane.p1().y - halfplane.p2().y) /
+					(halfplane.p1().x - halfplane.p2().x);
 
 			// delta of line perpendicular to current half plane edge
-			double perp_delta = (1.0 / halfplane_delta) * (-1.0);
+			float perp_delta = (1.0f / halfplane_delta) * (-1.0f);
 
 			// determine orientation: find if the third point of the triangle
 			// lies above or below the half plane
 			// works by finding the matching y value on the half plane line equation
 			// for the same x value as the third point
-			double y_orient =  halfplane_delta * (third.getX() - halfplane.p1().getX()) + halfplane.p1().getY();
+			float y_orient =  halfplane_delta * (third.x - halfplane.p1().x)+ halfplane.p1().y;
 			boolean above = true;
-			if (y_orient > third.getY())
+			if (y_orient > third.y)
 				above = false;
 
 			// based on orientation, determine cell line direction
 			// (towards right or left side of window)
-			double sign = 1.0;
-			if ((perp_delta < 0 && !above) || (perp_delta > 0 && above))
-				sign = -1.0;
+			float sign = 1.0f;
+			if ((perp_delta < 0 && !above) || (perp_delta > 0 && above)) {
+				sign = -1.0f;
+			}
 
 			// the cell line is a line originating from the circumcircle to infinity
 			// x = 500.0 is used as a large enough value
-			Point3D circumcircle = neighbor.circumcircle().getCenter();
-			double x_cell_line = (circumcircle.getX() + (500.0 * sign));			
-			double y_cell_line = perp_delta * (x_cell_line - circumcircle.getX()) + circumcircle.getY();
+			Vector3 circumcircle = neighbor.circumcircle().getCenter();
+			float x_cell_line = (circumcircle.x + (500.0f * sign));
+			float y_cell_line = perp_delta * (x_cell_line - circumcircle.x) + circumcircle.y;
 
-			Point3D[] result = new Point3D[2];
+			Vector3[] result = new Vector3[2];
 			result[0] = circumcircle;
-			result[1] = new Point3D(x_cell_line, y_cell_line);
+			result[1] = new Vector3(x_cell_line, y_cell_line, 0);
 
 			return result;
 		}
@@ -696,7 +698,7 @@ public class DelaunayTriangulation {
 		}
 	}*/
 
-	private Triangle insertPointSimple(Set<Point3D> vertices, Point3D p) {
+	private Triangle insertPointSimple(Set<Vector3> vertices, Vector3 p) {
 		if (!allCollinear) {
 			return insertNonColinear(p);
 		} else {
@@ -704,7 +706,7 @@ public class DelaunayTriangulation {
 		}
 	}
 
-	private Triangle insertColinear(Set<Point3D> vertices, Point3D p) {
+	private Triangle insertColinear(Set<Vector3> vertices, Vector3 p) {
 		if (vertices.size() == 1) {
 			firstP = p;
 		} else if (vertices.size() == 2) {
@@ -715,7 +717,7 @@ public class DelaunayTriangulation {
 		return null;
 	}
 
-	private Triangle insertNonColinear(Point3D p) {
+	private Triangle insertNonColinear(Vector3 p) {
 		Triangle t = find(startTriangle, p);
 		if (t.halfplane)
 			startTriangle = extendOutside(t, p);
@@ -724,33 +726,30 @@ public class DelaunayTriangulation {
 		return startTriangle;
 	}
 
-	private void testPoint(Point3D p) {
-		switch (PointLineTest.pointLineTest(firstP, lastP, p)) {
-		case PointLineTest.LEFT:
+	private void testPoint(Vector3 p) {
+		PointLinePosition position = PointLineTest.pointLineTest(firstP, lastP, p);
+		switch (position) {
+		case LEFT:
 			startTriangle = extendOutside(firstT.abnext, p);
 			allCollinear = false;
 			break;
-		case PointLineTest.RIGHT:
+		case RIGHT:
 			startTriangle = extendOutside(firstT, p);
 			allCollinear = false;
 			break;
-		case PointLineTest.ONSEGMENT:
-			insertCollinear(p, PointLineTest.ONSEGMENT);
-			break;
-		case PointLineTest.INFRONTOFA:
-			insertCollinear(p, PointLineTest.INFRONTOFA);
-			break;
-		case PointLineTest.BEHINDB:
-			insertCollinear(p, PointLineTest.BEHINDB);
+		case ON_SEGMENT:
+			case INFRONT_OF_A:
+			case BEHIND_B:
+			insertCollinear(p, position);
 			break;
 		}
 	}
 
-	private void insertCollinear(Point3D p, int res) {
+	private void insertCollinear(Vector3 p, PointLinePosition res) {
 		Triangle t, tp, u;
 
 		switch (res) {
-		case PointLineTest.INFRONTOFA:
+		case INFRONT_OF_A:
 			t = new Triangle(firstP, p);
 			tp = new Triangle(p, firstP);
 			t.abnext = tp;
@@ -764,7 +763,7 @@ public class DelaunayTriangulation {
 			firstT = t;
 			firstP = p;
 			break;
-		case PointLineTest.BEHINDB:
+		case BEHIND_B:
 			t = new Triangle(p, lastP);
 			tp = new Triangle(lastP, p);
 			t.abnext = tp;
@@ -778,7 +777,7 @@ public class DelaunayTriangulation {
 			lastT = t;
 			lastP = p;
 			break;
-		case PointLineTest.ONSEGMENT:
+		case ON_SEGMENT:
 			u = firstT;
 			while (PointComparator.isGreater(p, u.a))
 				u = u.canext;
@@ -801,11 +800,13 @@ public class DelaunayTriangulation {
 				firstT = t;
 			}
 			break;
+			default:
+			    break;
 		}
 	}
 
-	private void startTriangulation(Point3D p1, Point3D p2) {
-		Point3D ps, pb;
+	private void startTriangulation(Vector3 p1, Vector3 p2) {
+		Vector3 ps, pb;
 		if (PointComparator.isLess(p1, p2)) {
 			ps = p1;
 			pb = p2;
@@ -829,7 +830,7 @@ public class DelaunayTriangulation {
 		startTriangleHull = firstT;
 	}
 
-	private Triangle extendInside(Triangle t, Point3D p) {
+	private Triangle extendInside(Triangle t, Vector3 p) {
 
 		Triangle h1, h2;
 		h1 = treatDegeneracyInside(t, p);
@@ -853,22 +854,22 @@ public class DelaunayTriangulation {
 		return t;
 	}
 
-	private Triangle treatDegeneracyInside(Triangle t, Point3D p) {
+	private Triangle treatDegeneracyInside(Triangle t, Vector3 p) {
 
 		if (t.abnext.halfplane
-				&& PointLineTest.pointLineTest(t.b, t.a, p) == PointLineTest.ONSEGMENT)
+				&& PointLineTest.pointLineTest(t.b, t.a, p) == ON_SEGMENT)
 			return extendOutside(t.abnext, p);
 		if (t.bcnext.halfplane
-				&& PointLineTest.pointLineTest(t.c, t.b, p) == PointLineTest.ONSEGMENT)
+				&& PointLineTest.pointLineTest(t.c, t.b, p) == ON_SEGMENT)
 			return extendOutside(t.bcnext, p);
 		if (t.canext.halfplane
-				&& PointLineTest.pointLineTest(t.a, t.c, p) == PointLineTest.ONSEGMENT)
+				&& PointLineTest.pointLineTest(t.a, t.c, p) == ON_SEGMENT)
 			return extendOutside(t.canext, p);
 		return null;
 	}
 
-	private Triangle extendOutside(Triangle t, Point3D p, int test) {
-		if (PointLineTest.ONSEGMENT == test) {
+	private Triangle extendOutside(Triangle t, Vector3 p, PointLinePosition test) {
+		if (ON_SEGMENT == test) {
 			Triangle dg = new Triangle(t.a, t.b, p);
 			Triangle hp = new Triangle(p, t.b);
 			t.b = p;
@@ -893,11 +894,11 @@ public class DelaunayTriangulation {
 		return cT.abnext;
 	}
 
-	private Triangle extendOutside(Triangle t, Point3D p) {
+	private Triangle extendOutside(Triangle t, Vector3 p) {
 		return extendOutside(t, p, PointLineTest.pointLineTest(t.a, t.b, p));
 	}
 
-	private Triangle extendcounterclock(Triangle t, Point3D p) {
+	private Triangle extendcounterclock(Triangle t, Vector3 p) {
 
 		t.halfplane = false;
 		t.c = p;
@@ -905,18 +906,26 @@ public class DelaunayTriangulation {
 
 		Triangle tca = t.canext;
 
-		if (PointLineTest.pointLineTest(tca.a, tca.b, p) >= PointLineTest.RIGHT) {
-			Triangle nT = new Triangle(t.a, p);
-			nT.abnext = t;
-			t.canext = nT;
-			nT.canext = tca;
-			tca.bcnext = nT;
-			return nT;
-		}
-		return extendcounterclock(tca, p);
+		PointLinePosition position = PointLineTest.pointLineTest(tca.a, tca.b, p);
+		switch (position) {
+            case RIGHT:
+            case BEHIND_B:
+            case INFRONT_OF_A:
+            case ERROR:
+                Triangle nT = new Triangle(t.a, p);
+                nT.abnext = t;
+                t.canext = nT;
+                nT.canext = tca;
+                tca.bcnext = nT;
+                return nT;
+            default:
+            case ON_SEGMENT:
+            case LEFT:
+                return extendcounterclock(tca, p);
+        }
 	}
 
-	private Triangle extendclock(Triangle t, Point3D p) {
+	private Triangle extendclock(Triangle t, Vector3 p) {
 
 		t.halfplane = false;
 		t.c = p;
@@ -924,15 +933,23 @@ public class DelaunayTriangulation {
 
 		Triangle tbc = t.bcnext;
 
-		if (PointLineTest.pointLineTest(tbc.a, tbc.b, p) >= PointLineTest.RIGHT) {
+        PointLinePosition position = PointLineTest.pointLineTest(tbc.a, tbc.b, p);
+        switch (position) {
+            case RIGHT:
+            case BEHIND_B:
+            case INFRONT_OF_A:
+            case ERROR:
 			Triangle nT = new Triangle(p, t.b);
 			nT.abnext = t;
 			t.bcnext = nT;
 			nT.bcnext = tbc;
 			tbc.canext = nT;
-			return nT;
+			    return nT;
+            default:
+            case ON_SEGMENT:
+            case LEFT:
+                return extendclock(tbc, p);
 		}
-		return extendclock(tbc, p);
 	}
 
 	private void flip(Triangle t, int mc) {
@@ -984,7 +1001,7 @@ public class DelaunayTriangulation {
 	 */
 	public int convexHullSize() {
 		int ans = 0;
-		Iterator<Point3D> it = this.getConvexHullVerticesIterator();
+		Iterator<Vector3> it = this.getConvexHullVerticesIterator();
 		while (it.hasNext()) {
 			ans++;
 			it.next();
@@ -1002,7 +1019,7 @@ public class DelaunayTriangulation {
 	 *            query point
 	 * @return the triangle that point p is in.
 	 */
-	public Triangle find(Point3D p) {
+	public Triangle find(Vector3 p) {
 
 		// If triangulation has a spatial index try to use it as the starting triangle
 		Triangle searchTriangle = startTriangle;
@@ -1027,7 +1044,7 @@ public class DelaunayTriangulation {
 	 *            the triangle the search starts at.
 	 * @return the triangle that point p is in..
 	 */
-	public Triangle find(Point3D p, Triangle start) {
+	public Triangle find(Vector3 p, Triangle start) {
 		if (start == null)
 			start = this.startTriangle;
 		Triangle T = find(start, p);
@@ -1035,7 +1052,7 @@ public class DelaunayTriangulation {
 	}
 
 
-	private static Triangle find(Triangle curr, Point3D p) {
+	private static Triangle find(Triangle curr, Vector3 p) {
 		if (p == null)
 			return null;
 
@@ -1060,24 +1077,24 @@ public class DelaunayTriangulation {
 	 * assumes v is NOT an halfplane!
 	 * returns the next triangle for find.
 	 */
-	private static Triangle findnext1(Point3D p, Triangle v) {
-		if (!v.abnext.halfplane && PointLineTest.pointLineTest(v.a, v.b, p) == PointLineTest.RIGHT)
+	private static Triangle findnext1(Vector3 p, Triangle v) {
+		if (!v.abnext.halfplane && PointLineTest.pointLineTest(v.a, v.b, p) == PointLinePosition.RIGHT)
 			return v.abnext;
-		if (!v.bcnext.halfplane && PointLineTest.pointLineTest(v.b, v.c, p) == PointLineTest.RIGHT)
+		if (!v.bcnext.halfplane && PointLineTest.pointLineTest(v.b, v.c, p) == PointLinePosition.RIGHT)
 			return v.bcnext;
-		if (!v.canext.halfplane && PointLineTest.pointLineTest(v.c, v.a, p) == PointLineTest.RIGHT)
+		if (!v.canext.halfplane && PointLineTest.pointLineTest(v.c, v.a, p) == PointLinePosition.RIGHT)
 			return v.canext;
-		if (PointLineTest.pointLineTest(v.a, v.b, p) == PointLineTest.RIGHT)
+		if (PointLineTest.pointLineTest(v.a, v.b, p) == PointLinePosition.RIGHT)
 			return v.abnext;
-		if (PointLineTest.pointLineTest(v.b, v.c, p) == PointLineTest.RIGHT)
+		if (PointLineTest.pointLineTest(v.b, v.c, p) == PointLinePosition.RIGHT)
 			return v.bcnext;
-		if (PointLineTest.pointLineTest(v.c, v.a, p) == PointLineTest.RIGHT)
+		if (PointLineTest.pointLineTest(v.c, v.a, p) == PointLinePosition.RIGHT)
 			return v.canext;
 		return null;
 	}
 
 	/** assumes v is an halfplane! - returns another (none halfplane) triangle */
-	private static Triangle findnext2(Point3D p, Triangle v) {
+	private static Triangle findnext2(Vector3 p, Triangle v) {
 		if (v.abnext != null && !v.abnext.halfplane)
 			return v.abnext;
 		if (v.bcnext != null && !v.bcnext.halfplane)
@@ -1087,12 +1104,12 @@ public class DelaunayTriangulation {
 		return null;
 	}
 
-	public List<Point3D> findConnectedVertices(Point3D point, List<Triangle> triangles) {
+	public List<Vector3> findConnectedVertices(Vector3 point, List<Triangle> triangles) {
 		// Finding the triangles to delete.
 		List<Triangle> deletedTriangles = findConnectedTriangles(point);
 
-		Set<Point3D> pointsSet = new HashSet<Point3D>();
-		List<Point3D> pointsVec = new ArrayList<Point3D>();
+		Set<Vector3> pointsSet = new HashSet<Vector3>();
+		List<Vector3> pointsVec = new ArrayList<Vector3>();
 
 		if (deletedTriangles != null) {
 			connectTriangles(point, pointsSet, pointsVec, triangles);
@@ -1107,10 +1124,10 @@ public class DelaunayTriangulation {
 	/*
 	 * Receives a point and returns all the points of the triangles that
 	 * shares point as a corner (Connected vertices to this point).
-	 * 
+	 *
 	 * By Doron Ganel & Eyal Roth
 	 */
-	private List<Triangle> findConnectedTriangles(Point3D point) {
+	private List<Triangle> findConnectedTriangles(Vector3 point) {
 
 		// Getting one of the neigh
 		Triangle triangle = find(point);
@@ -1125,12 +1142,12 @@ public class DelaunayTriangulation {
 		return findTriangleNeighborhood(triangle, point);
 	}
 
-	private void connectTriangles(Point3D point, Set<Point3D> pointsSet,
-			List<Point3D> pointsVec, List<Triangle> triangles) {
+	private void connectTriangles(Vector3 point, Set<Vector3> pointsSet,
+			List<Vector3> pointsVec, List<Triangle> triangles) {
 		for (Triangle tmpTriangle : triangles) {
-			Point3D point1 = tmpTriangle.p1();
-			Point3D point2 = tmpTriangle.p2();
-			Point3D point3 = tmpTriangle.p3();
+			Vector3 point1 = tmpTriangle.p1();
+			Vector3 point2 = tmpTriangle.p2();
+			Vector3 point3 = tmpTriangle.p3();
 
 			if (point1.equals(point) && !pointsSet.contains(point2)) {
 				pointsSet.add(point2);
@@ -1160,7 +1177,7 @@ public class DelaunayTriangulation {
 	// Walks on a consistent side of triangles until a cycle is achieved.
 	//By Doron Ganel & Eyal Roth
 	// changed to public by Udi
-	public List<Triangle> findTriangleNeighborhood(Triangle firstTriangle, Point3D point) {
+	public List<Triangle> findTriangleNeighborhood(Triangle firstTriangle, Vector3 point) {
 		List<Triangle> triangles = new ArrayList<Triangle>(30);
 		triangles.add(firstTriangle);
 
@@ -1181,7 +1198,7 @@ public class DelaunayTriangulation {
 		}
 
 		return triangles;
-	}	
+	}
 
 	/*
 	 * find triangle to be added to the triangulation
@@ -1240,7 +1257,7 @@ public class DelaunayTriangulation {
 	 * @return true iff p is within this triangulation (in its 2D convex hull).
 	 */
 
-	public boolean contains(Point3D p) {
+	public boolean contains(Vector3 p) {
 		Triangle tt = find(p);
 		return !tt.halfplane;
 	}
@@ -1254,8 +1271,8 @@ public class DelaunayTriangulation {
 	 * @return true iff (x,y) falls inside this triangulation (in its 2D convex
 	 *         hull).
 	 */
-	public boolean contains(double x, double y) {
-		return contains(new Point3D(x, y));
+	public boolean contains(float x, float y) {
+		return contains(new Vector3(x, y,0));
 	}
 
 	/**
@@ -1265,7 +1282,7 @@ public class DelaunayTriangulation {
 	 * @return the q point with updated Z value (z value is as given the
 	 *         triangulation).
 	 */
-	public Point3D z(Point3D q) {
+	public Vector3 z(Vector3 q) {
 		Triangle t = find(q);
 		return t.z(q);
 	}
@@ -1279,29 +1296,34 @@ public class DelaunayTriangulation {
 	 * @return the q point with updated Z value (z value is as given the
 	 *         triangulation).
 	 */
-	public double z(double x, double y) {
-		Point3D q = new Point3D(x, y);
+	public double z(float x, float y) {
+		Vector3 q = new Vector3(x, y,0);
 		Triangle t = find(q);
 		return t.z_value(q);
 	}
 
-	private void updateBoundingBox(Point3D p) {
-		double x = p.getX(), y = p.getY(), z = p.getZ();
+	private void updateBoundingBox(Vector3 p) {
+		float x = p.x, y = p.y, z = p.z;
 
-		if (x < bbMin.getX()) {
-			bbMin.setX(x);
-		} else if (x > bbMax.getX()) {
-			bbMax.setX(x);
+		// Check X
+		if (x < bbMin.x) {
+			bbMin.x = x;
+		} else if (x > bbMax.x) {
+			bbMax.x = x;
 		}
-		if (y < bbMin.getY()) {
-			bbMin.setY(y);
-		} else if (y > bbMax.getY()) {
-			bbMax.setY(y);
+
+		// Check Y
+		if (y < bbMin.y) {
+			bbMin.y = y;
+		} else if (y > bbMax.y) {
+			bbMax.y = y;
 		}
-		if (z < bbMin.getZ()) {
-			bbMin.setZ(z);
-		} else if (z > bbMax.getZ()) {
-			bbMax.setZ(z);
+
+		// Check Z
+		if (z < bbMin.z) {
+			bbMin.z = z;
+		} else if (z > bbMax.z) {
+			bbMax.z = z;
 		}
 	}
 	/**
@@ -1315,7 +1337,7 @@ public class DelaunayTriangulation {
 	 * return the min point of the bounding box of this triangulation
 	 * {{x0,y0,z0}}
 	 */
-	public Point3D minBoundingBox() {
+	public Vector3 minBoundingBox() {
 		return bbMin;
 	}
 
@@ -1323,7 +1345,7 @@ public class DelaunayTriangulation {
 	 * return the max point of the bounding box of this triangulation
 	 * {{x1,y1,z1}}
 	 */
-	public Point3D maxBoundingBox() {
+	public Vector3 maxBoundingBox() {
 		return bbMax;
 	}
 
@@ -1344,16 +1366,16 @@ public class DelaunayTriangulation {
 	 * returns an iterator to the set of all the points on the XY-convex hull
 	 * @return iterator to the set of all the points on the XY-convex hull.
 	 */
-	private Iterator<Point3D> getConvexHullVerticesIterator() {
-		List<Point3D> ans = new ArrayList<Point3D>();
+	private Iterator<Vector3> getConvexHullVerticesIterator() {
+		List<Vector3> ans = new ArrayList<Vector3>();
 		Triangle curr = this.startTriangleHull;
 		boolean cont = true;
-		double x0 = bbMin.getX(), x1 = bbMax.getX();
-		double y0 = bbMin.getY(), y1 = bbMax.getY();
+		double x0 = bbMin.x, x1 = bbMax.x;
+		double y0 = bbMin.y, y1 = bbMax.y;
 		boolean sx, sy;
 		while (cont) {
-			sx = curr.p1().getX() == x0 || curr.p1().getX() == x1;
-			sy = curr.p1().getY() == y0 || curr.p1().getY() == y1;
+			sx = curr.p1().x == x0 || curr.p1().x == x1;
+			sy = curr.p1().y == y0 || curr.p1().y == y1;
 			if ((sx && sy) || (!sx && !sy)) {
 				ans.add(curr.p1());
 			}
@@ -1414,21 +1436,21 @@ public class DelaunayTriangulation {
 	}*/
 
 	/**
-	 * Triangulate given points. 
+	 * Triangulate given points.
 	 * Note: duplicated points are ignored.
 	 * @param points
 	 * @return list of triangles
 	 */
-	public List<Triangle> triangulate(List<Point3D> points) {
+	public List<Triangle> triangulate(List<Vector3> points) {
 		init(points.size());
 
-		Set<Point3D> vertices = new TreeSet<Point3D>(new PointComparator());
+		Set<Vector3> vertices = new TreeSet<Vector3>(new PointComparator());
 
-		bbMin = new Point3D(points.get(0));
-		bbMax = new Point3D(points.get(0));
+		bbMin = new Vector3(points.get(0));
+		bbMax = new Vector3(points.get(0));
 
 		//Insert Points
-		for (Point3D point:points) {
+		for (Vector3 point:points) {
 			this.insertPoint(vertices, point);
 		}
 

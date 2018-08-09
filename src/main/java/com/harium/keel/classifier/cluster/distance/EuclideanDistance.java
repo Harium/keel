@@ -1,6 +1,6 @@
 package com.harium.keel.classifier.cluster.distance;
 
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 
 public class EuclideanDistance implements DistanceMeasure {
 

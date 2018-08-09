@@ -2,7 +2,7 @@ package com.harium.keel.filter.modifier;
 
 import com.harium.keel.feature.hull.HullFeature;
 import com.harium.keel.modifier.hull.PathCompressionModifier;
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,7 @@
 package com.harium.keel.filter.process;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.PointFeature;

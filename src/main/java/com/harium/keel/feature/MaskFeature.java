@@ -3,7 +3,7 @@ package com.harium.keel.feature;
 
 import com.harium.etyl.commons.layer.GeometricLayer;
 import com.harium.etyl.commons.layer.Layer;
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 
 public class MaskFeature implements Comparable<MaskFeature> {
 

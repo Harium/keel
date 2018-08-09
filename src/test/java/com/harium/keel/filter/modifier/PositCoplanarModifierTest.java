@@ -3,7 +3,7 @@ package com.harium.keel.filter.modifier;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 import com.harium.keel.feature.PointFeature;
 import com.harium.keel.helper.RotationAxis;
 import com.harium.keel.modifier.PositCoplanarModifier;

@@ -1,13 +1,12 @@
 package com.harium.keel.feature.trail;
 
 import com.badlogic.gdx.math.Vector3;
-import com.harium.etyl.linear.Point3D;
 
 public class TripleAxisTrail {
 
 	private int size = 10;
-	private double deltaMin = 0.2;
-	private double tolerance = 0.1;
+	private float deltaMin = 0.2f;
+	private float tolerance = 0.1f;
 	//deltaMax = 0.85 * fullSize
 
 	private TrailAxis axisX;
@@ -41,7 +40,7 @@ public class TripleAxisTrail {
 		addValue(axisZ, point.z);
 	}
 
-	private void addValue(TrailAxis axis, double value) {
+	private void addValue(TrailAxis axis, float value) {
 		axis.addValue(value);
 		
 		if(axis.getDeltaMod() > deltaMin) {
@@ -94,12 +93,12 @@ public class TripleAxisTrail {
 		return axisZ;
 	}
 
-	public Point3D getPoint(int index) {
-		double x = axisX.getValues().get(index);
-		double y = axisY.getValues().get(index);
-		double z = axisZ.getValues().get(index);
+	public Vector3 getPoint(int index) {
+		float x = axisX.getValues().get(index);
+		float y = axisY.getValues().get(index);
+		float z = axisZ.getValues().get(index);
 
-		return new Point3D(x, y, z);
+		return new Vector3(x, y, z);
 	}
 
 	public int getSize() {
@@ -114,11 +113,11 @@ public class TripleAxisTrail {
 		this.listener = listener;
 	}
 
-	public double getDeltaMin() {
+	public float getDeltaMin() {
 		return deltaMin;
 	}
 
-	public void setDeltaMin(double deltaMin) {
+	public void setDeltaMin(float deltaMin) {
 		this.deltaMin = deltaMin;
 	}	
 

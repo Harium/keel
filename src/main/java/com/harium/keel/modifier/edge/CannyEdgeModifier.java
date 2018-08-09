@@ -2,7 +2,7 @@ package com.harium.keel.modifier.edge;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.PointFeature;
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 
 import java.util.ArrayList;
 import java.util.Arrays;

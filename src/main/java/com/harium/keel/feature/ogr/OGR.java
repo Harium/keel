@@ -1,7 +1,7 @@
 package com.harium.keel.feature.ogr;
 
 
-import com.harium.etyl.linear.graph.Graph;
+import com.harium.storage.graph.Graph;
 
 public interface OGR<T> {
 

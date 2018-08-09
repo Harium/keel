@@ -6,8 +6,8 @@ import java.util.List;
 public class TrailAxis {
 
     private int size;
-    private List<Double> values;
-    private double lastValue = 0;
+    private List<Float> values;
+    private float lastValue = 0;
 
     public TrailAxis(int size) {
         super();
@@ -17,29 +17,29 @@ public class TrailAxis {
     }
 
     private void reset(int size) {
-        values = new ArrayList<Double>(size);
+        values = new ArrayList<Float>(size);
 
         for (int i = 0; i < size; i++) {
-            values.add(0d);
+            values.add(0f);
         }
     }
 
-    public void addValue(double value) {
+    public void addValue(float value) {
         values.remove(0);
         values.add(value);
         lastValue = value;
     }
 
-    public List<Double> getValues() {
+    public List<Float> getValues() {
         return values;
     }
 
-    public double getDelta() {
+    public float getDelta() {
         return lastValue - values.get(size - 2);
     }
 
-    public double getDeltaMod() {
-        double delta = getDelta();
+    public float getDeltaMod() {
+        float delta = getDelta();
 
         if (delta < 0) {
             return -delta;

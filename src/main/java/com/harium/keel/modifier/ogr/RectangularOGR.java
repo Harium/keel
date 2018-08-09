@@ -1,19 +1,20 @@
 package com.harium.keel.modifier.ogr;
 
+import com.harium.etyl.geometry.Point2D;
+import com.harium.keel.feature.ogr.LineInterval;
+import com.harium.keel.feature.ogr.OGR;
+import com.harium.keel.modifier.ogr.model.OGREdge;
+import com.harium.keel.modifier.ogr.model.OGRNodeData;
+import com.harium.storage.graph.Graph;
+import com.harium.storage.graph.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.harium.keel.feature.ogr.LineInterval;
-import com.harium.keel.feature.ogr.OGR;
-import com.harium.etyl.linear.Point2D;
-import com.harium.etyl.linear.graph.Graph;
-import com.harium.etyl.linear.graph.Node;
-import com.harium.etyl.linear.graph.common.IntegerEdge;
-
-public class RectangularOGR implements OGR<Integer> {
+public class RectangularOGR implements OGR<OGRNodeData> {
 
 	@Override
-	public Graph<Integer> findGraph(boolean[][] mask) {
+	public Graph<OGRNodeData> findGraph(boolean[][] mask) {
 		
 		if(mask == null || mask.length == 0) {
 			return null;
@@ -24,9 +25,9 @@ public class RectangularOGR implements OGR<Integer> {
 
 		final int sizeLimiar = w/3;
 
-		Graph<Integer> graph = new Graph<Integer>();
+		Graph<OGRNodeData> graph = new Graph<>();
 				
-		List<LineInterval> intervals = new ArrayList<LineInterval>();
+		List<LineInterval> intervals = new ArrayList<>();
 
 		int lastIntervalCount = 0;
 		
@@ -120,7 +121,7 @@ public class RectangularOGR implements OGR<Integer> {
 		return graph;
 	}
 
-	private int processFirstInterval(Graph<Integer> graph, List<LineInterval> intervals, int sizeLimiar) {
+	private int processFirstInterval(Graph<OGRNodeData> graph, List<LineInterval> intervals, int sizeLimiar) {
 
 		LineInterval firstInterval = intervals.get(0);
 
@@ -131,22 +132,20 @@ public class RectangularOGR implements OGR<Integer> {
 		if(firstInterval.getLength() < sizeLimiar) {
 
 			Point2D firstPoint = new Point2D(firstInterval.getCenter(), height);
-
-			graph.addNode(firstPoint);
-
+			graph.addNode(OGRNodeData.buildNode(firstPoint));
 			intervalCount = 1;
 
 		} else {
 
 			Point2D leftPoint = new Point2D(firstInterval.getStart(), height);
 
-			Node<Integer> firstNode = graph.addNode(leftPoint);
+			Node<OGRNodeData> firstNode = graph.addNode(OGRNodeData.buildNode(leftPoint));
 			
 			Point2D rightPoint = new Point2D(firstInterval.getEnd(), height);
 
-			Node<Integer> secondNode = graph.addNode(rightPoint);
+			Node<OGRNodeData> secondNode = graph.addNode(OGRNodeData.buildNode(rightPoint));
 
-			graph.addEdge(new IntegerEdge(firstNode, secondNode));
+			graph.addEdge(new OGREdge(firstNode, secondNode));
 
 			intervalCount = 2;
 
@@ -156,7 +155,7 @@ public class RectangularOGR implements OGR<Integer> {
 
 	}
 	
-	private int processOpenGraph(Graph<Integer> graph, List<LineInterval> intervals) {
+	private int processOpenGraph(Graph<OGRNodeData> graph, List<LineInterval> intervals) {
 		
 		LineInterval firstInterval = intervals.get(0);
 		
@@ -164,37 +163,37 @@ public class RectangularOGR implements OGR<Integer> {
 		Point2D firstPoint = new Point2D(firstInterval.getStart(), firstInterval.getHeight());
 		
 		//Put the firstPoint as firstNode 
-		Node<Integer> firstNode = graph.addNode(0, firstPoint);
+		Node<OGRNodeData> firstNode = graph.addNode(0, OGRNodeData.buildNode(firstPoint));
 		
 		LineInterval secondInterval = intervals.get(1);
 		
 		//End of Second Interval
 		Point2D secondPoint = new Point2D(secondInterval.getEnd(), secondInterval.getHeight());
 		
-		Node<Integer> secondNode = graph.addNode(secondPoint);
+		Node<OGRNodeData> secondNode = graph.addNode(OGRNodeData.buildNode(secondPoint));
 		
 		//Root is now the secondPoint
-		Node<Integer> root = graph.getNodes().get(1);
+		Node<OGRNodeData> root = graph.getNodes().get(1);
 		
-		graph.addEdge(new IntegerEdge(root, firstNode));
+		graph.addEdge(new OGREdge(root, firstNode));
 		
-		graph.addEdge(new IntegerEdge(root, secondNode));
+		graph.addEdge(new OGREdge(root, secondNode));
 		
 		return intervals.size();
 		
 	}
 	
-	private int processExpandGraph(Graph<Integer> graph, List<LineInterval> intervals) {
+	private int processExpandGraph(Graph<OGRNodeData> graph, List<LineInterval> intervals) {
 		
 		LineInterval firstInterval = intervals.get(0);
 		
 		//Expand leftNode
 		int x = firstInterval.getStart();
 		
-		Node<Integer> firstNode = graph.getNodes().get(0);
+		Node<OGRNodeData> firstNode = graph.getNodes().get(0);
 		
-		if(x <= firstNode.getPoint().getX()) {
-			firstNode.setLocation(x, firstInterval.getHeight());
+		if(x <= firstNode.getData().getX()) {
+			firstNode.getData().setLocation(x, firstInterval.getHeight());
 		}
 		
 		//Expand rightNode
@@ -202,82 +201,79 @@ public class RectangularOGR implements OGR<Integer> {
 		
 		x = secondInterval.getEnd();
 		
-		Node<Integer> secondNode = graph.getNodes().get(2);
+		Node<OGRNodeData> secondNode = graph.getNodes().get(2);
 		
-		if(x > secondNode.getPoint().getX()) {
+		if(x > secondNode.getData().getX()) {
 						
-			secondNode.setLocation(x, secondInterval.getHeight());
+			secondNode.getData().setLocation(x, secondInterval.getHeight());
 		}
 		
 		return intervals.size();
 		
 	}
 	
-	private int processCloseCornerGraph(Graph<Integer> graph, List<LineInterval> intervals) {
+	private int processCloseCornerGraph(Graph<OGRNodeData> graph, List<LineInterval> intervals) {
 		
 		LineInterval interval = intervals.get(0);
 				
-		Node<Integer> lastNode = graph.addNode(new Point2D(interval.getCenter(), interval.getHeight()));
+		Node<OGRNodeData> lastNode = graph.addNode(OGRNodeData.buildNode(new Point2D(interval.getCenter(), interval.getHeight())));
 		
-		Node<Integer> leftNode = graph.getNodes().get(0);
-		Node<Integer> rightNode = graph.getNodes().get(2);
+		Node<OGRNodeData> leftNode = graph.getNodes().get(0);
+		Node<OGRNodeData> rightNode = graph.getNodes().get(2);
 		
 		//Make a circular graph
-		graph.addEdge(new IntegerEdge(rightNode, lastNode));		
-		graph.addEdge(new IntegerEdge(lastNode, leftNode));
+		graph.addEdge(new OGREdge(rightNode, lastNode));
+		graph.addEdge(new OGREdge(lastNode, leftNode));
 		
 		return intervals.size();
 	}
 	
-	private int processCloseQuadGraph(Graph<Integer> graph, List<LineInterval> intervals) {
+	private int processCloseQuadGraph(Graph<OGRNodeData> graph, List<LineInterval> intervals) {
 		
 		LineInterval interval = intervals.get(0);
 		
-		Node<Integer> lastRightNode = graph.addNode(new Point2D(interval.getEnd(), interval.getHeight()));
-		Node<Integer> lastLeftNode = graph.addNode(new Point2D(interval.getStart(), interval.getHeight()));
+		Node<OGRNodeData> lastRightNode = graph.addNode(OGRNodeData.buildNode(new Point2D(interval.getEnd(), interval.getHeight())));
+		Node<OGRNodeData> lastLeftNode = graph.addNode(OGRNodeData.buildNode(new Point2D(interval.getStart(), interval.getHeight())));
 		
-		Node<Integer> leftNode = graph.getNodes().get(1);
-		Node<Integer> rightNode = graph.getNodes().get(2);
+		Node<OGRNodeData> leftNode = graph.getNodes().get(1);
+		Node<OGRNodeData> rightNode = graph.getNodes().get(2);
 		
-		//Make a circular graph
-		graph.addEdge(new IntegerEdge(rightNode, lastRightNode));
-		graph.addEdge(new IntegerEdge(lastRightNode, lastLeftNode));
-		graph.addEdge(new IntegerEdge(lastLeftNode, leftNode));		
+		// Make a circular graph
+		graph.addEdge(new OGREdge(rightNode, lastRightNode));
+		graph.addEdge(new OGREdge(lastRightNode, lastLeftNode));
+		graph.addEdge(new OGREdge(lastLeftNode, leftNode));
 				
 		return intervals.size();
 	}
 	
-	private int processExpandClosedCornerGraph(Graph<Integer> graph, List<LineInterval> intervals) {
+	private int processExpandClosedCornerGraph(Graph<OGRNodeData> graph, List<LineInterval> intervals) {
 		
 		LineInterval interval = intervals.get(0);
 				
-		Node<Integer> lastNode = graph.getNodes().get(3);
+		Node<OGRNodeData> lastNode = graph.getNodes().get(3);
 		
 		Point2D center = getCenter(graph);
 				
-		if(lastNode.getPoint().getX()>center.getX()) {
+		if(lastNode.getData().getX()>center.getX()) {
 			
-			lastNode.setLocation(interval.getStart(), interval.getHeight());
+			lastNode.getData().setLocation(interval.getStart(), interval.getHeight());
 			
 		} else {
-			
-			lastNode.setLocation(interval.getEnd(), interval.getHeight());
+			lastNode.getData().setLocation(interval.getEnd(), interval.getHeight());
 		}
-		
-				
 				
 		return intervals.size();		
 	}
 	
-	private Point2D getCenter(Graph<Integer> graph) {
+	private Point2D getCenter(Graph<OGRNodeData> graph) {
 		
 		int px = 0;
 		int py = 0;
 		int pn = graph.getNodes().size();
 		
-		for(Node<Integer> node : graph.getNodes()) {
-			px += node.getPoint().getX();
-			py += node.getPoint().getY();
+		for(Node<OGRNodeData> node : graph.getNodes()) {
+			px += node.getData().getX();
+			py += node.getData().getY();
 		}
 		
 		return new Point2D(px/pn, py/pn);
@@ -287,5 +283,6 @@ public class RectangularOGR implements OGR<Integer> {
 	private boolean isValid(boolean value) {
 		return value;
 	}
+
 
 }

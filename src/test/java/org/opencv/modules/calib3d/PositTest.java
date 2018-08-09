@@ -1,7 +1,7 @@
 package org.opencv.modules.calib3d;
 
-import com.harium.etyl.linear.Point2D;
-import com.harium.etyl.linear.Point3D;
+import com.harium.etyl.geometry.Point2D;
+import com.harium.etyl.geometry.Point3D;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

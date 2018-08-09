@@ -6,7 +6,7 @@ import java.util.List;
 import com.harium.keel.core.Modifier;
 import com.harium.keel.feature.hull.HullFeature;
 import com.harium.etyl.commons.math.EtylMath;
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 
 public class PathCompressionModifier implements Modifier<HullFeature, List<Point2D>> {
 

@@ -13,7 +13,7 @@ import com.harium.keel.modifier.hull.FastConvexHullModifier;
 import com.harium.keel.modifier.hull.HullModifier;
 import com.harium.keel.modifier.hull.PathCompressionModifier;
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.etyl.linear.Point2D;
+import com.harium.etyl.geometry.Point2D;
 
 public class PolygonFilter {
 

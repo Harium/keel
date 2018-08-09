@@ -1,9 +1,9 @@
 package jdt.triangulation;
 
 
-import com.harium.etyl.linear.BoundingBox;
-import com.harium.etyl.linear.Circle;
-import com.harium.etyl.linear.Point3D;
+import com.badlogic.gdx.math.Vector3;
+import com.harium.etyl.geometry.BoundingBox;
+import com.harium.etyl.geometry.Circle3;
 
 /**
  * This class represents a 3D triangle in a Triangulation! 
@@ -12,12 +12,12 @@ import com.harium.etyl.linear.Point3D;
 
 public class Triangle {
 
-	protected Point3D a;
-	protected Point3D b;
-	protected Point3D c;
+	protected Vector3 a;
+	protected Vector3 b;
+	protected Vector3 c;
 
 	protected Triangle abnext,bcnext,canext;
-	protected Circle circum;
+	protected Circle3 circum;
 
 	int modCounter = 0; // modcounter for triangulation fast update.
 
@@ -28,7 +28,7 @@ public class Triangle {
 	public static int counter = 0, counter2 = 0;
 	
 	/** constructs a triangle form 3 point - store it in counterclockwised order.*/
-	public Triangle(Point3D a, Point3D b, Point3D c) {
+	public Triangle(Vector3 a, Vector3 b, Vector3 c) {
 		this.a = a;
 
 		if(isClockWise(a,b,c) ) {
@@ -44,12 +44,11 @@ public class Triangle {
 		circumcircle();
 	}
 
-	private boolean isClockWise(Point3D a, Point3D b, Point3D c) {
-		int res = PointLineTest.pointLineTest(a,b,c);
+	private boolean isClockWise(Vector3 a, Vector3 b, Vector3 c) {
+		PointLinePosition res = PointLineTest.pointLineTest(a,b,c);
 
-		return (res <= PointLineTest.LEFT) ||
-				(res == PointLineTest.INFRONTOFA) ||
-				(res == PointLineTest.BEHINDB);
+		return (res == PointLinePosition.LEFT) || (res == PointLinePosition.ON_SEGMENT) ||
+				(res == PointLinePosition.INFRONT_OF_A) || (res == PointLinePosition.BEHIND_B);
 	}
 
 	/**
@@ -57,7 +56,7 @@ public class Triangle {
 	 * @param A
 	 * @param b
 	 */
-	public Triangle( Point3D A, Point3D b) {
+	public Triangle( Vector3 A, Vector3 b) {
 		//		visitflag=visitValue;
 		this.a = A;
 		this.b = b;
@@ -66,17 +65,17 @@ public class Triangle {
 		halfplane = true;
 	}
 
-	public Point3D generateEquilateralPoint(Point3D a, Point3D b) {
+	public Vector3 generateEquilateralPoint(Vector3 a, Vector3 b) {
 
 		double sin = Math.sin(60 * Math.PI / 180.0);
 		double cos = Math.cos(60 * Math.PI / 180.0);
 
-		double mz = (a.getZ()+b.getZ())/2;
+		double mz = (a.z+b.z)/2;
 
-		double cx = cos * (a.getX() - b.getX()) - sin * (a.getY() - b.getY()) + b.getX();
-		double cy = sin * (a.getX() - b.getX()) + cos * (a.getY() - b.getY()) + b.getY(); 
+		double cx = cos * (a.x - b.x) - sin * (a.y - b.y) + b.x;
+		double cy = sin * (a.x - b.x) + cos * (a.y - b.y) + b.y;
 
-		Point3D c = new Point3D(cx, cy, mz);
+		Vector3 c = new Vector3((float)cx, (float)cy, (float)mz);
 		return c;
 	}
 
@@ -98,15 +97,15 @@ public class Triangle {
 	/**
 	 * returns the first vertex of this triangle.
 	 */
-	public Point3D p1() {return a;}
+	public Vector3 p1() {return a;}
 	/**
 	 * returns the second vertex of this triangle.
 	 */
-	public Point3D p2() {return b;}
+	public Vector3 p2() {return b;}
 	/**
 	 * returns the 3th vertex of this triangle.
 	 */
-	public Point3D p3() {return c;}
+	public Vector3 p3() {return c;}
 	/**
 	 * returns the consecutive triangle which shares this triangle p1,p2 edge. 
 	 */
@@ -125,23 +124,27 @@ public class Triangle {
 	 *                of the triangle
 	 */
 	public BoundingBox getBoundingBox() {
-		Point3D lowerLeft, upperRight;
-		lowerLeft = new Point3D(Math.min(getA().getX(), Math.min(b.getX(), c.getX())), Math.min(getA().getY(), Math.min(b.getY(), c.getY())));
-		upperRight = new Point3D(Math.max(getA().getX(), Math.max(b.getX(), c.getX())),  Math.max(getA().getY(), Math.max(b.getY(), c.getY())));
+		Vector3 lowerLeft, upperRight;
+		lowerLeft = new Vector3(Math.min(a.x, Math.min(b.x, c.x)), Math.min(getA().y, Math.min(b.y, c.y)), 0);
+		upperRight = new Vector3(Math.max(a.x, Math.max(b.x, c.x)),  Math.max(getA().y, Math.max(b.y, c.y)), 0);
 		return new BoundingBox(lowerLeft, upperRight);
 	}
 
-	void switchneighbors( Triangle Old,Triangle New ) {
-		if ( abnext==Old ) abnext=New;
-		else if ( bcnext==Old ) bcnext=New;
-		else if ( canext==Old ) canext=New;
+	void switchneighbors( Triangle old, Triangle newTriangle ) {
+		if ( abnext==old ) {
+			abnext=newTriangle;
+		} else if ( bcnext==old ) {
+			bcnext=newTriangle;
+		} else if ( canext==old ) {
+			canext=newTriangle;
+		}
 		else System.out.println( "Error, switchneighbors can't find Old." );
 	}
 
-	Triangle neighbor( Point3D p ) {
-		if ( a==p ) return canext;
-		if ( b==p ) return abnext;
-		if ( c==p ) return bcnext;
+	Triangle neighbor( Vector3 p ) {
+		if ( a.equals(p) ) return canext;
+		if ( b.equals(p) ) return abnext;
+		if ( c.equals(p) ) return bcnext;
 		System.out.println( "Error, neighbors can't find p: "+p );
 		return null;
 	}
@@ -154,7 +157,7 @@ public class Triangle {
 	 * 
 	 * By: Eyal Roth & Doron Ganel.
 	 */  
-	Triangle nextNeighbor(Point3D p, Triangle prevTriangle) {
+	Triangle nextNeighbor(Vector3 p, Triangle prevTriangle) {
 		Triangle neighbor = null;
 
 		if (a.equals(p)) {
@@ -188,23 +191,22 @@ public class Triangle {
 		return neighbor;
 	}
 
-	Circle circumcircle() {
-
-		double u = ((a.getX()-b.getX())*(a.getX()+b.getX()) + (a.getY()-b.getY())*(a.getY()+b.getY())) / 2.0f;
-		double v = ((b.getX()-c.getX())*(b.getX()+c.getX()) + (b.getY()-c.getY())*(b.getY()+c.getY())) / 2.0f;
-		double den = (a.getX()-b.getX())*(b.getY()-c.getY()) - (b.getX()-c.getX())*(a.getY()-b.getY());
+	Circle3 circumcircle() {
+		float u = ((a.x-b.x)*(a.x+b.x) + (a.y-b.y)*(a.y+b.y)) / 2.0f;
+		float v = ((b.x-c.x)*(b.x+c.x) + (b.y-c.y)*(b.y+c.y)) / 2.0f;
+		float den = (a.x-b.x)*(b.y-c.y) - (b.x-c.x)*(a.y-b.y);
 		if ( den==0 ) // oops, degenerate case
-			circum = new Circle( a,Double.POSITIVE_INFINITY );
+			circum = new Circle3( a, Float.POSITIVE_INFINITY );
 		else {
-			Point3D cen = new Point3D((u*(b.getY()-c.getY()) - v*(a.getY()-b.getY())) / den,
-					(v*(a.getX()-b.getX()) - u*(b.getX()-c.getX())) / den);
-			circum = new Circle( cen, cen.distanceXY(a) );
+			Vector3 cen = new Vector3((u*(b.y-c.y) - v*(a.y-b.y)) / den,
+					(v*(a.x-b.x) - u*(b.x-c.x)) / den, 0);
+			circum = new Circle3( cen, cen.dst(a) );
 		}
 		return circum;
 	}
 
-	boolean circumcircleContains( Point3D p ) {
-		return circum.getRadius() > circum.getCenter().distanceXY(p);
+	boolean circumcircleContains( Vector3 p ) {
+		return circum.contains(p);
 	}
 
 	public String toString() {
@@ -221,7 +223,7 @@ public class Triangle {
 	 * @param p the query point
 	 * @return true iff p is not null and is inside this triangle (Note: on boundary is considered inside!!).
 	 */
-	public boolean contains(Point3D p) {
+	public boolean contains(Vector3 p) {
 		boolean ans = false;
 		if(this.halfplane || p== null) return false;
 
@@ -229,14 +231,15 @@ public class Triangle {
 			return true;
 		}
 
-		int a12 = PointLineTest.pointLineTest(a,b,p);
-		int a23 = PointLineTest.pointLineTest(b,c,p);
-		int a31 = PointLineTest.pointLineTest(c,a,p);
+		PointLinePosition a12 = PointLineTest.pointLineTest(a,b,p);
+		PointLinePosition a23 = PointLineTest.pointLineTest(b,c,p);
+		PointLinePosition a31 = PointLineTest.pointLineTest(c,a,p);
 
-		if ((a12 == PointLineTest.LEFT && a23 == PointLineTest.LEFT && a31 == PointLineTest.LEFT ) ||
-				(a12 == PointLineTest.RIGHT && a23 == PointLineTest.RIGHT && a31 == PointLineTest.RIGHT ) ||	
-				(a12 == PointLineTest.ONSEGMENT ||a23 == PointLineTest.ONSEGMENT ||  a31 == PointLineTest.ONSEGMENT))
+		if ((a12 == PointLinePosition.LEFT && a23 == PointLinePosition.LEFT && a31 == PointLinePosition.LEFT ) ||
+				(a12 == PointLinePosition.RIGHT && a23 == PointLinePosition.RIGHT && a31 == PointLinePosition.RIGHT ) ||
+				(a12 == PointLinePosition.ON_SEGMENT ||a23 == PointLinePosition.ON_SEGMENT ||  a31 == PointLinePosition.ON_SEGMENT)) {
 			ans = true;
+		}
 
 		return ans;
 	}
@@ -246,7 +249,7 @@ public class Triangle {
 	 * @param p the query point
 	 *  @return true iff p is not null and is inside this triangle (Note: on boundary is considered outside!!).
 	 */
-	public boolean containsBoundaryIsOutside(Point3D p) {
+	public boolean containsBoundaryIsOutside(Vector3 p) {
 		boolean ans = false;
 		if(this.halfplane || p == null) return false;
 
@@ -254,13 +257,14 @@ public class Triangle {
 			return true;
 		}
 
-		int a12 = PointLineTest.pointLineTest(a,b,p);
-		int a23 = PointLineTest.pointLineTest(b,c,p);
-		int a31 = PointLineTest.pointLineTest(c,a,p);
+		PointLinePosition a12 = PointLineTest.pointLineTest(a,b,p);
+		PointLinePosition a23 = PointLineTest.pointLineTest(b,c,p);
+		PointLinePosition a31 = PointLineTest.pointLineTest(c,a,p);
 
-		if ((a12 == PointLineTest.LEFT && a23 == PointLineTest.LEFT && a31 == PointLineTest.LEFT ) ||
-				(a12 == PointLineTest.RIGHT && a23 == PointLineTest.RIGHT && a31 == PointLineTest.RIGHT ))
+		if ((a12 == PointLinePosition.LEFT && a23 == PointLinePosition.LEFT && a31 == PointLinePosition.LEFT ) ||
+				(a12 == PointLinePosition.RIGHT && a23 == PointLinePosition.RIGHT && a31 == PointLinePosition.RIGHT )) {
 			ans = true;
+		}
 
 		return ans;
 	}
@@ -272,20 +276,20 @@ public class Triangle {
 	 * 
 	 * By Eyal Roth & Doron Ganel.
 	 */
-	public boolean isCorner(Point3D p) {
+	public boolean isCorner(Vector3 p) {
 		return (p == a || p == b || p == c);
 	}
 
 	//Doron
-	public boolean fallInsideCircumcircle(Point3D[] arrayPoints) {	
-		boolean isInside = false; 
-		Point3D p1 = this.p1();
-		Point3D p2 = this.p2();
-		Point3D p3 = this.p3();
+	public boolean fallInsideCircumcircle(Vector3[] arrayPoints) {
+		boolean isInside = false;
+		Vector3 p1 = this.p1();
+		Vector3 p2 = this.p2();
+		Vector3 p3 = this.p3();
 		int i = 0;
 		while(!isInside && i<arrayPoints.length)
 		{
-			Point3D p = arrayPoints[i];
+			Vector3 p = arrayPoints[i];
 			if(!p.equals(p1)&& !p.equals(p2) && !p.equals(p3))
 			{
 				isInside = this.circumcircleContains(p);
@@ -304,71 +308,75 @@ public class Triangle {
 	 * @param q query point (its Z value is ignored).
 	 * @return the Z value of this plane implies by this triangle 3 points.
 	 */
-	public double z_value(Point3D q) {
+	public float z_value(Vector3 q) {
 		if(q==null || this.halfplane) throw new RuntimeException("*** ERR wrong parameters, can't approximate the z value ..***: "+q);
 		/* incase the query point is on one of the points */
-		if(q.getX()==a.getX() & q.getY()==a.getY()) return a.getZ();
-		if(q.getX()==b.getX() & q.getY()==b.getY()) return b.getZ();
-		if(q.getX()==c.getX() & q.getY()==c.getY()) return c.getZ();
+		if(q.x==a.x & q.y==a.y) return a.z;
+		if(q.x==b.x & q.y==b.y) return b.z;
+		if(q.x==c.x & q.y==c.y) return c.z;
 
 		/* 
 		 *  plane: aX + bY + c = Z:
 		 *  2D line: y= mX + k
 		 *  
 		 */
-		double X=0,x0 = q.getX(), x1 = a.getX(), x2=b.getX(), x3=c.getX();
-		double Y=0,y0 = q.getY(), y1 = a.getY(), y2=b.getY(), y3=c.getY();
-		double Z=0, m01=0,k01=0,m23=0,k23=0;
+		float x=0,x0 = q.x, x1 = a.x, x2=b.x, x3=c.x;
+		float y=0,y0 = q.y, y1 = a.y, y2=b.y, y3=c.y;
+		float z=0, m01=0,k01=0,m23=0,k23=0;
 
-		// 0 - regular, 1-horisintal , 2-vertical.
+		float r = 0;
+
+		// 0 - regular, 1-horizontal , 2-vertical.
 		int flag01 = 0;
 		if(x0!=x1) {
 			m01 = (y0-y1)/(x0-x1);
 			k01 = y0 - m01*x0;
-			if(m01 ==0) flag01 = 1;
-		}
-		else { // 2-vertical.
+			if (m01 ==0) {
+				flag01 = 1;
+			}
+		} else { // 2-vertical.
 			flag01 = 2;//x01 = x0
 		}
 		int flag23 = 0;
 		if(x2!=x3) {
 			m23 = (y2-y3)/(x2-x3);
 			k23 = y2 - m23*x2;
-			if(m23 ==0) flag23 = 1;
+			if (m23 ==0) {
+				flag23 = 1;
+			}
 		}
 		else { // 2-vertical.
 			flag23 = 2;//x01 = x0
 		}
 
-		if(flag01 ==2 ) {
-			X = x0;
-			Y = m23*X + k23;
+		if (flag01 ==2 ) {
+			x = x0;
+			y = m23*x + k23;
 		}
 		else {
 			if(flag23==2) {
-				X = x2;
-				Y = m01*X + k01;
+				x = x2;
+				y = m01*x + k01;
 			}
 			else {  // regular case 
-				X=(k23-k01)/(m01-m23);
-				Y = m01*X+k01;
+				x=(k23-k01)/(m01-m23);
+				y = m01*x+k01;
 
 			}
 		}
-		double r = 0;
 		if(flag23==2) {
-			r=(y2-Y)/(y2-y3);
+			r=(y2-y)/(y2-y3);
 		} else {
-			r=(x2-X)/(x2-x3);
+			r=(x2-x)/(x2-x3);
 		}
 
-		Z = b.getZ() + (c.getZ()-b.getZ())*r;
+		z = b.z + (c.z-b.z)*r;
 		if(flag01==2) {
-			r=(y1-y0)/(y1-Y);
+			r=(y1-y0)/(y1-y);
 		} else {
-			r=(x1-x0)/(x1-X);
+			r=(x1-x0)/(x1-x);
 		}
-		double qZ = a.getZ() + (Z-a.getZ())*r;
+		float qZ = a.z + (z-a.z)*r;
 		return qZ;
 	}
 
@@ -382,8 +390,8 @@ public class Triangle {
 	 * @return z (height) value approximation given by the triangle it falls in.
 	 * 
 	 */
-	public double z(double x, double y) {
-		return z_value(new Point3D(x,y));
+	public double z(float x, float y) {
+		return z_value(new Vector3(x,y, 0));
 	}
 	/**
 	 * compute the Z value for the X,Y values of q.
@@ -394,26 +402,26 @@ public class Triangle {
 	 * @return q with updated Z value.
 	 * 
 	 */
-	public Point3D z(Point3D q) {
-		double z = z_value(q);
-		return new Point3D(q.getX(),q.getY(), z);
+	public Vector3 z(Vector3 q) {
+		float z = z_value(q);
+		return new Vector3(q.x, q.y, z);
 	}
 
-	public Point3D getA() {
+	public Vector3 getA() {
 		return a;
 	}
 
-	public Point3D getB() {
+	public Vector3 getB() {
 		return b;
 	}
 
-	public Point3D getC() {
+	public Vector3 getC() {
 		return c;
 	}
 
 	//checks if the triangle is not re-entrant
-	public static double calcDet(Point3D a ,Point3D b, Point3D c) {
-		return (a.getX()*(b.getY()-c.getY())) - (a.getY()*(b.getX()-c.getX())) + (b.getX()*c.getY()-b.getY()*c.getX());  
+	public static float calcDet(Vector3 a ,Vector3 b, Vector3 c) {
+		return (a.x*(b.y-c.y)) - (a.y*(b.x-c.x)) + (b.x*c.y-b.y*c.x);
 	}
 
 	public double calcDet() {
