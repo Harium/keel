@@ -4,12 +4,13 @@ Keel [![Build Status](https://travis-ci.org/Harium/keel.svg?branch=master)](http
 Keel is an Image Processing Library made in pure Java.
 
 ### Main Goal
-Port widely known algorithms to Java and create a tool (in pure java) to help programmers to work with image processing/computer vision.
+Port widely known algorithms to Java and create a tool (in pure java) to
+ help developers to work with image processing/computer vision.
 
 Comparing to other computer vision libraries it is:
 
 - easier to use
-- easier to configure
+- easier to setup
 - easier to debug
 - probably slower
 
@@ -18,13 +19,13 @@ Comparing to other computer vision libraries it is:
 <dependency>
     <groupId>com.harium.keel</groupId>
     <artifactId>core</artifactId>
-    <version>1.2.6</version>
+    <version>1.2.7</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-compile 'com.harium.keel:core:1.2.6'
+compile 'com.harium.keel:core:1.2.7'
 ```
 
 ### Related Projects
@@ -33,13 +34,8 @@ compile 'com.harium.keel:core:1.2.6'
 - [Drone4](https://github.com/yuripourre/drone4) - A Virtual Environment to test robotic algorithms.
 - [Emerald Lab](https://github.com/yuripourre/emerald-lab) - A Microscope Simulator.
 
-### Image Filters
-
-#### FishEye
-![Image Distorted with FishEye Lens](https://raw.githubusercontent.com/yuripourre/e-motion/master/screenshots/fish_eye.jpg)
-
-### Wiki
-- For more details, see the [wiki](https://github.com/yuripourre/e-motion/wiki/) or some [examples](https://github.com/Harium/keel/wiki/Examples).
+### Docs
+- For more information, see: [wiki](https://github.com/yuripourre/e-motion/wiki/) or some [examples](https://github.com/Harium/keel/wiki/Examples).
 
 ### License:
 - [LGPL](https://www.gnu.org/licenses/lgpl-3.0.en.html)
