@@ -24,13 +24,6 @@
     <dependencies>
         <dependency>
             <groupId>com.harium.etyl</groupId>
-            <artifactId>geometry</artifactId>
-            <version>[1.0.3,]</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.harium.etyl</groupId>
             <artifactId>etyl-gdx-util</artifactId>
             <version>[1.0.0,)</version>
             <scope>provided</scope>
@@ -38,10 +31,13 @@
         </dependency>
         <dependency>
             <groupId>com.harium.etyl</groupId>
+            <artifactId>geometry</artifactId>
+            <version>[1.0.3,)</version>
+        </dependency>
+        <dependency>
+            <groupId>com.harium.etyl</groupId>
             <artifactId>commons</artifactId>
-            <version>[1.2.2,)</version>
-            <scope>provided</scope>
-            <optional>true</optional>
+            <version>[1.2.3,)</version>
         </dependency>
         <dependency>
             <groupId>com.harium.storage</groupId>
