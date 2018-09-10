@@ -22,7 +22,6 @@ public class Feature extends ColorFeature implements FeatureArea {
         setBounds(x, y, width, height);
     }
 
-
     public void setBounds(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -47,11 +46,11 @@ public class Feature extends ColorFeature implements FeatureArea {
     }
 
     public boolean colidePoint(int px, int py) {
-        return CollisionDetector.colideRectPoint(x, y, width, height, px, py);
+        return CollisionDetector.collideRectPoint(x, y, width, height, px, py);
     }
 
     public boolean colide(Feature feature) {
-        return CollisionDetector.colideRectRect(x, y, width, height,
+        return CollisionDetector.collideRectRect(x, y, width, height,
                 feature.x, feature.y, feature.width, feature.height);
     }
 
