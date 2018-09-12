@@ -19,7 +19,6 @@ public class HSLColorStrategyTest {
         Assert.assertEquals(tolerance, strategy.getLTolerance(), EPSILON);
     }
 
-
     @Test
     public void testConstructorWithIndividualTolerances() {
         float sTolerance = 0.2f;
