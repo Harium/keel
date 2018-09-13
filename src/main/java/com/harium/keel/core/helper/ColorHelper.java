@@ -4,7 +4,9 @@ package com.harium.keel.core.helper;
 public class ColorHelper {
 
     private static final int YUV_OFFSET = 0x80;
-    public static final float MAX = 0xff;
+    public static final int MAX_INT = 0xff;
+    public static final float MAX = (float) MAX_INT;
+
 
     public static boolean isColor(int rgb, int color) {
         int r = getRed(rgb);
@@ -66,6 +68,10 @@ public class ColorHelper {
         return false;
     }
 
+    public static int getAlpha(int rgb) {
+        return (rgb >> 24) & 0xFF;
+    }
+
     public static int getRed(int rgb) {
         return (rgb >> 16) & 0xFF;
     }
@@ -80,6 +86,15 @@ public class ColorHelper {
 
     public static int getRGB(int red, int green, int blue) {
         int alpha = 0xff;
+        int rgb = alpha;
+        rgb = (rgb << 8) + red;
+        rgb = (rgb << 8) + green;
+        rgb = (rgb << 8) + blue;
+
+        return rgb;
+    }
+
+    public static int getARGB(int red, int green, int blue, int alpha) {
         int rgb = alpha;
         rgb = (rgb << 8) + red;
         rgb = (rgb << 8) + green;
@@ -148,6 +163,11 @@ public class ColorHelper {
         return getCR(r, g, b);
     }
 
+    public static int fromYCbCr(int y, int cb, int cr) {
+        int a = MAX_INT;
+        return fromYCbCr(y, cb, cr, a);
+    }
+
     /**
      * YCbCr conversion from: https://en.wikipedia.org/wiki/YUV
      *
@@ -156,7 +176,7 @@ public class ColorHelper {
      * @param cr - CR channel
      * @return rgb
      */
-    public static int fromYCbCr(int y, int cb, int cr) {
+    public static int fromYCbCr(int y, int cb, int cr, int alpha) {
         int cbc = cb - YUV_OFFSET;
         int crc = cr - YUV_OFFSET;
         int r = y + crc + (crc >> 2) + (crc >> 3) + (crc >> 5);
@@ -172,7 +192,7 @@ public class ColorHelper {
         b = clamp(b);
         */
 
-        return getRGB(r, g, b);
+        return getARGB(r, g, b, alpha);
     }
 
     public static int clamp(int a) {
@@ -254,15 +274,29 @@ public class ColorHelper {
     }
 
     /**
-     * Algorithm to transform from HSV to RGB
-     * https://www.cs.rit.edu/~ncs/color/t_convert.html
+     * Method to transform from HSV to RGB (this method sets alpha as 0xff)
      *
-     * @param h
-     * @param s
-     * @param v
+     * @param h - hue
+     * @param s - saturation
+     * @param v - brightness
      * @return rgb color
      */
     public static int fromHSV(float h, float s, float v) {
+        int a = MAX_INT;
+        return fromHSV(h, s, v, a);
+    }
+
+    /**
+     * Method to transform from HSV to ARGB
+     * Source from: https://www.cs.rit.edu/~ncs/color/t_convert.html
+     *
+     * @param h - hue
+     * @param s - saturation
+     * @param v - brightness
+     * @param a - alpha
+     * @return rgb color
+     */
+    public static int fromHSV(float h, float s, float v, int a) {
         float r = v;
         float g = v;
         float b = v;
@@ -324,7 +358,7 @@ public class ColorHelper {
         int gi = (int) (g * 0xff);
         int bi = (int) (b * 0xff);
 
-        return getRGB(ri, gi, bi);
+        return getARGB(ri, gi, bi, a);
     }
 
     public static float[] getHSLArray(int rgb) {
@@ -381,7 +415,7 @@ public class ColorHelper {
                 hue -= 1;
             }
 
-            h = (int)(hue * 360);
+            h = (int) (hue * 360);
         }
 
         hsl[0] = h;
@@ -392,9 +426,30 @@ public class ColorHelper {
     }
 
     /**
-     * https://www.programmingalgorithms.com/algorithm/hsl-to-rgb?lang=C%2B%2B
+     * Method to transform from HSL to RGB (this method sets alpha as 0xff)
+     *
+     * @param h - hue
+     * @param s - saturation
+     * @param l - lightness
+     * @return rgb
      */
     public static int fromHSL(float h, float s, float l) {
+        int alpha = MAX_INT;
+        return fromHSL(h, s, l, alpha);
+    }
+
+    /**
+     * Method to transform from HSL to ARGB
+     * <p>
+     * Source from: https://www.programmingalgorithms.com/algorithm/hsl-to-rgb?lang=C%2B%2B
+     *
+     * @param h - hue
+     * @param s - saturation
+     * @param l - lightness
+     * @param a - alpha
+     * @return rgb
+     */
+    public static int fromHSL(float h, float s, float l, int a) {
         int r, g, b;
 
         if (s == 0) {
@@ -411,7 +466,7 @@ public class ColorHelper {
             b = (int) (MAX * HueToRGB(v1, v2, hue - (1.0f / 3)));
         }
 
-        return getRGB(r, g, b);
+        return getARGB(r, g, b, a);
     }
 
     public static float HueToRGB(float v1, float v2, float vH) {

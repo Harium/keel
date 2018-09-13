@@ -35,6 +35,12 @@ public class ColorHelperTest {
     }
 
     @Test
+    public void testGetAlpha() {
+        Assert.assertEquals(0xff, ColorHelper.getAlpha(Color.WHITE.getRGB()));
+        Assert.assertEquals(0x0f, ColorHelper.getAlpha(new Color(0, 0, 0,0x0f).getRGB()));
+    }
+
+    @Test
     public void testGetY() {
         Assert.assertEquals(0xff, ColorHelper.getY(Color.WHITE.getRGB()));
     }
@@ -72,12 +78,25 @@ public class ColorHelperTest {
     }
 
     @Test
-    public void fromHSV() {
+    public void testFromHSV() {
         Color color = Color.GREEN_ETYL;
 
         float[] hsvArray = ColorHelper.getHSVArray(color.getRGB());
 
         int back = ColorHelper.fromHSV(hsvArray[0], hsvArray[1], hsvArray[2]);
+        Assert.assertEquals(ColorHelper.getRed(back), color.getRed(), 1);
+        Assert.assertEquals(ColorHelper.getGreen(back), color.getGreen(), 1);
+        Assert.assertEquals(ColorHelper.getBlue(back), color.getBlue(), 1);
+    }
+
+    @Test
+    public void testFromHSVWithAlpha() {
+        Color color = new Color(100,150,200,80);
+
+        float[] hsvArray = ColorHelper.getHSVArray(color.getRGB());
+
+        int back = ColorHelper.fromHSV(hsvArray[0], hsvArray[1], hsvArray[2], color.getAlpha());
+        Assert.assertEquals(ColorHelper.getAlpha(back), color.getAlpha(), 1);
         Assert.assertEquals(ColorHelper.getRed(back), color.getRed(), 1);
         Assert.assertEquals(ColorHelper.getGreen(back), color.getGreen(), 1);
         Assert.assertEquals(ColorHelper.getBlue(back), color.getBlue(), 1);
@@ -107,12 +126,22 @@ public class ColorHelperTest {
     }
 
     @Test
-    public void fromHSL() {
+    public void testFromHSL() {
         int back = ColorHelper.fromHSL(138, 0.50f, 0.76f);
 
         Assert.assertEquals(163, ColorHelper.getRed(back), HUE_TOLERANCE);
         Assert.assertEquals(224, ColorHelper.getGreen(back), HUE_TOLERANCE);
         Assert.assertEquals(181, ColorHelper.getBlue(back), HUE_TOLERANCE);
+    }
+
+    @Test
+    public void testFromHSLWithAlpha() {
+        int back = ColorHelper.fromHSL(138, 0.50f, 0.76f, 128);
+
+        Assert.assertEquals(163, ColorHelper.getRed(back), HUE_TOLERANCE);
+        Assert.assertEquals(224, ColorHelper.getGreen(back), HUE_TOLERANCE);
+        Assert.assertEquals(181, ColorHelper.getBlue(back), HUE_TOLERANCE);
+        Assert.assertEquals(128, ColorHelper.getAlpha(back), 0);
     }
 
     @Test
@@ -128,5 +157,23 @@ public class ColorHelperTest {
         Assert.assertEquals(ColorHelper.getRed(back.getRGB()), ColorHelper.getRed(color.getRGB()), 5);
         Assert.assertEquals(ColorHelper.getGreen(back.getRGB()), ColorHelper.getGreen(color.getRGB()), 5);
         Assert.assertEquals(ColorHelper.getBlue(back.getRGB()), ColorHelper.getBlue(color.getRGB()), 5);
+    }
+
+    @Test
+    public void testFromYCbCrWithAlpha() {
+        Color color = Color.GREEN_ETYL;
+
+        int y = ColorHelper.getY(color.getRGB());
+        int cb = ColorHelper.getCB(color.getRGB());
+        int cr = ColorHelper.getCR(color.getRGB());
+        int alpha = 99;
+
+        int rgb = ColorHelper.fromYCbCr(y, cb, cr, alpha);
+        Color back = new Color(rgb);
+
+        Assert.assertEquals(ColorHelper.getRed(back.getRGB()), ColorHelper.getRed(color.getRGB()), 5);
+        Assert.assertEquals(ColorHelper.getGreen(back.getRGB()), ColorHelper.getGreen(color.getRGB()), 5);
+        Assert.assertEquals(ColorHelper.getBlue(back.getRGB()), ColorHelper.getBlue(color.getRGB()), 5);
+        Assert.assertEquals(ColorHelper.getAlpha(back.getRGB()), alpha, 0);
     }
 }
