@@ -77,4 +77,9 @@ public class SimpleContrastEffect implements Effect {
     public void setContrast(int contrast) {
         this.contrast = contrast;
     }
+
+    public SimpleContrastEffect contratst() {
+        this.contrast = contrast;
+        return this;
+    }
 }

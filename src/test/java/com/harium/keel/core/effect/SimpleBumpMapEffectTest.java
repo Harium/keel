@@ -1,6 +1,7 @@
 package com.harium.keel.core.effect;
 
 import com.harium.etyl.commons.graphics.Color;
+import com.harium.keel.core.effect.bump.SimpleBumpMapEffect;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;

@@ -1,5 +1,6 @@
-package com.harium.keel.core.effect;
+package com.harium.keel.core.effect.height;
 
+import com.harium.keel.core.effect.Effect;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
 
@@ -45,7 +46,7 @@ public class SorbelEffect implements Effect {
         return source;
     }
 
-    public static double convolution(int[][] pixelMatrix) {
+    private static double convolution(int[][] pixelMatrix) {
         int gy = (pixelMatrix[0][0] * -1) + (pixelMatrix[0][1] * -2) + (pixelMatrix[0][2] * -1) + (pixelMatrix[2][0]) + (pixelMatrix[2][1] * 2) + (pixelMatrix[2][2] * 1);
         int gx = (pixelMatrix[0][0]) + (pixelMatrix[0][2] * -1) + (pixelMatrix[1][0] * 2) + (pixelMatrix[1][2] * -2) + (pixelMatrix[2][0]) + (pixelMatrix[2][2] * -1);
 

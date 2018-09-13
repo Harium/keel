@@ -1,7 +1,7 @@
-package com.harium.keel.core.effect;
+package com.harium.keel.core.effect.bump;
 
 import com.badlogic.gdx.math.Vector3;
-import com.harium.keel.core.helper.ColorHelper;
+import com.harium.keel.core.effect.Effect;
 import com.harium.keel.core.helper.VectorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
@@ -9,7 +9,10 @@ import com.harium.keel.core.source.MatrixSource;
 /**
  * Reference: http://www.alejandrosegovia.net/2014/03/31/bump-map-generation/
  */
-public class SimpleBumpMapEffect implements Effect {
+public class SorbelBumpMapEffect extends BumpMapEffect {
+
+    private int border = 1;
+    private float scale = 255;
 
     /**
      * Simple method to generate bump map from a height map
@@ -24,11 +27,7 @@ public class SimpleBumpMapEffect implements Effect {
 
         int[][] output = new int[h][w];
 
-        final int border = 1;
-        final float SCALE = 255;
-
-        Vector3 s = new Vector3(1, 0, 0);
-        Vector3 t = new Vector3(0, 1, 0);
+        Vector3 n = new Vector3(0, 0, 1);
 
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
@@ -38,14 +37,22 @@ public class SimpleBumpMapEffect implements Effect {
                     continue;
                 }
 
-                float dh = input.getR(x + 1, y) - input.getR(x - 1, y);
-                float dv = input.getR(x, y + 1) - input.getR(x, y - 1);
+                float s0 = input.getR(x - 1, y + 1);
+                float s1 = input.getR(x, y + 1);
+                float s2 = input.getR(x + 1, y + 1);
+                float s3 = input.getR(x - 1, y);
+                float s5 = input.getR(x + 1, y);
+                float s6 = input.getR(x - 1, y - 1);
+                float s7 = input.getR(x, y - 1);
+                float s8 = input.getR(x + 1, y - 1);
 
-                s.set(SCALE, 0, dh);
-                t.set(0, SCALE, dv);
+                float nx = -(s2 - s0 + 2 * (s5 - s3) + s8 - s6);
+                float ny = -(s6 - s0 + 2 * (s7 - s1) + s8 - s2);
 
-                Vector3 cross = s.crs(t).nor();
-                int rgb = VectorHelper.vectorToColor(cross);
+                n.set(nx, ny, scale);
+                n.nor();
+
+                int rgb = VectorHelper.vectorToColor(n);
                 output[y][x] = rgb;
             }
         }
