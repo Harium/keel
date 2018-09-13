@@ -61,6 +61,17 @@ public class ColorHelperTest {
     }
 
     @Test
+    public void testGetHSVWithoutSaturation() {
+        Color color = Color.WHITE;
+
+        float[] hsvArray = ColorHelper.getHSVArray(color.getRGB());
+
+        Assert.assertEquals(0, hsvArray[0], EPSILON);
+        Assert.assertEquals(0, hsvArray[1], EPSILON);
+        Assert.assertEquals(1, hsvArray[2], EPSILON);
+    }
+
+    @Test
     public void fromHSV() {
         Color color = Color.GREEN_ETYL;
 

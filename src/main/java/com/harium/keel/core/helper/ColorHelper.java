@@ -204,20 +204,17 @@ public class ColorHelper {
 
         float computedH = 0;
         float computedS = 0;
-        float computedV = 0;
+        float computedV = minRGB;
 
         // Black-gray-white
-        if (minRGB == maxRGB) {
-            computedV = minRGB;
-            hsv[2] = computedV;
+        if (minRGB != maxRGB) {
+            // Colors other than black-gray-white:
+            float d = (rf == minRGB) ? gf - bf : ((bf == minRGB) ? rf - gf : bf - rf);
+            float h = (rf == minRGB) ? 3 : ((bf == minRGB) ? 1 : 5);
+            computedH = 60 * (h - d / (maxRGB - minRGB));
+            computedS = (maxRGB - minRGB) / maxRGB;
+            computedV = maxRGB;
         }
-
-        // Colors other than black-gray-white:
-        float d = (rf == minRGB) ? gf - bf : ((bf == minRGB) ? rf - gf : bf - rf);
-        float h = (rf == minRGB) ? 3 : ((bf == minRGB) ? 1 : 5);
-        computedH = 60 * (h - d / (maxRGB - minRGB));
-        computedS = (maxRGB - minRGB) / maxRGB;
-        computedV = maxRGB;
 
         hsv[0] = computedH;
         hsv[1] = computedS;
