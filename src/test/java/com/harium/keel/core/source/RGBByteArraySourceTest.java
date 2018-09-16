@@ -1,10 +1,9 @@
 package com.harium.keel.core.source;
 
+import com.harium.etyl.commons.graphics.Color;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.awt.*;
 
 public class RGBByteArraySourceTest {
 
@@ -28,8 +27,16 @@ public class RGBByteArraySourceTest {
 
     @Test
     public void testGetRGB() {
-        Assert.assertEquals(Color.RED.getRGB(), source.getRGB(0,0));
-        Assert.assertEquals(Color.WHITE.getRGB(), source.getRGB(5,0));
+        Assert.assertEquals(Color.RED.getRGB(), source.getRGB(0, 0));
+        Assert.assertEquals(Color.WHITE.getRGB(), source.getRGB(5, 0));
+    }
+
+    @Test
+    public void testSetRGB() {
+        int x = 1, y = 1, color = Color.GREEN.getRGB();
+        source.setRGB(x, y, color);
+
+        Assert.assertEquals(color, source.getRGB(x, y));
     }
 
 }

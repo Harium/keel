@@ -4,8 +4,8 @@ import com.harium.keel.core.helper.ColorHelper;
 
 public class RGBByteArraySource implements ImageSource {
 
-    int w, h;
-    byte[] array;
+    protected int w, h;
+    protected byte[] array;
 
     public RGBByteArraySource(int w, int h, byte[] array) {
         this.w = w;
@@ -34,17 +34,33 @@ public class RGBByteArraySource implements ImageSource {
     }
 
     @Override
+    public void setRGB(int x, int y, int rgb) {
+        byte r = (byte) (ColorHelper.getRed(rgb) - 128);
+        byte g = (byte) (ColorHelper.getGreen(rgb) - 128);
+        byte b = (byte) (ColorHelper.getBlue(rgb) - 128);
+
+        int index = index(x, y);
+        array[index] = r;
+        array[index + 1] = g;
+        array[index + 2] = b;
+    }
+
+    @Override
     public int getR(int x, int y) {
-        return array[x * 3 + 0 + w * 3 * y] + 128;
+        return array[index(x, y)] + 128;
     }
 
     @Override
     public int getG(int x, int y) {
-        return array[x * 3 + 1 + w * 3 * y] + 128;
+        return array[index(x, y) + 1] + 128;
     }
 
     @Override
     public int getB(int x, int y) {
-        return array[x * 3 + 2 + w * 3 * y] + 128;
+        return array[index(x, y) + 2] + 128;
+    }
+
+    protected int index(int x, int y) {
+        return x * 3 + w * 3 * y;
     }
 }

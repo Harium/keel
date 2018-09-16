@@ -22,6 +22,11 @@ public class MatrixSource extends ImageSourceImpl {
         this.matrix = matrix;
     }
 
+    public MatrixSource(ImageSource input) {
+        this(input.getWidth(), input.getHeight());
+        copy(input);
+    }
+
     public int[][] getMatrix() {
         return matrix;
     }
@@ -40,4 +45,16 @@ public class MatrixSource extends ImageSourceImpl {
         return h;
     }
 
+    @Override
+    public void setRGB(int x, int y, int rgb) {
+        matrix[y][x] = rgb;
+    }
+
+    public void copy(ImageSource input) {
+        for (int j = 0; j < input.getHeight(); j++) {
+            for (int i = 0; i < input.getWidth(); i++) {
+                setRGB(i, j, input.getRGB(i, j));
+            }
+        }
+    }
 }

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class IntArraySourceTest {
 
-    private IntArraySource arraySource;
+    private IntArraySource source;
 
     private final int SOURCE_WIDTH = 2;
     private final int SOURCE_HEIGHT = 2;
@@ -15,17 +15,25 @@ public class IntArraySourceTest {
     @Before
     public void setUp() {
         int[] array = {Color.BLACK.getRGB(), Color.RED.getRGB(), Color.BLUE.getRGB(), Color.WHITE.getRGB()};
-        arraySource = new IntArraySource(SOURCE_WIDTH, SOURCE_HEIGHT, array);
+        source = new IntArraySource(SOURCE_WIDTH, SOURCE_HEIGHT, array);
     }
 
     @Test
-    public void testGetRgb() {
-        Assert.assertEquals(Color.BLACK.getRGB(), arraySource.getRGB(0, 0));
-        Assert.assertEquals(Color.RED.getRGB(), arraySource.getRGB(1, 0));
-        Assert.assertEquals(Color.BLUE.getRGB(), arraySource.getRGB(0, 1));
-        Assert.assertEquals(Color.WHITE.getRGB(), arraySource.getRGB(1, 1));
+    public void testGetRGB() {
+        Assert.assertEquals(Color.BLACK.getRGB(), source.getRGB(0, 0));
+        Assert.assertEquals(Color.RED.getRGB(), source.getRGB(1, 0));
+        Assert.assertEquals(Color.BLUE.getRGB(), source.getRGB(0, 1));
+        Assert.assertEquals(Color.WHITE.getRGB(), source.getRGB(1, 1));
 
-        Assert.assertNotEquals(Color.BLUE.getRGB(), arraySource.getRGB(1, 0));
+        Assert.assertNotEquals(Color.BLUE.getRGB(), source.getRGB(1, 0));
+    }
+
+    @Test
+    public void testSetRGB() {
+        int x = 1, y = 1, color = Color.GREEN.getRGB();
+        source.setRGB(x, y, color);
+
+        Assert.assertEquals(color, source.getRGB(x, y));
     }
 
 }

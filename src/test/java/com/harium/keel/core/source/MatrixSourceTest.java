@@ -7,14 +7,14 @@ import org.junit.Test;
 
 public class MatrixSourceTest {
 
-    private MatrixSource checkerSource;
+    private MatrixSource source;
 
     private static final int SOURCE_WIDTH = 2;
     private static final int SOURCE_HEIGHT = 2;
 
     @Before
     public void setUp() {
-        checkerSource = buildChecker();
+        source = buildChecker();
     }
 
     public static MatrixSource buildChecker() {
@@ -28,12 +28,20 @@ public class MatrixSourceTest {
 
     @Test
     public void testGetRgb() {
-        Assert.assertEquals(Color.BLACK.getRGB(), checkerSource.getRGB(0, 0));
-        Assert.assertEquals(Color.BLACK.getRGB(), checkerSource.getRGB(1, 1));
-        Assert.assertEquals(Color.WHITE.getRGB(), checkerSource.getRGB(0, 1));
-        Assert.assertEquals(Color.WHITE.getRGB(), checkerSource.getRGB(1, 0));
+        Assert.assertEquals(Color.BLACK.getRGB(), source.getRGB(0, 0));
+        Assert.assertEquals(Color.BLACK.getRGB(), source.getRGB(1, 1));
+        Assert.assertEquals(Color.WHITE.getRGB(), source.getRGB(0, 1));
+        Assert.assertEquals(Color.WHITE.getRGB(), source.getRGB(1, 0));
 
-        Assert.assertNotEquals(Color.BLUE.getRGB(), checkerSource.getRGB(1, 0));
+        Assert.assertNotEquals(Color.BLUE.getRGB(), source.getRGB(1, 0));
+    }
+
+    @Test
+    public void testSetRGB() {
+        int x = 1, y = 1, color = Color.GREEN.getRGB();
+        source.setRGB(x, y, color);
+
+        Assert.assertEquals(color, source.getRGB(x, y));
     }
 
 }

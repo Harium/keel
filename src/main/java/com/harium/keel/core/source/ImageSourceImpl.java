@@ -15,4 +15,5 @@ public abstract class ImageSourceImpl implements ImageSource {
     public int getB(int x, int y) {
         return ColorHelper.getBlue(getRGB(x, y));
     }
+
 }

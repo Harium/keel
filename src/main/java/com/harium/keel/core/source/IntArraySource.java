@@ -2,8 +2,8 @@ package com.harium.keel.core.source;
 
 public class IntArraySource extends ImageSourceImpl {
 
-    int w, h;
-    int[] array;
+    protected int w, h;
+    protected int[] array;
 
     public IntArraySource(int w, int h, int[] array) {
         this.w = w;
@@ -23,6 +23,15 @@ public class IntArraySource extends ImageSourceImpl {
 
     @Override
     public int getRGB(int x, int y) {
-        return array[x + w * y];
+        return array[index(x, y)];
+    }
+
+    @Override
+    public void setRGB(int x, int y, int rgb) {
+        array[index(x, y)] = rgb;
+    }
+
+    private int index(int x, int y) {
+        return x + w * y;
     }
 }
