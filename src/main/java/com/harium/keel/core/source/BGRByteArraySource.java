@@ -2,6 +2,9 @@ package com.harium.keel.core.source;
 
 import com.harium.keel.core.helper.ColorHelper;
 
+/**
+ * BGR Byte Array, without alpha channel
+ */
 public class BGRByteArraySource extends RGBByteArraySource {
 
     public BGRByteArraySource(int w, int h, byte[] array) {

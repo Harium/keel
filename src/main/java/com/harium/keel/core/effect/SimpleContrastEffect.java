@@ -29,6 +29,7 @@ public class SimpleContrastEffect implements Effect {
 
                 int rgb = input.getRGB(i, j);
 
+                int alpha = ColorHelper.getAlpha(rgb);
                 int red = ColorHelper.getRed(rgb);
                 int green = ColorHelper.getGreen(rgb);
                 int blue = ColorHelper.getBlue(rgb);
@@ -46,7 +47,7 @@ public class SimpleContrastEffect implements Effect {
                     blue = darkerPixel(blue);
                 }
 
-                rgb = ColorHelper.getRGB(red, green, blue);
+                rgb = ColorHelper.getARGB(red, green, blue, alpha);
                 output[j][i] = rgb;
             }
         }

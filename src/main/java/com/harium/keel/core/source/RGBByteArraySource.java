@@ -2,6 +2,9 @@ package com.harium.keel.core.source;
 
 import com.harium.keel.core.helper.ColorHelper;
 
+/**
+ * RGB Byte Array, without alpha channel
+ */
 public class RGBByteArraySource implements ImageSource {
 
     protected int w, h;
@@ -58,6 +61,11 @@ public class RGBByteArraySource implements ImageSource {
     @Override
     public int getB(int x, int y) {
         return array[index(x, y) + 2] + 128;
+    }
+
+    @Override
+    public int getA(int x, int y) {
+        return 0xff;
     }
 
     protected int index(int x, int y) {

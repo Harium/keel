@@ -6,6 +6,8 @@ public interface ImageSource {
 
     int getHeight();
 
+    int getA(int x, int y);
+
     int getR(int x, int y);
 
     int getG(int x, int y);

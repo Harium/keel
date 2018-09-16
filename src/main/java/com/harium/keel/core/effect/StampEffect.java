@@ -14,6 +14,7 @@ public class StampEffect implements Effect {
 
         for (int j = 0; j < stamp.getHeight(); j++) {
             for (int i = 0; i < stamp.getWidth(); i++) {
+                // Just repeat value, alpha included
                 out.setRGB(x + i, y + j, input.getRGB(i, j));
             }
         }

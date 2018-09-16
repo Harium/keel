@@ -28,6 +28,7 @@ public class CropEffect implements Effect {
 
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
+                // Just repeat value, alpha included
                 out[j][i] = input.getRGB(i + x, j + y);
             }
         }
