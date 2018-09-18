@@ -1,4 +1,4 @@
-package com.harium.keel.core;
+package com.harium.keel.filter;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.SelectionStrategy;

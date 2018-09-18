@@ -1,6 +1,7 @@
 package com.harium.keel.core.pipeline;
 
 import com.harium.etyl.commons.graphics.Color;
+import com.harium.keel.core.FilterPipeline;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSourceTest;
 import com.harium.keel.feature.Feature;

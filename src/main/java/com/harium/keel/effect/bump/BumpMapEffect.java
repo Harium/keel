@@ -1,6 +1,6 @@
-package com.harium.keel.core.effect.bump;
+package com.harium.keel.effect.bump;
 
-import com.harium.keel.core.effect.Effect;
+import com.harium.keel.core.Effect;
 
 public abstract class BumpMapEffect implements Effect {
 

@@ -1,7 +1,6 @@
 package com.harium.keel.filter.search;
 
 import com.harium.etyl.geometry.Polygon;
-import com.harium.keel.core.BooleanMaskSearch;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.PointFeature;
 

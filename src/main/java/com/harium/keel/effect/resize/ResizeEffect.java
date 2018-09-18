@@ -1,6 +1,6 @@
-package com.harium.keel.core.effect.resize;
+package com.harium.keel.effect.resize;
 
-import com.harium.keel.core.effect.Effect;
+import com.harium.keel.core.Effect;
 
 public abstract class ResizeEffect implements Effect {
 

@@ -1,7 +1,5 @@
-package com.harium.keel.core.pipeline;
+package com.harium.keel.core;
 
-import com.harium.keel.core.Filter;
-import com.harium.keel.core.Modifier;
 import com.harium.keel.core.source.ImageSource;
 
 import java.util.ArrayList;

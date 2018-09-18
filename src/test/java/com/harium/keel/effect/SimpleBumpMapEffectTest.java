@@ -1,14 +1,14 @@
-package com.harium.keel.core.effect;
+package com.harium.keel.effect;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.keel.core.effect.bump.SorbelBumpMapEffect;
+import com.harium.keel.effect.bump.SimpleBumpMapEffect;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SorbelBumpMapEffectTest {
+public class SimpleBumpMapEffectTest {
 
     @Test
     public void testApply() {
@@ -24,13 +24,13 @@ public class SorbelBumpMapEffectTest {
         image[2][2] = 0;
 
         MatrixSource source = new MatrixSource(image);
-        SorbelBumpMapEffect effect = new SorbelBumpMapEffect();
+        SimpleBumpMapEffect effect = new SimpleBumpMapEffect();
         ImageSource output = effect.apply(source);
 
         int rgb = output.getRGB(1, 1);
         Assert.assertEquals(127, ColorHelper.getRed(rgb));
-        Assert.assertEquals(13, ColorHelper.getGreen(rgb));
-        Assert.assertEquals(184, ColorHelper.getBlue(rgb));
+        Assert.assertEquals(217, ColorHelper.getGreen(rgb));
+        Assert.assertEquals(217, ColorHelper.getBlue(rgb));
     }
 
 }

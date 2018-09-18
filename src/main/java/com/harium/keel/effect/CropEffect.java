@@ -1,6 +1,7 @@
-package com.harium.keel.core.effect;
+package com.harium.keel.effect;
 
 import com.harium.etyl.commons.math.EtylMath;
+import com.harium.keel.core.Effect;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
 

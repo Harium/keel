@@ -1,4 +1,4 @@
-package com.harium.keel.core.effect.resize;
+package com.harium.keel.effect.resize;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;

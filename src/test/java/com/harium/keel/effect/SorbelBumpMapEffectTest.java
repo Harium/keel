@@ -1,36 +1,36 @@
-package com.harium.keel.core.effect;
+package com.harium.keel.effect;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.keel.core.effect.bump.SimpleBumpMapEffect;
+import com.harium.keel.effect.bump.SorbelBumpMapEffect;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class CropEffectTest {
+public class SorbelBumpMapEffectTest {
 
     @Test
     public void testApply() {
         int[][] image = new int[3][3];
         image[0][0] = 0;
-        image[0][1] = 0;
+        image[0][1] = Color.WHITE.getRGB();
         image[0][2] = 0;
         image[1][0] = 0;
-        image[1][1] = Color.WHITE.getRGB();
+        image[1][1] = 0;
         image[1][2] = 0;
         image[2][0] = 0;
         image[2][1] = 0;
         image[2][2] = 0;
 
         MatrixSource source = new MatrixSource(image);
-        CropEffect effect = new CropEffect().height(1).width(1);
+        SorbelBumpMapEffect effect = new SorbelBumpMapEffect();
         ImageSource output = effect.apply(source);
 
-        int rgb = output.getRGB(0, 0);
-        Assert.assertEquals(255, ColorHelper.getRed(rgb));
-        Assert.assertEquals(255, ColorHelper.getGreen(rgb));
-        Assert.assertEquals(255, ColorHelper.getBlue(rgb));
+        int rgb = output.getRGB(1, 1);
+        Assert.assertEquals(127, ColorHelper.getRed(rgb));
+        Assert.assertEquals(13, ColorHelper.getGreen(rgb));
+        Assert.assertEquals(184, ColorHelper.getBlue(rgb));
     }
 
 }

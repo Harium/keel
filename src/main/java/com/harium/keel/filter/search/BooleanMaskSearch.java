@@ -1,9 +1,9 @@
-package com.harium.keel.core;
+package com.harium.keel.filter.search;
 
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.feature.Feature;
-import com.harium.keel.feature.PointFeature;
+import com.harium.keel.filter.ComponentFilter;
 
 
 public abstract class BooleanMaskSearch extends ComponentFilter {

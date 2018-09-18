@@ -1,7 +1,7 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.geometry.Point2D;
-import com.harium.keel.core.ComponentFilter;
+import com.harium.keel.filter.ComponentFilter;
 import com.harium.keel.core.mask.DynamicArrayMask;
 import com.harium.keel.core.mask.DynamicMask;
 import com.harium.keel.core.source.ImageSource;

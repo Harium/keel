@@ -1,16 +1,15 @@
-package com.harium.keel.core.effect;
+package com.harium.keel.core;
 
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
+import com.harium.keel.effect.BlackWhiteAverageEffect;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class EffectPipelineTest {
 
@@ -62,7 +61,7 @@ public class EffectPipelineTest {
 
     private ImageSource createSource() {
         int[][] out = new int[1][1];
-        out[0][0] = ColorHelper.getRGB(0xff,0,0);
+        out[0][0] = ColorHelper.getRGB(0xff, 0, 0);
         return new MatrixSource(out);
     }
 

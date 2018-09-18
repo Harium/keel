@@ -1,6 +1,6 @@
-package com.harium.keel.core.effect.height;
+package com.harium.keel.effect.height;
 
-import com.harium.keel.core.effect.Effect;
+import com.harium.keel.core.Effect;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
 
