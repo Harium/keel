@@ -5,8 +5,6 @@ import com.harium.keel.core.strategy.ComponentModifierStrategy;
 import com.harium.keel.core.strategy.FeatureValidationStrategy;
 import com.harium.keel.core.strategy.SearchStrategy;
 import com.harium.keel.core.strategy.SelectionStrategy;
-import com.harium.keel.feature.Feature;
-import com.harium.keel.feature.PointFeature;
 import com.harium.keel.filter.dummy.DummyColorFilter;
 import com.harium.keel.filter.dummy.DummyComponentModifier;
 import com.harium.keel.filter.search.strategy.LeftToRightSearchStrategy;
