@@ -6,12 +6,12 @@ public abstract class ResizeEffect implements Effect {
 
     protected int width, height;
 
-    public ResizeEffect width() {
+    public ResizeEffect width(int width) {
         this.width = width;
         return this;
     }
 
-    public ResizeEffect height() {
+    public ResizeEffect height(int height) {
         this.height = height;
         return this;
     }
