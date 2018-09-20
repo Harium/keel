@@ -493,4 +493,40 @@ public class ColorHelper {
         return v1;
     }
 
+    public static int add(int a, int b) {
+        int ar = getRed(a);
+        int ag = getGreen(a);
+        int ab = getBlue(a);
+
+        ar += getRed(b);
+        ag += getGreen(b);
+        ab += getBlue(b);
+
+        return getRGB(clamp(ar), clamp(ag), clamp(ab));
+    }
+
+    public static int subtract(int a, int b) {
+        int ar = getRed(a);
+        int ag = getGreen(a);
+        int ab = getBlue(a);
+
+        ar -= getRed(b);
+        ag -= getGreen(b);
+        ab -= getBlue(b);
+
+        return getRGB(clamp(ar), clamp(ag), clamp(ab));
+    }
+
+    public static int multiply(int a, int b) {
+        int ar = getRed(a);
+        int ag = getGreen(a);
+        int ab = getBlue(a);
+
+        ar *= getRed(b);
+        ag *= getGreen(b);
+        ab *= getBlue(b);
+
+        return getRGB(clamp(ar), clamp(ag), clamp(ab));
+    }
+
 }
