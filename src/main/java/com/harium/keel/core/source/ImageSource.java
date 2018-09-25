@@ -18,4 +18,6 @@ public interface ImageSource {
 
     void setRGB(int x, int y, int rgb);
 
+    boolean isGrayscale();
+
 }
