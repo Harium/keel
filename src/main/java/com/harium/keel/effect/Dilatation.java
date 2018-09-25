@@ -90,7 +90,7 @@ public class Dilatation implements Effect {
                         for (int y = j - radius; y < j + radius + 1; y++) {
 
                             if (x >= 0 && x < height && y >= 0 && y < width) {
-                                int rgb = copy.getRGB(x, y);
+                                int rgb = copy.getRGB(y, x);
                                 int gray = ColorHelper.getRed(rgb);
                                 int val = gray + kernel[X][Y];
 
@@ -119,7 +119,7 @@ public class Dilatation implements Effect {
                         for (int y = j - radius; y < j + radius + 1; y++) {
 
                             if (x >= 0 && x < height && y >= 0 && y < width) {
-                                int rgb = copy.getRGB(x, y);
+                                int rgb = copy.getRGB(y, x);
                                 int valR = ColorHelper.getRed(rgb) + kernel[X][Y];
                                 int valG = ColorHelper.getGreen(rgb) + kernel[X][Y];
                                 int valB = ColorHelper.getBlue(rgb) + kernel[X][Y];
