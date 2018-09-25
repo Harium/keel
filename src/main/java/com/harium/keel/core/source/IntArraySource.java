@@ -34,4 +34,5 @@ public class IntArraySource extends ImageSourceImpl {
     private int index(int x, int y) {
         return x + w * y;
     }
+
 }

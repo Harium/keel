@@ -20,4 +20,8 @@ public abstract class ImageSourceImpl implements ImageSource {
         return ColorHelper.getBlue(getRGB(x, y));
     }
 
+    @Override
+    public boolean isGrayscale() {
+        return false;
+    }
 }

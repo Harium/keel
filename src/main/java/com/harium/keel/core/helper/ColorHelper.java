@@ -204,6 +204,15 @@ public class ColorHelper {
         return a;
     }
 
+    public static double clamp(double a) {
+        if (a < 0) {
+            return 0;
+        } else if (a > 0xff) {
+            return 0xff;
+        }
+        return a;
+    }
+
     /**
      * Code from: http://www.javascripter.net/faq/rgb2hsv.htm
      *

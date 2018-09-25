@@ -1,11 +1,15 @@
 package com.harium.keel.core.source;
 
+/**
+ * Works as grayscale and rgb
+ */
 public class MatrixSource extends ImageSourceImpl {
 
     private int w = 0;
     private int h = 0;
 
     private int[][] matrix;
+    private boolean grayScale = false;
 
     public MatrixSource(int w, int h) {
         super();
@@ -51,10 +55,18 @@ public class MatrixSource extends ImageSourceImpl {
     }
 
     public void copy(ImageSource input) {
+        grayScale = input.isGrayscale();
+
         for (int j = 0; j < input.getHeight(); j++) {
             for (int i = 0; i < input.getWidth(); i++) {
                 setRGB(i, j, input.getRGB(i, j));
             }
         }
     }
+
+    @Override
+    public boolean isGrayscale() {
+        return grayScale;
+    }
+
 }

@@ -3,7 +3,7 @@ package com.harium.keel.core;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
-import com.harium.keel.effect.BlackWhiteAverageEffect;
+import com.harium.keel.effect.Grayscale;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +22,8 @@ public class EffectPipelineTest {
 
     @Test
     public void testAdd() {
-        Effect e1 = new BlackWhiteAverageEffect();
-        Effect e2 = new BlackWhiteAverageEffect();
+        Effect e1 = new Grayscale(Grayscale.Algorithm.Average);
+        Effect e2 = new Grayscale(Grayscale.Algorithm.Average);
 
         pipeline.add(e1).add(e2);
 
