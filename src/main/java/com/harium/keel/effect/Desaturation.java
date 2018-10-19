@@ -76,7 +76,7 @@ public class Desaturation implements Effect {
                 double nb = (luminance + saturationFactor * (b - luminance));
 
                 int rgb = ColorHelper.getARGB((int) nr, (int) ng, (int) nb, a);
-                input.setRGB(i, j, rgb);
+                input.setRGB(j, i, rgb);
             }
         }
 

@@ -14,10 +14,18 @@ public interface ImageSource {
 
     int getB(int x, int y);
 
+    int getGray(int x, int y);
+
+    void setGray(int x, int y, int gray);
+
     int getRGB(int x, int y);
 
     void setRGB(int x, int y, int rgb);
 
+    void setRGB(int x, int y, int rgb, int alpha);
+
     boolean isGrayscale();
+
+    void setGrayscale(boolean grayscale);
 
 }

@@ -34,15 +34,24 @@ public class Invert implements Effect {
 
     @Override
     public ImageSource apply(ImageSource input) {
-        for (int i = 0; i < input.getHeight(); i++) {
-            for (int j = 0; j < input.getWidth(); j++) {
-                int a = input.getA(j, i);
-                int r = 255 - input.getR(j, i);
-                int g = 255 - input.getG(j, i);
-                int b = 255 - input.getB(j, i);
+        if (input.isGrayscale()) {
+            for (int i = 0; i < input.getHeight(); i++) {
+                for (int j = 0; j < input.getWidth(); j++) {
+                    int rgb = 255 - input.getRGB(j, i);
+                    input.setRGB(j, i, rgb);
+                }
+            }
+        } else {
+            for (int i = 0; i < input.getHeight(); i++) {
+                for (int j = 0; j < input.getWidth(); j++) {
+                    int a = input.getA(j, i);
+                    int r = 255 - input.getR(j, i);
+                    int g = 255 - input.getG(j, i);
+                    int b = 255 - input.getB(j, i);
 
-                int rgb = ColorHelper.getARGB(r, g, b, a);
-                input.setRGB(i, j, rgb);
+                    int rgb = ColorHelper.getARGB(r, g, b, a);
+                    input.setRGB(j, i, rgb);
+                }
             }
         }
 

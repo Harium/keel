@@ -35,6 +35,7 @@ import com.harium.keel.core.source.ImageSource;
  */
 public class HysteresisThreshold implements Effect {
 
+    int border = 1;
     int lowThreshold = 20;
     int highThreshold = 100;
 
@@ -93,37 +94,36 @@ public class HysteresisThreshold implements Effect {
 
     @Override
     public ImageSource apply(ImageSource input) {
+        if (!input.isGrayscale()) {
+            throw new IllegalArgumentException("Hysteresis Threshold only works with grayscale images.");
+        }
+        int width = input.getWidth();
+        int height = input.getHeight();
 
-        if (input.isGrayscale()) {
-            int width = input.getWidth();
-            int height = input.getHeight();
+        for (int i = border; i < height - border; i++) {
+            for (int j = border; j < width - border; j++) {
+                if (input.getRGB(j, i) < highThreshold) {
+                    if (input.getRGB(j, i) < lowThreshold) {
+                        // non edge
+                        input.setRGB(j, i, 0);
+                    } else {
 
-            for (int i = 1; i < height - 1; i++) {
-                for (int j = 1; j < width - 1; j++) {
-                    if (input.getRGB(j, i) < highThreshold) {
-                        if (input.getRGB(j, i) < lowThreshold) {
-                            // non edge
+                        // check 8 neighboring pixels
+                        if ((input.getRGB(j, i - 1) < highThreshold) &&
+                                (input.getRGB(j, i + 1) < highThreshold) &&
+                                (input.getRGB(j - 1, i - 1) < highThreshold) &&
+                                (input.getRGB(j - 1, i) < highThreshold) &&
+                                (input.getRGB(j - 1, i + 1) < highThreshold) &&
+                                (input.getRGB(j + 1, i - 1) < highThreshold) &&
+                                (input.getRGB(j + 1, i) < highThreshold) &&
+                                (input.getRGB(j + 1, i + 1) < highThreshold)) {
                             input.setRGB(j, i, 0);
-                        } else {
-
-                            // check 8 neighboring pixels
-                            if ((input.getRGB(j, i - 1) < highThreshold) &&
-                                    (input.getRGB(j, i + 1) < highThreshold) &&
-                                    (input.getRGB(j - 1, i - 1) < highThreshold) &&
-                                    (input.getRGB(j - 1, i) < highThreshold) &&
-                                    (input.getRGB(j - 1, i + 1) < highThreshold) &&
-                                    (input.getRGB(j + 1, i - 1) < highThreshold) &&
-                                    (input.getRGB(j + 1, i) < highThreshold) &&
-                                    (input.getRGB(j + 1, i + 1) < highThreshold)) {
-                                input.setRGB(j, i, 0);
-                            }
                         }
                     }
                 }
             }
-            return input;
-        } else {
-            throw new IllegalArgumentException("Hysteresis Threshold only works with grayscale images.");
         }
+        return input;
+
     }
 }

@@ -25,6 +25,7 @@ import com.harium.keel.core.Effect;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
+import com.harium.keel.core.source.OneBandSource;
 
 /**
  * Dilatation operator from Mathematical Morphology.
@@ -37,16 +38,15 @@ import com.harium.keel.core.source.MatrixSource;
  *
  * @author Diego Catalano
  */
-public class Dilatation implements Effect {
+public class Dilatation extends RadiusEffect implements Effect {
 
-    private int radius = 0;
     private int[][] kernel;
 
     /**
      * Initialize a new instance of the Dilatation class.
      */
     public Dilatation() {
-        this.radius = 1;
+        super();
     }
 
     /**
@@ -55,7 +55,7 @@ public class Dilatation implements Effect {
      * @param radius Radius.
      */
     public Dilatation(int radius) {
-        this.radius = Math.max(radius, 1);
+        super(radius);
     }
 
     /**
@@ -72,14 +72,12 @@ public class Dilatation implements Effect {
         int height = input.getHeight();
         int width = input.getWidth();
 
-        MatrixSource copy = new MatrixSource(input);
-
         if (kernel == null) {
             createKernel(radius);
         }
 
         if (input.isGrayscale()) {
-
+            OneBandSource copy = new OneBandSource(input);
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
 
@@ -94,9 +92,9 @@ public class Dilatation implements Effect {
                                 int gray = ColorHelper.getRed(rgb);
                                 int val = gray + kernel[X][Y];
 
-                                if (val > max)
+                                if (val > max) {
                                     max = val;
-
+                                }
                             }
                             Y++;
                         }
@@ -109,6 +107,7 @@ public class Dilatation implements Effect {
                 }
             }
         } else {
+            MatrixSource copy = new MatrixSource(input);
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
 
@@ -146,7 +145,9 @@ public class Dilatation implements Effect {
                     maxG = ColorHelper.clamp(maxG);
                     maxB = ColorHelper.clamp(maxB);
 
-                    int rgb = ColorHelper.getRGB(maxR, maxG, maxB);
+                    // Keep alpha?
+                    int a = ColorHelper.getAlpha(input.getRGB(j, i));
+                    int rgb = ColorHelper.getARGB(maxR, maxG, maxB, a);
                     input.setRGB(j, i, rgb);
                 }
             }

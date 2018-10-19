@@ -34,14 +34,13 @@ import com.harium.keel.core.source.OneBandSource;
  *
  * @author Diego Catalano
  */
-public class Minimum implements Effect {
-
-    private int radius = 1;
+public class Minimum extends RadiusEffect implements Effect {
 
     /**
      * Initialize a new instance of the Maximum class.
      */
     public Minimum() {
+        super();
     }
 
     /**
@@ -50,26 +49,7 @@ public class Minimum implements Effect {
      * @param radius Radius.
      */
     public Minimum(int radius) {
-        radius = radius < 1 ? 1 : radius;
-        this.radius = radius;
-    }
-
-    /**
-     * Radius.
-     *
-     * @return Radius.
-     */
-    public int getRadius() {
-        return radius;
-    }
-
-    /**
-     * Radius.
-     *
-     * @param radius Radius.
-     */
-    public void setRadius(int radius) {
-        this.radius = radius;
+        super(radius);
     }
 
     @Override
@@ -83,32 +63,32 @@ public class Minimum implements Effect {
         if (input.isGrayscale()) {
             OneBandSource copy = OneBandSource.copy(input);
             int minG;
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
                     minG = 0;
                     for (int i = 0; i < lines; i++) {
                         Xline = x + (i - radius);
                         for (int j = 0; j < lines; j++) {
                             Yline = y + (j - radius);
-                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+                            if ((Xline >= 0) && (Xline < width) && (Yline >= 0) && (Yline < height)) {
                                 minG = Math.min(minG, copy.getRGB(Xline, Yline));
                             }
                         }
                     }
-                    input.setRGB(y, x, minG);
+                    input.setRGB(x, y, minG);
                 }
             }
         } else {
             MatrixSource copy = new MatrixSource(input);
             int minR, minG, minB;
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
                     minR = minG = minB = 255;
                     for (int i = 0; i < lines; i++) {
                         Xline = x + (i - radius);
                         for (int j = 0; j < lines; j++) {
                             Yline = y + (j - radius);
-                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+                            if ((Xline >= 0) && (Xline < width) && (Yline >= 0) && (Yline < height)) {
                                 minR = Math.min(minR, copy.getR(Xline, Yline));
                                 minG = Math.min(minG, copy.getG(Xline, Yline));
                                 minB = Math.min(minB, copy.getB(Xline, Yline));
@@ -116,7 +96,7 @@ public class Minimum implements Effect {
                         }
                     }
                     int rgb = ColorHelper.getRGB(minR, minG, minB);
-                    input.setRGB(y, x, rgb);
+                    input.setRGB(x, y, rgb);
                 }
             }
         }
@@ -124,7 +104,4 @@ public class Minimum implements Effect {
         return input;
     }
 
-    private int calcLines(int radius) {
-        return radius * 2 + 1;
-    }
 }

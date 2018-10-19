@@ -1,4 +1,4 @@
-package com.harium.keel.effect.bump;
+package com.harium.keel.effect.normal;
 
 import com.badlogic.gdx.math.Vector3;
 import com.harium.keel.core.helper.VectorHelper;
@@ -8,10 +8,7 @@ import com.harium.keel.core.source.MatrixSource;
 /**
  * Reference: http://www.alejandrosegovia.net/2014/03/31/bump-map-generation/
  */
-public class SobelBumpMap extends BumpMap {
-
-    private int border = 1;
-    private float scale = 255;
+public class SobelNormalMap extends NormalMap {
 
     /**
      * Sobel method to generate bump map from a height map

@@ -179,15 +179,20 @@ public class Clahe implements Effect {
         this.algorithm = algorithm;
     }
 
+    /**
+     * This effect deals with OneBandSource and Binary MatrixSource
+     * @param source
+     * @return image
+     */
     @Override
     public ImageSource apply(ImageSource source) {
         int width = source.getWidth();
         int height = source.getHeight();
 
+        int[][] result = new int[height][width];
+
         if (source.isGrayscale()) {
             for (int i = 0; i < height; i++) {
-
-                int[][] result = new int[height][width];
 
                 int iMin = Math.max(0, i - blockRadius);
                 int iMax = Math.min(height, i + blockRadius + 1);
@@ -199,13 +204,14 @@ public class Clahe implements Effect {
                 int[] hist = new int[bins + 1];
                 int[] clippedHist = new int[bins + 1];
 
-                for (int k = iMin; k < iMax; k++)
-                    for (int l = jMin; l < jMax; l++)
-                        ++hist[roundPositive(source.getRGB(k, l) / 255.0f * bins)];
+                for (int k = iMin; k < iMax; k++) {
+                    for (int l = jMin; l < jMax; l++) {
+                        ++hist[roundPositive(source.getGray(l, k) / 255.0f * bins)];
+                    }
+                }
 
                 for (int j = 0; j < width; j++) {
-
-                    int v = roundPositive(source.getRGB(i, j) / 255.0f * bins);
+                    int v = roundPositive(source.getGray(j, i) / 255.0f * bins);
 
                     int xMin = Math.max(0, j - blockRadius);
                     int xMax = j + blockRadius + 1;
@@ -217,15 +223,17 @@ public class Clahe implements Effect {
                     /* remove left behind values from histogram */
                     if (xMin > 0) {
                         int xMin1 = xMin - 1;
-                        for (int yi = iMin; yi < iMax; ++yi)
-                            --hist[roundPositive(source.getRGB(yi, xMin1) / 255.0f * bins)];
+                        for (int yi = iMin; yi < iMax; ++yi) {
+                            --hist[roundPositive(source.getGray(xMin1, yi) / 255.0f * bins)];
+                        }
                     }
 
                     /* add newly included values to histogram */
                     if (xMax <= width) {
                         int xMax1 = xMax - 1;
-                        for (int yi = iMin; yi < iMax; ++yi)
-                            ++hist[roundPositive(source.getRGB(yi, xMax1) / 255.0f * bins)];
+                        for (int yi = iMin; yi < iMax; ++yi) {
+                            ++hist[roundPositive(source.getGray(xMax1, yi) / 255.0f * bins)];
+                        }
                     }
 
                     System.arraycopy(hist, 0, clippedHist, 0, hist.length);
@@ -244,29 +252,34 @@ public class Clahe implements Effect {
 
                         int d = clippedEntries / (bins + 1);
                         int m = clippedEntries % (bins + 1);
-                        for (int z = 0; z <= bins; ++z)
+                        for (int z = 0; z <= bins; ++z) {
                             clippedHist[z] += d;
+                        }
 
                         if (m != 0) {
                             int s = bins / m;
-                            for (int z = 0; z <= bins; z += s)
+                            for (int z = 0; z <= bins; z += s) {
                                 ++clippedHist[z];
+                            }
                         }
                     }
                     while (clippedEntries != clippedEntriesBefore);
 
                     /* build cdf of clipped histogram */
                     int hMin = bins;
-                    for (int z = 0; z < hMin; ++z)
+                    for (int z = 0; z < hMin; ++z) {
                         if (clippedHist[z] != 0) hMin = z;
+                    }
 
                     int cdf = 0;
-                    for (int z = hMin; z <= v; ++z)
+                    for (int z = hMin; z <= v; ++z) {
                         cdf += clippedHist[z];
+                    }
 
                     int cdfMax = cdf;
-                    for (int z = v + 1; z <= bins; ++z)
+                    for (int z = v + 1; z <= bins; ++z) {
                         cdfMax += clippedHist[z];
+                    }
 
                     int cdfMin = clippedHist[hMin];
 
@@ -274,19 +287,16 @@ public class Clahe implements Effect {
                 }
 
                 for (int a = 0; a < width; a++) {
-                    source.setRGB(a, i, result[i][a]);
+                    source.setGray(a, i, result[i][a]);
                 }
             }
         } else {
-
             MatrixSource gray = new MatrixSource(source);
 
             Grayscale gs = new Grayscale(algorithm);
             // It is not OneBandSource
             gs.apply(gray);
 
-            int[][] result = new int[height][width];
-
             for (int i = 0; i < height; i++) {
 
                 int iMin = Math.max(0, i - blockRadius);
@@ -299,13 +309,14 @@ public class Clahe implements Effect {
                 int[] hist = new int[bins + 1];
                 int[] clippedHist = new int[bins + 1];
 
-                for (int k = iMin; k < iMax; k++)
-                    for (int l = jMin; l < jMax; l++)
-                        ++hist[roundPositive(gray.getG(k, l) / 255.0f * bins)];
+                for (int k = iMin; k < iMax; k++) {
+                    for (int l = jMin; l < jMax; l++) {
+                        ++hist[roundPositive(gray.getGray(l, k) / 255.0f * bins)];
+                    }
+                }
 
                 for (int j = 0; j < width; j++) {
-
-                    int v = roundPositive(gray.getG(i, j) / 255.0f * bins);
+                    int v = roundPositive(gray.getGray(j, i) / 255.0f * bins);
 
                     int xMin = Math.max(0, j - blockRadius);
                     int xMax = j + blockRadius + 1;
@@ -313,19 +324,21 @@ public class Clahe implements Effect {
                     int n = h * w;
 
                     int limit = (int) (slope * n / bins + 0.5f);
-                    
+
                     /* remove left behind values from histogram */
                     if (xMin > 0) {
                         int xMin1 = xMin - 1;
-                        for (int yi = iMin; yi < iMax; ++yi)
-                            --hist[roundPositive(gray.getG(yi, xMin1) / 255.0f * bins)];
+                        for (int yi = iMin; yi < iMax; ++yi) {
+                            --hist[roundPositive(gray.getGray(xMin1, yi) / 255.0f * bins)];
+                        }
                     }
 
                     /* add newly included values to histogram */
                     if (xMax <= width) {
                         int xMax1 = xMax - 1;
-                        for (int yi = iMin; yi < iMax; ++yi)
-                            ++hist[roundPositive(gray.getG(yi, xMax1) / 255.0f * bins)];
+                        for (int yi = iMin; yi < iMax; ++yi) {
+                            ++hist[roundPositive(gray.getGray(xMax1, yi) / 255.0f * bins)];
+                        }
                     }
 
                     System.arraycopy(hist, 0, clippedHist, 0, hist.length);
@@ -356,16 +369,19 @@ public class Clahe implements Effect {
 
                     /* build cdf of clipped histogram */
                     int hMin = bins;
-                    for (int z = 0; z < hMin; ++z)
+                    for (int z = 0; z < hMin; ++z) {
                         if (clippedHist[z] != 0) hMin = z;
+                    }
 
                     int cdf = 0;
-                    for (int z = hMin; z <= v; ++z)
+                    for (int z = hMin; z <= v; ++z) {
                         cdf += clippedHist[z];
+                    }
 
                     int cdfMax = cdf;
-                    for (int z = v + 1; z <= bins; ++z)
+                    for (int z = v + 1; z <= bins; ++z) {
                         cdfMax += clippedHist[z];
+                    }
 
                     int cdfMin = clippedHist[hMin];
 
@@ -373,7 +389,7 @@ public class Clahe implements Effect {
                 }
 
                 for (int a = 0; a < width; a++) {
-                    float s = (float) result[i][a] / (float) gray.getG(i, a);
+                    float s = (float) result[i][a] / (float) gray.getGray(a, i);
 
                     float r = ColorHelper.clamp(roundPositive(s * source.getR(a, i)));
                     float g = ColorHelper.clamp(roundPositive(s * source.getG(a, i)));

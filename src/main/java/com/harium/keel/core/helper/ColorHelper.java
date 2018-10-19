@@ -103,6 +103,12 @@ public class ColorHelper {
         return rgb;
     }
 
+    public static int getARGB(int rgb, int alpha) {
+        int rgba = alpha;
+        rgba = (rgba << 24) + rgb;
+        return rgba;
+    }
+
     /**
      * YCbCr conversion from: https://en.wikipedia.org/wiki/YUV
      *

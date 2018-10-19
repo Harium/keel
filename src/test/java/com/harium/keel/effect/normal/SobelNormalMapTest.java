@@ -1,14 +1,14 @@
-package com.harium.keel.effect;
+package com.harium.keel.effect.normal;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.keel.effect.bump.SobelBumpMap;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
+import com.harium.keel.effect.normal.SobelNormalMap;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SobelBumpMapEffectTest {
+public class SobelNormalMapTest {
 
     @Test
     public void testApply() {
@@ -24,7 +24,7 @@ public class SobelBumpMapEffectTest {
         image[2][2] = 0;
 
         MatrixSource source = new MatrixSource(image);
-        SobelBumpMap effect = new SobelBumpMap();
+        SobelNormalMap effect = new SobelNormalMap();
         ImageSource output = effect.apply(source);
 
         int rgb = output.getRGB(1, 1);

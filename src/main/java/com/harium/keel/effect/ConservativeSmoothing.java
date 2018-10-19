@@ -42,32 +42,13 @@ import com.harium.keel.core.source.OneBandSource;
  *
  * @author Diego Catalano
  */
-public class ConservativeSmoothing implements Effect {
-
-    private int radius = 1;
-
-    /**
-     * Get Radius.
-     *
-     * @return Radius.
-     */
-    public int getRadius() {
-        return radius;
-    }
-
-    /**
-     * Set Radius.
-     *
-     * @param radius Radius.
-     */
-    public void setRadius(int radius) {
-        this.radius = Math.max(1, radius);
-    }
+public class ConservativeSmoothing extends RadiusEffect implements Effect {
 
     /**
      * Initialize a new instance of the ConservativeSmoothing class.
      */
     public ConservativeSmoothing() {
+        super();
     }
 
     /**
@@ -76,7 +57,7 @@ public class ConservativeSmoothing implements Effect {
      * @param radius Radius.
      */
     public ConservativeSmoothing(int radius) {
-        setRadius(radius);
+        super(radius);
     }
 
     @Override
@@ -85,7 +66,7 @@ public class ConservativeSmoothing implements Effect {
         int width = fastBitmap.getWidth();
         int height = fastBitmap.getHeight();
 
-        int Xline, Yline;
+        int Yline, Xline;
         int lines = calcLines(radius);
 
         if (fastBitmap.isGrayscale()) {
@@ -97,29 +78,29 @@ public class ConservativeSmoothing implements Effect {
                     minG = 255;
                     maxG = 0;
                     for (int i = 0; i < lines; i++) {
-                        Xline = y + (i - radius);
+                        Yline = y + (i - radius);
                         for (int j = 0; j < lines; j++) {
-                            Yline = x + (j - radius);
-                            if (((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) && (i != j)) {
+                            Xline = x + (j - radius);
+                            if (((Yline >= 0) && (Yline < height) && (Xline >= 0) && (Xline < width)) && (i != j)) {
 
-                                if (copy.getRGB(Xline, Yline) > maxG) {
-                                    maxG = copy.getRGB(Xline, Yline);
+                                if (copy.getGray(Yline, Xline) > maxG) {
+                                    maxG = copy.getGray(Yline, Xline);
                                 }
 
-                                if (copy.getRGB(Xline, Yline) < minG) {
-                                    minG = copy.getRGB(Xline, Yline);
+                                if (copy.getGray(Yline, Xline) < minG) {
+                                    minG = copy.getGray(Yline, Xline);
                                 }
 
                             }
                         }
                     }
 
-                    int g = copy.getRGB(y, x);
+                    int g = copy.getGray(y, x);
 
                     if (g > maxG) g = maxG;
                     if (g < minG) g = minG;
 
-                    fastBitmap.setRGB(y, x, g);
+                    fastBitmap.setGray(y, x, g);
                 }
             }
         } else {
@@ -132,11 +113,10 @@ public class ConservativeSmoothing implements Effect {
                     minR = minG = minB = 255;
                     maxR = maxG = maxB = 0;
                     for (int i = 0; i < lines; i++) {
-                        Xline = y + (i - radius);
+                        Yline = y + (i - radius);
                         for (int j = 0; j < lines; j++) {
-                            Yline = x + (j - radius);
-                            if (((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) && (i != j)) {
-
+                            Xline = x + (j - radius);
+                            if (((Yline >= 0) && (Yline < height) && (Xline >= 0) && (Xline < width)) && (i != j)) {
                                 if (copy.getR(Xline, Yline) > maxR) {
                                     maxR = copy.getR(Xline, Yline);
                                 }
@@ -160,14 +140,13 @@ public class ConservativeSmoothing implements Effect {
                                 if (copy.getB(Xline, Yline) < minB) {
                                     minB = copy.getB(Xline, Yline);
                                 }
-
                             }
                         }
                     }
 
-                    int r = copy.getR(y, x);
-                    int g = copy.getG(y, x);
-                    int b = copy.getB(y, x);
+                    int r = copy.getR(x, y);
+                    int g = copy.getG(x, y);
+                    int b = copy.getB(x, y);
 
                     if (r > maxR) r = maxR;
                     if (g > maxG) g = maxG;
@@ -179,15 +158,11 @@ public class ConservativeSmoothing implements Effect {
 
                     int rgb = ColorHelper.getRGB(r, g, b);
 
-                    fastBitmap.setRGB(y, x, rgb);
+                    fastBitmap.setRGB(x, y, rgb);
                 }
             }
         }
         return fastBitmap;
-    }
-
-    private int calcLines(int radius) {
-        return radius * 2 + 1;
     }
 
 }

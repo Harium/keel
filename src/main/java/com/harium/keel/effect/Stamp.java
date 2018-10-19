@@ -7,13 +7,39 @@ public class Stamp implements Effect {
 
     private int x = 0, y = 0;
     private ImageSource stamp;
+    private boolean seamless = false;
 
     @Override
     public ImageSource apply(ImageSource input) {
+        if (stamp == null) {
+           throw new RuntimeException("Stamp undefined.");
+        }
         for (int i = 0; i < stamp.getHeight(); i++) {
             for (int j = 0; j < stamp.getWidth(); j++) {
-                // Just repeat value, alpha included
-                input.setRGB(x + j, y + i, stamp.getRGB(j, i));
+                int sx = x + j;
+                int sy = y + i;
+
+                if (!seamless) {
+                    if (sx < 0 || sx > input.getWidth()) {
+                        continue;
+                    }
+                    if (sy < 0 || sy > input.getHeight()) {
+                        continue;
+                    }
+                } else {
+                    if (sx < 0) {
+                        sx += input.getWidth();
+                    } else if (sx > input.getWidth()) {
+                        sx %= input.getWidth();
+                    }
+                    if (sy < 0) {
+                        sy += input.getHeight();
+                    } else if (sy > input.getHeight()) {
+                        sy %= input.getHeight();
+                    }
+                }
+
+                input.setRGB(sx, sy, stamp.getRGB(j, i));
             }
         }
 
@@ -40,4 +66,14 @@ public class Stamp implements Effect {
         this.y = y;
         return this;
     }
+
+    public Stamp seamless(boolean seamless) {
+        this.seamless = seamless;
+        return this;
+    }
+
+    public boolean seamless() {
+        return seamless;
+    }
+
 }

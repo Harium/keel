@@ -64,28 +64,29 @@ public class Difference implements Effect {
 
     @Override
     public ImageSource apply(ImageSource sourceImage) {
-
+        if (overlayImage == null) {
+            throw new RuntimeException("Overlay undefined");
+        }
         int width = sourceImage.getWidth();
         int height = sourceImage.getHeight();
         int sizeOrigin = width * height;
         int sizeDestination = overlayImage.getWidth() * overlayImage.getHeight();
         if ((sourceImage.isGrayscale()) && (overlayImage.isGrayscale())) {
             if (sizeOrigin == sizeDestination) {
-
                 int l;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
-                        l = sourceImage.getRGB(x, y) - overlayImage.getRGB(x, y);
+                for (int y = 0; y < height; y++) {
+                    for (int x = 0; x < width; x++) {
+                        l = sourceImage.getGray(x, y) - overlayImage.getGray(x, y);
                         l = l < 0 ? -l : l;
-                        sourceImage.setRGB(x, y, l);
+                        sourceImage.setGray(x, y, l);
                     }
                 }
             }
         } else {
             if (sizeOrigin == sizeDestination) {
                 int r, g, b;
-                for (int x = 0; x < height; x++) {
-                    for (int y = 0; y < width; y++) {
+                for (int y = 0; y < height; y++) {
+                    for (int x = 0; x < width; x++) {
                         r = sourceImage.getR(x, y) - overlayImage.getR(x, y);
                         g = sourceImage.getG(x, y) - overlayImage.getG(x, y);
                         b = sourceImage.getB(x, y) - overlayImage.getB(x, y);

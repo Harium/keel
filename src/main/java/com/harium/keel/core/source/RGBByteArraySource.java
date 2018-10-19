@@ -37,6 +37,12 @@ public class RGBByteArraySource extends ImageSourceImpl {
     }
 
     @Override
+    public void setRGB(int x, int y, int rgb, int alpha) {
+        // Ignore alpha
+        setRGB(x, y, rgb);
+    }
+
+    @Override
     public void setRGB(int x, int y, int rgb) {
         byte r = (byte) (ColorHelper.getRed(rgb) - 128);
         byte g = (byte) (ColorHelper.getGreen(rgb) - 128);
