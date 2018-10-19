@@ -33,14 +33,13 @@ import com.harium.keel.core.source.OneBandSource;
  *
  * @author Diego Catalano
  */
-public class Maximum implements Effect {
-
-    private int radius = 1;
+public class Maximum extends RadiusEffect implements Effect {
 
     /**
      * Initialize a new instance of the Maximum class.
      */
     public Maximum() {
+        super();
     }
 
     /**
@@ -49,26 +48,7 @@ public class Maximum implements Effect {
      * @param radius Radius.
      */
     public Maximum(int radius) {
-        radius = radius < 1 ? 1 : radius;
-        this.radius = radius;
-    }
-
-    /**
-     * Radius.
-     *
-     * @return Radius.
-     */
-    public int getRadius() {
-        return radius;
-    }
-
-    /**
-     * Radius.
-     *
-     * @param radius Radius.
-     */
-    public void setRadius(int radius) {
-        this.radius = radius;
+        super(radius);
     }
 
     @Override
@@ -82,14 +62,14 @@ public class Maximum implements Effect {
         if (input.isGrayscale()) {
             OneBandSource copy = OneBandSource.copy(input);
             int maxG;
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
                     maxG = 0;
                     for (int i = 0; i < lines; i++) {
                         Xline = x + (i - radius);
                         for (int j = 0; j < lines; j++) {
                             Yline = y + (j - radius);
-                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+                            if ((Xline >= 0) && (Xline < width) && (Yline >= 0) && (Yline < height)) {
                                 maxG = Math.max(maxG, copy.getRGB(Xline, Yline));
                             }
                         }
@@ -100,14 +80,14 @@ public class Maximum implements Effect {
         } else {
             MatrixSource copy = new MatrixSource(input);
             int maxR, maxG, maxB;
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
                     maxR = maxG = maxB = 0;
                     for (int i = 0; i < lines; i++) {
                         Xline = x + (i - radius);
                         for (int j = 0; j < lines; j++) {
                             Yline = y + (j - radius);
-                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+                            if ((Xline >= 0) && (Xline < width) && (Yline >= 0) && (Yline < height)) {
                                 maxR = Math.max(maxR, copy.getR(Xline, Yline));
                                 maxG = Math.max(maxG, copy.getG(Xline, Yline));
                                 maxB = Math.max(maxB, copy.getB(Xline, Yline));
@@ -115,7 +95,7 @@ public class Maximum implements Effect {
                         }
                     }
                     int rgb = ColorHelper.getRGB(maxR, maxG, maxB);
-                    input.setRGB(y, x, rgb);
+                    input.setRGB(x, y, rgb);
                 }
             }
         }
@@ -123,7 +103,4 @@ public class Maximum implements Effect {
         return input;
     }
 
-    private int calcLines(int radius) {
-        return radius * 2 + 1;
-    }
 }

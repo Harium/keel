@@ -9,18 +9,14 @@ public class MatrixSource extends ImageSourceImpl {
     private int h = 0;
 
     private int[][] matrix;
-    private boolean grayScale = false;
 
     public MatrixSource(int w, int h) {
-        super();
         this.w = w;
         this.h = h;
-
         matrix = new int[h][w];
     }
 
     public MatrixSource(int[][] matrix) {
-        super();
         this.w = matrix[0].length;
         this.h = matrix.length;
         this.matrix = matrix;
@@ -55,18 +51,11 @@ public class MatrixSource extends ImageSourceImpl {
     }
 
     public void copy(ImageSource input) {
-        grayScale = input.isGrayscale();
-
         for (int j = 0; j < input.getHeight(); j++) {
             for (int i = 0; i < input.getWidth(); i++) {
                 setRGB(i, j, input.getRGB(i, j));
             }
         }
-    }
-
-    @Override
-    public boolean isGrayscale() {
-        return grayScale;
     }
 
 }

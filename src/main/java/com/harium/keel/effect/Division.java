@@ -109,9 +109,9 @@ public class Division implements Effect {
             int l;
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    l = (int) ((double) sourceImage.getRGB(x, y) / gray);
+                    l = (int) ((double) sourceImage.getGray(x, y) / gray);
                     l = ColorHelper.clamp(l);
-                    sourceImage.setRGB(x, y, l);
+                    sourceImage.setGray(x, y, l);
                 }
             }
         } else {
@@ -122,7 +122,7 @@ public class Division implements Effect {
                     r = (int) ((double) sourceImage.getR(x, y) / red);
                     g = (int) ((double) sourceImage.getG(x, y) / green);
                     b = (int) ((double) sourceImage.getB(x, y) / blue);
-                    a = sourceImage.getA(y, x);
+                    a = sourceImage.getA(x, y);
 
                     r = ColorHelper.clamp(r);
                     g = ColorHelper.clamp(g);

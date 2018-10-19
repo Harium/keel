@@ -22,7 +22,9 @@
 package com.harium.keel.effect;
 
 import com.harium.keel.core.Effect;
+import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
+import com.harium.keel.core.source.MatrixSource;
 import com.harium.keel.core.source.OneBandSource;
 
 /**
@@ -35,9 +37,9 @@ import com.harium.keel.core.source.OneBandSource;
  *
  * @author Diego Catalano
  */
-public class BinaryErosion implements Effect {
+public class BinaryErosion extends RadiusEffect implements Effect {
     private int[][] kernel;
-    private int radius = 0;
+    private static final int BLACK = ColorHelper.getRGB(0, 0, 0);
 
     /**
      * Initialize a new instance of the Binary Erosion class with radius = 1.
@@ -52,8 +54,7 @@ public class BinaryErosion implements Effect {
      * @param radius Radius
      */
     public BinaryErosion(int radius) {
-        radius = radius < 1 ? 1 : radius;
-        this.radius = radius;
+        super(radius);
     }
 
     /**
@@ -72,18 +73,22 @@ public class BinaryErosion implements Effect {
      */
     @Override
     public ImageSource apply(ImageSource source) {
-        if (source.isGrayscale()) {
-            if (radius != 0) {
-                return apply(source, radius);
+        if (radius != 0) {
+            if (source.isGrayscale()) {
+                return applyGrayscale(source, radius);
             } else {
-                return apply(source, kernel);
+                return applyRGB(source, radius);
             }
         } else {
-            throw new IllegalArgumentException("Binary Erosion only works in grayscale images.");
+            if (source.isGrayscale()) {
+                return applyGrayscale(source, kernel);
+            } else {
+                return applyRGB(source, kernel);
+            }
         }
     }
 
-    private ImageSource apply(ImageSource source, int radius) {
+    private ImageSource applyGrayscale(ImageSource source, int radius) {
         OneBandSource copy = OneBandSource.copy(source);
 
         int width = source.getWidth();
@@ -94,14 +99,14 @@ public class BinaryErosion implements Effect {
         int lines = calcLines(radius);
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                l = copy.getRGB(x, y);
+                l = copy.getRGB(y, x);
                 if (l == 0) {
                     for (int i = 0; i < lines; i++) {
                         Xline = x + (i - radius);
                         for (int j = 0; j < lines; j++) {
                             Yline = y + (j - radius);
                             if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
-                                source.setRGB(Xline, Yline, 0);
+                                source.setRGB(Yline, Xline, 0);
                             }
                         }
                     }
@@ -111,7 +116,36 @@ public class BinaryErosion implements Effect {
         return source;
     }
 
-    private ImageSource apply(ImageSource source, int[][] kernel) {
+    private ImageSource applyRGB(ImageSource source, int radius) {
+        MatrixSource copy = new MatrixSource(source);
+
+        int width = source.getWidth();
+        int height = source.getHeight();
+        int l;
+
+        int Xline, Yline;
+        int lines = calcLines(radius);
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                l = copy.getB(y, x);
+                if (l == 0) {
+                    for (int i = 0; i < lines; i++) {
+                        Xline = x + (i - radius);
+                        for (int j = 0; j < lines; j++) {
+                            Yline = y + (j - radius);
+                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+
+                                source.setRGB(Yline, Xline, BLACK);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return source;
+    }
+
+    private ImageSource applyGrayscale(ImageSource source, int[][] kernel) {
         OneBandSource copy = OneBandSource.copy(source);
 
         int width = source.getWidth();
@@ -122,7 +156,7 @@ public class BinaryErosion implements Effect {
         int lines = calcLines(kernel);
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                l = copy.getRGB(x, y);
+                l = copy.getRGB(y, x);
                 if (l == 0) {
                     for (int i = 0; i < kernel.length; i++) {
                         Xline = x + (i - lines);
@@ -130,7 +164,38 @@ public class BinaryErosion implements Effect {
                             Yline = y + (j - lines);
                             if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
                                 if (kernel[i][j] == 1) {
-                                    source.setRGB(Xline, Yline, 0);
+                                    source.setRGB(Yline, Xline, 0);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return source;
+    }
+
+    private ImageSource applyRGB(ImageSource source, int[][] kernel) {
+        MatrixSource copy = new MatrixSource(source);
+
+        int width = source.getWidth();
+        int height = source.getHeight();
+        int l;
+
+        int Xline, Yline;
+        int lines = calcLines(kernel);
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                l = copy.getB(y, x);
+                if (l == 0) {
+                    for (int i = 0; i < kernel.length; i++) {
+                        Xline = x + (i - lines);
+                        for (int j = 0; j < kernel[0].length; j++) {
+                            Yline = y + (j - lines);
+                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+                                if (kernel[i][j] == 1) {
+                                    source.setRGB(Yline, Xline, BLACK);
                                 }
                             }
                         }
@@ -147,7 +212,4 @@ public class BinaryErosion implements Effect {
         return lines;
     }
 
-    private int calcLines(int radius) {
-        return radius * 2 + 1;
-    }
 }

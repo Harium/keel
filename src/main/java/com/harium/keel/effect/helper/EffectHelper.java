@@ -124,4 +124,21 @@ public class EffectHelper {
             }
         }
     }
+
+    public static int[] getGrayData(ImageSource fastBitmap) {
+        int size = getSize(fastBitmap);
+        int[] grayData = new int[size];
+
+        if (fastBitmap.isGrayscale()) {
+            for (int i = 0; i < size; i++) {
+                grayData[i] = getRGB(i, fastBitmap);
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                grayData[i] = getBlue(i, fastBitmap);
+            }
+        }
+
+        return grayData;
+    }
 }

@@ -111,20 +111,20 @@ public class AdditiveNoise implements Effect {
             }
         } else {
 
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
 
-                    int r = input.getR(j, i);
-                    int g = input.getG(j, i);
-                    int b = input.getB(j, i);
-                    int a = input.getA(j, i);
+                    int r = input.getR(x, y);
+                    int g = input.getG(x, y);
+                    int b = input.getB(x, y);
+                    int a = input.getA(x, y);
 
                     r = ColorHelper.clamp(r + generateNumber());
                     g = ColorHelper.clamp(g + generateNumber());
                     b = ColorHelper.clamp(b + generateNumber());
 
                     int rgb = ColorHelper.getARGB(r, g, b, a);
-                    input.setRGB(j, i, rgb);
+                    input.setRGB(x, y, rgb);
                 }
             }
         }

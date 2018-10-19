@@ -76,7 +76,6 @@ public class DifferenceEdgeDetector implements Effect {
         int max, diff;
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-
                 max = 0;
 
                 diff = EffectHelper.getGray(offset - stride - 1, copy) - EffectHelper.getGray(offset + stride + 1, copy);

@@ -22,7 +22,9 @@
 package com.harium.keel.effect;
 
 import com.harium.keel.core.Effect;
+import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
+import com.harium.keel.core.source.MatrixSource;
 import com.harium.keel.core.source.OneBandSource;
 
 /**
@@ -35,16 +37,17 @@ import com.harium.keel.core.source.OneBandSource;
  *
  * @author Diego Catalano
  */
-public class BinaryDilatation implements Effect {
+public class BinaryDilatation extends RadiusEffect implements Effect {
 
     private int[][] kernel;
-    private int radius = 0;
+
+    private static final int WHITE = ColorHelper.getRGB(255, 255, 255);
 
     /**
      * Initialize a new instance of the Binary Dilatation class.
      */
     public BinaryDilatation() {
-        this.radius = 1;
+        this(1);
     }
 
     /**
@@ -62,20 +65,23 @@ public class BinaryDilatation implements Effect {
      * @param radius Radius.
      */
     public BinaryDilatation(int radius) {
-        radius = radius < 1 ? 1 : radius;
-        this.radius = radius;
+        super(radius);
     }
 
     @Override
     public ImageSource apply(ImageSource fastBitmap) {
-        if (fastBitmap.isGrayscale()) {
-            if (radius != 0) {
+        if (radius != 0) {
+            if (fastBitmap.isGrayscale()) {
                 return applyGrayscale(fastBitmap, radius);
             } else {
-                return applyGrayscale(fastBitmap, kernel);
+                return applyRGB(fastBitmap, radius);
             }
         } else {
-            throw new IllegalArgumentException("Binary Dilatation only works in grayscale images.");
+            if (fastBitmap.isGrayscale()) {
+                return applyGrayscale(fastBitmap, kernel);
+            } else {
+                return applyRGB(fastBitmap, kernel);
+            }
         }
     }
 
@@ -88,17 +94,46 @@ public class BinaryDilatation implements Effect {
         int l;
 
         int Xline, Yline;
-        int lines = CalcLines(radius);
+        int lines = calcLines(radius);
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                l = copy.getRGB(x, y);
+                l = copy.getRGB(y, x);
                 if (l == 255) {
                     for (int i = 0; i < lines; i++) {
                         Xline = x + (i - radius);
                         for (int j = 0; j < lines; j++) {
                             Yline = y + (j - radius);
                             if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
-                                source.setRGB(Xline, Yline, 255);
+                                source.setRGB(Yline, Xline, 255);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return source;
+    }
+
+    private ImageSource applyRGB(ImageSource source, int radius) {
+        MatrixSource copy = new MatrixSource(source);
+
+        int width = source.getWidth();
+        int height = source.getHeight();
+        int l;
+
+        int Xline, Yline;
+        int lines = calcLines(radius);
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                l = copy.getRGB(y, x);
+                if (l == 255) {
+                    for (int i = 0; i < lines; i++) {
+                        Xline = x + (i - radius);
+                        for (int j = 0; j < lines; j++) {
+                            Yline = y + (j - radius);
+                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+                                source.setRGB(Yline, Xline, WHITE);
                             }
                         }
                     }
@@ -121,7 +156,7 @@ public class BinaryDilatation implements Effect {
         int lines = CalcLines(kernel);
         for (int x = 0; x < height; x++) {
             for (int y = 0; y < width; y++) {
-                l = copy.getRGB(x, y);
+                l = copy.getRGB(y, x);
                 if (l == 255) {
                     for (int i = 0; i < kernel.length; i++) {
                         Xline = x + (i - lines);
@@ -129,7 +164,39 @@ public class BinaryDilatation implements Effect {
                             Yline = y + (j - lines);
                             if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
                                 if (kernel[i][j] == 1) {
-                                    source.setRGB(Xline, Yline, 255);
+                                    source.setRGB(Yline, Xline, 255);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return source;
+    }
+
+    private ImageSource applyRGB(ImageSource source, int[][] kernel) {
+
+        MatrixSource copy = new MatrixSource(source);
+
+        int width = source.getWidth();
+        int height = source.getHeight();
+        int l;
+
+        int Xline, Yline;
+        int lines = CalcLines(kernel);
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                l = copy.getB(y, x);
+                if (l == 255) {
+                    for (int i = 0; i < kernel.length; i++) {
+                        Xline = x + (i - lines);
+                        for (int j = 0; j < kernel[0].length; j++) {
+                            Yline = y + (j - lines);
+                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+                                if (kernel[i][j] == 1) {
+                                    source.setRGB(Yline, Xline, WHITE);
                                 }
                             }
                         }
@@ -146,7 +213,4 @@ public class BinaryDilatation implements Effect {
         return lines;
     }
 
-    private int CalcLines(int radius) {
-        return radius * 2 + 1;
-    }
 }

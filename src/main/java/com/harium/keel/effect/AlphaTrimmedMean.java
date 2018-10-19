@@ -39,28 +39,9 @@ import java.util.Arrays;
  *
  * @author Diego Catalano
  */
-public class AlphaTrimmedMean implements Effect {
+public class AlphaTrimmedMean extends RadiusEffect implements Effect {
 
-    private int radius = 1;
     private int t = 1;
-
-    /**
-     * Get Radius.
-     *
-     * @return Radius.
-     */
-    public int getRadius() {
-        return radius;
-    }
-
-    /**
-     * Set Radius.
-     *
-     * @param radius Radius.
-     */
-    public void setRadius(int radius) {
-        this.radius = Math.max(1, radius);
-    }
 
     /**
      * Get trimmed value.
@@ -84,6 +65,7 @@ public class AlphaTrimmedMean implements Effect {
      * Initializes a new instance of the AlphaTrimmedMean class.
      */
     public AlphaTrimmedMean() {
+        super();
     }
 
     /**
@@ -92,7 +74,7 @@ public class AlphaTrimmedMean implements Effect {
      * @param radius Radius.
      */
     public AlphaTrimmedMean(int radius) {
-        setRadius(radius);
+        super(radius);
     }
 
     /**
@@ -102,7 +84,7 @@ public class AlphaTrimmedMean implements Effect {
      * @param t      Trimmed value.
      */
     public AlphaTrimmedMean(int radius, int t) {
-        setRadius(radius);
+        super(radius);
         setT(t);
     }
 
@@ -112,7 +94,7 @@ public class AlphaTrimmedMean implements Effect {
         int width = input.getWidth();
         int height = input.getHeight();
         int Xline, Yline;
-        int lines = CalcLines(radius);
+        int lines = calcLines(radius);
         int maxArray = lines * lines;
         int c;
 
@@ -120,17 +102,19 @@ public class AlphaTrimmedMean implements Effect {
 
         if (input.isGrayscale()) {
             int[] avgL = new int[maxArray];
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
                     c = 0;
                     for (int i = 0; i < lines; i++) {
                         Xline = x + (i - radius);
                         for (int j = 0; j < lines; j++) {
                             Yline = y + (j - radius);
-                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
-                                avgL[c] = copy.getRGB(Xline, Yline);
+                            if ((Xline >= 0) && (Xline < width) && (Yline >= 0) && (Yline < height)) {
+                                // Gray Value
+                                avgL[c] = copy.getB(Xline, Yline);
                             } else {
-                                avgL[c] = copy.getRGB(x, y);
+                                // Gray Value
+                                avgL[c] = copy.getB(x, y);
                             }
                             c++;
                         }
@@ -144,7 +128,7 @@ public class AlphaTrimmedMean implements Effect {
                         mean += avgL[i];
                     }
 
-                    input.setRGB(x, y, (int) (mean / (avgL.length - 2 * t)));
+                    input.setGray(x, y, (int) (mean / (avgL.length - 2 * t)));
                 }
             }
         } else {
@@ -152,14 +136,14 @@ public class AlphaTrimmedMean implements Effect {
             int[] avgG = new int[maxArray];
             int[] avgB = new int[maxArray];
 
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
                     c = 0;
                     for (int i = 0; i < lines; i++) {
                         Xline = x + (i - radius);
                         for (int j = 0; j < lines; j++) {
                             Yline = y + (j - radius);
-                            if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
+                            if ((Xline >= 0) && (Xline < width) && (Yline >= 0) && (Yline < height)) {
                                 avgR[c] = copy.getR(Xline, Yline);
                                 avgG[c] = copy.getG(Xline, Yline);
                                 avgB[c] = copy.getB(Xline, Yline);
@@ -189,14 +173,11 @@ public class AlphaTrimmedMean implements Effect {
                     meanB /= (avgB.length - 2 * t);
 
                     int rgb = ColorHelper.getRGB((int) meanR, (int) meanG, (int) meanB);
-                    input.setRGB(x, y, rgb);
+                    input.setRGB(y, x, rgb);
                 }
             }
         }
         return input;
     }
 
-    private int CalcLines(int radius) {
-        return radius * 2 + 1;
-    }
 }

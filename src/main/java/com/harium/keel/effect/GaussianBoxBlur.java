@@ -32,7 +32,7 @@ import com.harium.keel.core.source.MatrixSource;
 import static com.harium.keel.effect.helper.EffectHelper.*;
 
 /**
- * Gaussian Box Blur.
+ * Gaussian Box Blur. Minimum Size = 3x3
  * Reference: http://blog.ivank.net/fastest-gaussian-blur.html
  *
  * @author Diego Catalano
@@ -114,7 +114,6 @@ public class GaussianBoxBlur implements Effect {
     }
 
     private void BoxBlurH_RGB(ImageSource source, ImageSource dest, int r) {
-
         int w = source.getWidth();
         int h = source.getHeight();
 
@@ -124,7 +123,9 @@ public class GaussianBoxBlur implements Effect {
         for (int i = 0; i < h; i++) {
             int ti = i * w, li = ti, ri = ti + r;
             int fv = getRed(ti, source), lv = getRed(ti + w - 1, source), val = (r + 1) * fv;
-            for (int j = 0; j < r; j++) val += getRed(ti + j, source);
+            for (int j = 0; j < r; j++) {
+                val += getRed(ti + j, source);
+            }
             for (int j = 0; j <= r; j++) {
                 val += getRed(ri++, source) - fv;
                 setRed(ti++, (int) Math.round(val * iarr), dest);

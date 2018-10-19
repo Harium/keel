@@ -162,7 +162,7 @@ public class Convolution implements Effect {
                         for (int j = 0; j < kernel[0].length; j++) {
                             Yline = y + (j - lines);
                             if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
-                                gray += kernel[i][j] * copy.getRGB(Xline, Yline);
+                                gray += kernel[i][j] * copy.getRGB(Yline, Xline);
                                 div += kernel[i][j];
                             } else if (replicate) {
 
@@ -175,7 +175,7 @@ public class Convolution implements Effect {
                                 if (c < 0) c = 0;
                                 if (c >= width) c = width - 1;
 
-                                gray += kernel[i][j] * copy.getRGB(r, c);
+                                gray += kernel[i][j] * copy.getRGB(c, r);
                                 div += kernel[i][j];
                             }
                         }
@@ -190,7 +190,7 @@ public class Convolution implements Effect {
                     }
 
                     gray = ColorHelper.clamp(gray);
-                    input.setRGB(x, y, gray);
+                    input.setRGB(y, x, gray);
                 }
             }
         } else {
@@ -204,7 +204,7 @@ public class Convolution implements Effect {
                         for (int j = 0; j < kernel[0].length; j++) {
                             Yline = y + (j - lines);
                             if ((Xline >= 0) && (Xline < height) && (Yline >= 0) && (Yline < width)) {
-                                int rgb = copy.getRGB(Xline, Yline);
+                                int rgb = copy.getRGB(Yline, Xline);
                                 r += kernel[i][j] * ColorHelper.getRed(rgb);
                                 g += kernel[i][j] * ColorHelper.getGreen(rgb);
                                 b += kernel[i][j] * ColorHelper.getBlue(rgb);
@@ -220,7 +220,7 @@ public class Convolution implements Effect {
                                 if (cc < 0) cc = 0;
                                 if (cc >= width) cc = width - 1;
 
-                                int rgb = copy.getRGB(rr, cc);
+                                int rgb = copy.getRGB(cc, rr);
                                 r += kernel[i][j] * ColorHelper.getRed(rgb);
                                 g += kernel[i][j] * ColorHelper.getGreen(rgb);
                                 b += kernel[i][j] * ColorHelper.getBlue(rgb);
@@ -247,7 +247,7 @@ public class Convolution implements Effect {
 
                     int rgb = ColorHelper.getRGB(r, g, b);
 
-                    input.setRGB(x, y, rgb);
+                    input.setRGB(y, x, rgb);
                 }
             }
         }
