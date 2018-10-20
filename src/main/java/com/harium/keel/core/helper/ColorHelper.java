@@ -520,6 +520,34 @@ public class ColorHelper {
         return getRGB(clamp(ar), clamp(ag), clamp(ab));
     }
 
+    /**
+     * Alpha Blend
+     * Source from: https://gist.github.com/JordanDelcros/518396da1c13f75ee057
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public static int mix(int base, int added) {
+        float bAlpha = ColorHelper.getAlpha(base) / 255f;
+        float aAlpha = ColorHelper.getAlpha(added) / 255f;
+        float alpha = 1 - (1 - bAlpha) * (1 - aAlpha); // alpha
+
+        int bR = ColorHelper.getRed(base);
+        int bG = ColorHelper.getGreen(base);
+        int bB = ColorHelper.getBlue(base);
+
+        int aR = ColorHelper.getRed(added);
+        int aG = ColorHelper.getGreen(added);
+        int aB = ColorHelper.getBlue(added);
+
+        int r = Math.round((aR * aAlpha / alpha) + (bR * bAlpha * (1 - aAlpha) / alpha)); // red
+        int g = Math.round((aG * aAlpha / alpha) + (bG * bAlpha * (1 - aAlpha) / alpha)); // green
+        int b = Math.round((aB * aAlpha / alpha) + (bB * bAlpha * (1 - aAlpha) / alpha)); // blue
+
+        return getARGB(r, g, b, (int) clamp(alpha * MAX));
+    }
+
     public static int subtract(int a, int b) {
         int ar = getRed(a);
         int ag = getGreen(a);

@@ -37,7 +37,7 @@ public class ColorHelperTest {
     @Test
     public void testGetAlpha() {
         Assert.assertEquals(0xff, ColorHelper.getAlpha(Color.WHITE.getRGB()));
-        Assert.assertEquals(0x0f, ColorHelper.getAlpha(new Color(0, 0, 0,0x0f).getRGB()));
+        Assert.assertEquals(0x0f, ColorHelper.getAlpha(new Color(0, 0, 0, 0x0f).getRGB()));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ColorHelperTest {
 
     @Test
     public void testFromHSVWithAlpha() {
-        Color color = new Color(100,150,200,80);
+        Color color = new Color(100, 150, 200, 80);
 
         float[] hsvArray = ColorHelper.getHSVArray(color.getRGB());
 
@@ -176,4 +176,21 @@ public class ColorHelperTest {
         Assert.assertEquals(ColorHelper.getBlue(back.getRGB()), ColorHelper.getBlue(color.getRGB()), 5);
         Assert.assertEquals(ColorHelper.getAlpha(back.getRGB()), alpha, 0);
     }
+
+    /**
+     * Test case from: https://gist.github.com/JordanDelcros/518396da1c13f75ee057
+     */
+    @Test
+    public void testMixColors() {
+        int base = ColorHelper.getARGB(69, 109, 160, 255);
+        int added = ColorHelper.getARGB(61, 47, 82, 204);
+
+        int mix = ColorHelper.mix(base, added);
+
+        Assert.assertEquals(63, ColorHelper.getRed(mix));
+        Assert.assertEquals(59, ColorHelper.getGreen(mix));
+        Assert.assertEquals(98, ColorHelper.getBlue(mix));
+        Assert.assertEquals(255, ColorHelper.getAlpha(mix));
+    }
 }
+

@@ -1,6 +1,7 @@
 package com.harium.keel.effect;
 
 import com.harium.keel.core.Effect;
+import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 
 public class Stamp implements Effect {
@@ -12,7 +13,7 @@ public class Stamp implements Effect {
     @Override
     public ImageSource apply(ImageSource input) {
         if (stamp == null) {
-           throw new RuntimeException("Stamp undefined.");
+            throw new RuntimeException("Stamp undefined.");
         }
         for (int i = 0; i < stamp.getHeight(); i++) {
             for (int j = 0; j < stamp.getWidth(); j++) {
@@ -20,10 +21,10 @@ public class Stamp implements Effect {
                 int sy = y + i;
 
                 if (!seamless) {
-                    if (sx < 0 || sx > input.getWidth()) {
+                    if (sx < 0 || sx >= input.getWidth()) {
                         continue;
                     }
-                    if (sy < 0 || sy > input.getHeight()) {
+                    if (sy < 0 || sy >= input.getHeight()) {
                         continue;
                     }
                 } else {
@@ -39,7 +40,10 @@ public class Stamp implements Effect {
                     }
                 }
 
-                input.setRGB(sx, sy, stamp.getRGB(j, i));
+                int rgb = stamp.getRGB(j, i);
+                int inputRGB = input.getRGB(sx, sy);
+
+                input.setRGB(sx, sy, ColorHelper.mix(inputRGB, rgb));
             }
         }
 
