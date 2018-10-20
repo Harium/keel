@@ -197,10 +197,11 @@ public class Grayscale implements Effect {
                 r = EffectHelper.getRed(i, input);
                 g = EffectHelper.getGreen(i, input);
                 b = EffectHelper.getBlue(i, input);
+                int a = EffectHelper.getAlpha(i, input);
 
                 gray = (r * redCoefficient + g * greenCoefficient + b * blueCoefficient);
 
-                EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, input);
+                EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, a, input);
             }
             return input;
         } else {
@@ -210,6 +211,7 @@ public class Grayscale implements Effect {
 
     private ImageSource apply(ImageSource input, Algorithm grayMethod) {
         double r, g, b, gray;
+        int a;
 
         switch (grayMethod) {
             case Lightness:
@@ -219,6 +221,7 @@ public class Grayscale implements Effect {
                     r = EffectHelper.getRed(i, input);
                     g = EffectHelper.getGreen(i, input);
                     b = EffectHelper.getBlue(i, input);
+                    a = EffectHelper.getAlpha(i, input);
 
                     max = Math.max(r, g);
                     max = Math.max(max, b);
@@ -226,7 +229,7 @@ public class Grayscale implements Effect {
                     min = Math.min(min, b);
                     gray = (max + min) / 2;
 
-                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, input);
+                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, a, input);
                 }
                 break;
 
@@ -235,10 +238,11 @@ public class Grayscale implements Effect {
                     r = EffectHelper.getRed(i, input);
                     g = EffectHelper.getGreen(i, input);
                     b = EffectHelper.getBlue(i, input);
+                    a = EffectHelper.getAlpha(i, input);
 
                     gray = (r + g + b) / 3;
 
-                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, input);
+                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, a, input);
                 }
                 break;
 
@@ -247,10 +251,11 @@ public class Grayscale implements Effect {
                     r = EffectHelper.getRed(i, input);
                     g = EffectHelper.getGreen(i, input);
                     b = EffectHelper.getBlue(i, input);
+                    a = EffectHelper.getAlpha(i, input);
 
                     gray = Math.pow(r * g * b, 0.33);
 
-                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, input);
+                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, a, input);
                 }
                 break;
 
@@ -259,10 +264,11 @@ public class Grayscale implements Effect {
                     r = EffectHelper.getRed(i, input);
                     g = EffectHelper.getGreen(i, input);
                     b = EffectHelper.getBlue(i, input);
+                    a = EffectHelper.getAlpha(i, input);
 
                     gray = (r * 0.2125 + g * 0.7154 + b * 0.0721);
 
-                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, input);
+                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, a, input);
                 }
                 break;
 
@@ -271,11 +277,12 @@ public class Grayscale implements Effect {
                     r = EffectHelper.getRed(i, input);
                     g = EffectHelper.getGreen(i, input);
                     b = EffectHelper.getBlue(i, input);
+                    a = EffectHelper.getAlpha(i, input);
 
                     gray = Math.min(r, g);
                     gray = Math.min(gray, b);
 
-                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, input);
+                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, a, input);
                 }
                 break;
 
@@ -284,11 +291,12 @@ public class Grayscale implements Effect {
                     r = EffectHelper.getRed(i, input);
                     g = EffectHelper.getGreen(i, input);
                     b = EffectHelper.getBlue(i, input);
+                    a = EffectHelper.getAlpha(i, input);
 
                     gray = Math.max(r, g);
                     gray = Math.max(gray, b);
 
-                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, input);
+                    EffectHelper.setRGB(i, (int) gray, (int) gray, (int) gray, a, input);
                 }
                 break;
         }
