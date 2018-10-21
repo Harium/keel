@@ -36,7 +36,7 @@ import com.harium.keel.effect.resize.ResizeOperation;
  */
 public class Resize implements Effect {
 
-    private int width, height;
+    private int width = 0, height = 0;
     private Algorithm algorithm = Algorithm.NEAREST_NEIGHBOR;
 
     @Override
@@ -53,6 +53,17 @@ public class Resize implements Effect {
             case NEAREST_NEIGHBOR:
             default:
                 operation = new ResizeNearestNeighbor();
+        }
+
+        // Proportional Scale
+        if (width == 0 && height > 0) {
+            float scale = fastBitmap.getHeight() / (float) height;
+            width = (int) (fastBitmap.getWidth() * scale);
+        }
+
+        if (height == 0 && width > 0) {
+            float scale = fastBitmap.getWidth() / (float) width;
+            height = (int) (fastBitmap.getHeight() * scale);
         }
 
         operation.size(width, height);

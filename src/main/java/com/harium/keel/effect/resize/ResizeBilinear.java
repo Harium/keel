@@ -114,8 +114,17 @@ public class ResizeBilinear extends ResizeOperation {
                         dy2 * (dx2 * (p1) + dx1 * (p2)) +
                                 dy1 * (dx2 * (p3) + dx1 * (p4)));
 
+                // get four points in alpha channel
+                p1 = ColorHelper.getAlpha(rgb1);
+                p2 = ColorHelper.getAlpha(rgb2);
+                p3 = ColorHelper.getAlpha(rgb3);
+                p4 = ColorHelper.getAlpha(rgb4);
 
-                int rgb = ColorHelper.getRGB(r, g, b);
+                int a = (int) (
+                        dy2 * (dx2 * (p1) + dx1 * (p2)) +
+                                dy1 * (dx2 * (p3) + dx1 * (p4)));
+
+                int rgb = ColorHelper.getARGB(r, g, b, a);
                 output.setRGB(j, i, rgb);
             }
         }

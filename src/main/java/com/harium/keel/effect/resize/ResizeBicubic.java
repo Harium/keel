@@ -57,8 +57,8 @@ public class ResizeBicubic extends ResizeOperation {
         int ox1, oy1, ox2, oy2;
 
         // width and height decreased by 1
-        int imax = height - 1;
-        int jmax = width - 1;
+        int imax = h - 1;
+        int jmax = w - 1;
 
         for (int i = 0; i < height; i++) {
 
@@ -74,49 +74,54 @@ public class ResizeBicubic extends ResizeOperation {
                 ox1 = (int) ox;
                 dx = ox - (double) ox1;
 
-                int r, g, b;
-                r = g = b = 0;
+                int r, g, b, a;
+                r = g = b = a = 0;
 
                 for (int n = -1; n < 3; n++) {
 
-                    // get Y cooefficient
+                    // get Y coefficient
                     k1 = Interpolation.BiCubicKernel(dy - (double) n);
 
                     oy2 = oy1 + n;
-                    if (oy2 < 0)
+                    if (oy2 < 0) {
                         oy2 = 0;
-                    if (oy2 > imax)
+                    }
+                    if (oy2 > imax) {
                         oy2 = imax;
+                    }
 
                     for (int m = -1; m < 3; m++) {
 
-                        // get X cooefficient
+                        // get X coefficient
                         k2 = k1 * Interpolation.BiCubicKernel((double) m - dx);
 
                         ox2 = ox1 + m;
-                        if (ox2 < 0)
+                        if (ox2 < 0) {
                             ox2 = 0;
-                        if (ox2 > jmax)
+                        }
+                        if (ox2 > jmax) {
                             ox2 = jmax;
+                        }
 
                         int rgb = fastBitmap.getRGB(ox2, oy2);
 
                         r += k2 * ColorHelper.getRed(rgb);
                         g += k2 * ColorHelper.getGreen(rgb);
                         b += k2 * ColorHelper.getBlue(rgb);
+                        a += k2 * ColorHelper.getAlpha(rgb);
                     }
                 }
 
                 r = ColorHelper.clamp(r);
                 g = ColorHelper.clamp(g);
                 b = ColorHelper.clamp(b);
+                a = ColorHelper.clamp(a);
 
-                int rgb = ColorHelper.getRGB(r, g, b);
+                int rgb = ColorHelper.getARGB(r, g, b, a);
                 output.setRGB(j, i, rgb);
             }
         }
         return output;
-
     }
 
 }
