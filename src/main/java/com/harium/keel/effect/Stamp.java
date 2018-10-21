@@ -30,12 +30,12 @@ public class Stamp implements Effect {
                 } else {
                     if (sx < 0) {
                         sx += input.getWidth();
-                    } else if (sx > input.getWidth()) {
+                    } else if (sx >= input.getWidth()) {
                         sx %= input.getWidth();
                     }
                     if (sy < 0) {
                         sy += input.getHeight();
-                    } else if (sy > input.getHeight()) {
+                    } else if (sy >= input.getHeight()) {
                         sy %= input.getHeight();
                     }
                 }
