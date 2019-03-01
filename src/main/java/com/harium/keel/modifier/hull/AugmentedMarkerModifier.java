@@ -18,7 +18,7 @@ public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {
 
         PointFeature box = new PointFeature();
 
-        for (Point2D point : modify(component)) {
+        for (Point2D point : apply(component)) {
             box.add(point);
         }
 
@@ -32,7 +32,7 @@ public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {
         return box;
     }
 
-    public List<Point2D> modify(PointFeature feature) {
+    public List<Point2D> apply(PointFeature feature) {
 
         Point2D center = feature.getCenter();
 

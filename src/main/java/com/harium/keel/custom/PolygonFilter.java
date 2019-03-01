@@ -41,12 +41,12 @@ public class PolygonFilter {
 		List<PointFeature> filtered = new ArrayList<PointFeature>();
 		
 		for(PointFeature component:components) {
-			HullFeature hull = quickHull.modify(component);
+			HullFeature hull = quickHull.apply(component);
 			System.out.println("Second pass: "+hull.getPointCount());
 			
 			//filtered.add(hull);
 			
-			List<Point2D> points = pathCompressionModifier.modify(hull);
+			List<Point2D> points = pathCompressionModifier.apply(hull);
 			filtered.add(new PointFeature(points));
 			//filtered.add(hull);
 		}

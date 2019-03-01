@@ -19,7 +19,7 @@ public class VerticalTrimModifier implements ComponentModifierStrategy, Modifier
     }
 
     @Override
-    public PointFeature modify(PointFeature feature) {
+    public PointFeature apply(PointFeature feature) {
         boolean[][] mask = feature.generateMask();
 
         int columns = -1;
@@ -58,6 +58,6 @@ public class VerticalTrimModifier implements ComponentModifierStrategy, Modifier
 
     @Override
     public PointFeature modifyComponent(PointFeature component) {
-        return modify(component);
+        return apply(component);
     }
 }

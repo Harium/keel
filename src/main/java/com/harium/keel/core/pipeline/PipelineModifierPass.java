@@ -13,6 +13,6 @@ public class PipelineModifierPass<I, O> implements PipelinePass<I, O> {
 
     @Override
     public O process(ImageSource source, I input) {
-        return modifier.modify(input);
+        return modifier.apply(input);
     }
 }

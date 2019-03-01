@@ -38,7 +38,7 @@ public class FastConvexHullModifier implements HullModifier<HullFeature> {
 		return polygon;
 	}
 
-	public HullFeature modify(PointFeature feature) {
+	public HullFeature apply(PointFeature feature) {
 		HullFeature result = new HullFeature();
 		
 		if(feature.getPointCount() < 3) {

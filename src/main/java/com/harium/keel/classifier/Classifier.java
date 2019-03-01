@@ -1,5 +1,13 @@
 package com.harium.keel.classifier;
 
-public interface Classifier<T, R> {
-    R classify(T feature);
+import com.harium.keel.core.Modifier;
+
+public abstract class Classifier<I, O> implements Modifier<I, O> {
+
+    abstract O classify(I feature);
+
+    @Override
+    public O apply(I feature) {
+        return classify(feature);
+    }
 }

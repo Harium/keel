@@ -22,7 +22,7 @@ public class LetterOGRModifierTest {
         matrix[3] = new boolean[]{true, false, false, false,  true};
         matrix[4] = new boolean[]{true, false, false, false,  true};
 
-        Graph<Integer> graph = modifier.modify(matrix);
+        Graph<Integer> graph = modifier.apply(matrix);
 
         Assert.assertEquals(7, graph.getNodes().size());
 
@@ -42,7 +42,7 @@ public class LetterOGRModifierTest {
         matrix[3] = new boolean[]{true, false, false, false, true};
         matrix[4] = new boolean[]{true, true, true, true, true};
 
-        Graph<Integer> graph = modifier.modify(matrix);
+        Graph<Integer> graph = modifier.apply(matrix);
 
         Assert.assertEquals(7, graph.getNodes().size());
 
@@ -61,7 +61,7 @@ public class LetterOGRModifierTest {
         matrix[3] = new boolean[]{false, true, false, true, false};
         matrix[4] = new boolean[]{false, false, true, false, false};
 
-        Graph<Integer> graph = modifier.modify(matrix);
+        Graph<Integer> graph = modifier.apply(matrix);
 
         Assert.assertEquals(7, graph.getNodes().size());
 
@@ -80,7 +80,7 @@ public class LetterOGRModifierTest {
         matrix[3] = new boolean[]{true, false, true, false, false};
         matrix[4] = new boolean[]{true, false, false, true, false};
 
-        Graph<Integer> graph = modifier.modify(matrix);
+        Graph<Integer> graph = modifier.apply(matrix);
 
         Assert.assertEquals(5, graph.getNodes().size());
 

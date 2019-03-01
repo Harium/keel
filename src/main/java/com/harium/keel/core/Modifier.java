@@ -2,7 +2,7 @@ package com.harium.keel.core;
 
 
 public interface Modifier<I, T> {
-	
-	T modify(I feature);
-	
+
+    T apply(I feature);
+
 }

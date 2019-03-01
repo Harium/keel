@@ -24,14 +24,14 @@ public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
 
         PointFeature box = new PointFeature();
 
-        for (Point2D point : modify(component)) {
+        for (Point2D point : apply(component)) {
             box.add(point);
         }
 
         return box;
     }
 
-    public List<Point2D> modify(PointFeature feature) {
+    public List<Point2D> apply(PointFeature feature) {
 
         boolean[][] mask = feature.generateMask();
 

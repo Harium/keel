@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class PipelineTest {
+public class FilterPipelineTest {
 
     @Test
     public void testSimplestPipeline() {
@@ -20,8 +20,7 @@ public class PipelineTest {
         ColorFilter filter = new ColorFilter(screen.getWidth(), screen.getHeight(), Color.BLACK);
         filter.setBorder(0);
 
-        Pipeline pipeline = Pipeline.build()
-                .add(filter);
+        FilterPipeline pipeline = new FilterPipeline().add(filter);
 
         List<Feature> result = (List<Feature>) pipeline.process(source, screen);
         Assert.assertEquals(2, result.size());

@@ -27,7 +27,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, Modifier<P
 	@Override
 	public PointFeature modifyComponent(PointFeature component) {
 
-		Graph<Point2D> g = modify(component);
+		Graph<Point2D> g = apply(component);
 
 		PointFeature polygon = new PointFeature(0, 0);
 
@@ -39,7 +39,7 @@ public class MiddleLineModifier implements ComponentModifierStrategy, Modifier<P
 
 	}
 
-	public Graph<Point2D> modify(PointFeature feature) {
+	public Graph<Point2D> apply(PointFeature feature) {
 
 		List<Point2D> points = feature.getPoints();
 

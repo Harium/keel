@@ -18,7 +18,7 @@ public class LetterOGRModifier implements Modifier<PointFeature, Graph<OGRNodeDa
         super();
     }
 
-    public Graph<OGRNodeData> modify(PointFeature feature) {
+    public Graph<OGRNodeData> apply(PointFeature feature) {
         Graph<OGRNodeData> graph = modify(feature.generateMask());
         moveNodes(graph, feature.getX(), feature.getY());
 

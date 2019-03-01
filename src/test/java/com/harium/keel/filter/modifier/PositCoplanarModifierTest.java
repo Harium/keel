@@ -37,7 +37,7 @@ public class PositCoplanarModifierTest {
         PointFeature component = new PointFeature();
         component.setPoints(imagePoints);
 
-        RotationAxis axis = posit.modify(component);
+        RotationAxis axis = posit.apply(component);
 
         Matrix4 matrix = axis.getMatrix();
 
@@ -70,7 +70,7 @@ public class PositCoplanarModifierTest {
         PointFeature component = new PointFeature();
         component.setPoints(imagePoints);
 
-        RotationAxis axis = posit.modify(component);
+        RotationAxis axis = posit.apply(component);
 
         Matrix4 matrix = axis.getMatrix();
 
@@ -102,7 +102,7 @@ public class PositCoplanarModifierTest {
         PointFeature component = new PointFeature(600, 600);
         component.setPoints(imagePoints);
 
-        RotationAxis axis = posit.modify(component);
+        RotationAxis axis = posit.apply(component);
 
         Matrix4 matrix = axis.getMatrix();
 

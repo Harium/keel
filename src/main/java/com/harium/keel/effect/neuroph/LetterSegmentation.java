@@ -22,7 +22,7 @@ public class LetterSegmentation implements Modifier<ImageSource, List<ImageSourc
     private boolean[][] visited;
 
     @Override
-    public List<ImageSource> modify(ImageSource input) {
+    public List<ImageSource> apply(ImageSource input) {
         List<ImageSource> output = new ArrayList<>();
 
         ImageSource originalImage = input;

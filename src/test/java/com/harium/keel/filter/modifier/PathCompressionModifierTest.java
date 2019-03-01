@@ -37,13 +37,13 @@ public class PathCompressionModifierTest {
 
     @Test
     public void testModifyLine() {
-        List<Point2D> points = modifier.modify(heavyLine);
+        List<Point2D> points = modifier.apply(heavyLine);
         Assert.assertEquals(2, points.size());
     }
 
     @Test
     public void testModifyClosedTriangle() {
-        List<Point2D> points = modifier.modify(heavyTriangle);
+        List<Point2D> points = modifier.apply(heavyTriangle);
 
         Assert.assertEquals(4, points.size());
         Assert.assertEquals(new Point2D(10, 0), points.get(0));

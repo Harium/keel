@@ -34,11 +34,11 @@ public class PositCoplanarModifier implements ComponentModifierStrategy, Modifie
 
     @Override
     public PointFeature modifyComponent(PointFeature component) {
-        axis = modify(component);
+        axis = apply(component);
         return component;
     }
 
-    public RotationAxis modify(PointFeature feature) {
+    public RotationAxis apply(PointFeature feature) {
         List<Point2D> points = feature.getPoints();
         List<Point2D> imagePoints = ajustPoints(points);
 

@@ -2,8 +2,6 @@ package com.harium.keel.core;
 
 import com.harium.keel.core.source.ImageSource;
 
-public interface Effect {
-
-    ImageSource apply(ImageSource input);
+public interface Effect extends Modifier<ImageSource, ImageSource> {
 
 }

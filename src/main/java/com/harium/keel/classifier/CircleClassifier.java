@@ -3,7 +3,7 @@ package com.harium.keel.classifier;
 import com.harium.etyl.geometry.Point2D;
 import com.harium.keel.feature.PointFeature;
 
-public class CircleClassifier implements Classifier<PointFeature, Boolean> {
+public class CircleClassifier extends Classifier<PointFeature, Boolean> {
 
     private int step = 2;
     private int iterations = 4;

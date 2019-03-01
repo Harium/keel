@@ -23,7 +23,7 @@ public class JarvisMarchModifier implements HullModifier<List<Point2D>> {
     @Override
     public PointFeature modifyComponent(PointFeature component) {
 
-        List<Point2D> convexPolygon = modify(component);
+        List<Point2D> convexPolygon = apply(component);
 
         PointFeature poly = new PointFeature(0, 0);
 
@@ -45,7 +45,7 @@ public class JarvisMarchModifier implements HullModifier<List<Point2D>> {
      * @param points in double[][]
      * @return double[][] with points of the convex hull
      */
-    public List<Point2D> modify(PointFeature feature) {
+    public List<Point2D> apply(PointFeature feature) {
 
         List<Point2D> points = feature.getPoints();
 

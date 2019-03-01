@@ -1,4 +1,4 @@
-package com.harium.keel.classifier.cluster;
+package com.harium.keel.cluster;
 
 import com.harium.etyl.geometry.Point2D;
 
