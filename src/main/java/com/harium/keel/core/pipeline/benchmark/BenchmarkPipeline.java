@@ -4,26 +4,37 @@ import com.harium.keel.core.pipeline.Pipeline;
 import com.harium.keel.core.pipeline.PipelinePass;
 import com.harium.keel.core.source.ImageSource;
 
-public class BenchmarkPipeline<I, O> extends Pipeline<I, BenchmarkProcess<O>> {
+public class BenchmarkPipeline<I, O> extends Pipeline<I, O> {
+
+    private BenchmarkInfo<O> info = new BenchmarkInfo();
 
     @SuppressWarnings("unchecked")
-    public BenchmarkProcess<O> process(ImageSource source, I feature) {
+    public O process(ImageSource source, I feature) {
         Object result = feature;
 
-        BenchmarkProcess<O> process = new BenchmarkProcess();
+        info = new BenchmarkInfo();
 
         for (PipelinePass step : passes) {
+            BenchmarkStep benchmarkStep = new BenchmarkStep(names.get(step), source);
+
             long start = System.currentTimeMillis();
-            result = step.process(source, result);
+            result = step.process(benchmarkStep.getSource(), result);
             long end = System.currentTimeMillis();
 
-            process.addStep(names.get(result), end - start);
+            benchmarkStep.setTime(end - start);
+
+            info.addStep(benchmarkStep);
         }
 
-        return process;
+        info.setResult((O) result);
+        return (O) result;
     }
 
-    public static BenchmarkPipeline<?, ?> build() {
+    public BenchmarkPipeline<I, O> build() {
         return new BenchmarkPipeline<>();
+    }
+
+    public BenchmarkInfo getInfo() {
+        return info;
     }
 }
