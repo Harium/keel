@@ -5,10 +5,10 @@ package com.harium.keel.core.source;
  */
 public class MatrixSource extends ImageSourceImpl {
 
-    private int w = 0;
-    private int h = 0;
+    protected int w;
+    protected int h;
 
-    private int[][] matrix;
+    protected int[][] matrix;
 
     public MatrixSource(int w, int h) {
         this.w = w;

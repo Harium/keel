@@ -38,7 +38,7 @@ public class FilterPipeline<I, O> extends Pipeline<I, O> {
         return this;
     }
 
-    public static FilterPipeline<?, ?> build() {
+    public FilterPipeline<I, O> build() {
         return new FilterPipeline<>();
     }
 }

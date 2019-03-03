@@ -1,13 +1,16 @@
 package com.harium.keel.core.pipeline.benchmark;
 
-public class BenchmarkStep {
+import com.harium.keel.core.source.ImageSource;
+
+public class BenchmarkPass {
 
     private String name;
     private long time;
+    private BenchmarkSource source;
 
-    public BenchmarkStep(String name, long time) {
+    public BenchmarkPass(String name, ImageSource original) {
         this.name = name;
-        this.time = time;
+        source = new BenchmarkSource(original);
     }
 
     public String getName() {
@@ -26,4 +29,7 @@ public class BenchmarkStep {
         this.time = time;
     }
 
+    public ImageSource getSource() {
+        return source;
+    }
 }

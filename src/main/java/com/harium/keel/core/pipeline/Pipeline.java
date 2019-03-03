@@ -10,7 +10,9 @@ import java.util.Map;
 /**
  * A Fluent API filter pipeline
  */
-public class Pipeline<I, T> {
+public class Pipeline<I, O> {
+
+    public static final Object ERROR = new Object();
 
     protected List<PipelinePass<?, ?>> passes = new ArrayList<>();
     protected Map<PipelinePass, String> names = new HashMap<>();
@@ -26,17 +28,29 @@ public class Pipeline<I, T> {
     }
 
     @SuppressWarnings("unchecked")
-    public T process(ImageSource source, I feature) {
+    public O process(ImageSource source, I feature) {
         Object result = feature;
 
-        for (PipelinePass step : passes) {
-            result = step.process(source, result);
+        for (PipelinePass pass : passes) {
+            result = pass.process(source, result);
+            if (ERROR == result) {
+                result = null;
+                break;
+            }
         }
 
-        return (T) result;
+        return (O) result;
     }
 
-    public static Pipeline<?, ?> build() {
+    public Pipeline<I, O> build() {
         return new Pipeline<>();
+    }
+
+    public List<PipelinePass<?, ?>> getPasses() {
+        return passes;
+    }
+
+    public Map<PipelinePass, String> getNames() {
+        return names;
     }
 }
