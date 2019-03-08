@@ -1,5 +1,6 @@
 package com.harium.keel.core.pipeline.benchmark;
 
+import com.harium.keel.core.source.BenchmarkSource;
 import com.harium.keel.core.source.ImageSource;
 
 public class BenchmarkPass {
