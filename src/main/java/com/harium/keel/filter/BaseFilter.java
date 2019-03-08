@@ -1,6 +1,7 @@
 package com.harium.keel.filter;
 
 import com.harium.keel.core.Filter;
+import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.strategy.FeatureValidationStrategy;
 import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.feature.Feature;

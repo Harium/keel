@@ -22,8 +22,7 @@ public class BenchmarkPipeline<I, O> extends Pipeline<I, O> {
             long end = System.currentTimeMillis();
 
             benchmarkPass.setTime(end - start);
-
-            info.addStep(benchmarkPass);
+            addStep(benchmarkPass);
 
             if (ERROR == result) {
                 result = null;
@@ -33,6 +32,10 @@ public class BenchmarkPipeline<I, O> extends Pipeline<I, O> {
 
         info.setResult((O) result);
         return (O) result;
+    }
+
+    protected void addStep(BenchmarkPass pass) {
+        info.addStep(pass);
     }
 
     public BenchmarkPipeline<I, O> build() {

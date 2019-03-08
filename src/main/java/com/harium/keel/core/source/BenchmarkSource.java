@@ -1,7 +1,4 @@
-package com.harium.keel.core.pipeline.benchmark;
-
-import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.core.source.MatrixSource;
+package com.harium.keel.core.source;
 
 public class BenchmarkSource extends MatrixSource {
 
