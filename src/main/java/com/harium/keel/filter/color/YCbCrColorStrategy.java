@@ -113,4 +113,8 @@ public class YCbCrColorStrategy implements ColorStrategy, SelectionStrategy {
     public void setLumaTolerance(int lumaTolerance) {
         this.lumaTolerance = lumaTolerance;
     }
+
+    public int getColor() {
+        return color;
+    }
 }
