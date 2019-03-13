@@ -24,8 +24,8 @@ public class CubeToEquirectangularFaces implements Effect {
         double theta, phi; //Polar coordinates
         int cubeFaceWidth, cubeFaceHeight;
 
-        cubeFaceWidth = input.getWidth() / 4; //4 horizontal faces
-        cubeFaceHeight = input.getHeight() / 3; //3 vertical faces
+        cubeFaceWidth = input.getWidth();
+        cubeFaceHeight = input.getHeight();
 
         for (int j = 0; j < equiTexture.getHeight(); j++) {
             // Rows start from the bottom
@@ -94,8 +94,14 @@ public class CubeToEquirectangularFaces implements Effect {
                     yPixel = 0;
                 }
 
-                xPixel = Math.abs(xPixel);
-                yPixel = Math.abs(yPixel);
+                if (xPixel < 0) {
+                    xPixel = -xPixel;
+                }
+                if (yPixel < 0) {
+                    yPixel = -yPixel;
+                }
+
+                yPixel = input.getHeight() - yPixel;
 
                 if (xPixel >= input.getWidth()) {
                     continue;
