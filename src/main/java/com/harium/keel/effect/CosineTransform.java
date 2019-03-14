@@ -142,7 +142,7 @@ public class CosineTransform {
     }
 
     /**
-     * Compute the Power Spectrum;
+     * compute the Power Spectrum;
      */
     private void PowerSpectrum() {
         Power = new double[data.length][data[0].length];

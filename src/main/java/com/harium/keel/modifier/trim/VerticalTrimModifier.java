@@ -47,7 +47,7 @@ public class VerticalTrimModifier implements ComponentModifierStrategy, Modifier
             //Remove columns
             for (int i = feature.getPoints().size() - 1; i >= 0; i--) {
                 Point2D point = feature.getPoints().get(i);
-                if (point.getX() <= columns) {
+                if (point.x <= columns) {
                     feature.getPoints().remove(i);
                 }
             }

@@ -52,7 +52,7 @@ public class MaskFeature implements Comparable<MaskFeature> {
     }
 
     public void add(Point2D point) {
-        add((int) point.getX(), (int) point.getY());
+        add((int) point.x, (int) point.y);
     }
 
     public void add(int px, int py) {

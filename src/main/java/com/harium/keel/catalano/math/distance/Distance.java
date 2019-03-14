@@ -629,7 +629,7 @@ public final class Distance {
         //Inverse of pooled covariance
         pCov = Matrix.Inverse(pCov);
 
-        //Compute mean difference
+        //compute mean difference
         double[] diff = new double[A[0].length];
         for (int i = 0; i < diff.length; i++) {
             diff[i] = meansA[i] - meansB[i];

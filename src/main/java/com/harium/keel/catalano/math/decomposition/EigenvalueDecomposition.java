@@ -278,7 +278,7 @@ public class EigenvalueDecomposition implements java.io.Serializable {
                 do {
                     iter = iter + 1;  // (Could check iteration count here.)
 
-                    // Compute implicit shift
+                    // compute implicit shift
 
                     double g = d[l];
                     double p = (d[l + 1] - g) / (2.0 * e[l]);
@@ -382,7 +382,7 @@ public class EigenvalueDecomposition implements java.io.Serializable {
             }
             if (scale != 0.0) {
 
-                // Compute Householder transformation.
+                // compute Householder transformation.
 
                 double h = 0.0;
                 for (int i = high; i >= m; i--) {

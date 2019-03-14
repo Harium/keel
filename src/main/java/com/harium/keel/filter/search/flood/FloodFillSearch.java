@@ -1,6 +1,7 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.geometry.Point2D;
+import com.harium.keel.core.model.ColorPoint;
 import com.harium.keel.filter.ComponentFilter;
 import com.harium.keel.core.mask.DynamicArrayMask;
 import com.harium.keel.core.mask.DynamicMask;
@@ -68,10 +69,10 @@ public class FloodFillSearch extends ComponentFilter {
         if (verifySinglePixel(x, y, rgb)) {
 
             //Clear Queue
-            Queue<Point2D> queue = new LinkedList<Point2D>();
+            Queue<ColorPoint> queue = new LinkedList<>();
             PointFeature found = new PointFeature();
 
-            Point2D firstPoint = new Point2D(x, y, rgb);
+            ColorPoint firstPoint = new ColorPoint(x, y, rgb);
 
             //Mark as touched
             addPoint(found, firstPoint);
@@ -81,7 +82,7 @@ public class FloodFillSearch extends ComponentFilter {
             while (!queue.isEmpty()) {
 
                 //Queue.pop();
-                Point2D p = queue.remove();
+                ColorPoint p = queue.remove();
 
                 if (verifyNext(p, x, y, width, height, source, component)) {
                     addPoint(found, p);
@@ -104,8 +105,8 @@ public class FloodFillSearch extends ComponentFilter {
     protected boolean verifyNext(Point2D p, int x, int y, int width,
                                  int height, ImageSource source, Feature component) {
 
-        int px = (int) p.getX();
-        int py = (int) p.getY();
+        int px = (int) p.x;
+        int py = (int) p.y;
 
         int rgb = source.getRGB(px, py);
 
@@ -119,27 +120,27 @@ public class FloodFillSearch extends ComponentFilter {
         return false;
     }
 
-    protected void addPoint(PointFeature component, Point2D p) {
-        mask.setTouched((int) p.getX(), (int) p.getY());
+    protected void addPoint(PointFeature component, ColorPoint p) {
+        mask.setTouched((int) p.x, (int) p.y);
         component.add(p);
     }
 
-    protected void addNeighbors(Queue<Point2D> queue, Point2D p, Feature component) {
-        addNeighbor(queue, (int) p.getX() + step, (int) p.getY(), p.getColor(), component);
-        addNeighbor(queue, (int) p.getX() - step, (int) p.getY(), p.getColor(), component);
-        addNeighbor(queue, (int) p.getX(), (int) p.getY() + step, p.getColor(), component);
-        addNeighbor(queue, (int) p.getX(), (int) p.getY() - step, p.getColor(), component);
+    protected void addNeighbors(Queue<ColorPoint> queue, ColorPoint p, Feature component) {
+        addNeighbor(queue, (int) p.x + step, (int) p.y, p.getColor(), component);
+        addNeighbor(queue, (int) p.x - step, (int) p.y, p.getColor(), component);
+        addNeighbor(queue, (int) p.x, (int) p.y + step, p.getColor(), component);
+        addNeighbor(queue, (int) p.x, (int) p.y - step, p.getColor(), component);
     }
 
     //It also prevents same pixel be included in a better list of neighbors
     //May have to be changed to let multiple touch
-    protected void addNeighbor(Queue<Point2D> queue, int px, int py, int color, Feature component) {
+    protected void addNeighbor(Queue<ColorPoint> queue, int px, int py, int color, Feature component) {
         if (!inBoundary(px, py, component)) {
             return;
         }
 
         if (!mask.isTouched(px, py)) {
-            queue.add(new Point2D(px, py, color));
+            queue.add(new ColorPoint(px, py, color));
         }
     }
 

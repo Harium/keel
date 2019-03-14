@@ -44,7 +44,7 @@ public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {
         for (Point2D point : feature.getPoints()) {
 
             //Verify A region
-            if (point.getY() < a.getY()) {
+            if (point.y < a.y) {
 
                 a = point;
                 continue;
@@ -56,15 +56,15 @@ public class AugmentedMarkerModifier implements HullModifier<List<Point2D>> {
 
             }
 
-            if (point.getX() > center.getX()) {
+            if (point.x > center.x) {
 
-                if (point.getX() >= b.getX() && point.distance(c) > b.distance(c)) {
+                if (point.x >= b.x && point.distance(c) > b.distance(c)) {
                     b = point;
                 }
 
             } else {
 
-                if (point.getX() <= c.getX()) {
+                if (point.x <= c.x) {
 
                     c = point;
                 }

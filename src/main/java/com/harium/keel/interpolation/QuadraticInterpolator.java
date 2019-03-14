@@ -19,20 +19,20 @@ public class QuadraticInterpolator extends InterpolatorImpl {
 
     public double[] getCoefficients(double x) {
 
-        double b = points.get(0).getX();
+        double b = points.get(0).x;
         double a = b * b;
         double c = 1;
-        double d = points.get(0).getY();
+        double d = points.get(0).y;
 
-        double f = points.get(1).getX();
+        double f = points.get(1).x;
         double e = f * f;
         double g = 1;
-        double h = points.get(1).getY();
+        double h = points.get(1).y;
 
-        double j = points.get(2).getX();
+        double j = points.get(2).x;
         double i = j * j;
         double k = 1;
-        double l = points.get(2).getY();
+        double l = points.get(2).y;
 
         double delta = (a * f * k) + (b * g * i) + (c * e * j) - (c * f * i) - (a * g * j) - (b * e * k);
 

@@ -36,7 +36,7 @@ public class IntersectionDistance implements IDistance<double[]> {
     }
 
     @Override
-    public double Compute(double[] u, double[] v) {
+    public double compute(double[] u, double[] v) {
         double r = 0;
         for (int i = 0; i < u.length; i++) {
             r += Math.min(u[i], v[i]);

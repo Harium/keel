@@ -69,8 +69,8 @@ public class PointFeature extends Feature implements Comparable<PointFeature> {
 
         for (Point2D point : points) {
 
-            int x = (int) point.getX() - this.getLowestX();
-            int y = (int) point.getY() - this.getLowestY();
+            int x = (int) point.x - this.getLowestX();
+            int y = (int) point.y - this.getLowestY();
 
             if (x < 0 || y < 0 || x >= w || y >= h)
                 continue;
@@ -88,8 +88,8 @@ public class PointFeature extends Feature implements Comparable<PointFeature> {
 
     public void add(Point2D p) {
 
-        int px = (int) p.getX();
-        int py = (int) p.getY();
+        int px = (int) p.x;
+        int py = (int) p.y;
 
         if (px > highestX) {
             highestX = px;
@@ -121,8 +121,8 @@ public class PointFeature extends Feature implements Comparable<PointFeature> {
 
     protected void addLogic(Point2D p) {
         points.add(p);
-        sumX += p.getX();
-        sumY += p.getY();
+        sumX += p.x;
+        sumY += p.y;
     }
 
     public int getPointCount() {

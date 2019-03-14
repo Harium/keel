@@ -55,7 +55,7 @@ public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
         Point2D d = graph.getNodes().get(3).getData().getPoint();
 
         //isQuadGraph
-        if (a.getY() == c.getY()) {
+        if (a.y == c.y) {
 
             a = graph.getNodes().get(0).getData().getPoint();
             b = graph.getNodes().get(1).getData().getPoint();
@@ -72,7 +72,7 @@ public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
         list.add(d);
 
         for (Point2D point : list) {
-            point.setOffset(feature.getX(), feature.getY());
+            point.offset(feature.getX(), feature.getY());
         }
 
         return list;

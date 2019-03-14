@@ -37,10 +37,10 @@ public class CircleClassifier extends Classifier<PointFeature, Boolean> {
         }
 
         Point2D center = feature.getCenter();
-        double cx = center.getX();
-        double cy = center.getY();
+        double cx = center.x;
+        double cy = center.y;
 
-        double interval = 180 / iterations;
+        double interval = 180 / (double) iterations;
 
         for (int i = 0; i < iterations; i++) {
 

@@ -54,40 +54,38 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
     }
 
     public static Color filter(ImageSource source, PointFeature component) {
-
-        int averageRed = 0;
-        int averageBlue = 0;
-        int averageGreen = 0;
+        float averageRed = 0;
+        float averageBlue = 0;
+        float averageGreen = 0;
 
         int pixelCount = 0;
 
         List<Point2D> points = component.getPoints();
 
         for (Point2D point : points) {
-
-            int i = (int) point.getX();
-
-            int j = (int) point.getY();
+            int i = (int) point.x;
+            int j = (int) point.y;
 
             int rgb = source.getRGB(i, j);
 
-            averageRed += ColorHelper.getRed(rgb);
+            int r = ColorHelper.getRed(rgb);
+            int g = ColorHelper.getGreen(rgb);
+            int b = ColorHelper.getBlue(rgb);
 
-            averageBlue += ColorHelper.getBlue(rgb);
-
-            averageGreen += ColorHelper.getGreen(rgb);
+            if (pixelCount == 0) {
+                averageRed = r;
+                averageGreen = g;
+                averageBlue = b;
+            } else {
+                averageRed = averageRed + (r - averageRed) / pixelCount;
+                averageGreen = averageGreen + (g - averageGreen) / pixelCount;
+                averageBlue = averageBlue + (b - averageBlue) / pixelCount;
+            }
 
             pixelCount++;
-
         }
 
-        averageRed /= pixelCount;
-
-        averageBlue /= pixelCount;
-
-        averageGreen /= pixelCount;
-
-        return new Color(averageRed, averageGreen, averageBlue);
+        return new Color((int) averageRed, (int) averageGreen, (int) averageBlue);
 
     }
 

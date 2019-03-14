@@ -12,13 +12,13 @@ public class PolygonMatcher {
 
         StringBuilder builder = new StringBuilder();
 
-        double ox = points.get(0).getX();
-        double oy = points.get(0).getY();
+        double ox = points.get(0).x;
+        double oy = points.get(0).y;
 
         for (int i = 1; i < points.size(); i++) {
 
-            double px = points.get(i).getX();
-            double py = points.get(i).getY();
+            double px = points.get(i).x;
+            double py = points.get(i).y;
 
             builder.append(getExp(ox, oy, px, py));
 

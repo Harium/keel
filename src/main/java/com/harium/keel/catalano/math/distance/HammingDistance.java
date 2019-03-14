@@ -37,7 +37,7 @@ public class HammingDistance implements IDistance<String> {
     }
 
     @Override
-    public double Compute(String u, String v) {
+    public double compute(String u, String v) {
         return Distance.Hamming(u, v);
     }
 }

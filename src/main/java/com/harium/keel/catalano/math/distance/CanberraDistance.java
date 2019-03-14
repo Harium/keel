@@ -36,7 +36,7 @@ public class CanberraDistance implements IDistance<double[]> {
     }
 
     @Override
-    public double Compute(double[] u, double[] v) {
+    public double compute(double[] u, double[] v) {
         return Distance.Canberra(u, v);
     }
 }

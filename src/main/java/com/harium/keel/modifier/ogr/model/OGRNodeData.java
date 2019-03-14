@@ -42,10 +42,10 @@ public class OGRNodeData {
     }
 
     public double getX() {
-        return point.getX();
+        return point.x;
     }
 
     public double getY() {
-        return point.getY();
+        return point.y;
     }
 }

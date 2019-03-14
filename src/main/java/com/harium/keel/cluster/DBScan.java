@@ -37,7 +37,6 @@ public class DBScan {
      * @param eps maximum radius of the neighborhood to be considered
      * @param minPts minimum number of points needed for a cluster
      * @param measure the distance measure to use
-     * @throws NotPositiveException if {@code eps < 0.0} or {@code minPts < 0}
      */
     public DBScan(final double eps, final int minPoints) {
         super();
@@ -77,7 +76,7 @@ public class DBScan {
         
         // Populate the kdTree
         for (final Point2D point : points) {
-        	double[] key = {point.getX(), point.getY()};
+        	double[] key = {point.x, point.y};
         	tree.insert(key, point);
         }
                 
@@ -151,7 +150,7 @@ public class DBScan {
      * @return the List of neighbors
      */
     private List<Point2D> getNeighbors(final Point2D point, KDTree<Point2D> points) {
-    	double[] key = {point.getX(), point.getY()};
+    	double[] key = {point.x, point.y};
         final List<Point2D> neighbors = new ArrayList<Point2D>();
         
         neighbors.addAll(points.nearestEuclidean(key, eps));

@@ -104,7 +104,7 @@ public class BinaryWatershed implements Effect {
     private ImageSource Watershed(ImageSource fastBitmap) {
 
         DistanceTransform dt = new DistanceTransform(distance);
-        float[][] distance = dt.Compute(fastBitmap);
+        float[][] distance = dt.compute(fastBitmap);
 
         //Convert 2D to 1D - ImageJ Compatibility
         float[] distance1D = new float[distance.length * distance[0].length];

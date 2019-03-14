@@ -5,8 +5,8 @@ import com.harium.etyl.geometry.Point2D;
 public class EuclideanDistance implements DistanceMeasure {
 
 	public double distance(Point2D a, Point2D b) {
-		double dx = a.getX() - b.getX();
-		double dy = a.getY() - b.getY();
+		double dx = a.x - b.x;
+		double dy = a.y - b.y;
 		
 		return Math.sqrt(dx*dx + dy*dy);
 	}

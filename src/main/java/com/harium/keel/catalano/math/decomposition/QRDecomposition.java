@@ -79,7 +79,7 @@ public class QRDecomposition implements java.io.Serializable {
 
         // Main loop.
         for (int k = 0; k < n; k++) {
-            // Compute 2-norm of k-th column without under/overflow.
+            // compute 2-norm of k-th column without under/overflow.
             double nrm = 0;
             for (int i = k; i < m; i++) {
                 nrm = Tools.Hypotenuse(nrm, QR[i][k]);
@@ -215,7 +215,7 @@ public class QRDecomposition implements java.io.Serializable {
         int nx = B[0].length;
         double[][] X = B.clone();
 
-        // Compute Y = transpose(Q)*B
+        // compute Y = transpose(Q)*B
         for (int k = 0; k < n; k++) {
             for (int j = 0; j < nx; j++) {
                 double s = 0.0;

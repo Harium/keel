@@ -229,7 +229,7 @@ public class Curve implements Serializable {
     }
 
     /**
-     * Compute a Catmull-Rom spline.
+     * compute a Catmull-Rom spline.
      *
      * @param x        the input parameter
      * @param numKnots the number of knots in the spline
@@ -267,7 +267,7 @@ public class Curve implements Serializable {
     }
 
     /**
-     * Compute a Catmull-Rom spline, but with variable knot spacing.
+     * compute a Catmull-Rom spline, but with variable knot spacing.
      *
      * @param x        the input parameter
      * @param numKnots the number of knots in the spline

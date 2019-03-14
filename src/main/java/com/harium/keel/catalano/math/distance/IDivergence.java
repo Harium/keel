@@ -33,12 +33,12 @@ import java.io.Serializable;
 public interface IDivergence<T> extends Serializable {
 
     /**
-     * Compute the distance between the vectors.
+     * compute the distance between the vectors.
      *
      * @param u Vector.
      * @param v Vector.
      * @return Distance.
      */
-    double Compute(T u, T v);
+    double compute(T u, T v);
 
 }

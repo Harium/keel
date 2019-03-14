@@ -12,7 +12,7 @@ public class PointListHelper {
 		List<Point2D> clone = new ArrayList<Point2D>();
 		
 		for(Point2D point: points){
-			clone.add(new Point2D(point.getX(), point.getY()));
+			clone.add(new Point2D(point.x, point.y));
 		}
 		
 		return clone;

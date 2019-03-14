@@ -25,7 +25,7 @@
 package com.harium.keel.catalano.math;
 
 /**
- * Compute functions using Taylor series expansion.
+ * compute functions using Taylor series expansion.
  *
  * @author Diego Catalano
  */
@@ -38,7 +38,7 @@ public final class TaylorSeries {
     }
 
     /**
-     * Compute Sin using Taylor Series.
+     * compute Sin using Taylor Series.
      *
      * @param x      An angle, in radians.
      * @param nTerms Number of terms.
@@ -68,7 +68,7 @@ public final class TaylorSeries {
     }
 
     /**
-     * Compute Cos using Taylor Series.
+     * compute Cos using Taylor Series.
      *
      * @param x      An angle, in radians.
      * @param nTerms Number of terms.
@@ -98,7 +98,7 @@ public final class TaylorSeries {
     }
 
     /**
-     * Compute Sinh using Taylor Series.
+     * compute Sinh using Taylor Series.
      *
      * @param x      An angle, in radians.
      * @param nTerms Number of terms.
@@ -126,7 +126,7 @@ public final class TaylorSeries {
     }
 
     /**
-     * Compute Cosh using Taylor Series.
+     * compute Cosh using Taylor Series.
      *
      * @param x      An angle, in radians.
      * @param nTerms Number of terms.
@@ -154,7 +154,7 @@ public final class TaylorSeries {
     }
 
     /**
-     * Compute Exp using Taylor Series.
+     * compute Exp using Taylor Series.
      *
      * @param x      An angle, in radians.
      * @param nTerms Number of terms.

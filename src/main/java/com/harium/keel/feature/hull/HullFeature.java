@@ -18,7 +18,7 @@ public class HullFeature extends PointFeature {
 
     @Override
     public void addLogic(Point2D point) {
-        polygon.add((float)point.getX(), (float)point.getY());
+        polygon.add((float)point.x, (float)point.y);
     }
 
     @Override

@@ -123,8 +123,8 @@ public class GridIndex {
      * @return a triangle at the same cell of the point
      */
     public Triangle findCellTriangleOf(Point3D point) {
-        int x_index = (int) ((point.getX() - indexRegion.minX()) / x_size);
-        int y_index = (int) ((point.getY() - indexRegion.minY()) / y_size);
+        int x_index = (int) ((point.x - indexRegion.minX()) / x_size);
+        int y_index = (int) ((point.y - indexRegion.minY()) / y_size);
         return grid[x_index][y_index];
     }
 
@@ -215,8 +215,8 @@ public class GridIndex {
      * @return cell covering the coordinate
      */
     private Vector2i getCellOf(Point3D coordinate) {
-        int xCell = (int) ((coordinate.getX() - indexRegion.minX()) / x_size);
-        int yCell = (int) ((coordinate.getY() - indexRegion.minY()) / y_size);
+        int xCell = (int) ((coordinate.x - indexRegion.minX()) / x_size);
+        int yCell = (int) ((coordinate.y - indexRegion.minY()) / y_size);
         return new Vector2i(xCell, yCell);
     }
 

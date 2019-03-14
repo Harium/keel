@@ -107,7 +107,7 @@ public final class Gabor {
 
     /**
      * 2-D Gabor function.
-     * Compute only real part.
+     * compute only real part.
      *
      * @param x             X axis coordinate.
      * @param y             Y axis coordinate.
@@ -131,7 +131,7 @@ public final class Gabor {
 
     /**
      * 2-D Gabor function.
-     * Compute only imaginary part.
+     * compute only imaginary part.
      *
      * @param x             X axis coordinate.
      * @param y             Y axis coordinate.
