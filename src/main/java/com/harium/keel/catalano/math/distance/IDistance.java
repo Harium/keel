@@ -32,6 +32,5 @@ import java.io.Serializable;
  */
 public interface IDistance<T> extends IDivergence<T>, Serializable {
 
-    @Override
-    double Compute(T u, T v);
+    double compute(T u, T v);
 }

@@ -27,7 +27,7 @@ public class LetterOGRModifier implements Modifier<PointFeature, Graph<OGRNodeDa
 
     private void moveNodes(Graph<OGRNodeData> graph, int x, int y) {
         for(Node<OGRNodeData> node: graph.getNodes()) {
-            node.getData().getPoint().setOffset(x, y);
+            node.getData().getPoint().offset(x, y);
         }
     }
 
@@ -295,7 +295,7 @@ public class LetterOGRModifier implements Modifier<PointFeature, Graph<OGRNodeDa
     }
 
     private double dist(LineInterval interval, Node<OGRNodeData> b) {
-        return EtylMath.diffMod(interval.getCenter(), b.getData().getPoint().getX());
+        return EtylMath.diffMod(interval.getCenter(), b.getData().getPoint().x);
     }
 
 }

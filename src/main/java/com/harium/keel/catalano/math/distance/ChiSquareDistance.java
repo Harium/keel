@@ -36,7 +36,7 @@ public class ChiSquareDistance implements IDistance<double[]> {
     }
 
     @Override
-    public double Compute(double[] u, double[] v) {
+    public double compute(double[] u, double[] v) {
         double r = 0;
         for (int i = 0; i < u.length; i++) {
             double t = u[i] + v[i];

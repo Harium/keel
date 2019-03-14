@@ -94,11 +94,11 @@ public class JarvisMarchModifier implements HullModifier<List<Point2D>> {
 
         int index = 0;
 
-        double x = points.get(0).getX();
+        double x = points.get(0).x;
 
         for (int i = 1; i < points.size(); i++) {
-            if (points.get(i).getX() < x) {
-                x = points.get(i).getX();
+            if (points.get(i).x < x) {
+                x = points.get(i).x;
                 index = i;
             }
         }
@@ -108,16 +108,17 @@ public class JarvisMarchModifier implements HullModifier<List<Point2D>> {
 
     static boolean isLeftOfLine(Point2D point, Point2D linePoint1, Point2D linePoint2) {
         // vec1 = vector from linePoint1 to linePoint2
-        double[] vec1 = new double[]{linePoint2.getX() - linePoint1.getX(),
-                linePoint2.getY() - linePoint1.getY()};
+        double[] vec1 = new double[]{linePoint2.x - linePoint1.x,
+                linePoint2.y - linePoint1.y};
         // vec2 = vector from linePoint1 to point
-        double[] vec2 = new double[]{point.getX() - linePoint1.getX(),
-                point.getY() - linePoint1.getY()};
+        double[] vec2 = new double[]{point.x - linePoint1.x,
+                point.y - linePoint1.y};
 
         // making vec1 a unit vector
         double x = vec1[0];
-        vec1[0] = vec1[0] / sqrt(x * x + vec1[1] * vec1[1]);
-        vec1[1] = vec1[1] / sqrt(x * x + vec1[1] * vec1[1]);
+        double den = sqrt(x * x + vec1[1] * vec1[1]);
+        vec1[0] = vec1[0] / den;
+        vec1[1] = vec1[1] / den;
 		
 		/* cause vec1 is now a unit vector (length = 1 = hypotenuse), sine 
 		 * and cosine of vec1's angle can be obtained as follows: 

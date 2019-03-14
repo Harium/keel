@@ -109,7 +109,7 @@ public class DistanceTransform {
     }
 
     /**
-     * Compute Distance Transform.
+     * compute Distance Transform.
      *
      * @param fastBitmap Image to be processed.
      * @return Distance map.

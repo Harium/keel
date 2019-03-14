@@ -268,7 +268,7 @@ public final class Special {
             return 0.0;
         }
         if (n <= 100) {
-            // Compute the factorial using ln(gamma(n)) approximation, using the cache
+            // compute the factorial using ln(gamma(n)) approximation, using the cache
             // if the value has been previously computed.
             return (lnfcache[n] > 0) ? lnfcache[n] : (lnfcache[n] = Gamma.Log(n + 1.0));
         } else {
@@ -312,7 +312,7 @@ public final class Special {
             //  which for some reason is faster than gamma(n+1).
             return Math.exp(Gamma.Log(n + 1.0));
         } else {
-            // Compute in the standard way, but use the
+            // compute in the standard way, but use the
             //  factorial cache to speed up computations.
             while (ftop < n) {
                 int j = ftop++;
@@ -359,7 +359,7 @@ public final class Special {
     }
 
     /**
-     * Compute exp(x) - 1 without loss of precision for small values of x.
+     * compute exp(x) - 1 without loss of precision for small values of x.
      *
      * @param x Value.
      * @return Result.

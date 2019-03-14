@@ -83,7 +83,7 @@ public class SingularValueDecomposition implements java.io.Serializable {
     }
 
     /**
-     * Compute U.
+     * compute U.
      *
      * @param wantu True if need to compute U, otherwise false.
      */
@@ -101,7 +101,7 @@ public class SingularValueDecomposition implements java.io.Serializable {
     }
 
     /**
-     * Compute V.
+     * compute V.
      *
      * @param wantv True if need to compute V, otherwise false.
      */
@@ -113,8 +113,8 @@ public class SingularValueDecomposition implements java.io.Serializable {
      * Initializes a new instance of the SingularValueDecomposition class.
      *
      * @param matrix Matrix.
-     * @param wantU  Compute U.
-     * @param wantV  Compute V.
+     * @param wantU  compute U.
+     * @param wantV  compute V.
      */
     public SingularValueDecomposition(double[][] matrix, boolean wantU, boolean wantV) {
         this.wantu = wantU;
@@ -170,9 +170,9 @@ public class SingularValueDecomposition implements java.io.Serializable {
         int nrt = Math.max(0, Math.min(n - 2, m));
         for (int k = 0; k < Math.max(nct, nrt); k++) {
             if (k < nct) {
-                // Compute the transformation for the k-th column and
+                // compute the transformation for the k-th column and
                 // place the k-th diagonal in s[k].
-                // Compute 2-norm of k-th column without under/overflow.
+                // compute 2-norm of k-th column without under/overflow.
                 s[k] = 0;
                 for (int i = k; i < m; i++) {
                     s[k] = Tools.Hypotenuse(s[k], A[i][k]);
@@ -219,9 +219,9 @@ public class SingularValueDecomposition implements java.io.Serializable {
             }
             if (k < nrt) {
 
-                // Compute the k-th row transformation and place the
+                // compute the k-th row transformation and place the
                 // k-th super-diagonal in e[k].
-                // Compute 2-norm without under/overflow.
+                // compute 2-norm without under/overflow.
                 e[k] = 0;
                 for (int i = k + 1; i < n; i++) {
                     e[k] = Tools.Hypotenuse(e[k], e[i]);

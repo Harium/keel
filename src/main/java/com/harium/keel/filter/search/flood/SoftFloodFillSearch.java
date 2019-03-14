@@ -1,6 +1,7 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.geometry.Point2D;
+import com.harium.keel.core.model.ColorPoint;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;
@@ -31,10 +32,10 @@ public class SoftFloodFillSearch extends FloodFillSearch {
         if (verifySinglePixel(x, y, rgb, UNDEFINED_COLOR)) {
 
             //Clear Queue
-            Queue<Point2D> queue = new LinkedList<Point2D>();
+            Queue<ColorPoint> queue = new LinkedList<>();
             PointFeature found = new PointFeature();
 
-            Point2D firstPoint = new Point2D(x, y);
+            ColorPoint firstPoint = new ColorPoint(x, y, rgb);
 
             //Mark as touched
             addPoint(found, firstPoint);
@@ -44,7 +45,7 @@ public class SoftFloodFillSearch extends FloodFillSearch {
             while (!queue.isEmpty()) {
 
                 //Queue.pop();
-                Point2D p = queue.remove();
+                ColorPoint p = queue.remove();
 
                 if (verifyNext(p, x, y, component.getWidth(), component.getHeight(), source)) {
                     addPoint(found, p);
@@ -63,11 +64,11 @@ public class SoftFloodFillSearch extends FloodFillSearch {
         return false;
     }
 
-    protected boolean verifyNext(Point2D p, int x, int y, int width,
+    protected boolean verifyNext(ColorPoint p, int x, int y, int width,
                                  int height, ImageSource bimg) {
 
-        int px = (int) p.getX();
-        int py = (int) p.getY();
+        int px = (int) p.x;
+        int py = (int) p.y;
         int rgb = bimg.getRGB(px, py);
 
         //Get color from previous pixel
@@ -84,11 +85,11 @@ public class SoftFloodFillSearch extends FloodFillSearch {
         return false;
     }
 
-    protected void addNeighbors(Queue<Point2D> queue, Point2D p, int lastColor, Feature component) {
-        addNeighbor(queue, (int) p.getX() + step, (int) p.getY(), lastColor, component);
-        addNeighbor(queue, (int) p.getX() - step, (int) p.getY(), lastColor, component);
-        addNeighbor(queue, (int) p.getX(), (int) p.getY() + step, lastColor, component);
-        addNeighbor(queue, (int) p.getX(), (int) p.getY() - step, lastColor, component);
+    protected void addNeighbors(Queue<ColorPoint> queue, Point2D p, int lastColor, Feature component) {
+        addNeighbor(queue, (int) p.x + step, (int) p.y, lastColor, component);
+        addNeighbor(queue, (int) p.x - step, (int) p.y, lastColor, component);
+        addNeighbor(queue, (int) p.x, (int) p.y + step, lastColor, component);
+        addNeighbor(queue, (int) p.x, (int) p.y - step, lastColor, component);
     }
 
     private boolean verifyPixel(int px, int py, int rgb, int lastRGB, ImageSource source) {

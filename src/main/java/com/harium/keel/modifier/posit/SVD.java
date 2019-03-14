@@ -6,7 +6,7 @@ package com.harium.keel.modifier.posit;
 
 public class SVD {
 
-    //Compute the SVD from a MxN matrix
+    //compute the SVD from a MxN matrix
     public static boolean svdcmp(double[][] a, int m, int n, double[] w, double[][] v) {
 
         boolean flag = false;

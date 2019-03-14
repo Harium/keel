@@ -1,6 +1,7 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.geometry.Point2D;
+import com.harium.keel.core.model.ColorPoint;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;
@@ -33,10 +34,10 @@ public class ExpandableFloodFillSearch extends FloodFillSearch {
         if (verifySinglePixel(x, y, rgb)) {
 
             //Clear Queue
-            Queue<Point2D> queue = new LinkedList<Point2D>();
+            Queue<ColorPoint> queue = new LinkedList<>();
             PointFeature found = new PointFeature();
 
-            Point2D firstPoint = new Point2D(x, y, rgb);
+            ColorPoint firstPoint = new ColorPoint(x, y, rgb);
 
             //Mark as touched
             addPoint(found, firstPoint);
@@ -46,7 +47,7 @@ public class ExpandableFloodFillSearch extends FloodFillSearch {
             while (!queue.isEmpty()) {
 
                 //Queue.pop();
-                Point2D p = queue.remove();
+                ColorPoint p = queue.remove();
 
                 if (verifyNext(p, x, y, getW(), getH(), source, component)) {
                     addPoint(found, p);

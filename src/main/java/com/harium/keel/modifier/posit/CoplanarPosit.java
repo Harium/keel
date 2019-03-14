@@ -85,11 +85,11 @@ public class CoplanarPosit {
 
     private void pos(List<Point2D> points, Vec3D eps, Mat3D rotation1, Vec3D translation1, Mat3D rotation2, Vec3D translation2) {
 
-        Vec3D xi = new Vec3D(points.get(1).getX(), points.get(2).getX(), points.get(3).getX());
-        Vec3D yi = new Vec3D(points.get(1).getY(), points.get(2).getY(), points.get(3).getY());
+        Vec3D xi = new Vec3D(points.get(1).x, points.get(2).x, points.get(3).x);
+        Vec3D yi = new Vec3D(points.get(1).y, points.get(2).y, points.get(3).y);
 
-        Vec3D xs = Vec3D.addScalar(Vec3D.mult(xi, eps), -points.get(0).getX());
-        Vec3D ys = Vec3D.addScalar(Vec3D.mult(yi, eps), -points.get(0).getY());
+        Vec3D xs = Vec3D.addScalar(Vec3D.mult(xi, eps), -points.get(0).x);
+        Vec3D ys = Vec3D.addScalar(Vec3D.mult(yi, eps), -points.get(0).y);
 
         Vec3D i0 = Mat3D.multVector(this.modelPseudoInverse, xs);
         Vec3D j0 = Mat3D.multVector(this.modelPseudoInverse, ys);
@@ -131,8 +131,8 @@ public class CoplanarPosit {
         Vec3D temp = Mat3D.multVector(rotation1, this.model.get(0));
 
         translation1.copy(
-                points.get(0).getX() / scale - temp.v[0],
-                points.get(0).getY() / scale - temp.v[1],
+                points.get(0).x / scale - temp.v[0],
+                points.get(0).y / scale - temp.v[1],
                 this.focalLength / scale);
 
         //Second possible rotation/translation
@@ -147,8 +147,8 @@ public class CoplanarPosit {
         temp = Mat3D.multVector(rotation2, this.model.get(0));
 
         translation2.copy(
-                points.get(0).getX() / scale - temp.v[0],
-                points.get(0).getY() / scale - temp.v[1],
+                points.get(0).x / scale - temp.v[0],
+                points.get(0).y / scale - temp.v[1],
                 this.focalLength / scale);
     }
 
@@ -237,8 +237,8 @@ public class CoplanarPosit {
     }
 
     private double angle(Point2D a, Point2D b, Point2D c) {
-        double x1 = b.getX() - a.getX(), y1 = b.getY() - a.getY();
-        double x2 = c.getX() - a.getX(), y2 = c.getY() - a.getY();
+        double x1 = b.x - a.x, y1 = b.y - a.y;
+        double x2 = c.x - a.x, y2 = c.y - a.y;
 
         return Math.acos((x1 * x2 + y1 * y2) /
                 (Math.sqrt(x1 * x1 + y1 * y1) * Math.sqrt(x2 * x2 + y2 * y2))) * 180.0 / Math.PI;

@@ -77,7 +77,7 @@ public class RotationAxis {
     }
 
     public Point3D transform(Point3D point) {
-        Vector3 vector = new Vector3((float)point.getX(), (float)point.getY(), (float)point.getZ());
+        Vector3 vector = new Vector3((float)point.x, (float)point.y, (float)point.z);
         vector.mul(matrix);
 
         return new Point3D(vector.x, vector.y, vector.z);
