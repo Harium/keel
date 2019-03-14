@@ -18,13 +18,13 @@ Comparing to other computer vision libraries it is:
 <dependency>
     <groupId>com.harium.keel</groupId>
     <artifactId>core</artifactId>
-    <version>1.5.3</version>
+    <version>1.5.4</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-compile 'com.harium.keel:core:1.5.3'
+compile 'com.harium.keel:core:1.5.4'
 ```
 
 ### Related Projects
