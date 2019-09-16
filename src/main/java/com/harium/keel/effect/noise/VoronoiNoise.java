@@ -4,20 +4,18 @@ import com.harium.keel.core.Effect;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSource;
 import com.harium.keel.util.HeightMapUtil;
-import org.spongepowered.noise.NoiseQuality;
-import org.spongepowered.noise.module.source.Perlin;
+import org.spongepowered.noise.module.source.Voronoi;
 
-public class PerlinNoise implements Effect {
+public class VoronoiNoise implements Effect {
 
   private static final double MIN_SCALE = 0.00001;
 
   int seed = 12345;
   double scale = 1;
 
-  int octaves = 3;
   double frequency = 0.04;
-  double lacunarity = 2;
-  double persistance = 0.5;
+  double displacement = 1;
+  boolean enableDisplacement = true;
 
   double x;
   double y;
@@ -32,13 +30,11 @@ public class PerlinNoise implements Effect {
   }
 
   private int[][] build(ImageSource feature) {
-    Perlin perlin = new Perlin();
-    perlin.setFrequency(frequency);
-    perlin.setLacunarity(lacunarity);
-    perlin.setNoiseQuality(NoiseQuality.STANDARD);
-    perlin.setPersistence(persistance);
-    perlin.setOctaveCount(octaves);
-    perlin.setSeed(seed);
+    Voronoi voronoi = new Voronoi();
+    voronoi.setFrequency(frequency);
+    voronoi.setDisplacement(displacement);
+    voronoi.setEnableDistance(enableDisplacement);
+    voronoi.setSeed(seed);
 
     int width = feature.getWidth();
     int height = feature.getHeight();
@@ -54,7 +50,7 @@ public class PerlinNoise implements Effect {
       for (int x = 0; x < width; x++) {
         double sampleX = (x - halfWidth) / scale + this.x;
         double sampleY = (y - halfHeight) / scale + this.y;
-        double v = perlin.getValue(sampleX, sampleY, z);
+        double v = voronoi.getValue(sampleX, sampleY, z);
         if (v < min) {
           min = v;
         }
@@ -71,7 +67,7 @@ public class PerlinNoise implements Effect {
     return seed;
   }
 
-  public PerlinNoise seed(int seed) {
+  public VoronoiNoise seed(int seed) {
     this.seed = seed;
     return this;
   }
@@ -80,7 +76,7 @@ public class PerlinNoise implements Effect {
     return scale;
   }
 
-  public PerlinNoise scale(double scale) {
+  public VoronoiNoise scale(double scale) {
     this.scale = scale;
     if (this.scale <= 0) {
       this.scale = MIN_SCALE;
@@ -88,39 +84,30 @@ public class PerlinNoise implements Effect {
     return this;
   }
 
-  public int octaves() {
-    return octaves;
-  }
-
-  public PerlinNoise octaves(int octaves) {
-    this.octaves = octaves;
-    return this;
-  }
-
   public double frequency() {
     return frequency;
   }
 
-  public PerlinNoise frequency(double frequency) {
+  public VoronoiNoise frequency(double frequency) {
     this.frequency = frequency;
     return this;
   }
 
-  public double lacunarity() {
-    return lacunarity;
+  public double displacement() {
+    return displacement;
   }
 
-  public PerlinNoise lacunarity(double lacunarity) {
-    this.lacunarity = lacunarity;
+  public VoronoiNoise displacement(double displacement) {
+    this.displacement = displacement;
     return this;
   }
 
-  public double persistance() {
-    return persistance;
+  public boolean isEnableDisplacement() {
+    return enableDisplacement;
   }
 
-  public PerlinNoise persistance(double persistance) {
-    this.persistance = persistance;
+  public VoronoiNoise enableDisplacement(boolean enableDisplacement) {
+    this.enableDisplacement = enableDisplacement;
     return this;
   }
 
