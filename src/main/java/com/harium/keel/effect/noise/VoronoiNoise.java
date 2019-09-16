@@ -60,6 +60,7 @@ public class VoronoiNoise implements Effect {
         values[y][x] = v;
       }
     }
+
     return HeightMapUtil.convertToRGB(min, max, values);
   }
 

@@ -38,6 +38,12 @@ public class OneBandSource extends ImageSourceImpl {
 
     @Override
     public int getRGB(int x, int y) {
+        int gray = getGray(x, y);
+        return ColorHelper.getRGB(gray, gray, gray);
+    }
+
+    @Override
+    public int getGray(int x, int y) {
         return array[index(x, y)];
     }
 
@@ -48,17 +54,17 @@ public class OneBandSource extends ImageSourceImpl {
 
     @Override
     public int getR(int x, int y) {
-        return getRGB(x, y);
+        return getGray(x, y);
     }
 
     @Override
     public int getG(int x, int y) {
-        return getRGB(x, y);
+        return getGray(x, y);
     }
 
     @Override
     public int getB(int x, int y) {
-        return getRGB(x, y);
+        return getGray(x, y);
     }
 
     @Override
