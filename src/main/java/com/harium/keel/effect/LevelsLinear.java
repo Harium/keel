@@ -254,7 +254,7 @@ public class LevelsLinear implements Effect {
             CalculateMap(inGray, outGray, mapGray);
 
             for (int i = 0; i < size; i++) {
-                EffectHelper.setRGB(i, mapGray[EffectHelper.getRGB(i, fastBitmap)], fastBitmap);
+                EffectHelper.setGray(i, mapGray[EffectHelper.getGray(i, fastBitmap)], fastBitmap);
             }
         } else {
 

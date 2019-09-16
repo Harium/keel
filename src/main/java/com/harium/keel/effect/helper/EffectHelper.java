@@ -10,6 +10,12 @@ public class EffectHelper {
 
     }
 
+    public static void setGray(int index, int gray, ImageSource input) {
+        int x = getX(index, input);
+        int y = getY(index, input);
+        input.setGray(x, y, gray);
+    }
+
     public static void setRGB(int index, int rgb, ImageSource input) {
         int x = getX(index, input);
         int y = getY(index, input);
@@ -67,10 +73,6 @@ public class EffectHelper {
         input.setRGB(x, y, ColorHelper.getRGB(r, g, b));
     }
 
-    public static void setGray(int index, int gray, ImageSource input) {
-        setRGB(index, gray, input);
-    }
-
     public static int getRed(int index, ImageSource input) {
         int x = getX(index, input);
         int y = getY(index, input);
@@ -102,7 +104,9 @@ public class EffectHelper {
     }
 
     public static int getGray(int index, ImageSource input) {
-        return getRGB(index, input);
+        int x = getX(index, input);
+        int y = getY(index, input);
+        return input.getGray(x, y);
     }
 
     public static int getY(int index, ImageSource overlay) {
