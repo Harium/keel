@@ -87,8 +87,8 @@ public class LetterSegmentation implements Modifier<ImageSource, List<ImageSourc
         while (!queue.isEmpty()) {
             Vector2i pos = queue.removeFirst();
 
-            int x = pos.getX();
-            int y = pos.getY();
+            int x = pos.x;
+            int y = pos.y;
             visited[x][y] = true;
 
             //set black pixel to letter image===================================

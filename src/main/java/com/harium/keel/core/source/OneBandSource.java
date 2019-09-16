@@ -63,7 +63,7 @@ public class OneBandSource extends ImageSourceImpl {
 
     @Override
     public void setGray(int x, int y, int gray) {
-
+        setRGB(x, y, gray);
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ZhangSuenThinning implements Effect {
 
             for (Vector2i point : pointsToChange) {
                 //input.setRGB(point.getX(), point.getY(), BACKGROUND_COLOR);
-                input.setGray(point.getX(), point.getY(), BACKGROUND);
+                input.setGray(point.x, point.y, BACKGROUND);
             }
             pointsToChange.clear();
 
@@ -68,7 +68,7 @@ public class ZhangSuenThinning implements Effect {
 
             for (Vector2i point : pointsToChange) {
                 //input.setRGB(point.getX(), point.getY(), BACKGROUND_COLOR);
-                input.setRGB(point.getX(), point.getY(), BACKGROUND);
+                input.setRGB(point.x, point.y, BACKGROUND);
             }
             pointsToChange.clear();
         } while (hasChange);
