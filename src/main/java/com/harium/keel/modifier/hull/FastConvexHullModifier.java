@@ -70,7 +70,7 @@ public class FastConvexHullModifier implements HullModifier<HullFeature> {
             lUpper[lUpperSize] = list.get(i);
             lUpperSize++;
 
-            while (lUpperSize > 2 && !Point2D.isRightTurn(lUpper[lUpperSize - 3], lUpper[lUpperSize - 2], lUpper[lUpperSize - 1])) {
+            while (lUpperSize > 2 && Point2D.ccw(lUpper[lUpperSize - 3], lUpper[lUpperSize - 2], lUpper[lUpperSize - 1]) == -1) {
                 // Remove the middle point of the three last
                 lUpper[lUpperSize - 2] = lUpper[lUpperSize - 1];
                 lUpperSize--;
@@ -89,7 +89,7 @@ public class FastConvexHullModifier implements HullModifier<HullFeature> {
             lLower[lLowerSize] = list.get(i);
             lLowerSize++;
 
-            while (lLowerSize > 2 && !Point2D.isRightTurn(lLower[lLowerSize - 3], lLower[lLowerSize - 2], lLower[lLowerSize - 1])) {
+            while (lLowerSize > 2 && Point2D.ccw(lLower[lLowerSize - 3], lLower[lLowerSize - 2], lLower[lLowerSize - 1]) == -1) {
                 // Remove the middle point of the three last
                 lLower[lLowerSize - 2] = lLower[lLowerSize - 1];
                 lLowerSize--;
