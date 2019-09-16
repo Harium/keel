@@ -18,13 +18,13 @@ Key features:
 <dependency>
     <groupId>com.harium.keel</groupId>
     <artifactId>core</artifactId>
-    <version>1.5.4</version>
+    <version>1.5.5</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-compile 'com.harium.keel:core:1.5.4'
+compile 'com.harium.keel:core:1.5.5'
 ```
 
 ### Example
