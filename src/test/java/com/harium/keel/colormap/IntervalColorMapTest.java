@@ -20,8 +20,8 @@ public class IntervalColorMapTest {
     @Test
     public void testMultipleIntervals() {
         colorMap = new TestColorMap(new Interval(0, new Color(0xff, 0, 0)), new Interval(0.5f, new Color(0, 0xff, 0)), new Interval(1, new Color(0, 0, 0xff)));
-        assertColor(223, 31, 0, colorMap.getColor(0.25f));
-        assertColor(0, 31, 223, colorMap.getColor(0.75f));
+        assertColor(127, 127, 0, colorMap.getColor(0.25f));
+        assertColor(0, 127, 127, colorMap.getColor(0.75f));
     }
 
     private void assertColor(int r, int g, int b, Color color) {
