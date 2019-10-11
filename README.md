@@ -30,7 +30,7 @@ compile 'com.harium.keel:core:1.5.6'
 ### Example
 ![Lena with filters](https://raw.githubusercontent.com/Harium/keel/master/screenshots/lena.jpg)
 
-_Original (top-left), Grayscale (top-right), Sobel (bottom-left), Canny edge detector (top-right)_
+_Original (top-left), Grayscale (top-right), Sobel (bottom-left), Canny edge detector (bottom-right)_
 
 ### Related Projects
 - [Motion Slide](https://github.com/yuripourre/motion-slide/) - Experiments using Motion Tracking.
