@@ -1,7 +1,7 @@
 package com.harium.keel.custom;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.keel.filter.color.RGBColorStrategy;
+import com.harium.keel.filter.selection.RGBColorStrategy;
 import com.harium.keel.filter.search.flood.FloodFillSearch;
 import com.harium.keel.modifier.EnvelopeModifier;
 

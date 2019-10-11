@@ -1,7 +1,6 @@
 package com.harium.keel.filter.search.flood;
 
-import com.harium.etyl.geometry.Point2D;
-import com.harium.keel.core.model.ColorPoint;
+import com.harium.keel.geometry.ColorPoint;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;

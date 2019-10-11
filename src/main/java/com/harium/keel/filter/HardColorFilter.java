@@ -1,6 +1,6 @@
 package com.harium.keel.filter;
 
-import com.harium.keel.filter.color.RGBColorStrategy;
+import com.harium.keel.filter.selection.RGBColorStrategy;
 import com.harium.keel.filter.search.flood.FloodFillSearch;
 import com.harium.etyl.commons.graphics.Color;
 

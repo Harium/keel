@@ -1,7 +1,7 @@
 package com.harium.keel.filter.track;
 
 import com.harium.keel.filter.SkinColorFilter;
-import com.harium.keel.filter.color.skin.SkinColorStrategy;
+import com.harium.keel.filter.selection.skin.SkinColorStrategy;
 import com.harium.keel.filter.search.flood.FloodFillSearch;
 import com.harium.keel.filter.validation.point.MinCountPoints;
 

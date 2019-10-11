@@ -1,7 +1,7 @@
 package com.harium.keel.filter.search;
 
 import com.harium.keel.feature.Cross;
-import com.harium.keel.filter.color.RGBColorStrategy;
+import com.harium.keel.filter.selection.RGBColorStrategy;
 import com.harium.etyl.commons.graphics.Color;
 import org.junit.Before;
 import org.junit.Test;

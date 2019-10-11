@@ -23,7 +23,7 @@ package com.harium.keel.effect;
 import com.harium.keel.catalano.core.IntPoint;
 import com.harium.keel.core.Effect;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.filter.process.ProcessFilter;
+import com.harium.keel.core.ProcessFilter;
 
 import java.util.ArrayList;
 

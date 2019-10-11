@@ -1,10 +1,10 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.geometry.Point2D;
-import com.harium.keel.core.model.ColorPoint;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;
+import com.harium.keel.geometry.ColorPoint;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -108,10 +108,11 @@ public class SoftFloodFillSearch extends FloodFillSearch {
 
     protected boolean verifySinglePixel(int px, int py, int rgb, int lastRGB) {
         if (mask.isUnknown(px, py)) {
-            if (selectionStrategy.validateColor(rgb, px, py)) {
+            if (selectionStrategy.valid(rgb, px, py)) {
                 mask.setValid(px, py);
             } else if (lastRGB != UNDEFINED_COLOR) {
-                if (selectionStrategy.softValidateColor(lastRGB, px, py, rgb)) {
+                selectionStrategy.setBaseRGB(lastRGB);
+                if (selectionStrategy.valid(rgb, px, py)) {
                     mask.setValid(px, py);
                 }
             } else {
@@ -131,7 +132,8 @@ public class SoftFloodFillSearch extends FloodFillSearch {
             for (int x = px - step; x <= px + step; x += step) {
 
                 int currentColor = bimg.getRGB(x, y);
-                if (mask.isValid(x, y) || selectionStrategy.softValidateColor(baseColor, x, y, currentColor)) {
+                selectionStrategy.setBaseRGB(baseColor);
+                if (mask.isValid(x, y) || selectionStrategy.valid(currentColor, x, y)) {
                     verified++;
                     if (verified >= minNeighbors) {
                         return true;
