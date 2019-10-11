@@ -3,14 +3,14 @@ Keel [![Build Status](https://travis-ci.org/Harium/keel.svg?branch=master)](http
 
 Keel is an Image Processing Library made in pure Java.
 
-### Main Goal
-Port widely known algorithms to help developers to work with image processing/computer vision. Comparing to other computer vision libraries it is easier to use, easier to setup and easier to debug.
+### Goal
+Help developers to work with image processing/computer vision without previous background. Comparing to other computer vision libraries it is easier to use, easier to setup and easier to debug.
 
-Key features: 
+Key features:
 - Filters
+- Filter pipelines
 - Effects
 - Feature extraction
-- An easy way to create filter pipelines
 
 
 ### Maven
@@ -18,13 +18,13 @@ Key features:
 <dependency>
     <groupId>com.harium.keel</groupId>
     <artifactId>core</artifactId>
-    <version>1.5.6</version>
+    <version>1.6.0</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-compile 'com.harium.keel:core:1.5.6'
+compile 'com.harium.keel:core:1.6.0'
 ```
 
 ### Example
