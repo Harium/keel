@@ -3,7 +3,7 @@ package com.harium.keel.core.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComplexSelectionStrategy implements SelectionStrategy {
+public class ComplexSelectionStrategy extends BaseSelectionStrategy {
 
     private List<SelectionStrategy> strategies = new ArrayList<SelectionStrategy>();
 
@@ -24,7 +24,7 @@ public class ComplexSelectionStrategy implements SelectionStrategy {
     }
 
     @Override
-    public boolean validateColor(int rgb, int j, int i) {
+    public boolean valid(int rgb, int j, int i) {
         if (!validateColorChildren(rgb, j, i)) {
             return false;
         }
@@ -33,16 +33,11 @@ public class ComplexSelectionStrategy implements SelectionStrategy {
 
     private boolean validateColorChildren(int rgb, int j, int i) {
         for (SelectionStrategy strategy : strategies) {
-            if (!strategy.validateColor(rgb, j, i)) {
+            if (!strategy.valid(rgb, j, i)) {
                 return false;
             }
         }
         return true;
-    }
-
-    @Override
-    public boolean softValidateColor(int rgb, int j, int i, int reference) {
-        return validateColor(rgb, j, i);
     }
 
 }

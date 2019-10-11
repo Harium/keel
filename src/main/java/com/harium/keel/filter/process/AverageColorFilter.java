@@ -4,6 +4,8 @@ import com.harium.etyl.commons.graphics.Color;
 import com.harium.etyl.geometry.Point2D;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
+import com.harium.keel.core.strategy.ProcessComponentFilter;
+import com.harium.keel.core.ProcessFilter;
 import com.harium.keel.feature.PointFeature;
 
 import java.util.List;
@@ -18,10 +20,10 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
         return filter(source);
     }
 
-    public static Color filter(ImageSource source) {
-        int averageRed = 0;
-        int averageBlue = 0;
-        int averageGreen = 0;
+    public Color filter(ImageSource source) {
+        float averageRed = 0;
+        float averageBlue = 0;
+        float averageGreen = 0;
 
         int pixelCount = 0;
 
@@ -31,21 +33,19 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
 
                 int rgb = source.getRGB(i, j);
 
-                averageRed += ColorHelper.getRed(rgb);
+                int r = ColorHelper.getRed(rgb);
+                int g = ColorHelper.getGreen(rgb);
+                int b = ColorHelper.getBlue(rgb);
 
-                averageBlue += ColorHelper.getBlue(rgb);
-
-                averageGreen += ColorHelper.getGreen(rgb);
+                averageRed = average(averageRed, r, pixelCount);
+                averageGreen = average(averageGreen, g, pixelCount);
+                averageBlue = average(averageBlue, b, pixelCount);
 
                 pixelCount++;
             }
         }
 
-        averageRed /= pixelCount;
-        averageBlue /= pixelCount;
-        averageGreen /= pixelCount;
-
-        return new Color(averageRed, averageGreen, averageBlue);
+        return new Color((int) averageRed, (int) averageGreen, (int) averageBlue);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
         return filter(source, component);
     }
 
-    public static Color filter(ImageSource source, PointFeature component) {
+    public Color filter(ImageSource source, PointFeature component) {
         float averageRed = 0;
         float averageBlue = 0;
         float averageGreen = 0;
@@ -72,21 +72,18 @@ public class AverageColorFilter implements ProcessFilter<Color>, ProcessComponen
             int g = ColorHelper.getGreen(rgb);
             int b = ColorHelper.getBlue(rgb);
 
-            if (pixelCount == 0) {
-                averageRed = r;
-                averageGreen = g;
-                averageBlue = b;
-            } else {
-                averageRed = averageRed + (r - averageRed) / pixelCount;
-                averageGreen = averageGreen + (g - averageGreen) / pixelCount;
-                averageBlue = averageBlue + (b - averageBlue) / pixelCount;
-            }
+            averageRed = average(averageRed, r, pixelCount);
+            averageGreen = average(averageGreen, g, pixelCount);
+            averageBlue = average(averageBlue, b, pixelCount);
 
             pixelCount++;
         }
 
         return new Color((int) averageRed, (int) averageGreen, (int) averageBlue);
+    }
 
+    public float average(float oldAverage, float value, int n) {
+        return (oldAverage * (n - 1) + value) / n;
     }
 
 }

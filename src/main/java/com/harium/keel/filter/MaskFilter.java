@@ -3,7 +3,7 @@ package com.harium.keel.filter;
 import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.custom.CustomFilter;
-import com.harium.keel.filter.color.mask.ImageMaskStrategy;
+import com.harium.keel.filter.selection.mask.ImageMaskStrategy;
 import com.harium.keel.filter.search.ColoredPointSearch;
 import com.harium.keel.filter.search.flood.SoftFloodFillSearch;
 

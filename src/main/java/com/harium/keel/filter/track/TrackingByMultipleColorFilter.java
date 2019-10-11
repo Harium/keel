@@ -1,7 +1,7 @@
 package com.harium.keel.filter.track;
 
 import com.harium.keel.custom.CustomFilter;
-import com.harium.keel.filter.color.MultipleColorStrategy;
+import com.harium.keel.filter.selection.MultipleColorStrategy;
 import com.harium.keel.filter.search.flood.FloodFillSearch;
 import com.harium.etyl.commons.graphics.Color;
 

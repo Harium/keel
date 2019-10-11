@@ -15,7 +15,7 @@ public class CornerSearch extends BooleanMaskSearch {
 
     @Override
     public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Feature component) {
-        if (!mask[x][y] && selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
+        if (!mask[x][y] && selectionStrategy.valid(source.getRGB(x, y), x, y)) {
             setCross(x, y, source);
 
             if (isCorner(cross)) {
@@ -38,7 +38,7 @@ public class CornerSearch extends BooleanMaskSearch {
             holder = results.get(0);
         }
 
-        if (selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
+        if (selectionStrategy.valid(source.getRGB(x, y), x, y)) {
             setCross(x, y, source);
 
             if (isCorner(cross)) {
@@ -162,15 +162,15 @@ public class CornerSearch extends BooleanMaskSearch {
 
     public boolean validateCross(int j, int i, Cross cross, boolean upperLeft, boolean up, boolean upperRight, boolean left, boolean center, boolean right, boolean lowerLeft, boolean down, boolean lowerRight) {
 
-        boolean result = selectionStrategy.validateColor(cross.getUpperLeft(), j - 1, i - 1) == upperLeft &&
-                selectionStrategy.validateColor(cross.getUp(), j, i - 1) == up &&
-                selectionStrategy.validateColor(cross.getUpperRight(), j + 1, i - 1) == upperRight &&
-                selectionStrategy.validateColor(cross.getLeft(), j - 1, i) == left &&
-                selectionStrategy.validateColor(cross.getCenter(), j, i) == center &&
-                selectionStrategy.validateColor(cross.getRight(), j + 1, i) == right &&
-                selectionStrategy.validateColor(cross.getLowerLeft(), j - 1, i + 1) == lowerLeft &&
-                selectionStrategy.validateColor(cross.getDown(), j, i + 1) == down &&
-                selectionStrategy.validateColor(cross.getLowerRight(), j + 1, i + 1) == lowerRight;
+        boolean result = selectionStrategy.valid(cross.getUpperLeft(), j - 1, i - 1) == upperLeft &&
+                selectionStrategy.valid(cross.getUp(), j, i - 1) == up &&
+                selectionStrategy.valid(cross.getUpperRight(), j + 1, i - 1) == upperRight &&
+                selectionStrategy.valid(cross.getLeft(), j - 1, i) == left &&
+                selectionStrategy.valid(cross.getCenter(), j, i) == center &&
+                selectionStrategy.valid(cross.getRight(), j + 1, i) == right &&
+                selectionStrategy.valid(cross.getLowerLeft(), j - 1, i + 1) == lowerLeft &&
+                selectionStrategy.valid(cross.getDown(), j, i + 1) == down &&
+                selectionStrategy.valid(cross.getLowerRight(), j + 1, i + 1) == lowerRight;
 
         return result;
     }
@@ -179,15 +179,15 @@ public class CornerSearch extends BooleanMaskSearch {
 
         StringBuilder builder = new StringBuilder();
 
-        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getUpperLeft(), 0, 0)));
-        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getUp(), 0, 0)));
-        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getUpperRight(), 0, 0)));
-        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getLeft(), 0, 0)));
-        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getCenter(), 0, 0)));
-        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getRight(), 0, 0)));
-        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getLowerLeft(), 0, 0)));
-        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getDown(), 0, 0)));
-        builder.append(booleanToChar(selectionStrategy.validateColor(cross.getLowerRight(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.valid(cross.getUpperLeft(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.valid(cross.getUp(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.valid(cross.getUpperRight(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.valid(cross.getLeft(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.valid(cross.getCenter(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.valid(cross.getRight(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.valid(cross.getLowerLeft(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.valid(cross.getDown(), 0, 0)));
+        builder.append(booleanToChar(selectionStrategy.valid(cross.getLowerRight(), 0, 0)));
 
         return builder.toString();
     }

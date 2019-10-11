@@ -2,7 +2,7 @@ package com.harium.keel.filter.track;
 
 import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.filter.ColorPointFilter;
-import com.harium.keel.filter.color.NegativeColorStrategy;
+import com.harium.keel.filter.selection.NegativeColorStrategy;
 import com.harium.keel.filter.search.flood.FloodFillSearch;
 
 public class TrackingByNegativeColorFilter extends ColorPointFilter {

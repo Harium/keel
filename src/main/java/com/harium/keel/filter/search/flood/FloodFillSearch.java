@@ -1,14 +1,14 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.geometry.Point2D;
-import com.harium.keel.core.model.ColorPoint;
+import com.harium.keel.geometry.ColorPoint;
 import com.harium.keel.filter.ComponentFilter;
 import com.harium.keel.core.mask.DynamicArrayMask;
 import com.harium.keel.core.mask.DynamicMask;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;
-import com.harium.keel.filter.color.RGBColorStrategy;
+import com.harium.keel.filter.selection.RGBColorStrategy;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -159,7 +159,7 @@ public class FloodFillSearch extends ComponentFilter {
     protected boolean verifySinglePixel(int px, int py, int rgb) {
 
         if (mask.isUnknown(px, py)) {
-            if (selectionStrategy.validateColor(rgb, px, py)) {
+            if (selectionStrategy.valid(rgb, px, py)) {
                 mask.setValid(px, py);
             } else {
                 mask.setInvalid(px, py);
@@ -180,7 +180,7 @@ public class FloodFillSearch extends ComponentFilter {
 
                 if (mask.isValid(x, y)) {
                     count++;
-                } else if (selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
+                } else if (selectionStrategy.valid(source.getRGB(x, y), x, y)) {
                     count++;
                 }
             }

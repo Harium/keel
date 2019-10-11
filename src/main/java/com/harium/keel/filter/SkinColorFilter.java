@@ -4,8 +4,8 @@ import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.custom.CustomFilter;
 import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;
-import com.harium.keel.filter.color.SimpleToleranceStrategy;
-import com.harium.keel.filter.color.skin.SkinColorStrategy;
+import com.harium.keel.filter.selection.SimpleToleranceStrategy;
+import com.harium.keel.filter.selection.skin.SkinColorStrategy;
 import com.harium.keel.filter.search.flood.SoftFloodFillSearch;
 
 import java.util.List;

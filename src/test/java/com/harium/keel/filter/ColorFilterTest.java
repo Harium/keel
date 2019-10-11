@@ -24,7 +24,7 @@ public class ColorFilterTest {
         Color orangeBall = new Color(240, 177, 14);
         ColorFilter filter = new ColorFilter(WIDTH, HEIGHT, orangeBall);
         filter.setBorder(3);
-        filter.setTolerance(45);
+        filter.setTolerance(22);
 
         String path = PathHelper.currentDirectory();
         path += "assets/images/table_tennis/";
@@ -36,7 +36,7 @@ public class ColorFilterTest {
         Feature bounds = new Feature(0, 0, WIDTH, HEIGHT);
         List<PointFeature> features = filter.filter(source, bounds);
 
-        Assert.assertEquals(6, features.size());
+        Assert.assertEquals(4, features.size());
     }
 
     private BufferedImage loadImage(String path) throws IOException {

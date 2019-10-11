@@ -12,7 +12,7 @@ public class PointSearch extends BooleanMaskSearch {
 
     @Override
     public boolean filter(int x, int y, int width, int height, ImageSource source, Feature component) {
-        if (!mask[x][y] && selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
+        if (!mask[x][y] && selectionStrategy.valid(source.getRGB(x, y), x, y)) {
             PointFeature holder = new PointFeature(x, y, 1, 1);
             results.add(holder);
             return true;
@@ -22,7 +22,7 @@ public class PointSearch extends BooleanMaskSearch {
 
     @Override
     public boolean filterFirst(int x, int y, int width, int height, ImageSource source, Feature component) {
-        if (!mask[x][y] && selectionStrategy.validateColor(source.getRGB(x, y), x, y)) {
+        if (!mask[x][y] && selectionStrategy.valid(source.getRGB(x, y), x, y)) {
             lastComponent.setBounds(x, y, 1, 1);
             return true;
 

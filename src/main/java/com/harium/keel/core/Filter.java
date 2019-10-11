@@ -5,14 +5,18 @@ import com.harium.keel.core.strategy.ComponentModifierStrategy;
 import com.harium.keel.core.strategy.FeatureValidationStrategy;
 import com.harium.keel.core.strategy.SearchStrategy;
 import com.harium.keel.core.strategy.SelectionStrategy;
-import com.harium.keel.filter.dummy.DummyColorFilter;
-import com.harium.keel.filter.dummy.DummyComponentModifier;
+import com.harium.keel.filter.selection.DummySelectionStrategy;
+import com.harium.keel.modifier.DummyComponentModifier;
 import com.harium.keel.filter.search.strategy.LeftToRightSearchStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Base filter class
+ * @param <I>
+ * @param <T>
+ */
 public abstract class Filter<I, T> {
 
     protected int step = 1;
@@ -28,7 +32,7 @@ public abstract class Filter<I, T> {
     public Filter() {
         super();
 
-        this.selectionStrategy = new DummyColorFilter();
+        this.selectionStrategy = new DummySelectionStrategy();
         this.searchStrategy = new LeftToRightSearchStrategy(this);
         this.componentModifierStrategy = new DummyComponentModifier();
     }
