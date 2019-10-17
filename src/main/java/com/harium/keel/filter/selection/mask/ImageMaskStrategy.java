@@ -22,11 +22,11 @@ public class ImageMaskStrategy extends RGBToleranceStrategy {
 	}
 
 	@Override
-	public boolean valid(int rgb, int j, int i) {
+	public boolean valid(int rgb, int x, int y) {
 		if (mask == null) {
 			return false;
 		}
-		int color = mask.getRGB(j, i);
+		int color = mask.getRGB(x, y);
 		
 		return !ColorHelper.isColor(rgb, color, minToleranceRed, maxToleranceRed,
 				minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);

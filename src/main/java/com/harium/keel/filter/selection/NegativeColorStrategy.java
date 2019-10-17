@@ -23,8 +23,8 @@ public class NegativeColorStrategy extends RGBColorStrategy {
     }
 
     @Override
-    public boolean valid(int rgb, int j, int i) {
-        return !super.valid(rgb, j, i);
+    public boolean valid(int rgb, int x, int y) {
+        return !super.valid(rgb, x, y);
     }
 
 }

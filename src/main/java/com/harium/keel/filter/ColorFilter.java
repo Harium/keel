@@ -14,7 +14,9 @@ public class ColorFilter extends SoftFloodFillSearch {
 
     public ColorFilter(int w, int h, Color color) {
         super(w, h);
-        selectionStrategy = new RGBColorStrategy(color, tolerance);
+        RGBColorStrategy colorStrategy = new RGBColorStrategy(color, tolerance);
+        colorStrategy.setSoftSelection(true);
+        selectionStrategy = colorStrategy;
     }
 
     public ColorFilter(int w, int h, Color color, int tolerance) {

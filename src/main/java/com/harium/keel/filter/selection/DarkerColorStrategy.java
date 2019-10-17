@@ -10,7 +10,7 @@ public class DarkerColorStrategy extends RGBColorStrategy {
 	}
 	
 	@Override
-	public boolean valid(int rgb, int j, int i) {
+	public boolean valid(int rgb, int x, int y) {
 		return ColorHelper.isDarkerColor(rgb, this.color, this.minToleranceRed, this.minToleranceGreen, this.minToleranceBlue);
 	}
 		

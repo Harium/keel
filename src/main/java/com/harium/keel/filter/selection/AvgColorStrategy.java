@@ -4,9 +4,7 @@ import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.core.helper.ColorHelper;
 
 public class AvgColorStrategy extends ReferenceColorStrategy {
-    float weakFactor = 2;
 
-    private int color;
     private int avg;
 
     private int minTolerance;
@@ -48,9 +46,9 @@ public class AvgColorStrategy extends ReferenceColorStrategy {
     }
 
     @Override
-    public boolean valid(int rgb, int j, int i) {
+    public boolean valid(int rgb, int x, int y) {
         int avg = this.avg;
-        if (hasBaseColor()) {
+        if (isSoftSelection()) {
             avg = avgColor(baseRGB);
         }
         int avgRGB = avgColor(rgb);

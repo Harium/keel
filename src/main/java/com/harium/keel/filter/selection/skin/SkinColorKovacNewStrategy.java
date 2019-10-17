@@ -19,7 +19,7 @@ public class SkinColorKovacNewStrategy extends SimpleToleranceStrategy implement
     }
 
     @Override
-    public boolean valid(int rgb, int j, int i) {
+    public boolean valid(int rgb, int x, int y) {
         return isSkin(rgb, tolerance);
     }
 

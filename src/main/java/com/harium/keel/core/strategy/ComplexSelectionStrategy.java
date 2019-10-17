@@ -24,11 +24,18 @@ public class ComplexSelectionStrategy extends BaseSelectionStrategy {
     }
 
     @Override
-    public boolean valid(int rgb, int j, int i) {
-        if (!validateColorChildren(rgb, j, i)) {
+    public boolean valid(int rgb, int x, int y) {
+        if (!validateColorChildren(rgb, x, y)) {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void setBaseRGB(int baseRGB) {
+        for (SelectionStrategy strategy : strategies) {
+            strategy.setBaseRGB(baseRGB);
+        }
     }
 
     private boolean validateColorChildren(int rgb, int j, int i) {

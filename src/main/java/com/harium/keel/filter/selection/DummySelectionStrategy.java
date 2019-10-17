@@ -5,7 +5,7 @@ import com.harium.keel.core.strategy.SelectionStrategy;
 public class DummySelectionStrategy implements SelectionStrategy {
 
 	@Override
-	public boolean valid(int rgb, int j, int i) {
+	public boolean valid(int rgb, int x, int y) {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -17,6 +17,11 @@ public class DummySelectionStrategy implements SelectionStrategy {
 
 	@Override
 	public void setStrength(float strength) {
+
+	}
+
+	@Override
+	public void setSoftSelection(boolean softSelection) {
 
 	}
 

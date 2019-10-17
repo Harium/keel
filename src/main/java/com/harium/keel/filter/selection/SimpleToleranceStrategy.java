@@ -24,4 +24,8 @@ public abstract class SimpleToleranceStrategy extends BaseSelectionStrategy {
         this.tolerance = tolerance;
     }
 
+    @Override
+    public void setBaseRGB(int baseRGB) {
+
+    }
 }

@@ -15,18 +15,23 @@ public class MultipleColorStrategy extends BaseSelectionStrategy {
     }
 
     @Override
-    public boolean valid(int rgb, int j, int i) {
+    public boolean valid(int rgb, int x, int y) {
 
         boolean result = false;
 
         for (RGBColorStrategy strategy : colors) {
-            if (strategy.valid(rgb, j, i)) {
+            if (strategy.valid(rgb, x, y)) {
                 result = true;
                 break;
             }
         }
 
         return result;
+    }
+
+    @Override
+    public void setBaseRGB(int baseRGB) {
+
     }
 
     public void addColor(Color color, int tolerance) {

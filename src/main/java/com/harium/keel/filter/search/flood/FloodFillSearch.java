@@ -1,6 +1,8 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.geometry.Point2D;
+import com.harium.keel.core.strategy.BaseSelectionStrategy;
+import com.harium.keel.filter.selection.ReferenceColorStrategy;
 import com.harium.keel.geometry.ColorPoint;
 import com.harium.keel.filter.ComponentFilter;
 import com.harium.keel.core.mask.DynamicArrayMask;
@@ -22,7 +24,7 @@ public class FloodFillSearch extends ComponentFilter {
 
     public FloodFillSearch(int w, int h) {
         super(w, h, new RGBColorStrategy());
-
+        this.selectionStrategy.setSoftSelection(true);
         mask = new DynamicArrayMask(w, h);
     }
 

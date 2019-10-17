@@ -21,7 +21,7 @@ public class SkinColorCRStrategy extends SimpleToleranceStrategy implements Sele
     }
 
     @Override
-    public boolean valid(int rgb, int j, int i) {
+    public boolean valid(int rgb, int x, int y) {
         return isSkin(rgb, tolerance);
     }
 

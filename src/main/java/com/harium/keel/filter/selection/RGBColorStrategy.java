@@ -38,32 +38,20 @@ public class RGBColorStrategy extends RGBToleranceStrategy implements ColorStrat
     }
 
     @Override
-    public boolean valid(int rgb, int j, int i) {
+    public boolean valid(int rgb, int x, int y) {
         if (strength != 1) {
-            if (hasBaseColor()) {
+            if (isSoftSelection()) {
                 return ColorHelper.isColor(rgb, baseRGB, (int) (minToleranceRed * strength), (int) (maxToleranceRed * strength), (int) (minToleranceGreen * strength), (int) (maxToleranceGreen * strength), (int) (minToleranceBlue * strength), (int) (maxToleranceBlue * strength));
             } else {
                 return ColorHelper.isColor(rgb, color, (int) (minToleranceRed * strength), (int) (maxToleranceRed * strength), (int) (minToleranceGreen * strength), (int) (maxToleranceGreen * strength), (int) (minToleranceBlue * strength), (int) (maxToleranceBlue * strength));
             }
         } else {
-            if (hasBaseColor()) {
+            if (isSoftSelection()) {
                 return ColorHelper.isColor(rgb, baseRGB, minToleranceRed, maxToleranceRed, minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
             } else {
                 return ColorHelper.isColor(rgb, color, minToleranceRed, maxToleranceRed, minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
             }
         }
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color.getRGB();
     }
 
 }

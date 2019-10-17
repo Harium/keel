@@ -5,12 +5,10 @@ import com.harium.keel.core.strategy.BaseSelectionStrategy;
 
 public abstract class ReferenceColorStrategy extends BaseSelectionStrategy implements ColorStrategy {
 
-    protected int color = Color.BLACK.getRGB();
-    protected int baseRGB = Integer.MIN_VALUE;
+    protected int INVALID_COLOR = Integer.MAX_VALUE;
 
-    protected boolean hasBaseColor() {
-        return baseRGB != Integer.MIN_VALUE;
-    }
+    protected int color = Color.BLACK.getRGB();
+    protected int baseRGB = INVALID_COLOR;
 
     public int getBaseRGB() {
         return baseRGB;
@@ -29,4 +27,13 @@ public abstract class ReferenceColorStrategy extends BaseSelectionStrategy imple
     public void setColor(int color) {
         this.color = color;
     }
+
+    public void setColor(Color color) {
+        this.color = color.getRGB();
+    }
+
+    public void resetBaseColor() {
+        baseRGB = INVALID_COLOR;
+    }
+
 }

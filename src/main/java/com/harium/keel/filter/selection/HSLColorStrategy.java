@@ -54,7 +54,7 @@ public class HSLColorStrategy extends ReferenceColorStrategy {
     }
 
     @Override
-    public boolean valid(int rgb, int j, int i) {
+    public boolean valid(int rgb, int x, int y) {
         float[] hsl = ColorHelper.getHSLArray(rgb);
 
         int diffH = (int) EtylMath.diffMod(hsl[0], h);

@@ -15,7 +15,7 @@ public class SkinColorStrategy extends SimpleToleranceStrategy implements Select
     }
 
     @Override
-    public boolean valid(int rgb, int j, int i) {
+    public boolean valid(int rgb, int x, int y) {
         return isSkin(rgb, tolerance);
     }
 
