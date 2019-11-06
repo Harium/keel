@@ -17,7 +17,7 @@ public class ColorizeEffect implements Effect {
                 int gray = feature.getGray(j, i);
                 float value = gray / 255f;
                 Color color = colorMap.getColor(value);
-                feature.setRGB(i, j, color.getRGB());
+                feature.setRGB(j, i, color.getRGB());
             }
         }
 
