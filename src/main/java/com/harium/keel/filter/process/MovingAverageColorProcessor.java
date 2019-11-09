@@ -4,25 +4,24 @@ import com.harium.etyl.commons.graphics.Color;
 import com.harium.etyl.geometry.Point2D;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.core.strategy.ProcessComponentFilter;
-import com.harium.keel.core.ProcessFilter;
 import com.harium.keel.feature.PointFeature;
+import com.harium.keel.processor.PointFeatureProcessor;
 
 import java.util.List;
 
-public class MovingAverageColorFilter implements ProcessFilter<Color>, ProcessComponentFilter<Color> {
+public class MovingAverageColorProcessor extends PointFeatureProcessor<Color> {
 
-    float alpha = 0.9f;
+    private float alpha = 0.9f;
 
-    public MovingAverageColorFilter() {
-        super();
+    public Color apply(ImageSource source) {
+        if (feature == null) {
+            return applyAll(source);
+        }
+
+        return apply(source, feature);
     }
 
-    public Color process(ImageSource source) {
-        return filter(source);
-    }
-
-    public Color filter(ImageSource source) {
+    private Color applyAll(ImageSource source) {
         float averageRed = 0;
         float averageBlue = 0;
         float averageGreen = 0;
@@ -44,12 +43,7 @@ public class MovingAverageColorFilter implements ProcessFilter<Color>, ProcessCo
         return new Color((int) averageRed, (int) averageGreen, (int) averageBlue);
     }
 
-    @Override
-    public Color process(ImageSource source, PointFeature component) {
-        return filter(source, component);
-    }
-
-    public Color filter(ImageSource source, PointFeature component) {
+    public Color apply(ImageSource source, PointFeature component) {
         float averageRed = 0;
         float averageBlue = 0;
         float averageGreen = 0;

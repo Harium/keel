@@ -3,7 +3,7 @@ package com.harium.keel.core;
 import com.harium.keel.core.source.ImageSource;
 
 /**
- * Process Filters answers questions about an image source.
+ * Processors answer questions about an image source.
  *
  * E.g.:
  * What is the average color?
@@ -12,8 +12,6 @@ import com.harium.keel.core.source.ImageSource;
  *
  * @param <T>
  */
-public interface ProcessFilter<T> {
-
-    T process(ImageSource source);
+public interface Processor<T> extends Modifier<ImageSource, T> {
 
 }

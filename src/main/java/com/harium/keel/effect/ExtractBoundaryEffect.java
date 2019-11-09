@@ -23,7 +23,6 @@ package com.harium.keel.effect;
 import com.harium.keel.catalano.core.IntPoint;
 import com.harium.keel.core.Effect;
 import com.harium.keel.core.source.ImageSource;
-import com.harium.keel.core.ProcessFilter;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ import java.util.ArrayList;
  *
  * @author Diego Catalano
  */
-public class ExtractBoundary implements Effect, ProcessFilter<ArrayList<IntPoint>> {
+public class ExtractBoundaryEffect implements Effect {
 
     /**
      * Morphology operators.
@@ -56,7 +55,7 @@ public class ExtractBoundary implements Effect, ProcessFilter<ArrayList<IntPoint
     /**
      * Initialize a new instance of the ExtractBoundary class.
      */
-    public ExtractBoundary() {
+    public ExtractBoundaryEffect() {
     }
 
     /**
@@ -64,7 +63,7 @@ public class ExtractBoundary implements Effect, ProcessFilter<ArrayList<IntPoint
      *
      * @param algorithm Morphology algotithm.
      */
-    public ExtractBoundary(Algorithm algorithm) {
+    public ExtractBoundaryEffect(Algorithm algorithm) {
         this.algorithm = algorithm;
     }
 
@@ -83,40 +82,6 @@ public class ExtractBoundary implements Effect, ProcessFilter<ArrayList<IntPoint
         dif.apply(fastBitmap);
 
         return fastBitmap;
-    }
-
-    /**
-     * Get points after extract boundary.
-     *
-     * @param fastBitmap Image to be processed.
-     * @return List of points.
-     */
-    public ArrayList<IntPoint> process(ImageSource fastBitmap) {
-        //FastBitmap l = new FastBitmap(fastBitmap);
-        if (points == null) {
-            apply(fastBitmap);
-        }
-
-        int width = fastBitmap.getWidth();
-        int height = fastBitmap.getHeight();
-        points = new ArrayList<IntPoint>();
-
-        if (fastBitmap.isGrayscale()) {
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    if (fastBitmap.getRGB(y, x) == 255) points.add(new IntPoint(y, x));
-                }
-            }
-        } else {
-            for (int x = 0; x < height; x++) {
-                for (int y = 0; y < width; y++) {
-                    // TODO Check for green and blue?
-                    if (fastBitmap.getR(y, x) == 255) points.add(new IntPoint(y, x));
-                }
-            }
-        }
-
-        return points;
     }
 
 }
