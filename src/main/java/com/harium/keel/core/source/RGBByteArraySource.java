@@ -5,25 +5,10 @@ import com.harium.keel.core.helper.ColorHelper;
 /**
  * RGB Byte Array, without alpha channel
  */
-public class RGBByteArraySource extends ImageSourceImpl {
-
-    protected int w, h;
-    protected byte[] array;
+public class RGBByteArraySource extends ByteArraySource {
 
     public RGBByteArraySource(int w, int h, byte[] array) {
-        this.w = w;
-        this.h = h;
-        this.array = array;
-    }
-
-    @Override
-    public int getWidth() {
-        return w;
-    }
-
-    @Override
-    public int getHeight() {
-        return h;
+        super(w, h, array);
     }
 
     @Override

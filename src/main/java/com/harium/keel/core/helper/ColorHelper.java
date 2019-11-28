@@ -202,10 +202,14 @@ public class ColorHelper {
     }
 
     public static int clamp(int a) {
-        if (a < 0) {
-            return 0;
-        } else if (a > 0xff) {
-            return 0xff;
+        return clamp(a, 0, 0xff);
+    }
+
+    public static int clamp(int a, int min, int max) {
+        if (a < min) {
+            return min;
+        } else if (a > max) {
+            return max;
         }
         return a;
     }
