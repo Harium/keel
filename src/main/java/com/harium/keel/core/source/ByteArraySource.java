@@ -16,9 +16,20 @@ public abstract class ByteArraySource extends ImageSourceImpl {
         return w;
     }
 
+    public void setWidth(int w) {
+        this.w = w;
+    }
+
     @Override
     public int getHeight() {
         return h;
     }
 
+    public void setHeight(int h) {
+        this.h = h;
+    }
+
+    public void setArray(byte[] array) {
+        this.array = array;
+    }
 }
