@@ -1,5 +1,0 @@
-language: java
-jdk:
-  - openjdk9
-
-install: mvn install -DskipTests=true -Dgpg.skip=true -Dmaven.javadoc.skip=true

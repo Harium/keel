@@ -1,5 +1,7 @@
-Keel [![Build Status](https://travis-ci.org/Harium/keel.svg?branch=master)](https://travis-ci.org/Harium/keel)
+Keel
 ====
+[![CircleCI](https://circleci.com/gh/Harium/keel.svg?style=svg)](https://circleci.com/gh/Harium/keel)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.harium.keel/core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.harium.keel/core/)
 
 Keel is an Image Processing Library made in pure Java.
 
@@ -13,22 +15,8 @@ Key features:
 - Feature extraction
 
 
-### Maven
-```
-<dependency>
-    <groupId>com.harium.keel</groupId>
-    <artifactId>core</artifactId>
-    <version>1.6.0</version>
-</dependency>
-```
-
-### Gradle
-```
-compile 'com.harium.keel:core:1.6.0'
-```
-
 ### Example
-![Lena with filters](https://raw.githubusercontent.com/Harium/keel/master/screenshots/lena.jpg)
+![Lena with filters applied](https://raw.githubusercontent.com/Harium/keel/master/screenshots/lena.jpg)
 
 _Original (top-left), Grayscale (top-right), Sobel (bottom-left), Canny edge detector (bottom-right)_
 
