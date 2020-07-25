@@ -61,11 +61,7 @@ public class HSLColorStrategy extends ReferenceColorStrategy {
         float diffS = diffAbs(hsl[1], s);
         float diffL = diffAbs(hsl[2], l);
 
-        if (strength == 1) {
-            return (diffH < hTolerance && diffS < sTolerance && diffL < lTolerance);
-        } else {
-            return (diffH < hTolerance * strength && diffS < sTolerance * strength && diffL < lTolerance * strength);
-        }
+        return (diffH < hTolerance && diffS < sTolerance && diffL < lTolerance);
     }
 
     private float diffAbs(float a, float b) {

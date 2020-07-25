@@ -63,15 +63,11 @@ public class YCbCrColorStrategy extends ReferenceColorStrategy {
         int rcB = ColorHelper.getCB(r, g, b);
         int rcR = ColorHelper.getCR(r, g, b);
 
-        int diffY = (int) EtylMath.diffMod(ry, y);
-        int diffCB = (int) EtylMath.diffMod(rcB, cb);
-        int diffCR = (int) EtylMath.diffMod(rcR, cr);
+        int diffY = EtylMath.diffMod(ry, y);
+        int diffCB = EtylMath.diffMod(rcB, cb);
+        int diffCR = EtylMath.diffMod(rcR, cr);
 
-        if (strength != 1) {
-            return (diffY < lumaTolerance * strength && diffCB < chromaBTolerance * strength && diffCR < chromaRTolerance * strength);
-        } else {
-            return (diffY < lumaTolerance && diffCB < chromaBTolerance && diffCR < chromaRTolerance);
-        }
+        return (diffY < lumaTolerance && diffCB < chromaBTolerance && diffCR < chromaRTolerance);
     }
 
     public int getChromaBTolerance() {

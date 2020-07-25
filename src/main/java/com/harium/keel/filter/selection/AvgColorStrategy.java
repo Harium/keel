@@ -50,9 +50,7 @@ public class AvgColorStrategy extends ReferenceColorStrategy {
     @Override
     public boolean valid(int rgb, int j, int i) {
         int avg = this.avg;
-        if (hasBaseColor()) {
-            avg = avgColor(baseRGB);
-        }
+
         int avgRGB = avgColor(rgb);
 
         int diff = avgRGB - avg;

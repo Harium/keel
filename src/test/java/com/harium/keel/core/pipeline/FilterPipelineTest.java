@@ -5,6 +5,7 @@ import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.core.source.MatrixSourceTest;
 import com.harium.keel.feature.Feature;
 import com.harium.keel.filter.ColorFilter;
+import com.harium.keel.filter.selection.RGBColorStrategy;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class FilterPipelineTest {
         Feature screen = new Feature(2,2);
         ImageSource source = MatrixSourceTest.buildChecker();
 
-        ColorFilter filter = new ColorFilter(screen.getWidth(), screen.getHeight(), Color.BLACK);
+        ColorFilter filter = new ColorFilter(screen.getWidth(), screen.getHeight(), new RGBColorStrategy(Color.BLACK));
         filter.setBorder(0);
 
         FilterPipeline pipeline = new FilterPipeline().add(filter);

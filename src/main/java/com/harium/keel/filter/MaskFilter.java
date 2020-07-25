@@ -3,9 +3,9 @@ package com.harium.keel.filter;
 import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.custom.CustomFilter;
-import com.harium.keel.filter.selection.mask.ImageMaskStrategy;
 import com.harium.keel.filter.search.ColoredPointSearch;
-import com.harium.keel.filter.search.flood.SoftFloodFillSearch;
+import com.harium.keel.filter.search.flood.FloodFillSearch;
+import com.harium.keel.filter.selection.mask.ImageMaskStrategy;
 
 public class MaskFilter extends CustomFilter {
 
@@ -20,7 +20,7 @@ public class MaskFilter extends CustomFilter {
 		super(new ColoredPointSearch(w, h, Color.BLACK));
 		this.tolerance = tolerance;
 
-		filter = new SoftFloodFillSearch(w, h);
+		filter = new FloodFillSearch(w, h);
 		maskStrategy = new ImageMaskStrategy();
 		setPixelStrategy(maskStrategy);
 	}
