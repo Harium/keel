@@ -1,9 +1,8 @@
 package com.harium.keel.filter.selection;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.keel.core.strategy.SelectionStrategy;
 
-public abstract class ReferenceColorStrategy implements SelectionStrategy, ColorStrategy {
+public abstract class ReferenceColorStrategy implements ColorStrategy {
 
     protected int color = Color.BLACK.getRGB();
 

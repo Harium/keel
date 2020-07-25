@@ -4,6 +4,10 @@ import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;
 import com.harium.keel.filter.selection.RGBToleranceStrategy;
 
+/**
+ * This selection uses an image source as reference
+ * The mask can be a background image
+ */
 public class ImageMaskStrategy extends RGBToleranceStrategy {
 
 	private ImageSource mask;
