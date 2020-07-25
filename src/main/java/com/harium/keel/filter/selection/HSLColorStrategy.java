@@ -1,8 +1,8 @@
 package com.harium.keel.filter.selection;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.etyl.commons.math.EtylMath;
 import com.harium.keel.core.helper.ColorHelper;
+import com.harium.keel.modifier.color.RGBtoHSLModifier;
 
 public class HSLColorStrategy extends ReferenceColorStrategy {
 
@@ -21,7 +21,7 @@ public class HSLColorStrategy extends ReferenceColorStrategy {
      */
     public HSLColorStrategy(float tolerance) {
         // Turn hTolerance into angle
-        this(tolerance * 360, tolerance, tolerance);
+        this(tolerance * RGBtoHSLModifier.HUE_RANGE, tolerance, tolerance);
     }
 
     /**
@@ -57,15 +57,19 @@ public class HSLColorStrategy extends ReferenceColorStrategy {
     public boolean valid(int rgb, int j, int i) {
         float[] hsl = ColorHelper.getHSLArray(rgb);
 
-        int diffH = (int) EtylMath.diffMod(hsl[0], h);
-        int diffS = (int) EtylMath.diffMod(hsl[1], s);
-        int diffL = (int) EtylMath.diffMod(hsl[2], l);
+        float diffH = diffAbs(hsl[0], h);
+        float diffS = diffAbs(hsl[1], s);
+        float diffL = diffAbs(hsl[2], l);
 
         if (strength == 1) {
             return (diffH < hTolerance && diffS < sTolerance && diffL < lTolerance);
         } else {
             return (diffH < hTolerance * strength && diffS < sTolerance * strength && diffL < lTolerance * strength);
         }
+    }
+
+    private float diffAbs(float a, float b) {
+        return Math.abs(a - b);
     }
 
     public float getHTolerance() {
