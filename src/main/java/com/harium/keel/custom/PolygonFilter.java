@@ -8,7 +8,7 @@ import com.harium.keel.feature.Feature;
 import com.harium.keel.feature.PointFeature;
 import com.harium.keel.feature.hull.HullFeature;
 import com.harium.keel.filter.ColorFilter;
-import com.harium.keel.filter.search.flood.SoftFloodFillSearch;
+import com.harium.keel.filter.search.flood.FloodFillSearch;
 import com.harium.keel.modifier.hull.FastConvexHullModifier;
 import com.harium.keel.modifier.hull.HullModifier;
 import com.harium.keel.modifier.hull.PathCompressionModifier;
@@ -25,7 +25,7 @@ public class PolygonFilter {
 	public PolygonFilter(int w, int h, Color color) {
 		colorFilter = new ColorFilter(w, h, color);
 		
-		SoftFloodFillSearch floodFill = (SoftFloodFillSearch)colorFilter.getSearchStrategy();
+		FloodFillSearch floodFill = (FloodFillSearch)colorFilter.getSearchStrategy();
 		floodFill.setStep(1);
 		
 		quickHull = new FastConvexHullModifier();

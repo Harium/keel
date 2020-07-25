@@ -1,6 +1,7 @@
 package com.harium.keel.filter.search.flood;
 
 import com.harium.etyl.geometry.Point2D;
+import com.harium.keel.filter.selection.ColorStrategy;
 import com.harium.keel.geometry.ColorPoint;
 import com.harium.keel.filter.ComponentFilter;
 import com.harium.keel.core.mask.DynamicArrayMask;
@@ -21,22 +22,24 @@ public class FloodFillSearch extends ComponentFilter {
     protected DynamicMask mask;
 
     public FloodFillSearch(int w, int h) {
-        super(w, h, new RGBColorStrategy());
+        this(w, h, 1, 9);
+    }
 
-        mask = new DynamicArrayMask(w, h);
+    public FloodFillSearch(int w, int h, ColorStrategy colorStrategy) {
+        this(w, h, 1, 9, colorStrategy);
     }
 
     public FloodFillSearch(int w, int h, int minNeighbors) {
-        super(w, h, new RGBColorStrategy());
-
-        mask = new DynamicArrayMask(w, h);
-
-        this.minNeighbors = minNeighbors;
+        this(w, h, minNeighbors, 9);
     }
 
     public FloodFillSearch(int w, int h, int minNeighbors, int maxNeighbors) {
-        super(w, h, new RGBColorStrategy());
+        this(w, h, minNeighbors, maxNeighbors, new RGBColorStrategy());
+    }
 
+    public FloodFillSearch(int w, int h, int minNeighbors, int maxNeighbors, ColorStrategy colorStrategy) {
+        super(w, h, colorStrategy);
+        this.mask = new DynamicArrayMask(w, h);
         this.minNeighbors = minNeighbors;
         this.maxNeighbors = maxNeighbors;
     }

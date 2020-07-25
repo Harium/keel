@@ -3,7 +3,7 @@ package com.harium.keel.core.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComplexSelectionStrategy extends BaseSelectionStrategy {
+public class ComplexSelectionStrategy implements SelectionStrategy {
 
     private List<SelectionStrategy> strategies = new ArrayList<SelectionStrategy>();
 

@@ -3,11 +3,10 @@ package com.harium.keel.filter.selection;
 import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.core.helper.ColorHelper;
 
-public class RGBColorStrategy extends RGBToleranceStrategy implements ColorStrategy {
+public class RGBColorStrategy extends RGBToleranceStrategy {
 
     public RGBColorStrategy() {
         super();
-        strength = 0.5f;
     }
 
     public RGBColorStrategy(Color color) {
@@ -39,25 +38,14 @@ public class RGBColorStrategy extends RGBToleranceStrategy implements ColorStrat
 
     @Override
     public boolean valid(int rgb, int j, int i) {
-        if (strength != 1) {
-            if (hasBaseColor()) {
-                return ColorHelper.isColor(rgb, baseRGB, (int) (minToleranceRed * strength), (int) (maxToleranceRed * strength), (int) (minToleranceGreen * strength), (int) (maxToleranceGreen * strength), (int) (minToleranceBlue * strength), (int) (maxToleranceBlue * strength));
-            } else {
-                return ColorHelper.isColor(rgb, color, (int) (minToleranceRed * strength), (int) (maxToleranceRed * strength), (int) (minToleranceGreen * strength), (int) (maxToleranceGreen * strength), (int) (minToleranceBlue * strength), (int) (maxToleranceBlue * strength));
-            }
-        } else {
-            if (hasBaseColor()) {
-                return ColorHelper.isColor(rgb, baseRGB, minToleranceRed, maxToleranceRed, minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
-            } else {
-                return ColorHelper.isColor(rgb, color, minToleranceRed, maxToleranceRed, minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
-            }
-        }
+        return ColorHelper.isColor(rgb, color, minToleranceRed, maxToleranceRed, minToleranceGreen, maxToleranceGreen, minToleranceBlue, maxToleranceBlue);
     }
 
     public int getColor() {
         return color;
     }
 
+    @Override
     public void setColor(int color) {
         this.color = color;
     }

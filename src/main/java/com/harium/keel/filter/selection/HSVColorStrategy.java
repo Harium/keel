@@ -27,7 +27,7 @@ public class HSVColorStrategy extends ReferenceColorStrategy {
     /**
      * @param hTolerance - range from 0 to 360
      * @param sTolerance - range from 0 to 1
-     * @param lTolerance - range from 0 to 1
+     * @param vTolerance - range from 0 to 1
      */
     public HSVColorStrategy(float hTolerance, float sTolerance, float vTolerance) {
         this.hTolerance = hTolerance;
@@ -57,15 +57,11 @@ public class HSVColorStrategy extends ReferenceColorStrategy {
     public boolean valid(int rgb, int j, int i) {
         float[] hsv = ColorHelper.getHSVArray(rgb);
 
-        int diffH = (int) EtylMath.diffMod(hsv[0], h);
-        int diffS = (int) EtylMath.diffMod(hsv[1], s);
-        int diffV = (int) EtylMath.diffMod(hsv[2], v);
+        float diffH = EtylMath.diffMod(hsv[0], h);
+        float diffS = EtylMath.diffMod(hsv[1], s);
+        float diffV = EtylMath.diffMod(hsv[2], v);
 
-        if (strength == 1) {
-            return (diffH < hTolerance && diffS < sTolerance && diffV < vTolerance);
-        } else {
-            return (diffH < hTolerance * strength && diffS < sTolerance * strength && diffV < vTolerance * strength);
-        }
+        return (diffH < hTolerance && diffS < sTolerance && diffV < vTolerance);
     }
 
     public float getHTolerance() {

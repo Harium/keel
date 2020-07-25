@@ -1,12 +1,12 @@
 package com.harium.keel.filter.selection;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.keel.core.strategy.BaseSelectionStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultipleColorStrategy extends BaseSelectionStrategy {
+public class MultipleColorStrategy implements SelectionStrategy {
 
     protected List<RGBColorStrategy> colors = new ArrayList<RGBColorStrategy>();
 

@@ -1,8 +1,8 @@
 package com.harium.keel.filter.selection;
 
-import com.harium.keel.core.strategy.BaseSelectionStrategy;
+import com.harium.keel.core.strategy.SelectionStrategy;
 
-public abstract class SimpleToleranceStrategy extends BaseSelectionStrategy {
+public abstract class SimpleToleranceStrategy implements SelectionStrategy {
 
     protected int tolerance = 0x42;
 

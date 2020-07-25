@@ -21,4 +21,9 @@ public class ExponentialSmooth implements SmoothFilter {
         return y;
     }
 
+    @Override
+    public void setInitialValue(double value) {
+        this.initialValue = value;
+    }
+
 }

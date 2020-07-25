@@ -10,14 +10,4 @@ public class DummySelectionStrategy implements SelectionStrategy {
 		return true;
 	}
 
-	@Override
-	public void setBaseRGB(int baseRGB) {
-
-	}
-
-	@Override
-	public void setStrength(float strength) {
-
-	}
-
 }
