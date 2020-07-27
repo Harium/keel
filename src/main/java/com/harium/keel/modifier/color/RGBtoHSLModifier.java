@@ -10,6 +10,8 @@ import com.harium.keel.core.helper.ColorHelper;
 public class RGBtoHSLModifier implements Modifier<Integer, float[]> {
 
     public static final float MAX = 0.003921569f;
+    public static final float ONE_THIRD = 1.0f / 3;
+    public static final float TWO_THIRDS = 2.0f / 3;
 
     @Override
     public float[] apply(Integer rgb) {
@@ -54,7 +56,7 @@ public class RGBtoHSLModifier implements Modifier<Integer, float[]> {
                 min = fg;
                 d = max - min;
                 float den = 6 * d;
-                h = (2.0f / 3) + ((fr - fg) / den);
+                h = TWO_THIRDS + ((fr - fg) / den);
             }
 
         } else {//g is higher
@@ -63,7 +65,7 @@ public class RGBtoHSLModifier implements Modifier<Integer, float[]> {
                 min = Math.min(fr, fb);
                 d = max - min;
                 float den = 6 * d;
-                h = (1.0f / 3) + ((fb - fr) / den);
+                h = ONE_THIRD + ((fb - fr) / den);
             } else {
                 max = fb;
                 min = fr;
@@ -76,7 +78,7 @@ public class RGBtoHSLModifier implements Modifier<Integer, float[]> {
                 }
                 d = max - min;
                 float den = 6 * d;
-                h = (2.0f / 3) + ((fr - fg) / den);
+                h = TWO_THIRDS + ((fr - fg) / den);
             }
         }
 
