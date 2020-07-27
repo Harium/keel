@@ -214,6 +214,15 @@ public class ColorHelper {
         return a;
     }
 
+    public static float clamp(float a, float min, float max) {
+        if (a < min) {
+            return min;
+        } else if (a > max) {
+            return max;
+        }
+        return a;
+    }
+
     public static double clamp(double a) {
         if (a < 0) {
             return 0;

@@ -1,44 +1,65 @@
 package com.harium.keel.filter.selection;
 
 import com.harium.etyl.commons.graphics.Color;
+import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.modifier.color.RGBtoHSLModifier;
 
 public class HSLColorStrategy extends ReferenceColorStrategy {
 
     private static final RGBtoHSLModifier MODIFIER = new RGBtoHSLModifier();
 
-    private float h;
-    private float s;
-    private float l;
+    protected float minH;
+    protected float maxH;
 
-    private float hTolerance;
-    private float sTolerance;
-    private float lTolerance;
+    protected float minS;
+    protected float maxS;
+
+    protected float minL;
+    protected float maxL;
 
     /**
      * Tolerance will be transformed to angle to match Hue
      *
      * @param tolerance - range from 0 to 1
      */
-    public HSLColorStrategy(float tolerance) {
-        // Turn hTolerance into angle
-        this(tolerance, tolerance, tolerance);
-    }
-
-    /**
-     * @param hTolerance - range from 0 to 360
-     * @param sTolerance - range from 0 to 1
-     * @param lTolerance - range from 0 to 1
-     */
-    public HSLColorStrategy(float hTolerance, float sTolerance, float lTolerance) {
-        this.hTolerance = hTolerance;
-        this.sTolerance = sTolerance;
-        this.lTolerance = lTolerance;
+    public HSLColorStrategy(int color, float tolerance) {
+        this(color, tolerance, tolerance, tolerance);
     }
 
     public HSLColorStrategy(Color color, float hTolerance, float sTolerance, float lTolerance) {
-        this(hTolerance, sTolerance, lTolerance);
+        this(color.getRGB(), hTolerance, sTolerance, lTolerance);
+    }
+
+    /**
+     * @param hTolerance - range from 0 to 1
+     * @param sTolerance - range from 0 to 1
+     * @param lTolerance - range from 0 to 1
+     */
+    public HSLColorStrategy(int color, float hTolerance, float sTolerance, float lTolerance) {
         setColor(color);
+        setTolerance(hTolerance, sTolerance, lTolerance);
+    }
+
+    public void setTolerance(float hTolerance, float sTolerance, float lTolerance) {
+        float[] hsl = MODIFIER.apply(color);
+        float h = hsl[0];
+        float s = hsl[1];
+        float l = hsl[2];
+
+        this.minH = h - hTolerance;
+        if (minH < 0) {
+            minH += 1;
+        }
+        this.maxH = h + hTolerance;
+        if (maxH > 1) {
+           maxH -= 1;
+        }
+
+        this.minS = ColorHelper.clamp(s - sTolerance, 0, 1);
+        this.maxS = ColorHelper.clamp(s + sTolerance, 0, 1);
+
+        this.minL = ColorHelper.clamp(l - lTolerance, 0, 1);
+        this.maxL = ColorHelper.clamp(l + lTolerance, 0, 1);
     }
 
     public void setColor(Color color) {
@@ -47,49 +68,17 @@ public class HSLColorStrategy extends ReferenceColorStrategy {
 
     public void setColor(int color) {
         this.color = color;
-
-        float[] hsl = MODIFIER.apply(color);
-        h = hsl[0];
-        s = hsl[1];
-        l = hsl[2];
     }
 
     @Override
     public boolean valid(int rgb, int j, int i) {
         float[] hsl = MODIFIER.apply(rgb);
 
-        float diffH = diffAbs(hsl[0], h);
-        float diffS = diffAbs(hsl[1], s);
-        float diffL = diffAbs(hsl[2], l);
+        float h = hsl[0];
+        float s = hsl[1];
+        float l = hsl[2];
 
-        return (diffH < hTolerance && diffS < sTolerance && diffL < lTolerance);
+        return !(h > maxH) && !(h < minH) && !(s < minS) && !(s > maxS) && !(l < minL) && !(l > maxL);
     }
 
-    private float diffAbs(float a, float b) {
-        return Math.abs(a - b);
-    }
-
-    public float getHTolerance() {
-        return hTolerance;
-    }
-
-    public void setHTolerance(float hTolerance) {
-        this.hTolerance = hTolerance;
-    }
-
-    public float getSTolerance() {
-        return sTolerance;
-    }
-
-    public void setSTolerance(float sTolerance) {
-        this.sTolerance = sTolerance;
-    }
-
-    public float getLTolerance() {
-        return lTolerance;
-    }
-
-    public void setLTolerance(float lTolerance) {
-        this.lTolerance = lTolerance;
-    }
 }
