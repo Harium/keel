@@ -3,10 +3,13 @@ package com.harium.keel.modifier.color;
 import com.harium.keel.core.Modifier;
 import com.harium.keel.core.helper.ColorHelper;
 
+/**
+ * Turn RGB int into HSL float
+ * Range of 0 to 1
+ */
 public class RGBtoHSLModifier implements Modifier<Integer, float[]> {
 
-    public static final int HUE_RANGE = 360;
-    private static final float MAX = 0xff;
+    public static final float MAX = 0.003921569f;
 
     @Override
     public float[] apply(Integer rgb) {
@@ -23,47 +26,69 @@ public class RGBtoHSLModifier implements Modifier<Integer, float[]> {
      * @param r
      * @param g
      * @param b
-     * @return hsl as an array of floats
+     * @return hsl as an array of floats ranging 0 to 1
      */
     public static float[] getHSLArray(int r, int g, int b) {
+        return fastHSL(r, g, b);
+    }
+
+    private static float[] fastHSL(int r, int g, int b) {
         float[] hsl = new float[3];
-        float h, s, l;
+        float h, s, l, min, max;
 
-        float rf = r / MAX;
-        float gf = g / MAX;
-        float bf = b / MAX;
+        float fr = r * RGBtoHSLModifier.MAX;
+        float fg = g * RGBtoHSLModifier.MAX;
+        float fb = b * RGBtoHSLModifier.MAX;
+        float d;
 
-        float minRGB = Math.min(rf, Math.min(gf, bf));
-        float maxRGB = Math.max(rf, Math.max(gf, bf));
-
-        float delta = maxRGB - minRGB;
-
-        l = (maxRGB + minRGB) / 2;
-
-        if (delta == 0) {
-            h = 0;
-            s = 0.0f;
-        } else {
-            s = (l <= 0.5) ? (delta / (maxRGB + minRGB)) : (delta / (2 - maxRGB - minRGB));
-
-            float hue;
-
-            if (rf == maxRGB) {
-                hue = ((gf - bf) / 6) / delta;
-            } else if (gf == maxRGB) {
-                hue = (1.0f / 3) + ((bf - rf) / 6) / delta;
+        if (fr > fg) {
+            if (fr > fb) {
+                max = fr;
+                // R
+                min = Math.min(fg, fb);
+                d = max - min;
+                float den = 6 * d;
+                h = ((fg - fb) / den);
             } else {
-                hue = (2.0f / 3) + ((rf - gf) / 6) / delta;
+                max = fb;
+                min = fg;
+                d = max - min;
+                float den = 6 * d;
+                h = (2.0f / 3) + ((fr - fg) / den);
             }
 
-            if (hue < 0) {
-                hue += 1;
-            } else if (hue > 1) {
-                hue -= 1;
+        } else {//g is higher
+            if (fg > fb) {
+                max = fg;
+                min = Math.min(fr, fb);
+                d = max - min;
+                float den = 6 * d;
+                h = (1.0f / 3) + ((fb - fr) / den);
+            } else {
+                max = fb;
+                min = fr;
+                if (max == min) {
+                    // achromatic
+                    hsl[0] = 0;
+                    hsl[1] = 0;
+                    hsl[2] = max;
+                    return hsl;
+                }
+                d = max - min;
+                float den = 6 * d;
+                h = (2.0f / 3) + ((fr - fg) / den);
             }
-
-            h = (int) (hue * HUE_RANGE);
         }
+
+        if (h < 0) {
+            h += 1;
+        } else if (h > 1) {
+            h -= 1;
+        }
+
+        l = (max + min);
+        s = (l <= 1f) ? (d / l) : (d / (2 - l));
+        l *= 0.5f;
 
         hsl[0] = h;
         hsl[1] = s;
@@ -71,4 +96,5 @@ public class RGBtoHSLModifier implements Modifier<Integer, float[]> {
 
         return hsl;
     }
+
 }

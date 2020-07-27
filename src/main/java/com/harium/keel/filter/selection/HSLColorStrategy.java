@@ -2,9 +2,10 @@ package com.harium.keel.filter.selection;
 
 import com.harium.etyl.commons.graphics.Color;
 import com.harium.keel.core.helper.ColorHelper;
-import com.harium.keel.modifier.color.RGBtoHSLModifier;
 
 public class HSLColorStrategy extends ReferenceColorStrategy {
+
+    public static final int HUE_RANGE = 360;
 
     private float h;
     private float s;
@@ -21,7 +22,7 @@ public class HSLColorStrategy extends ReferenceColorStrategy {
      */
     public HSLColorStrategy(float tolerance) {
         // Turn hTolerance into angle
-        this(tolerance * RGBtoHSLModifier.HUE_RANGE, tolerance, tolerance);
+        this(tolerance * HUE_RANGE, tolerance, tolerance);
     }
 
     /**
