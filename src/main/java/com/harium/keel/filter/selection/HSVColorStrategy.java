@@ -6,38 +6,53 @@ import com.harium.keel.core.helper.ColorHelper;
 
 public class HSVColorStrategy extends ReferenceColorStrategy {
 
-    private float h;
-    private float s;
-    private float v;
+    protected float minH;
+    protected float maxH;
 
-    private float hTolerance;
-    private float sTolerance;
-    private float vTolerance;
+    protected float minS;
+    protected float maxS;
 
-    /**
-     * Tolerance will be transformed to angle to match Hue
-     *
-     * @param tolerance - range from 0 to 1
-     */
-    public HSVColorStrategy(float tolerance) {
-        // Turn hTolerance into angle
-        this(tolerance * 360, tolerance, tolerance);
+    protected float minV;
+    protected float maxV;
+
+    public HSVColorStrategy(int color, float tolerance) {
+        this(color, tolerance, tolerance, tolerance);
+    }
+
+    public HSVColorStrategy(Color color, float hTolerance, float sTolerance, float lTolerance) {
+        this(color.getRGB(), hTolerance, sTolerance, lTolerance);
     }
 
     /**
-     * @param hTolerance - range from 0 to 360
+     * @param hTolerance - range from 0 to 1
      * @param sTolerance - range from 0 to 1
      * @param vTolerance - range from 0 to 1
      */
-    public HSVColorStrategy(float hTolerance, float sTolerance, float vTolerance) {
-        this.hTolerance = hTolerance;
-        this.sTolerance = sTolerance;
-        this.vTolerance = vTolerance;
+    public HSVColorStrategy(int color, float hTolerance, float sTolerance, float vTolerance) {
+        setColor(color);
+        setTolerance(hTolerance, sTolerance, vTolerance);
     }
 
-    public HSVColorStrategy(Color color, float hTolerance, float sTolerance, float vTolerance) {
-        this(hTolerance, sTolerance, vTolerance);
-        setColor(color);
+    public void setTolerance(float hTolerance, float sTolerance, float vTolerance) {
+        float[] hsv = calculateHSV(color);
+        float h = hsv[0];
+        float s = hsv[1];
+        float v = hsv[2];
+
+        this.minH = h - hTolerance;
+        if (minH < 0) {
+            minH += 1;
+        }
+        this.maxH = h + hTolerance;
+        if (maxH > 1) {
+            maxH -= 1;
+        }
+
+        this.minS = ColorHelper.clamp(s - sTolerance, 0, 1);
+        this.maxS = ColorHelper.clamp(s + sTolerance, 0, 1);
+
+        this.minV = ColorHelper.clamp(v - vTolerance, 0, 1);
+        this.maxV = ColorHelper.clamp(v + vTolerance, 0, 1);
     }
 
     public void setColor(Color color) {
@@ -46,45 +61,68 @@ public class HSVColorStrategy extends ReferenceColorStrategy {
 
     public void setColor(int color) {
         this.color = color;
-
-        float[] hsv = ColorHelper.getHSVArray(color);
-        h = hsv[0];
-        s = hsv[1];
-        v = hsv[2];
     }
 
     @Override
     public boolean valid(int rgb, int j, int i) {
-        float[] hsv = ColorHelper.getHSVArray(rgb);
+        float[] hsv = calculateHSV(rgb);
 
-        float diffH = EtylMath.diffMod(hsv[0], h);
-        float diffS = EtylMath.diffMod(hsv[1], s);
-        float diffV = EtylMath.diffMod(hsv[2], v);
+        float h = hsv[0];
+        float s = hsv[1];
+        float v = hsv[2];
 
-        return (diffH < hTolerance && diffS < sTolerance && diffV < vTolerance);
+        return !(h < minH) && !(h > maxH) && !(s < minS) && !(s > maxS) && !(v < minV) && !(v > maxV);
     }
 
-    public float getHTolerance() {
-        return hTolerance;
+    private float[] calculateHSV(int rgb) {
+        return ColorHelper.getHSVArray(rgb);
     }
 
-    public void setHTolerance(float hTolerance) {
-        this.hTolerance = hTolerance;
+    public float getMinH() {
+        return minH;
     }
 
-    public float getSTolerance() {
-        return sTolerance;
+    public void setMinH(float minH) {
+        this.minH = minH;
     }
 
-    public void setSTolerance(float sTolerance) {
-        this.sTolerance = sTolerance;
+    public float getMaxH() {
+        return maxH;
     }
 
-    public float getVTolerance() {
-        return vTolerance;
+    public void setMaxH(float maxH) {
+        this.maxH = maxH;
     }
 
-    public void setVTolerance(float vTolerance) {
-        this.vTolerance = vTolerance;
+    public float getMinS() {
+        return minS;
+    }
+
+    public void setMinS(float minS) {
+        this.minS = minS;
+    }
+
+    public float getMaxS() {
+        return maxS;
+    }
+
+    public void setMaxS(float maxS) {
+        this.maxS = maxS;
+    }
+
+    public float getMinV() {
+        return minV;
+    }
+
+    public void setMinV(float minV) {
+        this.minV = minV;
+    }
+
+    public float getMaxV() {
+        return maxV;
+    }
+
+    public void setMaxV(float maxV) {
+        this.maxV = maxV;
     }
 }
