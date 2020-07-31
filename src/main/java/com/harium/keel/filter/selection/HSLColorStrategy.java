@@ -71,7 +71,11 @@ public class HSLColorStrategy extends ReferenceColorStrategy {
         float s = hsl[1];
         float l = hsl[2];
 
-        return !(h < minH) && !(h > maxH) && !(s < minS) && !(s > maxS) && !(l < minL) && !(l > maxL);
+        if (maxH>minH) {
+            return (h >= minH) && (h <= maxH) && (s >= minS) && (s <= maxS) && (l >= minL) && (l <= maxL);
+        } else {
+            return ((h < maxH) || (h > minH)) && (s >= minS) && (s <= maxS) && (l >= minL) && (l <= maxL);
+        }
     }
 
     private float[] calculateHSL(int rgb) {

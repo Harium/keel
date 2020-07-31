@@ -20,13 +20,11 @@ public abstract class RGBToleranceStrategy extends ReferenceColorStrategy {
 
     public RGBToleranceStrategy(int tolerance) {
         super();
-
         setTolerance(tolerance);
     }
 
     public RGBToleranceStrategy(int maxTolerance, int minTolerance) {
         super();
-
         setTolerance(maxTolerance, minTolerance);
     }
 
@@ -43,7 +41,6 @@ public abstract class RGBToleranceStrategy extends ReferenceColorStrategy {
     }
 
     public void setTolerance(int redMaxTolerance, int greenMaxTolerance, int blueMaxTolerance, int redMinTolerance, int greenMinTolerance, int blueMinTolerance) {
-
         maxToleranceRed = redMaxTolerance;
         maxToleranceGreen = greenMaxTolerance;
         maxToleranceBlue = blueMaxTolerance;
@@ -51,18 +48,6 @@ public abstract class RGBToleranceStrategy extends ReferenceColorStrategy {
         minToleranceRed = redMinTolerance;
         minToleranceGreen = greenMinTolerance;
         minToleranceBlue = blueMinTolerance;
-    }
-
-    public void setOffsetTolerance(int tolerance) {
-
-        maxToleranceRed += tolerance;
-        maxToleranceGreen += tolerance;
-        maxToleranceBlue += tolerance;
-
-        minToleranceRed += tolerance;
-        minToleranceGreen += tolerance;
-        minToleranceBlue += tolerance;
-
     }
 
     public int getMaxToleranceRed() {

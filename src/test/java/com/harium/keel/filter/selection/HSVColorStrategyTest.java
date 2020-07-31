@@ -9,7 +9,7 @@ public class HSVColorStrategyTest {
     private static final float EPSILON = 0.1f;
 
     @Test
-    public void testConstructor() {
+    public void testConstructorMaxLowerThenMin() {
         float tolerance = 0.2f;
 
         HSVColorStrategy strategy = new HSVColorStrategy(Color.RED.getRGB(), tolerance);

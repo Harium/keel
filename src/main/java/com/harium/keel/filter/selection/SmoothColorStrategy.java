@@ -1,12 +1,13 @@
 package com.harium.keel.filter.selection;
 
-import com.harium.keel.filter.smooth.ExponentialSmooth;
-import com.harium.keel.filter.smooth.SmoothFilter;
+import com.harium.keel.filter.selection.smooth.SmoothSelection;
+import com.harium.keel.filter.selection.smooth.ExponentialSmoothSelection;
 
 public class SmoothColorStrategy implements ColorStrategy {
 
+    private int color;
     private ColorStrategy colorStrategy;
-    private SmoothFilter smoothFilter = new ExponentialSmooth(0.5f);
+    private SmoothSelection smoothFilter = new ExponentialSmoothSelection(0.5f);
 
     public SmoothColorStrategy(ColorStrategy colorStrategy) {
         super();
@@ -17,28 +18,44 @@ public class SmoothColorStrategy implements ColorStrategy {
     public boolean valid(int rgb, int x, int y) {
         boolean valid = colorStrategy.valid(rgb, x, y);
         if (valid) {
-            double color = smoothFilter.smooth(rgb);
-            colorStrategy.setColor((int) color);
+            // Update color
+            color = smoothFilter.smooth(rgb);
+            colorStrategy.setColor(color);
         }
         return valid;
     }
 
     @Override
     public void setColor(int color) {
+        this.color = color;
+        reset();
+    }
+
+    public void reset() {
         colorStrategy.setColor(color);
-        smoothFilter.setInitialValue(color);
+        smoothFilter.setInitialColor(color);
     }
 
     @Override
     public int getColor() {
-        return colorStrategy.getColor();
+        return color;
     }
 
-    public SmoothFilter getSmoothFilter() {
+    public SmoothSelection getSmoothFilter() {
         return smoothFilter;
     }
 
-    public void setSmoothFilter(SmoothFilter smoothFilter) {
+    public void setSmoothFilter(SmoothSelection smoothFilter) {
         this.smoothFilter = smoothFilter;
+        reset();
+    }
+
+    public ColorStrategy getColorStrategy() {
+        return colorStrategy;
+    }
+
+    public void setColorStrategy(ColorStrategy colorStrategy) {
+        this.colorStrategy = colorStrategy;
+        reset();
     }
 }

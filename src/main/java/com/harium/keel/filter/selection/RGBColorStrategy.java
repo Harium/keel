@@ -14,26 +14,26 @@ public class RGBColorStrategy extends RGBToleranceStrategy {
     }
 
     public RGBColorStrategy(Color color, int tolerance) {
-        this(color);
-
-        setTolerance(tolerance);
+        this(color.getRGB(), tolerance);
     }
 
     public RGBColorStrategy(Color color, int maxTolerance, int minTolerance) {
         this(color);
-
         setTolerance(maxTolerance, minTolerance);
     }
 
     public RGBColorStrategy(Color color, int redTolerance, int greenTolerance, int blueTolerance) {
         this(color);
-
         setTolerance(redTolerance, greenTolerance, blueTolerance);
     }
 
     public RGBColorStrategy(int color) {
-        super();
-        setColor(color);
+        super(color);
+    }
+
+    public RGBColorStrategy(int color, int tolerance) {
+        super(color);
+        setTolerance(tolerance);
     }
 
     @Override
