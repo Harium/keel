@@ -18,7 +18,7 @@ public class FilterPipelineTest {
         Feature screen = new Feature(2,2);
         ImageSource source = MatrixSourceTest.buildChecker();
 
-        ColorFilter filter = new ColorFilter(screen.getWidth(), screen.getHeight(), new RGBColorStrategy(Color.BLACK));
+        ColorFilter filter = new ColorFilter(screen.getWidth(), screen.getHeight(), new RGBColorStrategy(Color.BLACK, 1));
         filter.setBorder(0);
 
         FilterPipeline pipeline = new FilterPipeline().add(filter);

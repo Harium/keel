@@ -16,7 +16,7 @@ public class CrossSearchTest {
     public void setUp() {
         filter = new CrossSearch();
 
-        RGBColorStrategy colorStrategy = new RGBColorStrategy(Color.BLACK);
+        RGBColorStrategy colorStrategy = new RGBColorStrategy(Color.BLACK, 1);
 
         //Looking for Black Pixels
         filter.setSelectionStrategy(colorStrategy);
