@@ -35,4 +35,7 @@ public class IntArraySource extends ImageSourceImpl {
         return x + w * y;
     }
 
+    public void setArray(int[] array) {
+        this.array = array;
+    }
 }
