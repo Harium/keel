@@ -7,12 +7,13 @@ import com.harium.keel.core.source.MatrixSource;
 
 public class Crop implements Effect {
 
-    public static final int UNDEFINED = -1;
     private int width = 1;
     private int height = 1;
 
-    private int cx = UNDEFINED;
-    private int cy = UNDEFINED;
+    private int cx = 0;
+    private int cy = 0;
+
+    private boolean center = false;
 
     public ImageSource apply(ImageSource input) {
         MatrixSource output = new MatrixSource(width, height);
@@ -21,8 +22,8 @@ public class Crop implements Effect {
         int h = EtylMath.min(input.getHeight(), height);
 
         int x = cx, y = cy;
-        // If undefined, crop on center
-        if (cx == UNDEFINED || cy == UNDEFINED) {
+
+        if (center) {
             x = (input.getWidth() - w) / 2;
             y = (input.getHeight() - h) / 2;
         }
@@ -56,6 +57,11 @@ public class Crop implements Effect {
     public Crop position(int cx, int cy) {
         this.cx = cx;
         this.cy = cy;
+        return this;
+    }
+
+    public Crop center(boolean center) {
+        this.center = center;
         return this;
     }
 
