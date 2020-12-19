@@ -23,7 +23,7 @@ public class CropTest {
         image[2][2] = 0;
 
         MatrixSource source = new MatrixSource(image);
-        Crop effect = new Crop().height(1).width(1);
+        Crop effect = new Crop().height(1).width(1).position(1, 1);
         ImageSource output = effect.apply(source);
 
         int rgb = output.getRGB(0, 0);
