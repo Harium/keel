@@ -100,7 +100,7 @@
                     <optimize>true</optimize>
                     <compilerArgument>-parameters</compilerArgument>
                     <excludes>
-                        <exclude>**/examples/*</exclude>
+                        <exclude>**/examples/**/*.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
