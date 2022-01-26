@@ -1,9 +1,9 @@
 package com.harium.keel.modifier.ogr;
 
+import com.harium.etyl.geometry.math.EtylMath;
 import com.harium.keel.core.Modifier;
 import com.harium.keel.feature.PointFeature;
 import com.harium.keel.feature.ogr.LineInterval;
-import com.harium.etyl.commons.math.EtylMath;
 import com.harium.keel.modifier.ogr.model.OGREdge;
 import com.harium.keel.modifier.ogr.model.OGRNodeData;
 import com.harium.storage.graph.Graph;
@@ -27,7 +27,7 @@ public class LetterOGRModifier implements Modifier<PointFeature, Graph<OGRNodeDa
 
     private void moveNodes(Graph<OGRNodeData> graph, int x, int y) {
         for(Node<OGRNodeData> node: graph.getNodes()) {
-            node.getData().getPoint().offset(x, y);
+            node.getData().getPoint().add(x, y);
         }
     }
 

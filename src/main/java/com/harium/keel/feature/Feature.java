@@ -1,6 +1,6 @@
 package com.harium.keel.feature;
 
-import com.harium.etyl.commons.collision.CollisionDetector;
+import com.harium.etyl.geometry.collision.CollisionDetector;
 
 public class Feature extends ColorFeature implements FeatureArea {
 
@@ -45,11 +45,11 @@ public class Feature extends ColorFeature implements FeatureArea {
         }
     }
 
-    public boolean colidePoint(int px, int py) {
+    public boolean collidePoint(int px, int py) {
         return CollisionDetector.collideRectPoint(x, y, width, height, px, py);
     }
 
-    public boolean colide(Feature feature) {
+    public boolean collide(Feature feature) {
         return CollisionDetector.collideRectRect(x, y, width, height,
                 feature.x, feature.y, feature.width, feature.height);
     }

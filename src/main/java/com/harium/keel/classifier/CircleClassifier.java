@@ -53,10 +53,10 @@ public class CircleClassifier extends Classifier<PointFeature, Boolean> {
                 double dx = r * dxi;
                 double dy = r * dyi;
 
-                if (!feature.colidePoint((int) (cx + dx), (int) (cy + dy))) {
+                if (!feature.collidePoint((int) (cx + dx), (int) (cy + dy))) {
                     return false;
                 }
-                if (!feature.colidePoint((int) (cx - dx), (int) (cy - dy))) {
+                if (!feature.collidePoint((int) (cx - dx), (int) (cy - dy))) {
                     return false;
                 }
             }

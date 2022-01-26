@@ -1,6 +1,6 @@
 package com.harium.keel.effect.neuroph;
 
-import com.harium.etyl.commons.math.Vector2i;
+import com.harium.etyl.geometry.math.Vector2i;
 import com.harium.keel.core.Modifier;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;

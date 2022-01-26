@@ -1,6 +1,6 @@
 package com.harium.keel.marker;
 
-import com.harium.etyl.commons.math.Vector2i;
+import com.harium.etyl.geometry.math.Vector2i;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

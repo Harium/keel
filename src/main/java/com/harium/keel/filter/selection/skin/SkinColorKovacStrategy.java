@@ -1,7 +1,7 @@
 package com.harium.keel.filter.selection.skin;
 
 
-import com.harium.etyl.commons.math.EtylMath;
+import com.harium.etyl.geometry.math.EtylMath;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.strategy.SelectionStrategy;
 import com.harium.keel.filter.selection.SimpleToleranceStrategy;

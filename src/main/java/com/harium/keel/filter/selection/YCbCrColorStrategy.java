@@ -1,7 +1,7 @@
 package com.harium.keel.filter.selection;
 
 import com.harium.etyl.commons.graphics.Color;
-import com.harium.etyl.commons.math.EtylMath;
+import com.harium.etyl.geometry.math.EtylMath;
 import com.harium.keel.core.helper.ColorHelper;
 
 public class YCbCrColorStrategy extends ReferenceColorStrategy {

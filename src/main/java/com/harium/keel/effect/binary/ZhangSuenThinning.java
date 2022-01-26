@@ -1,6 +1,6 @@
 package com.harium.keel.effect.binary;
 
-import com.harium.etyl.commons.math.Vector2i;
+import com.harium.etyl.geometry.math.Vector2i;
 import com.harium.keel.core.Effect;
 import com.harium.keel.core.helper.ColorHelper;
 import com.harium.keel.core.source.ImageSource;

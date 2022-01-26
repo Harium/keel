@@ -72,7 +72,7 @@ public class RectangularOGRModifier implements HullModifier<List<Point2D>> {
         list.add(d);
 
         for (Point2D point : list) {
-            point.offset(feature.getX(), feature.getY());
+            point.add(feature.getX(), feature.getY());
         }
 
         return list;

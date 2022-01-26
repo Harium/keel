@@ -232,7 +232,7 @@ public class PointFeature extends Feature implements Comparable<PointFeature> {
         }
     }
 
-    public boolean colidePoint(int px, int py) {
+    public boolean collidePoint(int px, int py) {
 
         if ((px < getX()) || (px > getX() + getW())) {
             return false;
