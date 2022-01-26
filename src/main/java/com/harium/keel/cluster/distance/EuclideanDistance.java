@@ -1,14 +1,17 @@
 package com.harium.keel.cluster.distance;
 
-import com.harium.etyl.geometry.Point2D;
-
 public class EuclideanDistance implements DistanceMeasure {
 
-	public double distance(Point2D a, Point2D b) {
-		double dx = a.x - b.x;
-		double dy = a.y - b.y;
-		
-		return Math.sqrt(dx*dx + dy*dy);
+	public double distance(double[] a, double[] b) {
+		double sum = 0;
+		for (int i = 0; i < a.length; i++) {
+			double valueA = a[i];
+			double valueB = b[i];
+
+			sum += Math.pow(valueA - valueB, 2);
+		}
+
+		return Math.sqrt(sum);
 	}
 
 }
