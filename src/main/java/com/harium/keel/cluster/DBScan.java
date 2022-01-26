@@ -1,10 +1,9 @@
 package com.harium.keel.cluster;
 
-import com.harium.etyl.geometry.Point2D;
 import com.harium.storage.kdtree.KDTree;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,13 +14,13 @@ import java.util.Set;
  * Forked from: http://alvinalexander.com/java/jwarehouse/commons-math3-3.6.1/src/main/java/org/apache/commons/math3/ml/clustering/DBSCANClusterer.java.shtml
  *
  */
-public class DBScan {
+public class DBScan<T> implements ClusterFit<T> {
 
-    /** Maximum radius of the neighborhood to be considered. */
-    private double eps;
+    /** Maximum radius of the neighborhood to be considered. Also called epsilon */
+    private double eps = 0.5;
 
     /** Minimum number of points needed for a cluster. */
-    private int minPoints;
+    private int minPoints = 1;
 
     /** Status of a point during the clustering process. */
     private enum PointStatus {
@@ -31,12 +30,15 @@ public class DBScan {
         PART_OF_CLUSTER
     }
 
+    public DBScan() {
+        super();
+    }
+
     /**
      * Creates a new instance of a DBSCANClusterer.
      *
      * @param eps maximum radius of the neighborhood to be considered
-     * @param minPts minimum number of points needed for a cluster
-     * @param measure the distance measure to use
+     * @param minPoints minimum number of points needed for a cluster
      */
     public DBScan(final double eps, final int minPoints) {
         super();
@@ -64,41 +66,51 @@ public class DBScan {
     /**
      * Performs DBSCAN cluster analysis.
      *
-     * @param points the points to cluster
+     * @param data the points to cluster
      * @return the list of clusters
-     * @throws NullArgumentException if the data points are null
      */
-    public List<Cluster> cluster(final Collection<Point2D> points) {
-    	final List<Cluster> clusters = new ArrayList<Cluster>();
-        final Map<Point2D, PointStatus> visited = new HashMap<Point2D, DBScan.PointStatus>();
-
-        KDTree<Point2D> tree = new KDTree<Point2D>(2);
-        
-        // Populate the kdTree
-        for (final Point2D point : points) {
-        	double[] key = {point.x, point.y};
-        	tree.insert(key, point);
+    public List<Cluster<T>> fit(final List<Record<T>> data) {
+        if (data == null || data.isEmpty()) {
+            return Collections.emptyList();
         }
-                
-        for (final Point2D point : points) {
-            if (visited.get(point) != null) {
+
+        int length = data.get(0).getFeatures().length;
+
+        final List<Cluster<T>> clusters = new ArrayList<>();
+        KDTree<Record<T>> tree = new KDTree<>(length);
+        // Should it be Record<T> instead?
+        final Map<double[], PointStatus> visited = new HashMap<>();
+
+        // Populate the kdTree
+        for (Record<T> row : data) {
+        	double[] key = buildKey(row);
+        	tree.insert(key, row);
+        }
+
+        for (Record<T> row : data) {
+            if (visited.get(row.getFeatures()) != null) {
                 continue;
             }
-            final List<Point2D> neighbors = getNeighbors(point, tree);
+            final List<Record<T>> neighbors = getNeighbors(row, tree);
             if (neighbors.size() >= minPoints) {
                 // DBSCAN does not care about center points
-                final Cluster cluster = new Cluster(clusters.size());
-                clusters.add(expandCluster(cluster, point, neighbors, tree, visited));
+                final Cluster<T> cluster = new Cluster<T>();
+                clusters.add(expandCluster(cluster, row, neighbors, tree, visited));
             } else {
-                visited.put(point, PointStatus.NOISE);
+                visited.put(row.getFeatures(), PointStatus.NOISE);
             }
         }
 
-        for (Cluster cluster : clusters) {
-        	cluster.calculateCentroid();
-        }
-        
         return clusters;
+    }
+
+    private double[] buildKey(Record row) {
+        double[] key = new double[row.getFeatures().length];
+
+        for (int i = 0; i < row.getFeatures().length; i++) {
+            key[i] = row.getFeatures()[i];
+        }
+        return key;
     }
 
     /**
@@ -107,37 +119,38 @@ public class DBScan {
      * @param cluster Cluster to expand
      * @param point Point to add to cluster
      * @param neighbors List of neighbors
-     * @param points the data set
+     * @param tree the data set
      * @param visited the set of already visited points
      * @return the expanded cluster
      */
-    private Cluster expandCluster(final Cluster cluster,
-                                     final Point2D point,
-                                     final List<Point2D> neighbors,
-                                     final KDTree<Point2D> points,
-                                     final Map<Point2D, PointStatus> visited) {
-        cluster.addPoint(point);
-        visited.put(point, PointStatus.PART_OF_CLUSTER);
+    private Cluster<T> expandCluster(final Cluster<T> cluster,
+                                     final Record<T> point,
+                                     final List<Record<T>> neighbors,
+                                     final KDTree<Record<T>> tree,
+                                     final Map<double[], PointStatus> visited) {
 
-        List<Point2D> seeds = new ArrayList<Point2D>(neighbors);
-        int index = 0;
-        while (index < seeds.size()) {
-            Point2D current = seeds.get(index);
-            PointStatus pStatus = visited.get(current);
+        cluster.addRecord(point);
+
+        visited.put(point.getFeatures(), PointStatus.PART_OF_CLUSTER);
+
+        List<Record<T>> seeds = new ArrayList<>(neighbors);
+
+        for (int index = 0; index < seeds.size(); index++) {
+            Record<T> current = seeds.get(index);
+            PointStatus pStatus = visited.get(current.getFeatures());
+
             // only check non-visited points
             if (pStatus == null) {
-                final List<Point2D> currentNeighbors = getNeighbors(current, points);
+                final List<Record<T>> currentNeighbors = getNeighbors(point, tree);
                 if (currentNeighbors.size() >= minPoints) {
                     seeds = merge(seeds, currentNeighbors);
                 }
             }
 
             if (pStatus != PointStatus.PART_OF_CLUSTER) {
-                visited.put(current, PointStatus.PART_OF_CLUSTER);
-                cluster.addPoint(current);
+                visited.put(current.getFeatures(), PointStatus.PART_OF_CLUSTER);
+                cluster.addRecord(current);
             }
-
-            index++;
         }
         return cluster;
     }
@@ -145,17 +158,13 @@ public class DBScan {
     /**
      * Returns a list of density-reachable neighbors of a {@code point}.
      *
-     * @param point the point to look for
+     * @param record the record to look for
      * @param points possible neighbors
      * @return the List of neighbors
      */
-    private List<Point2D> getNeighbors(final Point2D point, KDTree<Point2D> points) {
-    	double[] key = {point.x, point.y};
-        final List<Point2D> neighbors = new ArrayList<Point2D>();
-        
-        neighbors.addAll(points.nearestEuclidean(key, eps));
-        
-        return neighbors; 
+    private List<Record<T>> getNeighbors(final Record<T> record, KDTree<Record<T>> points) {
+        double[] key = record.getFeatures();
+        return new ArrayList<>(points.nearestEuclidean(key, eps));
     }
 
 	/**
@@ -165,9 +174,9 @@ public class DBScan {
      * @param two second list
      * @return merged lists
      */
-    private List<Point2D> merge(final List<Point2D> one, final List<Point2D> two) {
-        final Set<Point2D> oneSet = new HashSet<Point2D>(one);
-        for (Point2D item : two) {
+    private List<Record<T>> merge(final List<Record<T>> one, final List<Record<T>> two) {
+        final Set<Record<T>> oneSet = new HashSet<>(one);
+        for (Record<T> item : two) {
             if (!oneSet.contains(item)) {
                 one.add(item);
             }
@@ -175,11 +184,13 @@ public class DBScan {
         return one;
     }
 
-	public void setEps(double eps) {
+	public DBScan eps(double eps) {
 		this.eps = eps;
+        return this;
 	}
 	
-	public void setMinPoints(int minPoints) {
+	public DBScan minPoints(int minPoints) {
 		this.minPoints = minPoints;
+        return this;
 	}
 }

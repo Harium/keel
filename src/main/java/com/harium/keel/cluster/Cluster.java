@@ -1,59 +1,65 @@
 package com.harium.keel.cluster;
 
-import com.harium.etyl.geometry.Point2D;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Cluster {
+public class Cluster<T> {
 
     public static final int UNDEFINED_CLUSTER = -1;
 
-    public List<Point2D> points;
-    public Point2D centroid;
-    public int id;
+    public Centroid<T> centroid;
+    private List<Record<T>> records;
 
-    public Cluster(int id) {
-        this.id = id;
-        this.points = new ArrayList<Point2D>();
+    public Cluster() {
+        this.records = new ArrayList<>();
         this.centroid = null;
     }
 
-    public List<Point2D> getPoints() {
-        return points;
+    public void addRecord(Record<T> record) {
+        if (records == null) {
+           records = new ArrayList<>();
+        }
+        records.add(record);
     }
 
-    public void addPoint(Point2D point) {
-        points.add(point);
+    public List<Record<T>> getRecords() {
+        return records;
     }
 
-    public void setPoints(List<Point2D> points) {
-        this.points = points;
+    public void setRecords(List<Record<T>> records) {
+        this.records = records;
     }
 
-    public Point2D getCentroid() {
+    public Centroid<T> getCentroid() {
         return centroid;
     }
 
-    public void setCentroid(Point2D centroid) {
+    public void setCentroid(Centroid<T> centroid) {
         this.centroid = centroid;
     }
 
-    public void calculateCentroid() {
-        double sumX = 0, sumY = 0;
-        for (Point2D point : points) {
-            sumX += point.x;
-            sumY += point.y;
+    public Centroid<T> calculateCentroid() {
+        int len = records.get(0).getFeatures().length;
+        double[] avg = new double[len];
+        Arrays.fill(avg, 0);
+
+        for (Record<T> record : records) {
+            double[] point = record.getFeatures();
+            for (int i = 0; i < avg.length; i++) {
+                avg[i] += point[i];
+            }
+        }
+        for (int i = 0; i < avg.length; i++) {
+            avg[i] /= records.size();
         }
 
-        centroid = new Point2D(sumX / points.size(), sumY / points.size());
-    }
-
-    public int getId() {
-        return id;
+        centroid = new Centroid<>(avg);
+        return centroid;
     }
 
     public void clear() {
-        points.clear();
+        records.clear();
     }
+
 }
