@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class KMeansTest {
 
-    private KMeans<String> clusterFit;
+    KMeans<String> clusterFit;
 
     @Before
     public void setUp() {
@@ -28,21 +28,12 @@ public class KMeansTest {
         assertEquals(k, result.size());
     }
 
-    @Test
-    public void testFitTwoGroups() {
-        int k = 2;
-        clusterFit.k(2).maxIterations(100);
-
-        List<Cluster<String>> result = clusterFit.fit(getDataset());
-        assertEquals(k, result.size());
-    }
-
     private List<Record<String>> getDataset() {
         Record<String> row1 = new Record<>("row1", new double[]{0, 1, 2});
-        Record<String> row2 = new Record<>("row2", new double[]{3, 1, 2});
+        Record<String> row2 = new Record<>("row2", new double[]{6, 1, 2});
         Record<String> row3 = new Record<>("row3", new double[]{2, 4, 2});
-
-        return Arrays.asList(row1, row2, row3);
+        List<Record<String>> data = Arrays.asList(row1, row2, row3);
+        return data;
     }
 
 }
